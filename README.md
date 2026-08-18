@@ -8,17 +8,20 @@ Network Intent is the abstraction that lets an enterprise application or authori
 
 ## Status
 
-**Cadence 6 complete.** Presentation freeze — product behavior frozen. See presenter docs.
+**Cadence 8 complete — capability Discovery + Basic/Advanced lenses.** Live demo remains `0.6.1-ax6.1`. Hero outcomes unchanged. No NV/OTA live runs. Do not start Cadence 9 until approved.
 
 | Document | Path |
 |----------|------|
 | Demo script | [`docs/AX-DEMO-SCRIPT.md`](docs/AX-DEMO-SCRIPT.md) |
 | Demo runbook | [`docs/AX-DEMO-RUNBOOK.md`](docs/AX-DEMO-RUNBOOK.md) |
 | FAQ | [`docs/AX-FAQ.md`](docs/AX-FAQ.md) |
+| Cadence 8 Discovery | [`docs/cadences/ax-cadence-8.md`](docs/cadences/ax-cadence-8.md) |
+| Cadence 7 model alignment | [`docs/cadences/ax-cadence-7.md`](docs/cadences/ax-cadence-7.md) |
+| Commercial evolution plan | [`docs/NetAware-AX-Commercial-Evolution-and-Cadence-Plan.md`](docs/NetAware-AX-Commercial-Evolution-and-Cadence-Plan.md) |
 | Cadence 6 freeze | [`docs/cadences/ax-cadence-6.md`](docs/cadences/ax-cadence-6.md) |
 | Cadence 5 Explorer | [`docs/cadences/ax-cadence-5.md`](docs/cadences/ax-cadence-5.md) |
 
-Do not start Cadence 7 until explicitly approved.
+Do not start Cadence 9 until explicitly approved.
 
 ## Run locally
 
@@ -43,6 +46,9 @@ python scripts/validate_ax_cadence1.py
 python scripts/validate_ax_cadence2.py
 python scripts/validate_ax_cadence3.py
 python scripts/validate_ax_cadence4.py
+python scripts/validate_ax_cadence6.py
+python scripts/validate_ax_cadence6.1.py
+python scripts/validate_ax_cadence7.py
 ```
 
 ## Boundaries

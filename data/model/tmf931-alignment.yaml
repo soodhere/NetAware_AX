@@ -1,0 +1,50 @@
+# Cadence 7 — TMF931 Open Gateway Onboarding and Ordering vs AX.
+# TMF931 is Channel Partner ↔ Operator onboarding / API product order.
+# Not TMF921 Intent Management. Do not force Agent/Intent/Autonomy/Evidence/Replan into TMF931.
+
+model:
+  cadence: 7
+  suite: TMF931
+  suiteTitle: Open Gateway Onboarding and Ordering Component Suite
+  versionReferenced: "5.2.1"
+  not: TMF921 Intent Management
+
+classifications:
+  TMF931_DIRECT: Maps to TMF931 resources/fields (applicationOwner, application, apiProduct, apiProductOrder, purpose, scope, grant, agreement).
+  TMF931_INSPIRED: Same commercial idea, not a 1:1 TMF931 field in this prototype.
+  NETAWARE_SPECIFIC: Existing NetAware product asset beyond TMF931.
+  AX_SPECIFIC: Agentic Experience extension. Do not force into TMF931.
+  RUNTIME_DISCOVERED: Known at Intent execution, not from onboarding/order.
+
+fields:
+  - { id: enterprise, label: Enterprise / Application Owner, classification: TMF931_DIRECT, tmf931: applicationOwner }
+  - { id: application, label: Application, classification: TMF931_DIRECT, tmf931: application }
+  - { id: apiProduct, label: API Product / Catalog family, classification: TMF931_DIRECT, tmf931: apiProduct }
+  - { id: subscription, label: Subscription / API product order, classification: TMF931_DIRECT, tmf931: apiProductOrder }
+  - { id: scope, label: Scope, classification: TMF931_DIRECT, tmf931: ApiGrantInformation.scope }
+  - { id: purpose, label: Purpose, classification: TMF931_DIRECT, tmf931: ApiGrantInformation.purpose, note: DPV identifier. Intent is not Purpose. }
+  - { id: legalBasis, label: Legal basis, classification: TMF931_DIRECT, tmf931: ApiGrantInformation.legalBasis }
+  - { id: agreement, label: Terms / agreement, classification: TMF931_DIRECT, tmf931: agreement reference on product/order }
+  - { id: securityGrantType, label: Security / grant type, classification: TMF931_DIRECT, tmf931: ApiGrantInformation.grantType }
+  - { id: region, label: Region, classification: TMF931_INSPIRED, note: Product/order geography exists in TMF patterns; serving-network region is runtime. }
+  - { id: provider, label: Provider / operator, classification: TMF931_INSPIRED, note: Operate API is CP↔operator; serving network at runtime is Telco Finder. }
+  - { id: entitlement, label: Entitlement, classification: TMF931_INSPIRED, note: Narrower than subscription. PermissionSet/product status inspired; NetAware may be stricter. }
+  - { id: agent, label: Agent, classification: AX_SPECIFIC, doNotForceIntoTmf931: true }
+  - { id: intent, label: Intent, classification: AX_SPECIFIC, doNotForceIntoTmf931: true, notTmf921InThisPrototype: true }
+  - { id: autonomy, label: Autonomy, classification: AX_SPECIFIC, doNotForceIntoTmf931: true }
+  - { id: capabilityDiscovery, label: Capability discovery, classification: AX_SPECIFIC, note: Built on TMF931 eligibility + NetAware assets + runtime. }
+  - { id: telcoFinder, label: Telco Finder, classification: NETAWARE_SPECIFIC }
+  - { id: apiFinder, label: API Finder, classification: NETAWARE_SPECIFIC }
+  - { id: evidence, label: Evidence, classification: AX_SPECIFIC, doNotForceIntoTmf931: true }
+  - { id: replan, label: Replan, classification: AX_SPECIFIC, doNotForceIntoTmf931: true }
+  - { id: accessType, label: Access type, classification: RUNTIME_DISCOVERED, source: RUNTIME_CLIENT_CONTEXT }
+  - { id: ecsReadiness, label: ECS readiness, classification: RUNTIME_DISCOVERED, demoSource: CONFIGURED_OPERATOR_READINESS }
+  - { id: nvPath, label: NV path, classification: AX_SPECIFIC, note: Path selection on top of Number Verification API product + runtime + operator readiness. }
+  - { id: salesScenarioProfile, label: Sales scenario profile, classification: AX_SPECIFIC }
+
+doNotForceIntoTmf931:
+  - agent
+  - intent
+  - autonomy
+  - evidence
+  - replan

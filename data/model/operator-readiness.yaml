@@ -1,0 +1,56 @@
+# Cadence 7 — configured operator readiness (not live discovery).
+# ECS is operator infrastructure. No CAMARA ECS API. No live Telco Finder access-type.
+
+source: CONFIGURED_OPERATOR_READINESS
+
+model:
+  cadence: 7
+  executable: false
+  source: CONFIGURED_OPERATOR_READINESS
+  accessTypeSource: RUNTIME_CLIENT_CONTEXT
+
+operators:
+  - providerId: simulated-operator-a
+    kind: operator
+    nv1Supported: true
+    nv2Supported: true
+    entitlementServer:
+      available: AVAILABLE
+      supportsOperatorToken: true
+    note: Configured demo readiness. Not a live ECS probe.
+
+  - providerId: simulated-aggregator-b
+    kind: aggregator
+    nv1Supported: true
+    nv2Supported: true
+    entitlementServer:
+      available: UNKNOWN
+      supportsOperatorToken: false
+    note: Aggregator is not the ECS owner. Serving-operator ECS still required for NV2.
+
+  - providerId: simulated-provider-c
+    kind: specialist
+    nv1Supported: false
+    nv2Supported: false
+    entitlementServer:
+      available: UNAVAILABLE
+      supportsOperatorToken: false
+
+runtimePrerequisites:
+  # Populated by future scenario seeds (Cadence 9). Not evaluated in Cadence 7 runtime.
+  fields:
+    - ts43.clientAvailable
+    - simAvailable
+    - operatorTokenAvailable
+    - tokenPathState
+  tokenPathStateValues: [UNAVAILABLE, NETWORK_BASED, OPERATOR_TOKEN, UNKNOWN]
+  note: Device/runtime prerequisites come from client context, not Telco Finder.
+
+futureEcsUnavailableSeed:
+  id: operator-a-ecs-down
+  providerId: simulated-operator-a
+  entitlementServer:
+    available: UNAVAILABLE
+    supportsOperatorToken: false
+  usedBy: Cadence 9 Wi-Fi + ECS unavailable path
+  executableNow: false

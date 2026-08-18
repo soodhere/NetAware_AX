@@ -1,0 +1,75 @@
+# Cadence 7 — capability-discovery model (DATA / ENUMS only).
+# Not a UI. Not a runtime emitter. Cadence 8 visualizes these stages.
+
+model:
+  cadence: 7
+  executable: false
+  ui: false
+  note: Not every stage executes for every scenario.
+
+groups:
+  - id: CANDIDATE_GENERATION
+    stages:
+      - { id: CATALOG, existingAsset: API_CATALOG }
+      - { id: INTENT_MAPPING, axExtension: true }
+      - { id: SUBJECT_CLAIM_TYPE, runtime: true }
+
+  - id: CONFIGURED_ELIGIBILITY
+    stages:
+      - { id: APPLICATION_AGENT_AUTHORIZATION, axExtension: true }
+      - { id: DPV_PURPOSE, tmf931: TMF931_DIRECT }
+      - { id: POLICY, existingAsset: POLICY }
+      - { id: AGREEMENT_DPA, tmf931: TMF931_DIRECT }
+      - { id: CONSENT, existingAsset: POLICY }
+      - { id: SUBSCRIPTION, tmf931: TMF931_DIRECT }
+      - { id: ENTITLEMENT, classification: TMF931_INSPIRED }
+
+  - id: RUNTIME_FEASIBILITY
+    stages:
+      - { id: REGION, classification: TMF931_INSPIRED }
+      - { id: TELCO_FINDER, existingAsset: TELCO_FINDER }
+      - { id: API_FINDER, existingAsset: API_FINDER }
+      - { id: PROVIDER_ROUTE, existingAsset: PROVIDER_ROUTING }
+      - { id: ACCESS_TYPE, classification: RUNTIME_DISCOVERED, source: RUNTIME_CLIENT_CONTEXT }
+      - { id: OPERATOR_PREREQUISITES, classification: RUNTIME_DISCOVERED }
+      - { id: TECHNICAL_PREREQUISITES, classification: RUNTIME_DISCOVERED }
+      - { id: EVIDENCE_REUSE, axExtension: true }
+      - { id: AUTONOMY, axExtension: true }
+      - { id: USEFULNESS, axExtension: true }
+
+  - id: SELECT
+    stages:
+      - { id: RANK }
+      - { id: MINIMUM_SUFFICIENT }
+      - { id: SELECTED }
+
+filterCodes:
+  - NOT_RELEVANT
+  - PURPOSE_NOT_PERMITTED
+  - NOT_SUBSCRIBED
+  - NOT_ENTITLED
+  - CONSENT_MISSING
+  - AGREEMENT_GAP
+  - REGION_NOT_SUPPORTED
+  - PROVIDER_NOT_AVAILABLE
+  - OPERATOR_NOT_SUPPORTED
+  - ENTITLEMENT_SERVER_UNAVAILABLE
+  - ACCESS_TYPE_INCOMPATIBLE
+  - TECHNICAL_PREREQUISITE_MISSING
+  - EVIDENCE_REUSED
+  - NOT_REQUIRED
+  - AUTONOMY_FORBIDS
+  - SELECTED
+
+codeNotes:
+  NOT_SUBSCRIBED: Application owner has not ordered/subscribed the API product.
+  NOT_ENTITLED: Subscribed does not imply this application/agent may invoke the capability.
+  ENTITLEMENT_SERVER_UNAVAILABLE: NV2 path blocked. ECS is operator infrastructure, not a catalog API.
+  ACCESS_TYPE_INCOMPATIBLE: Example — NV1_NETWORK_BASED on WIFI.
+  EVIDENCE_REUSED: Selected by reuse; invocation skipped.
+  SELECTED: Remaining winner after filters.
+
+subscriptionVsEntitlement:
+  subscription: Has the application/API owner ordered/subscribed to the API product?
+  entitlement: May this application/agent actually invoke this capability/operation?
+  notEquivalent: true

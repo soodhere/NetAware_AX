@@ -124,8 +124,8 @@ intentCapabilities:
   - { intentId: maintain_venue_experience, capabilityId: device_reachability, role: considered, evidence: INFERRED }
 
 capabilityOperations:
-  - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: SOURCE_BACKED }
-  - { operationId: phoneNumberShare, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: NEEDS_REVIEW, note: NV2 / Wi-Fi-suitable path is spec-dependent. }
+  - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: SOURCE_BACKED, job: claimed_msisdn_match, note: Operation selection is orthogonal to NV1/NV2 paths. }
+  - { operationId: phoneNumberShare, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: SOURCE_BACKED, job: return_network_bound_msisdn, note: Share operation — not NV2. NV2 is NV2_OPERATOR_TOKEN in nv-paths.yaml. }
   - { operationId: checkSimSwap, source: openapi/camara/SimSwap__sim-swap.yaml, capabilityId: sim_continuity, evidence: SOURCE_BACKED }
   - { operationId: retrieveSimSwapDate, source: openapi/camara/SimSwap__sim-swap.yaml, capabilityId: sim_continuity, evidence: SOURCE_BACKED }
   - { operationId: checkDeviceSwap, source: openapi/camara/DeviceSwap__device-swap.yaml, capabilityId: device_continuity, evidence: SOURCE_BACKED }

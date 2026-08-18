@@ -1,0 +1,51 @@
+# Cadence 7 schema example — NOT loaded by runtime.
+# References existing or future-modelled objects only. Does not invent CAMARA operations.
+
+id: operator-cto-de-ota
+audience: operator_cto
+lensDefault: advanced
+enterpriseId: acme-manufacturing
+applicationId: acme-device-fleet
+industryLabel: Automotive
+region: DE
+topology: aggregated_plus_direct
+meetingGoal: show_ax_increases_api_consumption
+businessProblem: OTA rollout for 500k devices
+existingSystems:
+  - Device management
+  - Telemetry
+domainApis:
+  - inventory
+  - twin
+  - ota-campaign
+intentId: rollout_firmware_safely
+purpose:
+  vocabulary: DPV
+  version: "2.3"
+  id: dpv:ImproveExistingProductsAndServices
+  iri: https://w3id.org/dpv#ImproveExistingProductsAndServices
+  label: Improve Existing Products and Services
+  context: Safely stage firmware 8.4; network state gates campaign cohorts.
+networkSubjectModel: device_msisdn
+relevantCapabilities:
+  - device_reachability
+  - roaming_status
+providerTopology:
+  default: AGGREGATED
+subscriptions:
+  - CONNECTIVITY
+  - LOCATION_AND_MOBILITY
+entitlements:
+  - device_reachability
+  - roaming_status
+policyRef: acme-ota-policy
+autonomy:
+  observe: ACT
+  invoke_qod: NOT_AUTHORIZED
+  call_enterprise_ota: ACT_WITH_APPROVAL
+scenarioSeed: acme-ota-de-500k
+expectedOutcome: COHORT_GATED_ROLLOUT
+commercialMessage: >
+  AX turns reachability/roaming into campaign control, so operators see volume
+  and OEMs do not push firmware into unreachable or roaming-excluded devices.
+demoMode: advanced

@@ -472,6 +472,8 @@ class ExecutionTrace:
 
                 "policy": True,
 
+                "discovery": True,
+
                 "derivedFrom": self.executionId,
 
             },

@@ -1,15 +1,23 @@
-# AX_ACTIVE_CATALOG — Cadence 0.2
+# AX_ACTIVE_CATALOG — Cadence 0.2 pin; Cadence 7 metadata correction.
 # Business-practical catalog. CAMARA maturity is metadata, not the inclusion test.
 # 13 business families. Technical OpenAPI files may be more than 13.
-# NV1 / NV2 are operations of Number Verification, not two catalog families.
+#
+# Cadence 7: NV1 / NV2 are authentication/fulfillment PATHS, not catalog families
+# and not aliases for phoneNumberVerify / phoneNumberShare.
+# Number Verification remains ONE business family.
 
 catalog:
   id: AX_ACTIVE_CATALOG
   cadence: "0.2"
+  modelCadence: 7
   principle: A small CURRENT_FOCUS Network API set can support many intents across many domains.
   inclusionRule: current NetAware / operator / application business focus
   maturityIsMetadata: true
   businessFamilyCount: 13
+  nvHonesty: >
+    NV1_NETWORK_BASED and NV2_OPERATOR_TOKEN are fulfillment paths.
+    phoneNumberVerify and phoneNumberShare are CAMARA operations selected by claim shape.
+    Do not label verify as NV1 or share as NV2.
 
 businessFamilies:
   - id: number-verification
@@ -17,15 +25,18 @@ businessFamilies:
     businessStatus: CURRENT_FOCUS
     familyGroup: IDENTITY_AND_TRUST
     capabilities: [number_possession_verification]
-    distinction: NV1 is phoneNumberVerify (typically mobile-network possession). NV2 is phoneNumberShare (candidate Wi-Fi / share path). Same CAMARA API; different operations. NV2 access-type mapping is NEEDS_REVIEW.
+    distinction: >
+      One CAMARA Number Verification family. Operations: phoneNumberVerify (claimed MSISDN match)
+      and phoneNumberShare (return network-bound MSISDN). NV1/NV2 are authentication paths
+      (network-based vs TS.43 Operator Token), modelled in nv-paths.yaml — not these operations.
     technicalSpecs:
       - api_name: Number Verification
         version: "2.1.0"
         specMaturity: incubating
         source: openapi/camara/NumberVerification__number-verification.yaml
         operations:
-          - { operationId: phoneNumberVerify, productLabel: NV1 }
-          - { operationId: phoneNumberShare, productLabel: NV2, evidence: NEEDS_REVIEW }
+          - { operationId: phoneNumberVerify, job: claimed_msisdn_match }
+          - { operationId: phoneNumberShare, job: return_network_bound_msisdn }
 
   - id: sim-swap
     label: SIM Swap

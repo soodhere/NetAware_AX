@@ -1,3 +1,5 @@
+# Cadence 7: subscription is API product order. It is not entitlement.
+# Entitlement lives in entitlements.yaml (application/agent grant).
 subscriptions:
   - id: rb-identity-sub
     enterpriseId: rocket-bank
@@ -11,12 +13,12 @@ subscriptions:
     enterpriseId: rocket-bank
     capabilityFamily: LOCATION_AND_MOBILITY
     status: active
-    note: Subscribed does not imply consent is available.
+    note: Subscribed does not imply consent is available. Subscribed does not imply entitled.
   - id: hf-location-sub
     enterpriseId: high-flight-airlines
     capabilityId: location_verification
     status: active
-    note: Subscribed does not imply consent is available.
+    note: Subscribed does not imply consent is available. Subscribed does not imply entitled.
   - id: hf-connectivity-sub
     enterpriseId: high-flight-airlines
     capabilityFamily: CONNECTIVITY

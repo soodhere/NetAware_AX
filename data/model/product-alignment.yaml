@@ -1,0 +1,29 @@
+# Cadence 7 — AX is an evolution of NetAware, not a replacement product.
+
+customerLine: >
+  AX does not replace the catalog, onboarding, subscriptions, Telco Finder,
+  API Finder, routing, or invocation. It decides whether, which, where, and
+  why those assets are used for an Intent.
+
+existingNetAwareAssets:
+  - { id: onboarding, label: Enterprise / application onboarding }
+  - { id: application, label: Application }
+  - { id: apiCatalog, label: API catalog }
+  - { id: subscriptions, label: Subscriptions / API product order }
+  - { id: policy, label: Policy }
+  - { id: security, label: Security / authentication }
+  - { id: telcoFinder, label: Telco Finder }
+  - { id: apiFinder, label: API Finder }
+  - { id: providerRouting, label: Provider routing (direct / aggregated / hybrid) }
+  - { id: invocation, label: CAMARA invocation }
+  - { id: observability, label: Observability / trace / OAM }
+
+axExtensions:
+  - { id: intent, label: Intent }
+  - { id: agentAuthorization, label: Agent authorization }
+  - { id: capabilityDiscovery, label: Capability discovery }
+  - { id: autonomy, label: Autonomy }
+  - { id: evidenceReuse, label: Evidence reuse }
+  - { id: planReplanVerify, label: Plan / replan / verify }
+
+notAGenericAgentPlatform: true

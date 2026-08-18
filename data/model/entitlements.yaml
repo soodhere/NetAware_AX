@@ -1,21 +1,98 @@
+# Cadence 7 — Entitlement is not subscription.
+# Subscription: has the API owner ordered the API product?
+# Entitlement: may this application/agent actually invoke the capability?
+# Migrated 1:1 from prior implicit "subscribed ⇒ entitled" so current hero outcomes stay unchanged.
+
 entitlements:
   - id: rb-identity-entitlement
     subscriptionId: rb-identity-sub
+    enterpriseId: rocket-bank
     applicationId: rocket-bank-payments
     agentId: payments-protection-agent
-    scope: permitted_identity_operations
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+    note: Migrated from Cadence 6 implicit entitlement. Not equivalent to subscription as a concept.
+
+  - id: rb-device-entitlement
+    subscriptionId: rb-device-sub
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    agentId: payments-protection-agent
+    capabilityFamily: DEVICE
+    status: active
+
+  - id: rb-mobility-entitlement
+    subscriptionId: rb-mobility-sub
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    agentId: payments-protection-agent
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Entitled does not imply consent is available.
+
   - id: hf-location-entitlement
     subscriptionId: hf-location-sub
+    enterpriseId: high-flight-airlines
     applicationId: high-flight-baggage-operations
     agentId: baggage-operations-agent
-    scope: location_verification_if_consent
+    capabilityId: location_verification
+    status: active
+    note: Entitled; consent still required and unavailable in the live seed.
+
+  - id: hf-connectivity-entitlement
+    subscriptionId: hf-connectivity-sub
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-baggage-operations
+    agentId: baggage-operations-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+
   - id: acme-qod-entitlement
     subscriptionId: acme-quality-sub
+    enterpriseId: acme-manufacturing
     applicationId: acme-quality-inspection
     agentId: inspection-experience-agent
-    scope: qod_when_slo_requires
-  - id: cc-age-entitlement
-    subscriptionId: cc-age-sub
+    capabilityFamily: QUALITY
+    status: active
+
+  - id: acme-edge-entitlement
+    subscriptionId: acme-edge-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-quality-inspection
+    agentId: inspection-experience-agent
+    capabilityId: edge_discovery
+    status: active
+
+  - id: acme-connectivity-entitlement
+    subscriptionId: acme-connectivity-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-quality-inspection
+    agentId: inspection-experience-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+
+  - id: acme-application-entitlement
+    subscriptionId: acme-application-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-quality-inspection
+    agentId: inspection-experience-agent
+    capabilityFamily: APPLICATION
+    status: active
+
+  - id: cc-identity-entitlement
+    subscriptionId: cc-identity-sub
+    enterpriseId: citycare-health
     applicationId: citycare-pharmacy-eligibility
     agentId: pharmacy-eligibility-agent
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+    note: Family entitlement does not override the kyc_match policy deny.
+
+  - id: cc-age-entitlement
+    subscriptionId: cc-age-sub
+    enterpriseId: citycare-health
+    applicationId: citycare-pharmacy-eligibility
+    agentId: pharmacy-eligibility-agent
+    capabilityId: age_verification
+    status: active
     scope: age_assertion_only

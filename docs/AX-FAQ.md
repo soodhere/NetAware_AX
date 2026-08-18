@@ -1,6 +1,6 @@
 # AX FAQ
 
-Accurate to the NetAware AX prototype (Cadence 6.1). Not production claims.
+Accurate to the NetAware AX prototype (live demo `0.6.1-ax6.1`; Cadence 7 model alignment). Not production claims.
 
 ## What is AX?
 
@@ -111,3 +111,11 @@ Mapping ≠ invocation. Policy blocks, NOT_REQUIRED decisions, minimum capabilit
 ## How does this increase Network API adoption?
 
 **Small practical catalog (13 families)** → many domains/use cases/intents. Explorer shows forward and reverse leverage. Demos prove business outcomes, not API counts.
+
+## Are NV1 and NV2 two APIs?
+
+**No.** Number Verification is one CAMARA family. `phoneNumberVerify` and `phoneNumberShare` are operations (claimed number vs return number). **NV1** is the network-based authentication path. **NV2** is the TS.43 Operator Token path (Wi-Fi capable) and needs operator entitlement-server readiness. Live NV1/NV2 path selection is not in this cadence.
+
+## Is subscribed the same as entitled?
+
+**No.** Subscription is whether the API product was ordered. Entitlement is whether this application/agent may invoke it.

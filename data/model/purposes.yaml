@@ -1,37 +1,124 @@
+# Cadence 7 — Purpose is why processing happens. Intent is the requested outcome.
+# Internal id remains the AX key. DPV fields are validated identifiers only.
+# context is scenario-specific and is NOT a new DPV term.
+
 purposes:
   - id: payment_fraud_assist
     label: Payment fraud assist
     audienceLabel: Fraud Prevention / Transaction Security
     permittedCapabilityFamilies: [IDENTITY_AND_TRUST, DEVICE, LOCATION_AND_MOBILITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:FraudPreventionAndDetection
+      iri: https://w3id.org/dpv#FraudPreventionAndDetection
+      label: Fraud Prevention and Detection
+      context: Independent network identity-continuity evidence used to assist Rocket Bank fraud decisioning. Does not replace the bank's fraud models.
+      tmf931Overlap: true
+
   - id: identity_continuity_assist
     label: Identity continuity assist
     audienceLabel: Identity continuity
     permittedCapabilityFamilies: [IDENTITY_AND_TRUST, DEVICE, LOCATION_AND_MOBILITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:IdentityVerification
+      iri: https://w3id.org/dpv#IdentityVerification
+      label: Identity Verification
+      context: SIM/device/network continuity checks for account recovery and similar identity-continuity jobs, distinct from payment-fraud scoring.
+      tmf931Overlap: true
+
   - id: kyc_attribute_match
     label: KYC attribute match
     audienceLabel: KYC match
     permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:IdentityVerification
+      iri: https://w3id.org/dpv#IdentityVerification
+      label: Identity Verification
+      context: Operator KYC Match of customer attributes. No dedicated DPV KYC term — IdentityVerification is the closest defensible parent.
+      tmf931Overlap: true
+      needsReview: true
+
   - id: baggage_connection_assurance
     label: Baggage connection assurance
     audienceLabel: Service Delivery
     permittedCapabilityFamilies: [LOCATION_AND_MOBILITY, CONNECTIVITY, QUALITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:RequestedServiceProvision
+      iri: https://w3id.org/dpv#RequestedServiceProvision
+      label: Requested Service Provision
+      context: Current High Flight baggage-connection hero. No clean DPV baggage/ramp term. Replacement ramp-scanner purpose is modelled separately and is NEEDS_REVIEW.
+      tmf931Overlap: true
+      needsReview: true
+
   - id: presence_assurance
     label: Presence assurance
     audienceLabel: Service Delivery
     permittedCapabilityFamilies: [LOCATION_AND_MOBILITY, CONNECTIVITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:ServiceProvision
+      iri: https://w3id.org/dpv#ServiceProvision
+      label: Service Provision
+      context: Explorer presence/geofence cases. DPV has no dedicated presence/geofence purpose — using the broader ServiceProvision parent rather than inventing an ID.
+      tmf931Overlap: true
+      needsReview: true
+
   - id: inspection_video_assurance
     label: Inspection video assurance
     audienceLabel: Quality assurance
     permittedCapabilityFamilies: [APPLICATION, CONNECTIVITY, EDGE, QUALITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:ServiceOptimisation
+      iri: https://w3id.org/dpv#ServiceOptimisation
+      label: Service Optimisation
+      context: Restore inspection-camera experience when the network is the limiter. No plant-video DPV term.
+      tmf931Overlap: true
+
   - id: pharmacy_age_eligibility
     label: Pharmacy age eligibility
     audienceLabel: Age assertion
     permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:AgeVerification
+      iri: https://w3id.org/dpv#AgeVerification
+      label: Age Verification
+      context: Minimum age assertion for a pharmacy transaction. Broader KYC Match is not this purpose.
+      tmf931Overlap: true
+
   - id: experience_assurance
     label: Experience assurance
     audienceLabel: Experience assurance
     permittedCapabilityFamilies: [APPLICATION, CONNECTIVITY, EDGE, QUALITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:ServiceOptimisation
+      iri: https://w3id.org/dpv#ServiceOptimisation
+      label: Service Optimisation
+      context: Explorer experience/QoD cases (telehealth, venue, broadcast, turnaround video).
+      tmf931Overlap: true
+
   - id: age_assertion
     label: Age assertion
     audienceLabel: Age assertion
     permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:AgeVerification
+      iri: https://w3id.org/dpv#AgeVerification
+      label: Age Verification
+      context: Explorer retail age-restricted sale. Same DPV concept as pharmacy age eligibility; different scenario context.
+      tmf931Overlap: true

@@ -1,0 +1,96 @@
+# Cadence 7 — Number Verification path vs operation model.
+# Not executed at runtime. Live NV1/NV2 scenarios are Cadence 9.
+
+model:
+  cadence: 7
+  executable: false
+  principle: Path and operation are orthogonal. Do not claim NV1 = verify or NV2 = share.
+
+accessTypes:
+  values: [CELLULAR, WIFI, VPN, UNKNOWN]
+  source: RUNTIME_CLIENT_CONTEXT
+  note: >
+    Access type is supplied by the application/SDK/runtime context.
+    Telco Finder resolves home/serving network. It does not magically determine Wi-Fi vs cellular.
+
+paths:
+  - id: NV1_NETWORK_BASED
+    label: Network-based Number Verification
+    productLabel: NV1
+    authentication: NETWORK_BASED
+    typicalAccess: CELLULAR
+    prerequisite: Device on mobile network so the operator can identify the subscription from the access.
+    tokenHint: OIDC Authorization Code with prompt=none. 3-legged. No user interaction.
+    cellularEligibleWhen: nv1Supported
+    wifiEligible: false
+    silentFallbackFromWifi: false
+    notAnOperation: true
+    not: phoneNumberVerify
+
+  - id: NV2_OPERATOR_TOKEN
+    label: SIM-based / Operator Token Number Verification
+    productLabel: NV2
+    authentication: SIM_BASED_OPERATOR_TOKEN
+    typicalAccess: [WIFI, VPN, CELLULAR]
+    prerequisite: TS.43 client, SIM, operator Entitlement Configuration Server that issues Operator Token.
+    tokenHint: CIBA login_hint=operatortoken:… or JWT-bearer sub=operatortoken:…. Out of scope of CAMARA API definition how the device obtains the token.
+    wifiEligibleWhen:
+      nv2Supported: true
+      entitlementServerAvailable: true
+      ts43ClientAvailable: true
+      simAvailable: true
+    silentFallbackToNv1OnWifi: false
+    notAnOperation: true
+    not: phoneNumberShare
+
+operations:
+  - operationId: phoneNumberVerify
+    job: claimed_msisdn_match
+    when: Application already has a claimed MSISDN (plain or hashed).
+    returns: true/false match against the number bound to the access token
+    familyId: number-verification
+    notAPath: true
+  - operationId: phoneNumberShare
+    job: return_network_bound_msisdn
+    when: Application needs the network-bound MSISDN.
+    returns: MSISDN associated with the access token
+    familyId: number-verification
+    notAPath: true
+
+typicalOperationSelection:
+  claimedMsisdnPresent: phoneNumberVerify
+  networkBoundMsisdnNeeded: phoneNumberShare
+
+futurePathEligibility:
+  - when: { accessType: CELLULAR, nv1Supported: true }
+    eligiblePath: NV1_NETWORK_BASED
+  - when: { accessType: CELLULAR, nv1Supported: false, nv2Supported: true, entitlementServerAvailable: true }
+    eligiblePath: NV2_OPERATOR_TOKEN
+  - when:
+      accessType: WIFI
+      nv2Supported: true
+      entitlementServerAvailable: true
+      ts43ClientAvailable: true
+    eligiblePath: NV2_OPERATOR_TOKEN
+  - when: { accessType: WIFI, nv2Supported: true, entitlementServerAvailable: false }
+    eligiblePath: null
+    filter: ENTITLEMENT_SERVER_UNAVAILABLE
+    note: Do not silently fall back to fake NV1 over Wi-Fi.
+  - when: { accessType: VPN }
+    treatAs: WIFI
+
+forbiddenFallbacks:
+  - Fake NV1 over Wi-Fi
+  - SMS OTP as an AX Number Verification fallback
+  - Binding NV1 to phoneNumberVerify
+  - Binding NV2 to phoneNumberShare
+
+ecs:
+  kind: OPERATOR_INFRASTRUCTURE
+  notACamaraFamily: true
+  notACatalogOperation: true
+  notANetworkApiInvocation: true
+  states: [AVAILABLE, UNAVAILABLE, UNKNOWN]
+  source: CONFIGURED_OPERATOR_READINESS
+  filterReasonWhenUnavailable: ENTITLEMENT_SERVER_UNAVAILABLE
+  note: Demo models ECS from operator-readiness.yaml. No standardized live ECS capability-discovery API is implied.

@@ -20,7 +20,9 @@ from .config import (
     ENVIRONMENT,
     FRONTEND_DIST,
     LOG_LEVEL,
+    MODEL_CADENCE,
     PRODUCT_BEHAVIOR_FROZEN,
+    UI_CADENCE,
     demo_basic_credentials,
     serve_frontend,
 )
@@ -115,6 +117,8 @@ def health() -> dict[str, Any]:
         "environment": ENVIRONMENT,
         "cadence": CADENCE,
         "cadencePatch": CADENCE_PATCH,
+        "modelCadence": MODEL_CADENCE,
+        "uiCadence": UI_CADENCE,
         "version": APP_VERSION,
         "build": BUILD_ID,
         "productBehaviorFrozen": PRODUCT_BEHAVIOR_FROZEN,

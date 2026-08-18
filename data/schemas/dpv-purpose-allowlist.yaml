@@ -1,0 +1,23 @@
+# Validated DPV 2.3 Purpose identifiers allowed in this prototype.
+# Source: https://w3c-cg.github.io/dpv/2.3/dpv/modules/purposes.html
+# Prefer identifiers that also appear in TMF931 v5.2.1 DpvPurposeType.
+# Do not invent DPV-looking IDs.
+
+vocabulary: DPV
+version: "2.3"
+iriBase: https://w3id.org/dpv#
+doNotInventIdentifiers: true
+
+ids:
+  - dpv:AgeVerification
+  - dpv:FraudPreventionAndDetection
+  - dpv:FulfilmentOfContractualObligation
+  - dpv:IdentityAuthentication
+  - dpv:IdentityVerification
+  - dpv:ImproveExistingProductsAndServices
+  - dpv:IncreaseServiceRobustness
+  - dpv:RepairImpairments
+  - dpv:RequestedServiceProvision
+  - dpv:ServiceOptimisation
+  - dpv:ServiceProvision
+  - dpv:Verification

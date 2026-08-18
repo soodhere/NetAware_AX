@@ -11,6 +11,7 @@ product:
   line: From Developer Experience to Agentic Experience
   tagline: A simpler way for applications and agents to consume network capabilities.
   support: Keep your application. Express the outcome. Let NetAware handle the Network API complexity.
+  discoveryLine: NetAware determines which network capabilities are relevant, allowed, available and useful — then invokes only what is needed.
   intentDefinition: Intent is the outcome the application or agent wants — without specifying which Network APIs should be called.
   equation:
     - Your world
@@ -41,7 +42,7 @@ honesty:
 
 featuredEnterprises:
   - enterpriseId: high-flight-airlines
-    presentationOrder: 1
+    presentationOrder: 4
     domainAudienceLabel: Airlines
     heroUseCaseId: baggage-connection
     heroCard:
@@ -90,9 +91,9 @@ featuredEnterprises:
             - Domain APIs establish transfer risk; Network APIs test whether the network dimension is limiting
             - Policy blocks Location without consent; QoD stays NOT_REQUIRED when physical transfer is the limit
             - Returns AT_RISK with EXPEDITE_TRANSFER — airline owns the operational decision
-        openingHeroNote: Strongest when the presenter explains complementarity before Run. Rocket Bank and Acme are simpler zero-context openers.
+        openingHeroNote: Secondary technical example until Cadence 11. Rocket Bank is the default opener — network contribution is immediately understandable.
   - enterpriseId: rocket-bank
-    presentationOrder: 2
+    presentationOrder: 1
     domainAudienceLabel: Financial Services
     heroUseCaseId: high-value-payment-protection
     heroCard:
@@ -165,7 +166,7 @@ featuredEnterprises:
             - Checks TTL, purpose and subject alignment
             - Returns CONTINUITY_ALIGNED without re-invoking APIs
   - enterpriseId: acme-manufacturing
-    presentationOrder: 3
+    presentationOrder: 2
     domainAudienceLabel: Manufacturing
     heroUseCaseId: critical-inspection-camera
     heroCard:
@@ -211,7 +212,7 @@ featuredEnterprises:
             - Objective breach at 78 ms → network is the limiting factor
             - QoD invoked → network observed again → ASSURED
   - enterpriseId: citycare-health
-    presentationOrder: 4
+    presentationOrder: 3
     domainAudienceLabel: Healthcare
     heroUseCaseId: pharmacy-age-gate
     heroCard:

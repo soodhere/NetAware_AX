@@ -15,6 +15,7 @@ sys.path.insert(0, str(BACKEND))
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
+from app.config import UI_CADENCE  # noqa: E402
 
 HF = {
     "intent": "ensure_baggage_connection",
@@ -78,7 +79,12 @@ def check_health_and_demo_order() -> None:
             fail("no featured enterprises")
             return
         first = featured[0].get("enterprise", {}).get("id")
-        if first != "high-flight-airlines":
+        if UI_CADENCE >= 8:
+            if first != "rocket-bank":
+                fail(f"Rocket Bank should be first (Cadence 8), got {first}")
+            else:
+                ok("Rocket Bank first in demo order")
+        elif first != "high-flight-airlines":
             fail(f"High Flight should be first, got {first}")
         else:
             ok("High Flight first in demo order")

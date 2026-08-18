@@ -31,7 +31,7 @@ export default function DemoPick({ enterpriseId }) {
             <HeroDemoCard key={row.enterprise?.id || row.id} row={row} hrefFn={href} />
           ))}
         </section>
-        <p className="tiny">Recommended order: High Flight → Rocket Bank → Acme → CityCare.</p>
+        <p className="tiny">Recommended order: Rocket Bank → Acme → CityCare → High Flight.</p>
       </div>
     );
   }

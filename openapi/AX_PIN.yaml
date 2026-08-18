@@ -27,6 +27,8 @@ honesty:
   - Full pin remains on disk for reference and is not Explorer/runtime input except via AX_ACTIVE_CATALOG.
   - CAMARA has no historical identity-graph API.
   - PredictiveConnectivityData is not a per-UE session predictor and is not in the active catalog.
+  - NV1/NV2 are Number Verification authentication paths, not phoneNumberVerify/phoneNumberShare aliases.
+  - Entitlement Configuration Server is operator infrastructure, not a CAMARA catalog family.
 
 preferred_sources_for_seed_mappings:
   phoneNumberVerify: openapi/camara/NumberVerification__number-verification.yaml

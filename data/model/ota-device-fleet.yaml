@@ -1,0 +1,80 @@
+# Cadence 7 — Device fleet OTA scenario shape. NOT executable.
+# Cadence 10 implements the live run.
+
+model:
+  cadence: 7
+  executable: false
+  intentId: rollout_firmware_safely
+  label: Roll out firmware safely
+  enterpriseId: acme-manufacturing
+  applicationId: acme-device-fleet
+  applicationExistsNow: false
+  note: New Application under Acme Manufacturing in Cadence 10. Not created in Cadence 7.
+
+purpose:
+  axId: firmware_rollout
+  dpv:
+    vocabulary: DPV
+    version: "2.3"
+    id: dpv:ImproveExistingProductsAndServices
+    iri: https://w3id.org/dpv#ImproveExistingProductsAndServices
+    label: Improve Existing Products and Services
+    context: Planned firmware 8.4 rollout. Network state gates campaign cohorts. NetAware does not flash firmware.
+    tmf931Overlap: true
+  alternativeIfFixCampaign: dpv:RepairImpairments
+
+enterpriseAlreadyHas:
+  - inventory
+  - device twin
+  - firmware package
+  - OTA campaign manager
+  - telemetry
+
+networkAdds:
+  required: [device_reachability, roaming_status]
+  optional: [connectivity_insights]
+  defaultNotRequired:
+    quality_on_demand: true
+    location_verification: true
+    location_retrieval: true
+    edge_discovery: true
+
+agenticShape:
+  - DISCOVER
+  - SEGMENT
+  - PLAN_COHORT
+  - ENTERPRISE_OTA_ACTION
+  - OBSERVE
+  - REPLAN
+  - VERIFY
+
+firmwareDistributionOwner: ENTERPRISE_OTA_API
+networkDoesNotFlashFirmware: true
+
+domainOperations:
+  kind: DOMAIN_OR_ENTERPRISE
+  notCamara: true
+  operations:
+    - listDevices
+    - getDevice
+    - getTwin
+    - getPackage
+    - createCampaign
+    - startWave
+    - getCampaignStats
+    - latestCheckIn
+
+networkOperations:
+  fromActiveCatalog:
+    - getReachabilityStatus
+    - getRoamingStatus
+    - checkNetworkQuality
+  notInPlanByDefault:
+    - createSession
+    - verifyLocation
+    - readClosestEdgeCloudZone
+
+catalogGapsNotAdmittedInCadence7:
+  - Device Reachability Status Subscriptions
+  - eSIM remote management / FOTA
+  - Connected Network Type

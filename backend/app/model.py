@@ -46,6 +46,13 @@ class ConfigStore:
         self.autonomy_rules = _load_yaml("autonomy-rules.yaml")["autonomyRules"]
         self.subscriptions = _load_yaml("subscriptions.yaml")["subscriptions"]
         self.entitlements = _load_yaml("entitlements.yaml")["entitlements"]
+        self.nv_paths = _load_yaml("nv-paths.yaml")
+        self.operator_readiness = _load_yaml("operator-readiness.yaml")
+        self.discovery = _load_yaml("discovery.yaml")
+        self.tmf931 = _load_yaml("tmf931-alignment.yaml")
+        self.product_alignment = _load_yaml("product-alignment.yaml")
+        self.high_flight_replacement = _load_yaml("high-flight-replacement.yaml")
+        self.ota_device_fleet = _load_yaml("ota-device-fleet.yaml")
         providers_doc = _load_yaml("providers.yaml")
         self.providers = providers_doc["providers"]
         self.provider_capabilities = providers_doc.get("providerCapabilities") or []
@@ -64,6 +71,42 @@ class ConfigStore:
         self.agent_by_id = index_by_id(self.agents)
         self.policy_by_id = index_by_id(self.policies)
         self.provider_by_id = index_by_id(self.providers)
+        self.entitlement_by_id = index_by_id(self.entitlements)
+
+    def is_subscribed(self, enterprise_id: str, capability_id: str, family: str | None) -> bool:
+        for sub in self.subscriptions:
+            if sub.get("enterpriseId") != enterprise_id or sub.get("status") != "active":
+                continue
+            if sub.get("capabilityId") == capability_id:
+                return True
+            if family and sub.get("capabilityFamily") == family:
+                return True
+        return False
+
+    def is_entitled(
+        self,
+        *,
+        enterprise_id: str,
+        application_id: str | None,
+        agent_id: str | None,
+        capability_id: str,
+        family: str | None,
+    ) -> bool:
+        """Entitlement is application/agent grant. It is not implied by subscription alone."""
+        for ent in self.entitlements:
+            if ent.get("status") != "active":
+                continue
+            if ent.get("enterpriseId") and ent.get("enterpriseId") != enterprise_id:
+                continue
+            if application_id and ent.get("applicationId") and ent.get("applicationId") != application_id:
+                continue
+            if agent_id and ent.get("agentId") and ent.get("agentId") != agent_id:
+                continue
+            if ent.get("capabilityId") == capability_id:
+                return True
+            if family and ent.get("capabilityFamily") == family:
+                return True
+        return False
 
     @staticmethod
     def model_files() -> list[Path]:

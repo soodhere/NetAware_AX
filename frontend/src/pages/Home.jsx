@@ -26,6 +26,11 @@ export default function Home() {
         {product.tagline ||
           "A simpler way for applications and agents to consume network capabilities."}
       </p>
+      {product.discoveryLine ? <p className="lede">{product.discoveryLine}</p> : (
+        <p className="lede">
+          NetAware determines which network capabilities are relevant, allowed, available and useful — then invokes only what is needed.
+        </p>
+      )}
       <p className="lede">{product.support}</p>
 
       {(demo?.networkValueFraming?.headline || product.intentDefinition) && (

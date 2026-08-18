@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { api, apiPost, apiVersionMaturityTone, href } from "../api.js";
+import { LENS_EVENT, LensToggle, readLens, writeLens } from "../lens.jsx";
 import AxLoop from "../components/AxLoop.jsx";
+import DiscoveryView, { OutcomeView } from "./Discovery.jsx";
 
 const SCENARIOS = {
   "high-flight-airlines/baggage-connection": {
@@ -77,8 +79,15 @@ const SCENARIOS = {
   },
 };
 
-const TABS = [
+const BASIC_TABS = [
   ["overview", "Overview"],
+  ["discovery", "Discovery"],
+  ["outcome", "Outcome"],
+];
+
+const ADVANCED_TABS = [
+  ["overview", "Overview"],
+  ["discovery", "Discovery"],
   ["flow", "Live Flow"],
   ["decisions", "Decisions"],
   ["apis", "APIs"],
@@ -131,6 +140,7 @@ export default function Runtime({ enterpriseId, useCaseId }) {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("overview");
+  const [lens, setLens] = useState(readLens);
   const [beatN, setBeatN] = useState(0);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -167,6 +177,23 @@ export default function Runtime({ enterpriseId, useCaseId }) {
       .catch(() => setValueClarity(null));
   }, [enterpriseId, useCaseId]);
 
+  useEffect(() => {
+    const onLens = (event) => setLens(event.detail === "ADVANCED" ? "ADVANCED" : "BASIC");
+    window.addEventListener(LENS_EVENT, onLens);
+    return () => window.removeEventListener(LENS_EVENT, onLens);
+  }, []);
+
+  const tabs = lens === "ADVANCED" ? ADVANCED_TABS : BASIC_TABS;
+  useEffect(() => {
+    const ids = (lens === "ADVANCED" ? ADVANCED_TABS : BASIC_TABS).map(([id]) => id);
+    if (!ids.includes(tab)) setTab("discovery");
+  }, [lens, tab]);
+
+  const changeLens = (next) => {
+    writeLens(next);
+    setLens(next);
+  };
+
   const clearTimer = () => window.clearInterval(timer.current);
 
   const startTimer = (payload, fromMs = 0) => {
@@ -185,6 +212,13 @@ export default function Runtime({ enterpriseId, useCaseId }) {
   const play = (payload, { fromBeat = 0 } = {}) => {
     traceRef.current = payload;
     setTrace(payload);
+    const lastN = (payload.beats || []).at(-1)?.n || 0;
+    if (readLens() === "BASIC") {
+      clearTimer();
+      setBeatN(lastN);
+      setPaused(true);
+      return;
+    }
     const fromMs = fromBeat ? (payload.beats || []).find((b) => b.n === fromBeat)?.tMs || 0 : 0;
     setBeatN(fromBeat);
     startTimer(payload, fromMs);
@@ -203,7 +237,7 @@ export default function Runtime({ enterpriseId, useCaseId }) {
         });
       }
       play(await apiPost("/intents", scenario.request));
-      setTab("overview");
+      setTab(readLens() === "BASIC" ? "discovery" : "overview");
     } catch (e) {
       setError(String(e.message || e));
     } finally {
@@ -274,29 +308,34 @@ export default function Runtime({ enterpriseId, useCaseId }) {
         <button className="primary" type="button" disabled={busy} onClick={run}>
           Run
         </button>
-        <button type="button" disabled={!trace || busy} onClick={paused ? resume : pause}>
-          {paused ? "Resume" : "Pause"}
-        </button>
-        <button type="button" disabled={!trace || busy} onClick={step}>
-          Step
-        </button>
-        <button type="button" disabled={!trace || busy} onClick={replay}>
-          Replay
-        </button>
-        <button type="button" disabled={!trace || busy} onClick={skipToEnd}>
-          Skip to end
-        </button>
+        <LensToggle lens={lens} onChange={changeLens} />
+        {lens === "ADVANCED" ? (
+          <>
+            <button type="button" disabled={!trace || busy} onClick={paused ? resume : pause}>
+              {paused ? "Resume" : "Pause"}
+            </button>
+            <button type="button" disabled={!trace || busy} onClick={step}>
+              Step
+            </button>
+            <button type="button" disabled={!trace || busy} onClick={replay}>
+              Replay
+            </button>
+            <button type="button" disabled={!trace || busy} onClick={skipToEnd}>
+              Skip to end
+            </button>
+            <label className="speed-toggle tiny">
+              Speed
+              <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))}>
+                <option value={1}>1×</option>
+                <option value={2}>2×</option>
+                <option value={4}>4×</option>
+              </select>
+            </label>
+          </>
+        ) : null}
         <button type="button" disabled={!trace || busy} onClick={reset}>
           Reset
         </button>
-        <label className="speed-toggle tiny">
-          Speed
-          <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))}>
-            <option value={1}>1×</option>
-            <option value={2}>2×</option>
-            <option value={4}>4×</option>
-          </select>
-        </label>
         <a className="nav-link" href={href(scenario.briefingHref)}>
           Briefing
         </a>
@@ -311,29 +350,40 @@ export default function Runtime({ enterpriseId, useCaseId }) {
       {trace ? (
         <>
           <div className="economy">
-            <article>
-              <span>Mapped</span>
-              <strong>{economy?.mappedToIntent}</strong>
-            </article>
-            <article>
-              <span>Invoked</span>
-              <strong>{economy?.invoked}</strong>
-            </article>
-            <article>
-              <span>Reused</span>
-              <strong>{economy?.evidenceReused || 0}</strong>
-            </article>
-            <article>
-              <span>Not required</span>
-              <strong>{(economy?.consideredNotRequired || 0) + (economy?.notRequiredUnmapped || 0)}</strong>
-            </article>
-            <article>
-              <span>Blocked</span>
-              <strong>{economy?.blockedByPolicy || 0}</strong>
-            </article>
+            {(trace.discoverySummary?.pipeline || []).length && lens === "BASIC"
+              ? trace.discoverySummary.pipeline.map((step) => (
+                  <article key={step.label}>
+                    <span>{step.label}</span>
+                    <strong>{step.count}</strong>
+                  </article>
+                ))
+              : (
+                  <>
+                    <article>
+                      <span>Mapped</span>
+                      <strong>{economy?.mappedToIntent}</strong>
+                    </article>
+                    <article>
+                      <span>Invoked</span>
+                      <strong>{economy?.invoked}</strong>
+                    </article>
+                    <article>
+                      <span>Reused</span>
+                      <strong>{economy?.evidenceReused || 0}</strong>
+                    </article>
+                    <article>
+                      <span>Not required</span>
+                      <strong>{(economy?.consideredNotRequired || 0) + (economy?.notRequiredUnmapped || 0)}</strong>
+                    </article>
+                    <article>
+                      <span>Blocked</span>
+                      <strong>{economy?.blockedByPolicy || 0}</strong>
+                    </article>
+                  </>
+                )}
           </div>
           <div className="tabs">
-            {TABS.map(([id, label]) => (
+            {tabs.map(([id, label]) => (
               <button key={id} className={tab === id ? "on" : ""} type="button" onClick={() => setTab(id)}>
                 {label}
               </button>
@@ -341,8 +391,19 @@ export default function Runtime({ enterpriseId, useCaseId }) {
           </div>
 
           {tab === "overview" ? (
-            <Overview trace={trace} done={done} scenario={scenario} decisions={trace.decisions} />
+            <Overview trace={trace} done={done} scenario={scenario} decisions={trace.decisions} lens={lens} />
           ) : null}
+          {tab === "discovery" ? (
+            <DiscoveryView
+              trace={trace}
+              lens={lens}
+              onOpenAdvanced={() => {
+                changeLens("ADVANCED");
+                setTab("flow");
+              }}
+            />
+          ) : null}
+          {tab === "outcome" ? <OutcomeView trace={trace} /> : null}
           {tab === "flow" ? <LiveFlow beats={visibleBeats} activeLane={activeLane} lanes={lanes} /> : null}
           {tab === "decisions" ? <Decisions rows={trace.decisions} trace={trace} /> : null}
           {tab === "apis" ? <Apis rows={visibleInvocations} evidence={trace.evidence} /> : null}
@@ -426,7 +487,7 @@ function PlanPanel({ plan, highlight }) {
   );
 }
 
-function Overview({ trace, done, scenario, decisions }) {
+function Overview({ trace, done, scenario, decisions, lens }) {
   const outcome = trace.outcome || {};
   const blocked = (decisions || []).filter((d) => d.state === "BLOCKED_BY_POLICY");
   const reused = (decisions || []).filter((d) => d.state === "EVIDENCE_REUSED");
@@ -446,7 +507,7 @@ function Overview({ trace, done, scenario, decisions }) {
               <ul className="list compact">
                 {domainEvidence.map((row) => (
                   <li key={row.id}>
-                    <strong>{row.operationId}</strong>
+                    <strong>{lens === "ADVANCED" ? row.operationId : row.familyLabel || row.providerLabel || "Enterprise system"}</strong>
                     <span className="tiny"> · {row.providerLabel || "Enterprise API"}</span>
                   </li>
                 ))}
@@ -461,7 +522,7 @@ function Overview({ trace, done, scenario, decisions }) {
               <ul className="list compact">
                 {networkEvidence.map((row) => (
                   <li key={row.id}>
-                    <strong>{row.operationId}</strong>
+                    <strong>{lens === "ADVANCED" ? row.operationId : row.familyLabel || "Network capability"}</strong>
                     <span className="tiny"> · {row.familyLabel}</span>
                   </li>
                 ))}

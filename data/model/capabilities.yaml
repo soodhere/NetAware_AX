@@ -2,6 +2,9 @@ capabilities:
   - id: number_possession_verification
     label: Number possession verification
     family: IDENTITY_AND_TRUST
+    note: >
+      Implemented by CAMARA Number Verification operations phoneNumberVerify and phoneNumberShare.
+      NV1_NETWORK_BASED / NV2_OPERATOR_TOKEN are fulfillment paths, not operations.
   - id: sim_continuity
     label: SIM continuity
     family: IDENTITY_AND_TRUST

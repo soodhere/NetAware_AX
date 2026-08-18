@@ -323,7 +323,9 @@ def briefing(
 
 def demo_index(store: ConfigStore) -> dict[str, Any]:
     product = (store.demo or {}).get("product") or {}
-    featured = [featured_row(store, row) for row in (store.demo or {}).get("featuredEnterprises") or []]
+    featured_src = list((store.demo or {}).get("featuredEnterprises") or [])
+    featured_src.sort(key=lambda row: int(row.get("presentationOrder") or 99))
+    featured = [featured_row(store, row) for row in featured_src]
     return {
         "product": product,
         "networkValueFraming": (store.demo or {}).get("networkValueFraming") or {},

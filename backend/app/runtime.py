@@ -93,14 +93,7 @@ def _family_for(registry: CatalogRegistry, capability_id: str) -> dict[str, Any]
 
 
 def _subscribed(store: ConfigStore, enterprise_id: str, capability_id: str, family: str | None) -> bool:
-    for sub in store.subscriptions:
-        if sub.get("enterpriseId") != enterprise_id or sub.get("status") != "active":
-            continue
-        if sub.get("capabilityId") == capability_id:
-            return True
-        if family and sub.get("capabilityFamily") == family:
-            return True
-    return False
+    return store.is_subscribed(enterprise_id, capability_id, family)
 
 
 def _consent(store: ConfigStore, policy_id: str, capability_id: str) -> dict[str, Any] | None:
@@ -127,6 +120,14 @@ def evaluate_capability_policy(
     family: str | None,
 ) -> dict[str, Any]:
     sub = _subscribed(store, enterprise_id, capability_id, family)
+    policy_row = next((p for p in store.policies if p.get("id") == policy_id), None)
+    entitled = store.is_entitled(
+        enterprise_id=enterprise_id,
+        application_id=str((policy_row or {}).get("applicationId") or ""),
+        agent_id=str((policy_row or {}).get("agentId") or ""),
+        capability_id=capability_id,
+        family=family,
+    )
     purpose_ok = _purpose_allows(purpose, family)
     consent = _consent(store, policy_id, capability_id)
     agreement = next((a for a in store.agreements if a.get("enterpriseId") == enterprise_id), None)
@@ -152,6 +153,9 @@ def evaluate_capability_policy(
     elif not sub:
         result = "NOT_SUBSCRIBED"
         detail = "No active subscription for this capability."
+    elif not entitled:
+        result = "NOT_ENTITLED"
+        detail = "Subscribed, but this application/agent is not entitled to invoke this capability."
     elif not purpose_ok:
         result = "PURPOSE_DENIED"
         detail = "Purpose configuration does not permit this capability family."
@@ -163,7 +167,7 @@ def evaluate_capability_policy(
         )
     return {
         "subscription": "YES" if sub else "NO",
-        "entitlement": "YES" if sub else "NO",
+        "entitlement": "YES" if entitled else "NO",
         "purpose": "permitted" if purpose_ok else "not permitted",
         "consentRequired": bool(consent and consent.get("required")),
         "consentAvailable": bool(consent and consent.get("available")) if consent else None,
@@ -2667,7 +2671,9 @@ def execute_intent(store: ConfigStore, graph: KnowledgeGraph, registry: CatalogR
     if not runner:
         raise HTTPException(status_code=409, detail=f"Intent not executable: {intent_id}")
     trace = runner(store, graph, registry, body)
-    payload = enrich_trace_presentation(trace.to_public(), registry)
+    from .discovery_trace import attach_discovery
+
+    payload = attach_discovery(enrich_trace_presentation(trace.to_public(), registry), store, graph, registry)
     _LAST[payload["executionId"]] = payload
     _LAST["latest"] = payload
     return payload

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netaware.ax/schemas/sales-scenario-profile.json",
+  "title": "SalesScenarioProfile",
+  "description": "Cadence 7 schema only. Profiles SELECT/LABEL existing model objects. Not loaded by runtime until Cadence 11. Unknown references must fail closed later.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "audience",
+    "lensDefault",
+    "enterpriseId",
+    "applicationId",
+    "intentId",
+    "scenarioSeed",
+    "demoMode"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "audience": {
+      "type": "string",
+      "enum": ["sales", "executive", "enterprise", "operator_cto", "aggregator", "camara"]
+    },
+    "lensDefault": { "type": "string", "enum": ["basic", "advanced"] },
+    "enterpriseId": { "type": "string" },
+    "applicationId": { "type": "string" },
+    "industryLabel": { "type": "string" },
+    "region": { "type": "string" },
+    "topology": { "type": "string" },
+    "meetingGoal": { "type": "string" },
+    "businessProblem": { "type": "string" },
+    "existingSystems": { "type": "array", "items": { "type": "string" } },
+    "domainApis": { "type": "array", "items": { "type": "string" } },
+    "intentId": { "type": "string" },
+    "purpose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vocabulary", "id", "label", "context"],
+      "properties": {
+        "vocabulary": { "const": "DPV" },
+        "version": { "type": "string" },
+        "id": { "type": "string", "pattern": "^dpv:[A-Za-z][A-Za-z0-9]+$" },
+        "iri": { "type": "string" },
+        "label": { "type": "string" },
+        "context": { "type": "string" }
+      }
+    },
+    "networkSubjectModel": { "type": "string" },
+    "relevantCapabilities": { "type": "array", "items": { "type": "string" } },
+    "providerTopology": { "type": "object" },
+    "subscriptions": { "type": "array", "items": { "type": "string" } },
+    "entitlements": { "type": "array", "items": { "type": "string" } },
+    "policyRef": { "type": "string" },
+    "autonomy": { "type": "object" },
+    "scenarioSeed": { "type": "string" },
+    "expectedOutcome": { "type": "string" },
+    "commercialMessage": { "type": "string" },
+    "demoMode": { "type": "string", "enum": ["basic", "advanced"] }
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api, apiVersionMaturityTone, formatList, href } from "../api.js";
+import { DiscoveryLink } from "./Discovery.jsx";
 
 const NAV_GROUPS = [
   {
@@ -393,6 +394,7 @@ function IntentDetail({ id }) {
       {data?.liveDemo ? (
         <div className="section">
           <LiveDemoLink live={data.liveDemo} />
+          {data?.discoveryLink ? <DiscoveryLink link={data.discoveryLink} /> : null}
         </div>
       ) : null}
       <section className="grid-2 section">
@@ -602,6 +604,12 @@ function PurposeDetail({ id }) {
       <h1>
         <span>{p.audienceLabel || p.label}</span>
       </h1>
+      {p.dpv?.id ? (
+        <p className="tiny">
+          DPV <code>{p.dpv.id}</code>
+          {p.dpv.context ? ` · ${p.dpv.context}` : ""}
+        </p>
+      ) : null}
       <div className="banner warn">{data?.legalNote}</div>
       <section className="grid-2 section">
         <article className="panel">
@@ -655,6 +663,7 @@ function PolicyDetail({ id }) {
           <LiveDemoLink live={data.liveScenario} />
         </div>
       ) : null}
+      {data?.discoveryNote ? <p className="lede">{data.discoveryNote}</p> : null}
       <section className="section">
         <h3>Exercised in live scenarios</h3>
         <ul className="list">
@@ -760,6 +769,7 @@ function CapabilityDetail({ id }) {
           ) : null}
         </p>
       ))}
+      {data?.discoveryNote ? <p className="lede">{data.discoveryNote}</p> : null}
       <section className="grid-2 section">
         <article className="panel">
           <h3>API catalog families</h3>
@@ -851,6 +861,7 @@ function CatalogDetail({ id }) {
           ))}
         </div>
       ) : null}
+      {data?.discoveryNote ? <p className="lede">{data.discoveryNote}</p> : null}
       <section className="grid-2 section">
         <article className="panel">
           <h3>Capabilities</h3>

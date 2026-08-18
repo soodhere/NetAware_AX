@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "discovery-event",
+  "title": "NetAware AX Discovery Event",
+  "type": "object",
+  "required": [
+    "stage",
+    "candidate",
+    "candidateType",
+    "capability",
+    "result",
+    "humanReason",
+    "source"
+  ],
+  "properties": {
+    "stage": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE_GENERATION",
+        "CONFIGURED_ELIGIBILITY",
+        "RUNTIME_FEASIBILITY",
+        "SELECT"
+      ]
+    },
+    "candidate": { "type": "string" },
+    "candidateType": { "type": "string" },
+    "capability": { "type": "string" },
+    "capabilityLabel": { "type": ["string", "null"] },
+    "businessLabel": { "type": ["string", "null"] },
+    "apiFamily": { "type": ["string", "null"] },
+    "operationId": { "type": ["string", "null"] },
+    "result": {
+      "type": "string",
+      "enum": ["PASSED", "FILTERED", "SELECTED", "REUSED", "SKIPPED"]
+    },
+    "reasonCode": {
+      "type": ["string", "null"],
+      "enum": [
+        "NOT_RELEVANT",
+        "PURPOSE_NOT_PERMITTED",
+        "NOT_SUBSCRIBED",
+        "NOT_ENTITLED",
+        "CONSENT_MISSING",
+        "AGREEMENT_GAP",
+        "REGION_NOT_SUPPORTED",
+        "PROVIDER_NOT_AVAILABLE",
+        "OPERATOR_NOT_SUPPORTED",
+        "ENTITLEMENT_SERVER_UNAVAILABLE",
+        "ACCESS_TYPE_INCOMPATIBLE",
+        "TECHNICAL_PREREQUISITE_MISSING",
+        "EVIDENCE_REUSED",
+        "NOT_REQUIRED",
+        "AUTONOMY_FORBIDS",
+        "SELECTED",
+        null
+      ]
+    },
+    "humanReason": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "string",
+      "enum": ["ONBOARDING", "CONFIGURATION", "RUNTIME"]
+    },
+    "provider": { "type": ["string", "null"] },
+    "route": { "type": ["string", "null"] },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": true
+}

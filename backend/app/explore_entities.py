@@ -5,11 +5,15 @@ from typing import Any
 
 from .demo import _autonomy_preview, _intent_example, _policy_preview
 from .explore_meta import (
+    CAPABILITY_DISCOVERY_NOTES,
     CAPABILITY_LIVE_BEHAVIOR,
+    DISCOVERY_LINKS,
     DOMAIN_LIVE_DEMOS,
     EVIDENCE_GRADE_LABELS,
     EXECUTABLE_INTENTS,
+    FAMILY_DISCOVERY_NOTES,
     OPERATION_LIVE_HINTS,
+    POLICY_DISCOVERY_NOTES,
     evidence_grade_label,
     live_link_for_intent,
 )
@@ -176,6 +180,7 @@ def enrich_intent(store: ConfigStore, graph: KnowledgeGraph, registry: CatalogRe
         "knownFromConfiguration": known,
         "executable": intent_id in EXECUTABLE_INTENTS,
         "liveDemo": live_link_for_intent(intent_id),
+        "discoveryLink": DISCOVERY_LINKS.get(intent_id),
         "explorerOnly": bool(intent.get("explorerOnly")) and intent_id not in EXECUTABLE_INTENTS,
     }
 
@@ -195,6 +200,7 @@ def enrich_capability(store: ConfigStore, graph: KnowledgeGraph, registry: Catal
     return {
         **body,
         "liveBehavior": live,
+        "discoveryNote": CAPABILITY_DISCOVERY_NOTES.get(capability_id),
         "intentLinks": intent_links,
         "routes": routes,
         "policyNote": "Policy outcomes vary by enterprise purpose and consent configuration.",
@@ -229,6 +235,7 @@ def enrich_catalog_api(store: ConfigStore, graph: KnowledgeGraph, registry: Cata
         "operations": ops,
         "catalogVariants": enriched_specs if enriched_specs else body.get("catalogVariants"),
         "liveReferences": live_refs,
+        "discoveryNote": FAMILY_DISCOVERY_NOTES.get(api_id),
         "networkRoles": network_roles(),
         "netawareBusinessStatus": (body.get("api") or {}).get("netawareBusinessStatus"),
         "camaraApiVersion": (body.get("api") or {}).get("camaraApiVersion"),
@@ -340,6 +347,7 @@ def policy_detail(store: ConfigStore, policy_id: str) -> dict[str, Any] | None:
         "consentRules": consents,
         "autonomyRules": autonomy,
         "liveScenario": live,
+        "discoveryNote": POLICY_DISCOVERY_NOTES.get(policy_id),
         "exercisedEffects": exercised,
         "source": "CONFIGURED DEMO POLICY",
     }

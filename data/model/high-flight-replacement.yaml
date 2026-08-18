@@ -1,0 +1,75 @@
+# Cadence 7 — High Flight commercial direction. NOT executable.
+# Current baggage-connection hero remains the live run until Cadence 11.
+
+model:
+  cadence: 7
+  executable: false
+  currentHero:
+    useCaseId: baggage-connection
+    intentId: ensure_baggage_connection
+    disposition: DEMOTE
+    remainsLiveUntil: cadence-11
+    contributionTest: FAIL
+    note: Domain ETA already implies expedite. Network reachability does not change the action.
+
+replacement:
+  disposition: PROPOSED
+  name: Ramp-scanner / connected ground-handling assurance
+  executableNow: false
+  intent:
+    workingId: assure_ramp_scan_capability
+    status: NEEDS_REVIEW
+    label: Assure ramp scan capability
+    note: Finalize Intent ID in Cadence 11. Do not add to EXECUTABLE_INTENTS in Cadence 7.
+  purpose:
+    axId: ramp_scan_assurance
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:FulfilmentOfContractualObligation
+      iri: https://w3id.org/dpv#FulfilmentOfContractualObligation
+      label: Fulfilment of Contractual Obligation
+      context: IATA Reso 753 custody events require a live handler scanner. Broader than baggage; no dedicated DPV ramp-ops term.
+      needsReview: true
+      alternatives:
+        - dpv:ServiceOptimisation
+        - dpv:RequestedServiceProvision
+      note: Do not use dpv:DeliveryOfGoods (parcel delivery to a data subject).
+  subjectModel:
+    status: NEEDS_REVIEW
+    device:
+      type: ruggedized_brs_handheld
+      exampleId: HF-HDL-0192
+      user: ramp agent / ground handler
+    notTheBag: true
+    bagMayAppearAsDomainContext: true
+    networkIdentifierFrom: handler device, not the luggage
+  enterpriseSystems:
+    - BRS
+    - DCS
+    - flight / turnaround systems
+    - device assignment
+  domainApis:
+    - { kind: DOMAIN, name: BRS scan session }
+    - { kind: DOMAIN, name: DCS bag-flight match }
+    - { kind: DOMAIN, name: Flight status / AODB }
+    - { kind: ENTERPRISE, name: Handler device assignment }
+  networkContribution:
+    unique:
+      - device DATA reachability
+      - roaming
+      - connectivity
+    not:
+      - baggage location
+      - physical bag position
+      - belt/sortation state
+  businessActions:
+    - swap device
+    - reassign handler
+    - hold load-close
+    - proceed with confirmed live scanner
+  defaultNotRequired:
+    - quality_on_demand
+    - location_verification
+    - location_retrieval
+  catalog: current 13-family AX_ACTIVE_CATALOG is sufficient
