@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import Any
 
 from .model import ConfigStore
+from .presentation import enrich_family_for_ui
 from .registry import CatalogRegistry
 
 
@@ -213,10 +214,15 @@ class KnowledgeGraph:
                 if domain_id and domain_id not in seen_dom:
                     seen_dom.add(domain_id)
                     domains.append(self.store.domain_by_id.get(domain_id))
+        enriched_api = enrich_family_for_ui(api)
         return {
-            "api": api,
+            "api": enriched_api,
             "businessStatus": api.get("businessStatus"),
+            "netawareBusinessStatus": enriched_api.get("netawareBusinessStatus"),
             "specMaturity": [s.get("specMaturity") for s in (api.get("technicalSpecs") or [])],
+            "camaraApiVersion": enriched_api.get("camaraApiVersion"),
+            "apiVersionMaturity": enriched_api.get("apiVersionMaturity"),
+            "camaraProjectLifecycle": enriched_api.get("camaraProjectLifecycle"),
             "operations": ops,
             "capabilities": [self.store.capability_by_id.get(c) for c in cap_ids if c in self.store.capability_by_id],
             "intents": [i for i in intents if i],

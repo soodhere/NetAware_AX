@@ -6,10 +6,39 @@ export default function Close() {
     <div>
       <p className="kicker">Product reveal</p>
       <h1>
-        <span>From Network APIs</span>
-        <span>to Agentic Experience</span>
+        <span>Your application stays</span>
+        <span>in its domain</span>
       </h1>
-      <p className="lede">Your application expresses an outcome. NetAware returns a business result you understand.</p>
+      <p className="lede">
+        Network APIs add information, verification and actions your application does not have itself. NetAware AX
+        decides when they can help achieve the Intent.
+      </p>
+
+      <section className="eq section" aria-label="Complementarity equation">
+        <article className="domain-lane">
+          <span>Domain context</span>
+          <strong>Your applications & APIs</strong>
+        </article>
+        <i>+</i>
+        <article className="network-lane">
+          <span>Network capabilities</span>
+          <strong>Observe · Verify · Act</strong>
+        </article>
+        <i>+</i>
+        <article className="ax-lane">
+          <span>Governed AX</span>
+          <strong>Intent + policy + autonomy</strong>
+        </article>
+        <i>=</i>
+        <article className="result">
+          <span>Business outcome</span>
+          <strong>Returned to the application</strong>
+        </article>
+      </section>
+
+      <p className="plus-line">
+        Network APIs do not replace enterprise or domain APIs. They complement them when they can materially help.
+      </p>
 
       <AxLoop />
 
@@ -25,6 +54,23 @@ export default function Close() {
           </ul>
         </article>
         <article className="panel">
+          <h3>Network capability roles</h3>
+          <ul className="list">
+            <li>
+              <strong>Observe</strong> — information the application does not independently have
+            </li>
+            <li>
+              <strong>Verify</strong> — independent network or operator assertions
+            </li>
+            <li>
+              <strong>Act</strong> — network actions that can change conditions
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <section className="grid-2 section">
+        <article className="panel">
           <h3>Coexistence</h3>
           <p className="tiny">Intent does not replace direct APIs.</p>
           <ul className="list">
@@ -38,6 +84,12 @@ export default function Close() {
               <strong>Network Intent / AX</strong> — express outcome; NetAware handles network complexity
             </li>
           </ul>
+        </article>
+        <article className="panel">
+          <h3>Prototype honesty</h3>
+          <p className="tiny">
+            Simulated enterprises · configured demo policy · topology-neutral · PRODUCT / AX PROTOTYPE only
+          </p>
         </article>
       </section>
 
@@ -69,10 +121,6 @@ export default function Close() {
           <button type="button">Run another scenario</button>
         </a>
       </div>
-
-      <p className="tiny section">
-        Simulated enterprises · configured demo policy · topology-neutral · prototype only
-      </p>
     </div>
   );
 }

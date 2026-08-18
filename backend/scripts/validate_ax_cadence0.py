@@ -280,7 +280,7 @@ def check_http() -> None:
         fail(f"health cadence/registry unexpected: {health}")
     else:
         ok("GET /health registryLoaded")
-    if str(health.get("cadencePatch")) not in {"0.2", "1", "2", "3", "4", "5", "6"}:
+    if str(health.get("cadencePatch")) not in {"0.2", "1", "2", "3", "4", "5", "6", "6.1"}:
         fail(f"unexpected cadencePatch {health.get('cadencePatch')}")
     else:
         ok(f"GET /health cadencePatch {health.get('cadencePatch')}")

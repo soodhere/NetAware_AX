@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { api, href, maturityTone } from "../api.js";
+import { api, apiVersionMaturityTone, formatList, href } from "../api.js";
 
 const NAV_GROUPS = [
   {
@@ -99,22 +99,50 @@ function Links({ items, to, labelKey = "label", idKey = "id" }) {
   );
 }
 
+function NetworkRolePill({ role }) {
+  if (!role) return null;
+  const tone = role === "ACT" ? "ok" : role === "VERIFY" ? "warn" : "muted";
+  return <Pill tone={tone}>{role}</Pill>;
+}
+
+function CamaraPrimaryChips({ row, fam }) {
+  const apiRow = fam || row?.api || row || {};
+  const version = formatList(row?.camaraApiVersion || apiRow.camaraApiVersion);
+  const maturity = formatList(row?.apiVersionMaturity || apiRow.apiVersionMaturity);
+  const status = (row?.netawareBusinessStatus || apiRow.netawareBusinessStatus || apiRow.businessStatus || "")
+    .replaceAll("_", " ");
+  return (
+    <>
+      <NetworkRolePill role={apiRow.networkRole} />
+      {status ? <Pill tone="ok">NetAware {status}</Pill> : null}
+      {version ? <Pill>CAMARA API {version}</Pill> : null}
+      {maturity ? (
+        <Pill tone={apiVersionMaturityTone(maturity)}>API version {maturity}</Pill>
+      ) : null}
+    </>
+  );
+}
+
+function CamaraTechnicalMeta({ lifecycle }) {
+  const value = formatList(lifecycle);
+  if (!value) return null;
+  return (
+    <div className="chips section">
+      <Pill tone="muted">CAMARA project lifecycle {value}</Pill>
+    </div>
+  );
+}
+
 function FamilyCard({ fam, reverse }) {
   const apiRow = reverse?.api || fam;
-  const maturities = reverse?.specMaturity || (fam.technicalSpecs || []).map((s) => s.specMaturity);
-  const uniqueMat = [...new Set((maturities || []).filter(Boolean))];
   return (
     <a className="panel family-card" href={href(`/explore/catalog/${apiRow.id}`)}>
       <p className="kicker">{apiRow.familyGroup?.replaceAll("_", " ")}</p>
       <h2>{apiRow.label}</h2>
       <div className="chips" style={{ margin: "8px 0" }}>
-        <Pill tone="ok">{(apiRow.businessStatus || "CURRENT_FOCUS").replace("_", " ")}</Pill>
-        {uniqueMat.map((m) => (
-          <Pill key={m} tone={maturityTone(m)}>
-            CAMARA {m}
-          </Pill>
-        ))}
+        <CamaraPrimaryChips row={reverse} fam={apiRow} />
       </div>
+      {apiRow.applicationValue ? <p className="tiny">{apiRow.applicationValue}</p> : null}
       <p className="tiny">
         {(reverse?.capabilities || []).map((c) => c.label).join(" · ") || (apiRow.capabilities || []).join(" · ")}
       </p>
@@ -776,7 +804,15 @@ function CatalogList() {
       <p className="lede plus-line">
         {apis.length} current-focus Network API families → many capabilities → many business outcomes.
       </p>
-      <p className="tiny">Business status and CAMARA maturity are separate. Operation counts on drill-down only.</p>
+      <p className="tiny">
+        Each family is labelled <strong>Observe</strong>, <strong>Verify</strong>, or <strong>Act</strong> — what it
+        gives the application, not just a technical API name.
+      </p>
+      <div className="chips section">
+        <Pill tone="muted">Observe · network information</Pill>
+        <Pill tone="warn">Verify · independent assertions</Pill>
+        <Pill tone="ok">Act · network actions</Pill>
+      </div>
       <FilterBar query={q} onQuery={setQ} placeholder="Filter API families…" />
       <section className="grid-2 section">
         {rows.map((row) => (
@@ -793,7 +829,6 @@ function CatalogDetail({ id }) {
     api(`/catalog/apis/${id}`).then(setData);
   }, [id]);
   const fam = data?.api || {};
-  const maturities = [...new Set((data?.specMaturity || []).filter(Boolean))];
   return (
     <div>
       <p className="kicker">Business API family</p>
@@ -801,13 +836,14 @@ function CatalogDetail({ id }) {
         <span>{fam.label}</span>
       </h1>
       <div className="chips section">
-        <Pill tone="ok">Business status {(fam.businessStatus || "").replace("_", " ")}</Pill>
-        {maturities.map((m) => (
-          <Pill key={m} tone={maturityTone(m)}>
-            CAMARA maturity {m}
-          </Pill>
-        ))}
+        <CamaraPrimaryChips row={data} fam={fam} />
       </div>
+      {fam.applicationValue ? (
+        <article className="panel section">
+          <h3>What this gives the application</h3>
+          <p>{fam.applicationValue}</p>
+        </article>
+      ) : null}
       {(data?.liveReferences || []).length ? (
         <div className="chips section">
           {data.liveReferences.map((live) => (
@@ -828,6 +864,18 @@ function CatalogDetail({ id }) {
               {op.liveHint ? <span className="tiny"> · {op.liveHint}</span> : null}
             </div>
           ))}
+          {(fam.technicalSpecs || []).length ? (
+            <>
+              <h3 style={{ marginTop: 16 }}>Technical specs</h3>
+              {(fam.technicalSpecs || []).map((spec) => (
+                <p className="tiny" key={`${spec.source}-${spec.version}`}>
+                  {spec.api_name} · CAMARA API {spec.camaraApiVersion || spec.version}
+                  {spec.apiVersionMaturity ? ` · API version ${spec.apiVersionMaturity}` : ""}
+                  {spec.camaraProjectLifecycle ? ` · CAMARA project lifecycle ${spec.camaraProjectLifecycle}` : ""}
+                </p>
+              ))}
+            </>
+          ) : null}
         </article>
         <article className="panel">
           <h3>Reverse traversal</h3>
@@ -856,9 +904,13 @@ function OperationDetail({ id }) {
       </h1>
       {data?.liveHint ? <p className="lede">{data.liveHint}</p> : null}
       <div className="chips section">
-        <Pill tone="ok">{(variant.business_status || "").replace("_", " ")}</Pill>
-        <Pill tone={maturityTone(variant.spec_maturity)}>CAMARA {variant.spec_maturity}</Pill>
+        <Pill tone="ok">NetAware {(data?.netawareBusinessStatus || variant.business_status || "").replaceAll("_", " ")}</Pill>
+        {variant.camaraApiVersion ? <Pill>CAMARA API {variant.camaraApiVersion}</Pill> : null}
+        {variant.apiVersionMaturity ? (
+          <Pill tone={apiVersionMaturityTone(variant.apiVersionMaturity)}>API version {variant.apiVersionMaturity}</Pill>
+        ) : null}
       </div>
+      <CamaraTechnicalMeta lifecycle={variant.camaraProjectLifecycle} />
       <section className="grid-2 section">
         <article className="panel">
           <h3>Capabilities → intents</h3>

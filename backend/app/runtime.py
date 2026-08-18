@@ -11,6 +11,7 @@ from .graph import KnowledgeGraph
 from .model import ConfigStore
 from .registry import CatalogRegistry
 from .evidence_store import find_reusable, persist_from_trace, reset_store
+from .presentation import enrich_trace_presentation
 from .runtime_models import (
     Beat,
     Decision,
@@ -597,7 +598,7 @@ def run_assess_network_trust(
         Beat(13, 4100, "NETWORK PROVIDER", "INVOKED", "phoneNumberVerify", "Number possession verified.", "provider"),
         Beat(14, 4600, "NETWORK PROVIDER", "INVOKED", "checkSimSwap", "Recent SIM change.", "provider"),
         Beat(15, 5100, "NETWORK PROVIDER", "INVOKED", "checkDeviceSwap", "New device.", "provider"),
-        Beat(16, 5600, "NETWORK PROVIDER", "INVOKED", "retrieveIdentifier", "Device identity changed. CAMARA maturity experimental.", "provider"),
+        Beat(16, 5600, "NETWORK PROVIDER", "INVOKED", "retrieveIdentifier", "Device identity changed. Initial pre-stable API version.", "provider"),
         Beat(17, 6100, "NETWORK PROVIDER", "INVOKED", "getRoamingStatus", "Not roaming.", "provider"),
         Beat(18, 6500, "CONTEXT / POLICY", "BLOCKED_BY_POLICY", "Location verification blocked", "Consent required and not available. Configured demo policy.", "policy"),
         Beat(19, 6900, "NETAWARE AX", "REPLAN", "Continue without location", "Other evidence is sufficient to assess network trust.", "netaware"),
@@ -2666,7 +2667,7 @@ def execute_intent(store: ConfigStore, graph: KnowledgeGraph, registry: CatalogR
     if not runner:
         raise HTTPException(status_code=409, detail=f"Intent not executable: {intent_id}")
     trace = runner(store, graph, registry, body)
-    payload = trace.to_public()
+    payload = enrich_trace_presentation(trace.to_public(), registry)
     _LAST[payload["executionId"]] = payload
     _LAST["latest"] = payload
     return payload

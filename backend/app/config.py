@@ -15,9 +15,9 @@ ACTIVE_CATALOG_PATH = CATALOG_DIR / "ax-active-catalog.yaml"
 FRONTEND_DIST = ROOT / "frontend" / "dist"
 
 CADENCE = 6
-CADENCE_PATCH = "6"
-APP_VERSION = "0.6.0-ax6"
-BUILD_ID = os.getenv("BUILD_ID", "ax6")
+CADENCE_PATCH = "6.1"
+APP_VERSION = "0.6.1-ax6.1"
+BUILD_ID = os.getenv("BUILD_ID", "ax6.1")
 PRODUCT_BEHAVIOR_FROZEN = True
 
 

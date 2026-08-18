@@ -69,7 +69,7 @@ def main() -> int:
         check(health.status_code == 200, "/health")
         h = health.json()
         check(h.get("cadence") == 6, f"cadence {h.get('cadence')}")
-        check(h.get("version") == "0.6.0-ax6", f"version {h.get('version')}")
+        check(h.get("version") == "0.6.1-ax6.1", f"version {h.get('version')}")
         check(h.get("productBehaviorFrozen") is True, "product frozen")
         home = client.get("/")
         check(home.status_code == 200 and "html" in home.headers.get("content-type", "").lower(), "frontend /")

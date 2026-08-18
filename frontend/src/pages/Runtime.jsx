@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { apiPost, href, maturityTone } from "../api.js";
+import { api, apiPost, apiVersionMaturityTone, href } from "../api.js";
 import AxLoop from "../components/AxLoop.jsx";
 
 const SCENARIOS = {
@@ -127,6 +127,7 @@ export default function Runtime({ enterpriseId, useCaseId }) {
   const key = `${enterpriseId}/${useCaseId}`;
   const scenario = SCENARIOS[key];
   const [trace, setTrace] = useState(null);
+  const [valueClarity, setValueClarity] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("overview");
@@ -159,6 +160,12 @@ export default function Runtime({ enterpriseId, useCaseId }) {
   useEffect(() => {
     return () => window.clearInterval(timer.current);
   }, []);
+
+  useEffect(() => {
+    api(`/demo/${enterpriseId}/${useCaseId}`)
+      .then((body) => setValueClarity(body.valueClarity || null))
+      .catch(() => setValueClarity(null));
+  }, [enterpriseId, useCaseId]);
 
   const clearTimer = () => window.clearInterval(timer.current);
 
@@ -260,6 +267,7 @@ export default function Runtime({ enterpriseId, useCaseId }) {
         <span>{scenario.title}</span>
       </h1>
       <p className="lede">{scenario.lede}</p>
+      {valueClarity?.headline ? <p className="lede value-headline">{valueClarity.headline}</p> : null}
       <AxLoop compact activeIndex={done ? 7 : Math.min(Math.floor(beatN / 3), 7)} />
 
       <div className="hero-actions run-controls">
@@ -347,19 +355,54 @@ export default function Runtime({ enterpriseId, useCaseId }) {
           ) : null}
         </>
       ) : (
-        <section className="grid-2 section">
-          <article className="panel">
-            <h3>What the application sends</h3>
-            <pre className="code-block">{JSON.stringify(scenario.request, null, 2)}</pre>
-          </article>
-          <article className="panel">
-            <h3>What NetAware already knows</h3>
-            <p className="tiny">
-              Enterprise, application, agent, purpose, subscriptions, policy, consent, DPA, autonomy — from onboarding.
-            </p>
-          </article>
+        <section className="section">
+          <ValueClarityPanel clarity={valueClarity} />
+          <div className="grid-2 section">
+            <article className="panel">
+              <h3>What the application sends</h3>
+              <pre className="code-block">{JSON.stringify(scenario.request, null, 2)}</pre>
+            </article>
+            <article className="panel">
+              <h3>What NetAware already knows</h3>
+              <p className="tiny">
+                Enterprise, application, agent, purpose, subscriptions, policy, consent, DPA, autonomy — from onboarding.
+              </p>
+            </article>
+          </div>
         </section>
       )}
+    </div>
+  );
+}
+
+function ValueClarityPanel({ clarity }) {
+  if (!clarity?.myWorld) return null;
+  return (
+    <div className="value-ladder section">
+      <article className="panel domain-lane">
+        <h3>{clarity.myWorld.title || "My world"}</h3>
+        <ul className="list compact">
+          {(clarity.myWorld.items || []).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
+      <article className="panel network-lane">
+        <h3>{clarity.networkAdds?.title || "Network adds"}</h3>
+        <ul className="list compact">
+          {(clarity.networkAdds?.items || []).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
+      <article className="panel ax-lane">
+        <h3>{clarity.netawareAx?.title || "NetAware AX"}</h3>
+        <ul className="list compact">
+          {(clarity.netawareAx?.items || []).slice(0, 3).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
     </div>
   );
 }
@@ -388,9 +431,67 @@ function Overview({ trace, done, scenario, decisions }) {
   const blocked = (decisions || []).filter((d) => d.state === "BLOCKED_BY_POLICY");
   const reused = (decisions || []).filter((d) => d.state === "EVIDENCE_REUSED");
   const notRequired = (decisions || []).filter((d) => d.state === "NOT_REQUIRED");
+  const domainEvidence = (trace.invocations || []).filter(
+    (i) => i.apiKind === "DOMAIN" || i.apiKind === "ENTERPRISE"
+  );
+  const networkEvidence = (trace.invocations || []).filter((i) => (i.apiKind || "NETWORK") === "NETWORK");
 
   return (
     <div>
+      {done ? (
+        <section className="contribution-strip section">
+          <article className="inset domain-lane">
+            <h3>Business / domain evidence</h3>
+            {domainEvidence.length ? (
+              <ul className="list compact">
+                {domainEvidence.map((row) => (
+                  <li key={row.id}>
+                    <strong>{row.operationId}</strong>
+                    <span className="tiny"> · {row.providerLabel || "Enterprise API"}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="tiny">Enterprise context from configured onboarding.</p>
+            )}
+          </article>
+          <article className="inset network-lane">
+            <h3>Network contribution</h3>
+            {networkEvidence.length ? (
+              <ul className="list compact">
+                {networkEvidence.map((row) => (
+                  <li key={row.id}>
+                    <strong>{row.operationId}</strong>
+                    <span className="tiny"> · {row.familyLabel}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : reused.length ? (
+              <p className="tiny">Evidence reused — no duplicate Network API calls.</p>
+            ) : (
+              <p className="tiny">No Network APIs invoked in this run.</p>
+            )}
+          </article>
+          <article className="inset ax-lane">
+            <h3>NetAware decision</h3>
+            <p>{outcome.summary || trace.replan?.narrative || "Minimum sufficient path under configured policy."}</p>
+            {notRequired.length ? (
+              <p className="tiny">{notRequired.length} capability(ies) considered but not required.</p>
+            ) : null}
+            {blocked.length ? (
+              <p className="tiny">{blocked.length} blocked by configured policy.</p>
+            ) : null}
+          </article>
+          <article className="inset outcome-lane">
+            <h3>Business outcome</h3>
+            <p className="kicker">{outcome.outcome}</p>
+            {outcome.recommendedAction ? (
+              <p className="tiny">Recommended · {outcome.recommendedAction}</p>
+            ) : null}
+          </article>
+        </section>
+      ) : null}
+
       <section className="grid-2 section">
         <article className="panel">
           <h3>What was asked</h3>
@@ -487,9 +588,16 @@ function LiveFlow({ beats, activeLane, lanes }) {
 }
 
 function Decisions({ rows, trace }) {
+  const stateImpact = (row) => {
+    if (row.state === "INVOKED") return "Contributed evidence or action to the trace.";
+    if (row.state === "NOT_REQUIRED") return "Considered — network is not the limiting factor or not needed.";
+    if (row.state === "BLOCKED_BY_POLICY") return "Would add value but blocked by configured consent/policy.";
+    if (row.state === "EVIDENCE_REUSED") return "Prior network evidence reused — no duplicate call.";
+    return "Evaluated under configured mapping.";
+  };
   return (
     <section className="section">
-      <p className="tiny">Why this? Why not that?</p>
+      <p className="tiny">Why relevant? What unique value? Why invoked / not invoked / blocked? What changed?</p>
       {(rows || []).map((row) => (
         <article key={row.id} className="panel" style={{ marginBottom: 8 }}>
           <div className="chips" style={{ marginBottom: 8 }}>
@@ -502,7 +610,12 @@ function Decisions({ rows, trace }) {
               Candidate · <code>{row.operationId}</code>
             </p>
           ) : null}
-          <p>{row.why}</p>
+          <dl className="dl decision-why">
+            <dt>Why relevant?</dt>
+            <dd>{row.why}</dd>
+            <dt>What changed?</dt>
+            <dd>{stateImpact(row)}</dd>
+          </dl>
           {row.state === "EVIDENCE_REUSED" && trace?.evidence ? (
             <p className="tiny">
               Source · {(trace.evidence.find((e) => e.operationId === row.operationId) || {}).sourceExecutionId}
@@ -569,12 +682,20 @@ function Apis({ rows, evidence }) {
                 <code>{row.operationId}</code>
               </h2>
               <div className="chips">
-                <Pill tone="ok">{(row.businessStatus || "").replace("_", " ")}</Pill>
-                {row.specMaturity ? (
-                  <Pill tone={maturityTone(row.specMaturity)}>CAMARA {row.specMaturity}</Pill>
+                <Pill tone="ok">NetAware {(row.businessStatus || "").replaceAll("_", " ")}</Pill>
+                {row.camaraApiVersion ? <Pill>CAMARA API {row.camaraApiVersion}</Pill> : null}
+                {row.apiVersionMaturity ? (
+                  <Pill tone={apiVersionMaturityTone(row.apiVersionMaturity)}>
+                    API version {row.apiVersionMaturity}
+                  </Pill>
                 ) : null}
                 <Pill>{row.routeType}</Pill>
               </div>
+              {row.camaraProjectLifecycle ? (
+                <p className="tiny" style={{ marginTop: 8 }}>
+                  CAMARA project lifecycle · {row.camaraProjectLifecycle}
+                </p>
+              ) : null}
               <dl className="dl" style={{ marginTop: 10 }}>
                 <dt>Method</dt>
                 <dd>{row.method}</dd>

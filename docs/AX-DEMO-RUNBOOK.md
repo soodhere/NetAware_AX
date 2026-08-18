@@ -29,7 +29,8 @@ curl http://127.0.0.1:8000/health
 Expect:
 
 - `cadence`: **6**
-- `version`: **0.6.0-ax6**
+- `cadencePatch`: **6.1**
+- `version`: **0.6.1-ax6.1**
 - `executableIntents`: 5 (4 heroes + recovery reuse)
 - `explorerProductSurface`: true
 

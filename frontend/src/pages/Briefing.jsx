@@ -6,6 +6,16 @@ function Pill({ children, tone }) {
   return <span className={`pill ${tone || ""}`.trim()}>{children}</span>;
 }
 
+function NetworkRolePill({ role, rolesMeta }) {
+  if (!role) return null;
+  const meta = rolesMeta?.[role] || {};
+  return (
+    <Pill tone={role === "ACT" ? "ok" : role === "VERIFY" ? "warn" : "muted"}>
+      {meta.label || role}
+    </Pill>
+  );
+}
+
 const RUNNABLE = new Set([
   "rocket-bank/high-value-payment-protection",
   "high-flight-airlines/baggage-connection",
@@ -32,6 +42,9 @@ export default function Briefing({ enterpriseId, useCaseId }) {
   const known = data.knownFromOnboarding || {};
   const policy = data.policyPreview || {};
   const autonomy = data.autonomyPreview || {};
+  const vc = data.valueClarity || {};
+  const framing = data.networkValueFraming || {};
+  const rolesMeta = data.networkRoles || {};
   const key = `${enterpriseId}/${useCaseId}`;
   const runnable = RUNNABLE.has(key);
   const isSecondary = data.secondaryDemo;
@@ -45,48 +58,125 @@ export default function Briefing({ enterpriseId, useCaseId }) {
       <p className="tiny">Use case · {data.useCase?.label}</p>
 
       <div className="banner intent-def">
-        {intent.explainer ||
+        {framing.intentLine ||
+          intent.explainer ||
           "Intent is the outcome the application or agent wants — without specifying which Network APIs should be called."}
       </div>
+      {vc.headline ? <p className="lede value-headline">{vc.headline}</p> : null}
+      {vc.zeroContextAnswer ? (
+        <p className="tiny zero-context">
+          <strong>Network adds:</strong> {vc.zeroContextAnswer}
+        </p>
+      ) : null}
 
-      <section className="section" id="my-world">
-        <h3>1 · My world</h3>
-        <div className="world">
-          <article className="panel">
-            <h3>My existing systems</h3>
-            <ul className="list">
-              {(data.existingSystems || []).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+      <section className="section value-framing">
+        <h3>How domain and network complement</h3>
+        <div className="value-ladder">
+          <article className="panel domain-lane">
+            <p className="kicker">My world</p>
+            <p className="tiny">{framing.applicationLayer}</p>
           </article>
-          <article className="panel">
-            <h3>My existing APIs</h3>
-            <ul className="list">
-              {(data.existingApis || []).map((item) => (
-                <li key={`${item.kind}-${item.name}`}>
-                  {item.name}
-                  <span className="tiny"> · {item.kind}</span>
-                </li>
-              ))}
-            </ul>
+          <article className="panel network-lane">
+            <p className="kicker">Network adds</p>
+            <p className="tiny">{framing.networkLayer}</p>
           </article>
-          <article className="panel network">
-            <h3>Complementary network capabilities</h3>
-            <ul className="list">
-              {(data.capabilities || []).map((cap) => (
-                <li key={cap.id}>
-                  <a href={href(`/explore/capabilities/${cap.id}`)}>{cap.label}</a>
-                  <span className="tiny"> · {cap.role}</span>
-                </li>
-              ))}
-            </ul>
+          <article className="panel ax-lane">
+            <p className="kicker">NetAware AX</p>
+            <p className="tiny">{framing.axLayer}</p>
           </article>
         </div>
       </section>
 
+      {vc.myWorld ? (
+        <section className="section" id="my-world">
+          <h3>1 · {vc.myWorld.title || "My world"}</h3>
+          <article className="panel">
+            <ul className="list">
+              {(vc.myWorld.items || []).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            {(data.existingSystems || []).length ? (
+              <>
+                <p className="kicker" style={{ marginTop: 12 }}>
+                  Existing systems
+                </p>
+                <ul className="list compact">
+                  {(data.existingSystems || []).map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </article>
+        </section>
+      ) : null}
+
+      {vc.networkAdds ? (
+        <section className="section" id="network-adds">
+          <h3>2 · {vc.networkAdds.title || "Network adds"}</h3>
+          <article className="panel network">
+            <div className="chips" style={{ marginBottom: 10 }}>
+              {(vc.networkAdds.roles || []).map((role) => (
+                <NetworkRolePill key={role} role={role} rolesMeta={rolesMeta} />
+              ))}
+            </div>
+            <ul className="list">
+              {(vc.networkAdds.items || []).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            {(data.capabilities || []).length ? (
+              <>
+                <p className="kicker" style={{ marginTop: 12 }}>
+                  Mapped capabilities
+                </p>
+                <ul className="list compact">
+                  {(data.capabilities || []).map((cap) => (
+                    <li key={cap.id}>
+                      <a href={href(`/explore/capabilities/${cap.id}`)}>{cap.label}</a>
+                      {cap.networkRole ? (
+                        <>
+                          {" "}
+                          <NetworkRolePill role={cap.networkRole} rolesMeta={rolesMeta} />
+                        </>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </article>
+        </section>
+      ) : null}
+
+      {vc.netawareAx ? (
+        <section className="section" id="netaware-ax">
+          <h3>3 · {vc.netawareAx.title || "NetAware AX"}</h3>
+          <article className="panel">
+            <ul className="list">
+              {(vc.netawareAx.items || []).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          {vc.openingHeroNote ? <p className="tiny banner warn">{vc.openingHeroNote}</p> : null}
+        </section>
+      ) : null}
+
+      <section className="section" id="my-intent">
+        <h3>4 · My intent</h3>
+        <div className="panel">
+          <p className="kicker">Outcome</p>
+          <h2>“{intent.plain}”</h2>
+          <p className="tiny">
+            <code>{intent.id}</code>
+          </p>
+        </div>
+      </section>
+
       <section className="section" id="what-i-send">
-        <h3>2 · What I send vs what NetAware already knows</h3>
+        <h3>5 · What I send vs what NetAware already knows</h3>
         <div className="split-know">
           <article className="panel">
             <p className="kicker">{known.source}</p>
@@ -109,7 +199,7 @@ export default function Briefing({ enterpriseId, useCaseId }) {
       </section>
 
       <section className="section" id="my-agent">
-        <h3>3 · My agent</h3>
+        <h3>6 · My agent</h3>
         <div className="panel">
           <div className="chips" style={{ marginBottom: 10 }}>
             <Pill tone="ok">Authorized agent</Pill>
@@ -132,20 +222,9 @@ export default function Briefing({ enterpriseId, useCaseId }) {
         </div>
       </section>
 
-      <section className="section" id="my-intent">
-        <h3>4 · My intent</h3>
-        <div className="panel">
-          <p className="kicker">Outcome</p>
-          <h2>“{intent.plain}”</h2>
-          <p className="tiny">
-            <code>{intent.id}</code>
-          </p>
-        </div>
-      </section>
-
       <section className="section grid-2" id="policy-autonomy">
         <article className="panel">
-          <h3>5 · My policy</h3>
+          <h3>7 · My policy</h3>
           <p className="tiny">{policy.label}</p>
           <Pill>{policy.source || "CONFIGURED DEMO POLICY"}</Pill>
           <dl className="dl" style={{ marginTop: 10 }}>
@@ -158,7 +237,7 @@ export default function Briefing({ enterpriseId, useCaseId }) {
           </dl>
         </article>
         <article className="panel">
-          <h3>6 · My autonomy</h3>
+          <h3>8 · My autonomy</h3>
           <p className="tiny">{autonomy.label}</p>
           <dl className="dl" style={{ marginTop: 10 }}>
             <dt>Observe / Act</dt>
@@ -174,7 +253,7 @@ export default function Briefing({ enterpriseId, useCaseId }) {
       <AxLoop compact />
 
       <section className="section" id="run">
-        <h3>7 · Run</h3>
+        <h3>9 · Run</h3>
         {isSecondary ? (
           <div className="panel">
             <p className="kicker">Secondary · evidence reuse</p>

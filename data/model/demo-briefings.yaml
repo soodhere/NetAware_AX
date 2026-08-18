@@ -1,4 +1,11 @@
-# Cadence 6 presentation freeze. Product behavior frozen; clarity and pacing only.
+# Cadence 6.1 presentation clarity patch. Product behavior frozen; labels and briefing structure only.
+
+networkValueFraming:
+  headline: Your application stays in its domain. Network APIs add what it cannot see, verify, or act on itself.
+  applicationLayer: Your application / domain APIs tell NetAware what is happening in the business.
+  networkLayer: Network APIs provide information, verification or network actions the application does not have itself.
+  axLayer: NetAware AX decides when those complementary network capabilities can materially help achieve the Intent.
+  intentLine: Intent is the outcome requested by the application or agent without specifying which Network APIs to invoke.
 
 product:
   line: From Developer Experience to Agentic Experience
@@ -58,6 +65,32 @@ featuredEnterprises:
     subscriptionsDisplay: Configured
     providersDisplay: Configured
     securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: Independent network evidence helps determine whether network conditions contribute to the baggage operation — and whether network action would help.
+        zeroContextAnswer: Independent network reachability and connectivity evidence that enterprise baggage/flight/ground APIs do not provide.
+        myWorld:
+          title: What High Flight already knows
+          items:
+            - Baggage journey and scan events (Baggage Journey API)
+            - Flight status and connection window (Flight Status API)
+            - Ground transfer ETA and safe margin (Ground Operations API)
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Device reachability on the handler device — not bag position
+            - Connectivity condition on the operational device
+            - Location verification only when consent allows (blocked in this demo)
+            - QoD only if network improvement would materially help
+          roles: [OBSERVE, VERIFY, ACT]
+        netawareAx:
+          title: How NetAware AX uses both
+          items:
+            - Intent expresses the baggage outcome — not which APIs to call
+            - Domain APIs establish transfer risk; Network APIs test whether the network dimension is limiting
+            - Policy blocks Location without consent; QoD stays NOT_REQUIRED when physical transfer is the limit
+            - Returns AT_RISK with EXPEDITE_TRANSFER — airline owns the operational decision
+        openingHeroNote: Strongest when the presenter explains complementarity before Run. Rocket Bank and Acme are simpler zero-context openers.
   - enterpriseId: rocket-bank
     presentationOrder: 2
     domainAudienceLabel: Financial Services
@@ -89,6 +122,48 @@ featuredEnterprises:
     subscriptionsDisplay: Configured
     providersDisplay: Configured
     securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: Bank authentication can succeed while SIM, device or network continuity has changed. NetAware adds independent network evidence.
+        zeroContextAnswer: Independent SIM, device and network continuity evidence the bank's own APIs cannot provide.
+        myWorld:
+          title: What Rocket Bank already knows
+          items:
+            - Transaction amount and context (Payments API)
+            - Account and customer context (Core Banking)
+            - Application authentication outcome (Fraud Decisioning)
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Number possession verification
+            - SIM continuity
+            - Device continuity
+            - Roaming / network context
+          roles: [OBSERVE, VERIFY]
+        netawareAx:
+          title: How NetAware AX combines them
+          items:
+            - BANK CONTEXT + INDEPENDENT NETWORK EVIDENCE under configured policy
+            - Selective invocation — not every mapped API
+            - Returns STEP_UP — bank owns the financial decision
+            - Does not claim fraud detected
+      secondary:
+        headline: Normalized trust evidence is reused when purpose, subject and TTL allow — no duplicate Network API calls.
+        zeroContextAnswer: Reuses prior network evidence instead of replaying CAMARA calls.
+        myWorld:
+          title: What Rocket Bank already knows
+          items:
+            - Recovery channel and session context
+        networkAdds:
+          title: What the Network already contributed
+          items:
+            - Prior SIM, device and roaming evidence from trust assessment
+          roles: [OBSERVE]
+        netawareAx:
+          title: How NetAware AX reuses evidence
+          items:
+            - Checks TTL, purpose and subject alignment
+            - Returns CONTINUITY_ALIGNED without re-invoking APIs
   - enterpriseId: acme-manufacturing
     presentationOrder: 3
     domainAudienceLabel: Manufacturing
@@ -113,6 +188,28 @@ featuredEnterprises:
     subscriptionsDisplay: Configured
     providersDisplay: Configured
     securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: THE APPLICATION REQUESTED THE EXPERIENCE. IT DID NOT REQUEST QoD.
+        zeroContextAnswer: Network observation plus the ability to actively restore the required connectivity experience when the network is the limiting factor.
+        myWorld:
+          title: What Acme already knows
+          items:
+            - Inspection workload and production line (MES)
+            - Camera identity and quality context (QMS / Camera control)
+            - Required experience SLO (<40 ms)
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Observed connectivity condition (Connectivity Insights)
+            - QoD capability to change network treatment when needed
+          roles: [OBSERVE, ACT]
+        netawareAx:
+          title: How NetAware AX closes the loop
+          items:
+            - Initially QoD NOT_REQUIRED — network satisfies objective
+            - Objective breach at 78 ms → network is the limiting factor
+            - QoD invoked → network observed again → ASSURED
   - enterpriseId: citycare-health
     presentationOrder: 4
     domainAudienceLabel: Healthcare
@@ -136,6 +233,26 @@ featuredEnterprises:
     subscriptionsDisplay: Configured
     providersDisplay: Configured
     securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: GET THE ASSERTION THE APPLICATION NEEDS, NOT THE IDENTITY DATA IT DOESN'T.
+        zeroContextAnswer: A narrow network/operator age assertion without broader KYC data.
+        myWorld:
+          title: What CityCare already knows
+          items:
+            - Pharmacy transaction context
+            - Required threshold (18+)
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Permitted age assertion (Age Verification)
+          roles: [VERIFY]
+        netawareAx:
+          title: How NetAware AX selects minimum capability
+          items:
+            - Age Verification is sufficient for the configured purpose
+            - Broader KYC Match blocked by governance
+            - Returns ELIGIBLE — pharmacist owns dispensing
 
 intentExamples:
   assess_network_trust:

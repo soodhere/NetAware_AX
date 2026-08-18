@@ -1,0 +1,74 @@
+# Cadence 6.1 — presentation metadata only. Does not change catalog inclusion or runtime behavior.
+
+networkRoles:
+  OBSERVE:
+    label: Observe
+    summary: Network information the application does not independently have.
+    examples: SIM continuity, device continuity, reachability, roaming, connectivity, location
+  VERIFY:
+    label: Verify
+    summary: Independent network or operator assertions.
+    examples: Number Verification, Age Verification, KYC Match, Location Verification
+  ACT:
+    label: Act
+    summary: Network actions that can change conditions to help achieve the outcome.
+    examples: Quality on Demand, QoS Provisioning
+
+familyPresentation:
+  number-verification:
+    networkRole: VERIFY
+    applicationValue: Confirms the subscriber line in possession without exposing unrelated identity data.
+  sim-swap:
+    networkRole: OBSERVE
+    applicationValue: Adds independent SIM continuity evidence the bank or airline systems do not hold.
+  device-swap:
+    networkRole: OBSERVE
+    applicationValue: Adds independent device continuity evidence beyond application login context.
+  device-identifier:
+    networkRole: OBSERVE
+    applicationValue: Resolves a stable device reference from the network when the application only knows a phone number.
+  number-recycling:
+    networkRole: OBSERVE
+    applicationValue: Indicates whether the number was recently reassigned — context the enterprise cannot see alone.
+  kyc-match:
+    networkRole: VERIFY
+    applicationValue: Operator attribute match when broader KYC is unnecessary or blocked by governance.
+  age-verification:
+    networkRole: VERIFY
+    applicationValue: A narrow age assertion without broader identity fields.
+  location:
+    networkRole: VERIFY
+    applicationValue: Independent network/operator location assertion — not enterprise scan location.
+  reachability:
+    networkRole: OBSERVE
+    applicationValue: Whether the operational device is reachable on the network right now.
+  roaming:
+    networkRole: OBSERVE
+    applicationValue: Roaming context the enterprise application does not independently know.
+  connectivity-insights:
+    networkRole: OBSERVE
+    applicationValue: Observed connectivity condition — not baggage position or MES workload.
+  quality-on-demand:
+    networkRole: ACT
+    applicationValue: Can actively improve network treatment when the network is the limiting factor.
+  edge-discovery:
+    networkRole: OBSERVE
+    applicationValue: Edge placement context to complement application-side orchestration.
+
+capabilityNetworkRole:
+  number_possession_verification: VERIFY
+  sim_continuity: OBSERVE
+  device_continuity: OBSERVE
+  device_identifier: OBSERVE
+  number_recycling: OBSERVE
+  kyc_match: VERIFY
+  age_verification: VERIFY
+  roaming_status: OBSERVE
+  location_verification: VERIFY
+  location_retrieval: OBSERVE
+  geofencing: OBSERVE
+  device_reachability: OBSERVE
+  connectivity_insights: OBSERVE
+  application_profiles: OBSERVE
+  quality_on_demand: ACT
+  edge_discovery: OBSERVE

@@ -14,6 +14,7 @@ from .explore_meta import (
     live_link_for_intent,
 )
 from .graph import KnowledgeGraph
+from .presentation import enrich_family_for_ui, enrich_operation_record, network_roles
 from .model import ConfigStore
 from .registry import CatalogRegistry
 
@@ -206,22 +207,49 @@ def enrich_catalog_api(store: ConfigStore, graph: KnowledgeGraph, registry: Cata
     for op in body.get("operations") or []:
         op_id = str(op.get("operation_id"))
         ops.append(
-            {
-                **op,
-                "liveHint": OPERATION_LIVE_HINTS.get(op_id),
-                "routes": _routes_for_operation(store, op_id),
-            }
+            enrich_operation_record(
+                {
+                    **op,
+                    "liveHint": OPERATION_LIVE_HINTS.get(op_id),
+                    "routes": _routes_for_operation(store, op_id),
+                }
+            )
         )
     live_refs = []
     for intent in body.get("intents") or []:
         link = live_link_for_intent(str(intent.get("id")))
         if link:
             live_refs.append(link)
-    return {**body, "operations": ops, "liveReferences": live_refs}
+    api = body.get("api") or {}
+    if api:
+        body["api"] = enrich_family_for_ui(api)
+    enriched_specs = [enrich_operation_record(v) for v in body.get("catalogVariants") or []]
+    return {
+        **body,
+        "operations": ops,
+        "catalogVariants": enriched_specs if enriched_specs else body.get("catalogVariants"),
+        "liveReferences": live_refs,
+        "networkRoles": network_roles(),
+        "netawareBusinessStatus": (body.get("api") or {}).get("netawareBusinessStatus"),
+        "camaraApiVersion": (body.get("api") or {}).get("camaraApiVersion"),
+        "apiVersionMaturity": (body.get("api") or {}).get("apiVersionMaturity"),
+        "camaraProjectLifecycle": (body.get("api") or {}).get("camaraProjectLifecycle"),
+    }
 
 
 def enrich_operation(store: ConfigStore, graph: KnowledgeGraph, operation_id: str) -> dict[str, Any]:
     body = graph.reverse_operation(operation_id)
+    variants = [
+        enrich_operation_record({**variant, "operation_id": operation_id})
+        for variant in body.get("catalogVariants") or []
+    ]
+    if variants:
+        body["catalogVariants"] = variants
+        lead = variants[0]
+        body["camaraApiVersion"] = lead.get("camaraApiVersion")
+        body["apiVersionMaturity"] = lead.get("apiVersionMaturity")
+        body["camaraProjectLifecycle"] = lead.get("camaraProjectLifecycle")
+        body["netawareBusinessStatus"] = lead.get("business_status")
     body["liveHint"] = OPERATION_LIVE_HINTS.get(operation_id)
     body["routes"] = _routes_for_operation(store, operation_id)
     provider_ids = _providers_for_operation(store, operation_id)

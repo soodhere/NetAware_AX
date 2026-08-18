@@ -1,6 +1,6 @@
 # AX FAQ
 
-Accurate to the NetAware AX prototype (Cadence 6). Not production claims.
+Accurate to the NetAware AX prototype (Cadence 6.1). Not production claims.
 
 ## What is AX?
 
@@ -72,7 +72,21 @@ Maps required capabilities to available operations on the selected network/provi
 
 ## Why are some CAMARA APIs experimental?
 
-**CAMARA maturity** is metadata. **Business status** (CURRENT_FOCUS) is separate. Experimental specs can still be current-focus for the demo catalog.
+**NetAware business status** (CURRENT_FOCUS) is separate from **API version maturity** and from **CAMARA project lifecycle**.
+
+- **CURRENT_FOCUS** means NetAware selected the family for the practical AX catalog.
+- **API version maturity** (e.g. STABLE PUBLIC, INITIAL / PRE-STABLE, EXPERIMENTAL) comes from the pinned CAMARA version and source path.
+- **CAMARA project lifecycle** (e.g. Incubating, Experimental repository) describes the sub-project/repository — not whether a released version such as SIM Swap 2.1.0 is usable.
+
+The UI shows these dimensions separately so a stable public API is not labelled experimental merely because its CAMARA project is Incubating.
+
+## What does CAMARA Incubating mean?
+
+It refers to the **CAMARA project/repository lifecycle** under CAMARA governance — not the maturity of a particular API version. SIM Swap 2.1.0 can be a stable public specification while the maintaining project is still Incubating.
+
+## Are the APIs in this demo experimental?
+
+The active catalog contains APIs at **different version maturity levels**. Initial/pre-stable (0.x) and experimental-repository specs are labelled honestly. Stable public major versions (e.g. 2.1.0, 1.1.0) are not presented as experimental because their repository lifecycle is Incubating. Check **API version maturity** on each family; use **CAMARA project lifecycle** only in technical drill-down.
 
 ## Does NetAware make the final fraud/business decision?
 

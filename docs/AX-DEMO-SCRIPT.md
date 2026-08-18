@@ -32,7 +32,7 @@ After 5-minute flow:
 - **High Flight** — Plan v1/v2, hybrid routes, autonomy ACT_WITH_APPROVAL.
 - **Acme** — conditionChange, verification getSession.
 - **CityCare** — minimum capability selection, dataUsed AGE_ASSERTION_ONLY.
-- **Explorer** — reverse from `checkSimSwap`, `createSession`, `verifyLocation`, `verifyAge`.
+- **Explorer** — reverse from `checkSimSwap`, `createSession`, `verifyLocation`, `verifyAge`. If asked about Incubating: it is CAMARA **project lifecycle**, not API-version maturity. SIM Swap 2.1.0 is a stable public API.
 - **Providers / Routes** — DIRECT vs AGGREGATED vs HYBRID.
 - **Evidence reuse** (secondary) — Rocket Bank recovery after trust; EVIDENCE_REUSED, zero invocations.
 

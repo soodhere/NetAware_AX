@@ -28,6 +28,39 @@ export default function Home() {
       </p>
       <p className="lede">{product.support}</p>
 
+      {(demo?.networkValueFraming?.headline || product.intentDefinition) && (
+        <div className="banner intent-def">
+          {demo?.networkValueFraming?.headline ||
+            "Your application stays in its domain. Network APIs add what it cannot see, verify, or act on itself."}
+        </div>
+      )}
+
+      <section className="section value-framing compact-home">
+        <div className="value-ladder">
+          <article className="panel domain-lane">
+            <p className="kicker">My world</p>
+            <p className="tiny">
+              {demo?.networkValueFraming?.applicationLayer ||
+                "Your application / domain APIs tell NetAware what is happening in the business."}
+            </p>
+          </article>
+          <article className="panel network-lane">
+            <p className="kicker">Network adds</p>
+            <p className="tiny">
+              {demo?.networkValueFraming?.networkLayer ||
+                "Network APIs provide information, verification or actions the application does not have."}
+            </p>
+          </article>
+          <article className="panel ax-lane">
+            <p className="kicker">NetAware AX</p>
+            <p className="tiny">
+              {demo?.networkValueFraming?.axLayer ||
+                "NetAware decides when complementary network capabilities can materially help achieve the Intent."}
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section className="eq" aria-label="Product equation">
         <article>
           <span>Your world</span>

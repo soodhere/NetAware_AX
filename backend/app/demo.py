@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Any
 
 from .graph import KnowledgeGraph
+from .presentation import capability_network_role, enrich_family_for_ui, network_roles, value_clarity_for
 from .model import ConfigStore
 from .registry import CatalogRegistry
 
@@ -18,17 +19,22 @@ def _family_for_capability(registry: CatalogRegistry, capability_id: str) -> dic
 
 
 def _compact_family(fam: dict[str, Any]) -> dict[str, Any]:
+    enriched = enrich_family_for_ui(fam)
     specs = fam.get("technicalSpecs") or []
     maturities = list(dict.fromkeys(str(s.get("specMaturity")) for s in specs if s.get("specMaturity")))
     return {
-        "id": fam.get("id"),
-        "label": fam.get("label"),
-        "businessStatus": fam.get("businessStatus"),
-        "familyGroup": fam.get("familyGroup"),
+        "id": enriched.get("id"),
+        "label": enriched.get("label"),
+        "businessStatus": enriched.get("businessStatus"),
+        "netawareBusinessStatus": enriched.get("netawareBusinessStatus"),
+        "familyGroup": enriched.get("familyGroup"),
         "specMaturity": maturities,
-        "honesty": fam.get("honesty"),
-        "distinction": fam.get("distinction"),
-        "note": fam.get("note"),
+        "camaraApiVersion": enriched.get("camaraApiVersion"),
+        "apiVersionMaturity": enriched.get("apiVersionMaturity"),
+        "camaraProjectLifecycle": enriched.get("camaraProjectLifecycle"),
+        "honesty": enriched.get("honesty"),
+        "distinction": enriched.get("distinction"),
+        "note": enriched.get("note"),
     }
 
 
@@ -56,6 +62,7 @@ def featured_row(store: ConfigStore, row: dict[str, Any]) -> dict[str, Any]:
         "domainAudienceLabel": row.get("domainAudienceLabel"),
         "heroUseCaseId": row.get("heroUseCaseId"),
         "heroCard": row.get("heroCard") or {},
+        "valueClarity": row.get("valueClarity") or {},
         "secondaryDemo": row.get("secondaryDemo"),
         "presentationOrder": row.get("presentationOrder"),
         "useCases": use_cases,
@@ -228,6 +235,7 @@ def briefing(
                 "id": cap_id,
                 "label": cap.get("label"),
                 "role": cap_block.get("role"),
+                "networkRole": capability_network_role(cap_id),
                 "evidence": cap_block.get("evidence"),
                 "relevance": "POTENTIALLY_RELEVANT",
                 "invoked": None,
@@ -307,6 +315,9 @@ def briefing(
                 else "Potentially relevant from configuration. Not invoked in this briefing."
             ),
         },
+        "networkValueFraming": (store.demo or {}).get("networkValueFraming") or {},
+        "networkRoles": network_roles(),
+        "valueClarity": value_clarity_for(featured, use_case_id),
     }
 
 
@@ -315,6 +326,8 @@ def demo_index(store: ConfigStore) -> dict[str, Any]:
     featured = [featured_row(store, row) for row in (store.demo or {}).get("featuredEnterprises") or []]
     return {
         "product": product,
+        "networkValueFraming": (store.demo or {}).get("networkValueFraming") or {},
+        "networkRoles": network_roles(),
         "honesty": (store.demo or {}).get("honesty") or {},
         "featured": featured,
         "executionEngine": False,

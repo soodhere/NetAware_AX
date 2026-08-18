@@ -31,3 +31,16 @@ export function maturityTone(value) {
   if (v === "stable") return "ok";
   return "";
 }
+
+export function apiVersionMaturityTone(value) {
+  const v = String(value || "").toUpperCase();
+  if (v.includes("EXPERIMENTAL")) return "warn";
+  if (v.includes("INITIAL") || v.includes("PRE-STABLE")) return "accent";
+  if (v.includes("STABLE")) return "ok";
+  return "";
+}
+
+export function formatList(value) {
+  if (Array.isArray(value)) return value.filter(Boolean).join(" · ");
+  return value || "";
+}

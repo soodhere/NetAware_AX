@@ -23,6 +23,7 @@ export default function AxLoop({ steps, activeIndex = -1, compact = false }) {
 export function HeroDemoCard({ row, hrefFn }) {
   const ent = row.enterprise || {};
   const hero = row.heroCard || {};
+  const vc = row.valueClarity?.hero || row.valueClarity || {};
   const ucId = row.heroUseCaseId;
   const to = hrefFn ? hrefFn(`/demo/${ent.id}/${ucId}`) : `#/demo/${ent.id}/${ucId}`;
   return (
@@ -30,6 +31,7 @@ export function HeroDemoCard({ row, hrefFn }) {
       <p className="kicker">{row.domainAudienceLabel}</p>
       <h2>{ent.label}</h2>
       <p className="hero-problem">{hero.businessProblem}</p>
+      {vc.zeroContextAnswer ? <p className="tiny network-add-line">Network adds · {vc.zeroContextAnswer}</p> : null}
       <dl className="hero-meta">
         <dt>Intent</dt>
         <dd>
