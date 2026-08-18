@@ -1,0 +1,118 @@
+# Cadence 9 — one Intent, three deterministic access / provider seeds.
+# Same application, same claimed MSISDN. Path selection is NetAware's job.
+# Application does not request NV1, NV2, TS.43, ECS, or a CAMARA operationId.
+
+scenario:
+  id: rocket-bank-nv
+  executableIntent: verify_mobile_number
+  enterpriseId: rocket-bank
+  applicationId: rocket-bank-iam
+  agentId: iam-sign-in-agent
+  useCaseId: passwordless-mobile-sign-in
+  policyId: rocket-bank-iam-policy
+  defaultVariant: cellular-nv1
+  variants:
+    cellular-nv1:
+      label: CELLULAR
+      accessType: CELLULAR
+      accessTypeSource: RUNTIME_CLIENT_CONTEXT
+      selectedProviderId: simulated-operator-a
+      providerAudienceLabel: Network Provider A
+      correlation:
+        intentId: verify_mobile_number
+        executionId: ax-rb-nv-cellular
+        traceId: ax-rb-nv-cellular-trace
+        correlationId: RB-NV-CELL-ax
+      telcoFinder:
+        neededBecause: Subject is a phone number. Telco Finder names the home/serving operator. It does not determine Wi-Fi vs cellular.
+        input: "+1••••••0198"
+        result:
+          network: Network Provider A
+          providerId: simulated-operator-a
+          homeNetwork: true
+          region: CA
+          simulated: true
+        doesNotDetermineAccessType: true
+      technicalPrerequisites:
+        ts43ClientAvailable: true
+        simAvailable: true
+        operatorTokenAvailable: false
+        tokenPathState: NETWORK_BASED
+      simulatedResponses:
+        phoneNumberVerify:
+          httpStatus: 200
+          latencyMs: 38
+          raw:
+            devicePhoneNumberVerified: true
+          evidence:
+            type: NUMBER_POSSESSION
+            status: verified
+    wifi-nv2:
+      label: WI-FI — READY
+      accessType: WIFI
+      accessTypeSource: RUNTIME_CLIENT_CONTEXT
+      selectedProviderId: simulated-operator-a
+      providerAudienceLabel: Network Provider A
+      correlation:
+        intentId: verify_mobile_number
+        executionId: ax-rb-nv-wifi
+        traceId: ax-rb-nv-wifi-trace
+        correlationId: RB-NV-WIFI-ax
+      telcoFinder:
+        neededBecause: Same MSISDN. Telco Finder still names the operator. Access type remains runtime client context.
+        input: "+1••••••0198"
+        result:
+          network: Network Provider A
+          providerId: simulated-operator-a
+          homeNetwork: true
+          region: CA
+          simulated: true
+        doesNotDetermineAccessType: true
+      technicalPrerequisites:
+        ts43ClientAvailable: true
+        simAvailable: true
+        operatorTokenAvailable: true
+        tokenPathState: OPERATOR_TOKEN
+      simulatedResponses:
+        phoneNumberVerify:
+          httpStatus: 200
+          latencyMs: 54
+          raw:
+            devicePhoneNumberVerified: true
+          evidence:
+            type: NUMBER_POSSESSION
+            status: verified
+    wifi-ecs-gap:
+      label: WI-FI — ECS GAP
+      accessType: WIFI
+      accessTypeSource: RUNTIME_CLIENT_CONTEXT
+      selectedProviderId: simulated-operator-b
+      providerAudienceLabel: Network Provider B
+      correlation:
+        intentId: verify_mobile_number
+        executionId: ax-rb-nv-ecs-gap
+        traceId: ax-rb-nv-ecs-gap-trace
+        correlationId: RB-NV-ECS-ax
+      telcoFinder:
+        neededBecause: Deterministic seed resolves this MSISDN to Network Provider B. Access type is still Wi-Fi from runtime context, not from Telco Finder.
+        input: "+1••••••0198"
+        result:
+          network: Network Provider B
+          providerId: simulated-operator-b
+          homeNetwork: true
+          region: CA
+          simulated: true
+        doesNotDetermineAccessType: true
+      technicalPrerequisites:
+        ts43ClientAvailable: true
+        simAvailable: true
+        operatorTokenAvailable: false
+        tokenPathState: UNAVAILABLE
+      simulatedResponses: {}
+  request:
+    intent: verify_mobile_number
+    subject:
+      phoneNumber: "+1••••••0198"
+    context:
+      businessEvent: CUSTOMER_SIGNING_IN
+      claimedMsisdn: true

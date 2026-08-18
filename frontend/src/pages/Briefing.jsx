@@ -18,6 +18,7 @@ function NetworkRolePill({ role, rolesMeta }) {
 
 const RUNNABLE = new Set([
   "rocket-bank/high-value-payment-protection",
+  "rocket-bank/passwordless-mobile-sign-in",
   "high-flight-airlines/baggage-connection",
   "acme-manufacturing/critical-inspection-camera",
   "citycare-health/pharmacy-age-gate",

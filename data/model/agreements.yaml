@@ -3,7 +3,7 @@ agreements:
     label: Rocket Bank DPA configuration
     enterpriseId: rocket-bank
     kind: DPA
-    permittedPurposes: [payment_fraud_assist]
+    permittedPurposes: [payment_fraud_assist, identity_continuity_assist, mobile_number_authentication]
     permittedRegions: [CA]
     dataResidency: CA
     note: Configured agreement, not a universal legal conclusion.

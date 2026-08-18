@@ -8,6 +8,13 @@ agents:
     allowedIntents: [assess_network_trust, assess_recovery_continuity]
     identityModel: simulated_placeholder
     note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: iam-sign-in-agent
+    label: Sign-in Agent
+    actsOnBehalfOf: rocket-bank-iam
+    enterpriseId: rocket-bank
+    allowedIntents: [verify_mobile_number]
+    identityModel: simulated_placeholder
+    note: Same enterprise, different application. Does not request NV1/NV2 or a CAMARA operationId.
   - id: baggage-operations-agent
     label: Baggage Operations Agent
     actsOnBehalfOf: high-flight-baggage-operations

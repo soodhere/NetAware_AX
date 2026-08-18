@@ -66,7 +66,10 @@ def check_health() -> None:
             fail("explorerProductSurface flag missing")
         else:
             ok("explorer product surface flag")
-        if len(h.get("executableIntents") or []) != 5:
+        n = len(h.get("executableIntents") or [])
+        if n == 6 and "verify_mobile_number" in (h.get("executableIntents") or []):
+            ok("six executable intents (Cadence 9 Number Verification)")
+        elif n != 5:
             fail(f"expected 5 executable intents: {h.get('executableIntents')}")
         else:
             ok("five executable intents")

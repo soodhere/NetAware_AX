@@ -3,6 +3,16 @@ import { api, apiPost, apiVersionMaturityTone, href } from "../api.js";
 import { LENS_EVENT, LensToggle, readLens, writeLens } from "../lens.jsx";
 import AxLoop from "../components/AxLoop.jsx";
 import DiscoveryView, { OutcomeView } from "./Discovery.jsx";
+import {
+  NetworkOpportunity,
+  NvClose,
+  NvFinderStrip,
+  NvHonesty,
+  NvIntentPin,
+  NvPathVisual,
+  NvPathVsOperation,
+  NvVariantBar,
+} from "./NvPath.jsx";
 
 const SCENARIOS = {
   "high-flight-airlines/baggage-connection": {
@@ -18,6 +28,21 @@ const SCENARIOS = {
       context: { priority: "high" },
     },
     enterpriseLabel: "High Flight Airlines",
+  },
+  "rocket-bank/passwordless-mobile-sign-in": {
+    kicker: "Rocket Bank · Digital Identity / IAM",
+    title: "Passwordless mobile sign-in",
+    nv: true,
+    lede:
+      "Same application. Same Intent. Cellular or Wi-Fi. NetAware selects the Number Verification path that can actually serve it.",
+    briefingHref: "/demo/rocket-bank/passwordless-mobile-sign-in",
+    closeHref: "/close",
+    request: {
+      intent: "verify_mobile_number",
+      subject: { phoneNumber: "+1••••••0198" },
+      context: { nvVariant: "cellular-nv1", accessType: "CELLULAR", claimedMsisdn: true, businessEvent: "CUSTOMER_SIGNING_IN" },
+    },
+    enterpriseLabel: "Rocket Bank",
   },
   "rocket-bank/high-value-payment-protection": {
     kicker: "Rocket Bank · Payments Risk",
@@ -141,6 +166,7 @@ export default function Runtime({ enterpriseId, useCaseId }) {
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("overview");
   const [lens, setLens] = useState(readLens);
+  const [nvVariant, setNvVariant] = useState("cellular-nv1");
   const [beatN, setBeatN] = useState(0);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -189,6 +215,14 @@ export default function Runtime({ enterpriseId, useCaseId }) {
     if (!ids.includes(tab)) setTab("discovery");
   }, [lens, tab]);
 
+  useEffect(() => {
+    if (scenario?.nv) {
+      run("cellular-nv1");
+    }
+    // Variant changes re-run via selectNvVariant. Lens switch must not re-run.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
   const changeLens = (next) => {
     writeLens(next);
     setLens(next);
@@ -224,7 +258,18 @@ export default function Runtime({ enterpriseId, useCaseId }) {
     startTimer(payload, fromMs);
   };
 
-  const run = async () => {
+  const nvRequest = (variantId) => ({
+    intent: "verify_mobile_number",
+    subject: { phoneNumber: "+1••••••0198" },
+    context: {
+      nvVariant: variantId,
+      accessType: variantId === "cellular-nv1" ? "CELLULAR" : "WIFI",
+      claimedMsisdn: true,
+      businessEvent: "CUSTOMER_SIGNING_IN",
+    },
+  });
+
+  const run = async (nextVariant) => {
     setBusy(true);
     setError("");
     try {
@@ -236,13 +281,20 @@ export default function Runtime({ enterpriseId, useCaseId }) {
           context: { amount: 25000, currency: "USD" },
         });
       }
-      play(await apiPost("/intents", scenario.request));
+      const variantId = nextVariant || nvVariant;
+      const body = scenario.nv ? nvRequest(variantId) : scenario.request;
+      play(await apiPost("/intents", body));
       setTab(readLens() === "BASIC" ? "discovery" : "overview");
     } catch (e) {
       setError(String(e.message || e));
     } finally {
       setBusy(false);
     }
+  };
+
+  const selectNvVariant = (id) => {
+    setNvVariant(id);
+    run(id);
   };
 
   const replay = () => {
@@ -301,6 +353,8 @@ export default function Runtime({ enterpriseId, useCaseId }) {
         <span>{scenario.title}</span>
       </h1>
       <p className="lede">{scenario.lede}</p>
+      {scenario.nv ? <NvIntentPin trace={trace} /> : null}
+      {scenario.nv ? <NvVariantBar variantId={nvVariant} onChange={selectNvVariant} disabled={busy} /> : null}
       {valueClarity?.headline ? <p className="lede value-headline">{valueClarity.headline}</p> : null}
       <AxLoop compact activeIndex={done ? 7 : Math.min(Math.floor(beatN / 3), 7)} />
 
@@ -403,13 +457,27 @@ export default function Runtime({ enterpriseId, useCaseId }) {
               }}
             />
           ) : null}
-          {tab === "outcome" ? <OutcomeView trace={trace} /> : null}
+          {tab === "outcome" ? (
+            <>
+              <OutcomeView trace={trace} />
+              {scenario.nv ? (
+                <>
+                  <NetworkOpportunity trace={trace} />
+                  <NvClose trace={trace} />
+                </>
+              ) : null}
+            </>
+          ) : null}
           {tab === "flow" ? <LiveFlow beats={visibleBeats} activeLane={activeLane} lanes={lanes} /> : null}
           {tab === "decisions" ? <Decisions rows={trace.decisions} trace={trace} /> : null}
           {tab === "apis" ? <Apis rows={visibleInvocations} evidence={trace.evidence} /> : null}
           {tab === "policy" ? <Policy trace={trace} /> : null}
 
-          {done && scenario.closeHref ? (
+          {done && scenario.nv ? (
+            <div className="section">
+              <NvClose trace={trace} />
+            </div>
+          ) : done && scenario.closeHref ? (
             <p className="section tiny">
               <a href={href(scenario.closeHref)}>Continue to product close →</a>
             </p>
@@ -499,6 +567,14 @@ function Overview({ trace, done, scenario, decisions, lens }) {
 
   return (
     <div>
+      {scenario.nv ? (
+        <div className="section">
+          <NvPathVisual trace={trace} />
+          <NvFinderStrip trace={trace} />
+          <NvPathVsOperation trace={trace} lens={lens} />
+          <NvHonesty trace={trace} />
+        </div>
+      ) : null}
       {done ? (
         <section className="contribution-strip section">
           <article className="inset domain-lane">
@@ -552,6 +628,8 @@ function Overview({ trace, done, scenario, decisions, lens }) {
           </article>
         </section>
       ) : null}
+
+      {scenario.nv && done ? <NetworkOpportunity trace={trace} /> : null}
 
       <section className="grid-2 section">
         <article className="panel">

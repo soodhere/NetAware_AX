@@ -19,6 +19,15 @@ operators:
       supportsOperatorToken: true
     note: Configured demo readiness. Not a live ECS probe.
 
+  - providerId: simulated-operator-b
+    kind: operator
+    nv1Supported: true
+    nv2Supported: true
+    entitlementServer:
+      available: UNAVAILABLE
+      supportsOperatorToken: false
+    note: Number Verification API is advertised. Entitlement Server is unavailable. Cadence 9 Wi-Fi ECS-gap seed. Configured operator readiness, not a live ECS probe.
+
   - providerId: simulated-aggregator-b
     kind: aggregator
     nv1Supported: true
@@ -37,7 +46,6 @@ operators:
       supportsOperatorToken: false
 
 runtimePrerequisites:
-  # Populated by future scenario seeds (Cadence 9). Not evaluated in Cadence 7 runtime.
   fields:
     - ts43.clientAvailable
     - simAvailable
@@ -52,5 +60,5 @@ futureEcsUnavailableSeed:
   entitlementServer:
     available: UNAVAILABLE
     supportsOperatorToken: false
-  usedBy: Cadence 9 Wi-Fi + ECS unavailable path
-  executableNow: false
+  usedBy: Cadence 9 alternate overlay. Live Wi-Fi ECS-gap variant uses Network Provider B (simulated-operator-b) so API Finder still shows Number Verification available.
+  executableNow: true

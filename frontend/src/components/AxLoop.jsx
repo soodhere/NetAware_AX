@@ -29,7 +29,7 @@ export function HeroDemoCard({ row, hrefFn }) {
   return (
     <a className="hero-demo-card" href={to}>
       <p className="kicker">{row.domainAudienceLabel}</p>
-      <h2>{ent.label}</h2>
+      <h2>{hero.cardTitle || ent.label}</h2>
       <p className="hero-problem">{hero.businessProblem}</p>
       {vc.zeroContextAnswer ? <p className="tiny network-add-line">Network adds · {vc.zeroContextAnswer}</p> : null}
       <dl className="hero-meta">

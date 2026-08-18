@@ -1,4 +1,5 @@
 import { href } from "../api.js";
+import { NetworkOpportunity, NvFinderStrip, NvHonesty, NvPathVisual, NvPathVsOperation } from "./NvPath.jsx";
 
 function Pill({ children, tone }) {
   return <span className={`pill ${tone || ""}`.trim()}>{children}</span>;
@@ -6,7 +7,7 @@ function Pill({ children, tone }) {
 
 function resultTone(code) {
   if (["SELECTED", "EVIDENCE_REUSED"].includes(code)) return "ok";
-  if (["CONSENT_MISSING", "AGREEMENT_GAP", "NOT_ENTITLED", "NOT_SUBSCRIBED"].includes(code)) return "warn";
+  if (["CONSENT_MISSING", "AGREEMENT_GAP", "NOT_ENTITLED", "NOT_SUBSCRIBED", "ACCESS_TYPE_INCOMPATIBLE", "ENTITLEMENT_SERVER_UNAVAILABLE"].includes(code)) return "warn";
   return "muted";
 }
 
@@ -34,7 +35,11 @@ export default function DiscoveryView({ trace, lens, onOpenAdvanced }) {
       </p>
 
       {basic ? (
-        <BasicPipeline trace={trace} summary={summary} pipeline={pipeline} onOpenAdvanced={onOpenAdvanced} />
+        summary.nvStory ? (
+          <NvBasicDiscovery trace={trace} summary={summary} pipeline={pipeline} onOpenAdvanced={onOpenAdvanced} />
+        ) : (
+          <BasicPipeline trace={trace} summary={summary} pipeline={pipeline} onOpenAdvanced={onOpenAdvanced} />
+        )
       ) : (
         <AdvancedDiscovery
           trace={trace}
@@ -43,7 +48,86 @@ export default function DiscoveryView({ trace, lens, onOpenAdvanced }) {
           finders={finders}
         />
       )}
+          summary={summary}
+          matrix={matrix}
+          finders={finders}
+        />
+      )}
     </section>
+  );
+}
+
+function NvBasicDiscovery({ trace, summary, pipeline, onOpenAdvanced }) {
+  const outcome = trace.outcome || {};
+  const selected = summary.selected || [];
+  const filtered = (summary.filtered || []).filter((row) =>
+    ["ACCESS_TYPE_INCOMPATIBLE", "ENTITLEMENT_SERVER_UNAVAILABLE", "NOT_REQUIRED"].includes(row.reasonCode)
+  );
+  return (
+    <div>
+      <NvPathVisual trace={trace} />
+      <NvHonesty trace={trace} />
+      <ol className="discovery-pipeline nv-basic-pipe">
+        {(pipeline || []).map((step, idx) => (
+          <li key={step.label}>
+            {idx ? (
+              <div className="pipeline-arrow" aria-hidden="true">
+                ↓
+              </div>
+            ) : null}
+            <div className="pipeline-step">
+              <span>{step.label}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <NvFinderStrip trace={trace} />
+      <div className="grid-2 section">
+        <article className="panel">
+          <h3>What was filtered</h3>
+          {filtered.length ? (
+            <ul className="list compact">
+              {filtered.map((row) => (
+                <li key={`${row.label}-${row.reasonCode}`}>
+                  <strong>{row.label}</strong>
+                  <span className="tiny"> — {row.humanReason}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="tiny">NV1 not required on cellular — simplest feasible path selected.</p>
+          )}
+        </article>
+        <article className="panel">
+          <h3>What NetAware selected</h3>
+          {selected.length ? (
+            <ul className="list compact">
+              {selected.map((row) => (
+                <li key={`${row.label}-${row.action}`}>
+                  <strong>{row.label}</strong>
+                  <span className="tiny"> · {row.operationId || row.label}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="tiny">No feasible Number Verification path — capability unavailable.</p>
+          )}
+        </article>
+      </div>
+      <article className={`panel outcome ${outcome.outcome === "VERIFIED" ? "ready" : "gap"}`}>
+        <h3>Number Verification outcome</h3>
+        <p className="kicker">{outcome.outcome}</p>
+        <p className="plus-line">{outcome.summary}</p>
+      </article>
+      <NetworkOpportunity trace={trace} />
+      {onOpenAdvanced ? (
+        <p className="tiny section">
+          <button type="button" className="nav-link" onClick={onOpenAdvanced}>
+            Path vs operation and candidate matrix (Advanced)
+          </button>
+        </p>
+      ) : null}
+    </div>
   );
 }
 
@@ -221,6 +305,7 @@ function AdvancedDiscovery({ trace, summary, matrix, finders }) {
         </article>
       </section>
 
+      <NvPathVsOperation trace={trace} lens="ADVANCED" />
       <article className="panel section">
         <h3>Candidate matrix</h3>
         <p className="tiny">Same trace as Basic. Subscription and entitlement are separate checks.</p>
@@ -313,6 +398,12 @@ function FinderBlock({ title, source, body }) {
 function columnHasSignal(id, rows) {
   if (["relevance", "subscription", "entitlement", "result", "telcoFinder", "apiFinder", "provider", "route"].includes(id)) {
     return true;
+  }
+  if (["accessType", "operatorNv1", "operatorNv2", "entitlementServer", "ts43Client", "simAvailable", "tokenPath", "pathResult", "operationResult"].includes(id)) {
+    return rows.some((row) => {
+      const value = cellValue(id, row);
+      return value && value !== "—";
+    });
   }
   return rows.some((row) => {
     const value = cellValue(id, row);

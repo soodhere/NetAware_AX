@@ -1,9 +1,9 @@
 # Cadence 7 — Number Verification path vs operation model.
-# Not executed at runtime. Live NV1/NV2 scenarios are Cadence 9.
+# Cadence 9 executes path selection. Catalog operations are unchanged.
 
 model:
   cadence: 7
-  executable: false
+  executable: true
   principle: Path and operation are orthogonal. Do not claim NV1 = verify or NV2 = share.
 
 accessTypes:

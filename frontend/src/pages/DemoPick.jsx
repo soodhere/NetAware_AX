@@ -28,10 +28,10 @@ export default function DemoPick({ enterpriseId }) {
         </p>
         <section className="grid-2 section hero-grid">
           {(data.featured || []).map((row) => (
-            <HeroDemoCard key={row.enterprise?.id || row.id} row={row} hrefFn={href} />
+            <HeroDemoCard key={row.storyId || row.heroUseCaseId || row.enterprise?.id} row={row} hrefFn={href} />
           ))}
         </section>
-        <p className="tiny">Recommended order: Rocket Bank → Acme → CityCare → High Flight.</p>
+        <p className="tiny">Recommended order: Number Verification → Rocket Bank → Acme → CityCare → High Flight.</p>
       </div>
     );
   }

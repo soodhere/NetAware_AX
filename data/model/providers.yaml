@@ -1,5 +1,6 @@
 providers:
   - { id: simulated-operator-a, label: Simulated Operator A, audienceLabel: Network Provider A, kind: operator, simulated: true }
+  - { id: simulated-operator-b, label: Simulated Operator B, audienceLabel: Network Provider B, kind: operator, simulated: true }
   - { id: simulated-aggregator-b, label: Simulated Aggregator B, audienceLabel: Aggregator A, kind: aggregator, simulated: true }
   - { id: simulated-provider-c, label: Simulated Provider C, audienceLabel: Specialist Provider C, kind: specialist, simulated: true }
 
@@ -17,6 +18,10 @@ providerCapabilities:
       - { operationId: getRoamingStatus, source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml }
       - { operationId: verifyLocation, source: openapi/camara/DeviceLocation__location-verification.yaml }
       - { operationId: KYC_Match, source: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml }
+  - providerId: simulated-operator-b
+    operations:
+      - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml }
+      - { operationId: phoneNumberShare, source: openapi/camara/NumberVerification__number-verification.yaml }
   - providerId: simulated-aggregator-b
     operations:
       - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml }

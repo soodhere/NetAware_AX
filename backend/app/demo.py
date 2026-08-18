@@ -59,6 +59,7 @@ def featured_row(store: ConfigStore, row: dict[str, Any]) -> dict[str, Any]:
     related = [store.use_case_by_id[uid] for uid in row.get("relatedUseCaseIds") or [] if uid in store.use_case_by_id]
     return {
         **card,
+        "storyId": row.get("storyId") or row.get("heroUseCaseId"),
         "domainAudienceLabel": row.get("domainAudienceLabel"),
         "heroUseCaseId": row.get("heroUseCaseId"),
         "heroCard": row.get("heroCard") or {},
@@ -183,9 +184,14 @@ def briefing(
     enterprise_id: str,
     use_case_id: str,
 ) -> dict[str, Any] | None:
+    featured_rows = [row for row in (store.demo or {}).get("featuredEnterprises") or [] if row.get("enterpriseId") == enterprise_id]
     featured = next(
-        (row for row in (store.demo or {}).get("featuredEnterprises") or [] if row.get("enterpriseId") == enterprise_id),
-        None,
+        (
+            row
+            for row in featured_rows
+            if use_case_id == row.get("heroUseCaseId") or use_case_id in (row.get("useCaseIds") or [])
+        ),
+        featured_rows[0] if featured_rows else None,
     )
     if not featured:
         return None
@@ -204,8 +210,16 @@ def briefing(
     intent = intent_wrap.get("intent") or {}
     intent_id = str(intent.get("id") or "")
     enterprise = store.enterprise_by_id[enterprise_id]
-    application = next((a for a in store.applications if a.get("enterpriseId") == enterprise_id), None)
-    agent = next((a for a in store.agents if a.get("enterpriseId") == enterprise_id), None)
+    policy = next(
+        (p for p in store.policies if p.get("intentId") == intent_id and p.get("enterpriseId") == enterprise_id),
+        None,
+    )
+    application = store.application_by_id.get(str((policy or {}).get("applicationId") or "")) or next(
+        (a for a in store.applications if a.get("enterpriseId") == enterprise_id), None
+    )
+    agent = store.agent_by_id.get(str((policy or {}).get("agentId") or "")) or next(
+        (a for a in store.agents if a.get("enterpriseId") == enterprise_id), None
+    )
     domain = store.domain_by_id.get(str(enterprise.get("domainId") or ""))
     purpose = store.purpose_by_id.get(str(intent.get("defaultPurposeId") or ""))
 
@@ -253,6 +267,7 @@ def briefing(
     existing_apis = use_case.get("existingApis") or []
     hero_runnable = {
         ("rocket-bank", "high-value-payment-protection"),
+        ("rocket-bank", "passwordless-mobile-sign-in"),
         ("high-flight-airlines", "baggage-connection"),
         ("acme-manufacturing", "critical-inspection-camera"),
         ("citycare-health", "pharmacy-age-gate"),
@@ -324,7 +339,7 @@ def briefing(
 def demo_index(store: ConfigStore) -> dict[str, Any]:
     product = (store.demo or {}).get("product") or {}
     featured_src = list((store.demo or {}).get("featuredEnterprises") or [])
-    featured_src.sort(key=lambda row: int(row.get("presentationOrder") or 99))
+    featured_src.sort(key=lambda row: int(row["presentationOrder"]) if row.get("presentationOrder") is not None else 99)
     featured = [featured_row(store, row) for row in featured_src]
     return {
         "product": product,

@@ -9,6 +9,7 @@ from fastapi import HTTPException
 from .config import ROOT
 from .graph import KnowledgeGraph
 from .model import ConfigStore
+from .nv_runtime import run_verify_mobile_number
 from .registry import CatalogRegistry
 from .evidence_store import find_reusable, persist_from_trace, reset_store
 from .presentation import enrich_trace_presentation
@@ -30,6 +31,7 @@ EXECUTABLE_INTENTS = {
     "ensure_baggage_connection",
     "maintain_inspection_experience",
     "verify_pharmacy_age_gate",
+    "verify_mobile_number",
 }
 SCENARIO_PATHS: dict[str, Any] = {
     "assess_network_trust": ROOT / "data" / "runtime" / "rocket-bank-trust.yaml",
@@ -37,6 +39,7 @@ SCENARIO_PATHS: dict[str, Any] = {
     "ensure_baggage_connection": ROOT / "data" / "runtime" / "high-flight-baggage.yaml",
     "maintain_inspection_experience": ROOT / "data" / "runtime" / "acme-inspection.yaml",
     "verify_pharmacy_age_gate": ROOT / "data" / "runtime" / "citycare-pharmacy.yaml",
+    "verify_mobile_number": ROOT / "data" / "runtime" / "rocket-bank-nv.yaml",
 }
 
 
@@ -2657,6 +2660,7 @@ _INTENT_RUNNERS: dict[str, Callable[..., ExecutionTrace]] = {
     "ensure_baggage_connection": run_ensure_baggage_connection,
     "maintain_inspection_experience": run_maintain_inspection_experience,
     "verify_pharmacy_age_gate": run_verify_pharmacy_age_gate,
+    "verify_mobile_number": run_verify_mobile_number,
 }
 
 

@@ -9,6 +9,11 @@ intents:
     defaultPurposeId: identity_continuity_assist
     explorerOnly: false
     note: Cadence 5 evidence-reuse companion to assess_network_trust. Not a fifth hero scenario.
+  - id: verify_mobile_number
+    label: Verify this mobile number
+    defaultPurposeId: mobile_number_authentication
+    explorerOnly: false
+    note: Cadence 9 live Intent. Application does not request NV1/NV2/TS.43/ECS/operationId. Path selection is NetAware's job.
   - id: match_customer_kyc
     label: Match customer KYC attributes
     defaultPurposeId: kyc_attribute_match

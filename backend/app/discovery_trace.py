@@ -68,6 +68,15 @@ MATRIX_COLUMNS = [
     {"id": "apiFinder", "label": "API Finder", "group": "RUNTIME_FEASIBILITY"},
     {"id": "provider", "label": "Provider", "group": "RUNTIME_FEASIBILITY"},
     {"id": "route", "label": "Route", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "accessType", "label": "Access type", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "operatorNv1", "label": "Operator NV1 support", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "operatorNv2", "label": "Operator NV2 support", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "entitlementServer", "label": "Entitlement server", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "ts43Client", "label": "TS.43 client", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "simAvailable", "label": "SIM available", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "tokenPath", "label": "Token path", "group": "RUNTIME_FEASIBILITY"},
+    {"id": "pathResult", "label": "Path result", "group": "SELECT"},
+    {"id": "operationResult", "label": "Operation result", "group": "SELECT"},
     {"id": "evidence", "label": "Evidence", "group": "RUNTIME_FEASIBILITY"},
     {"id": "autonomy", "label": "Autonomy", "group": "RUNTIME_FEASIBILITY"},
     {"id": "usefulness", "label": "Usefulness", "group": "RUNTIME_FEASIBILITY"},
@@ -107,6 +116,16 @@ STORY_REASONS: dict[tuple[str, str, str], str] = {
     ("assess_recovery_continuity", "sim_continuity", "EVIDENCE_REUSED"): "SIM continuity evidence found, TTL valid, purpose compatible — reused.",
     ("assess_recovery_continuity", "device_continuity", "EVIDENCE_REUSED"): "Device continuity evidence reused — invocation skipped.",
     ("assess_recovery_continuity", "roaming_status", "EVIDENCE_REUSED"): "Roaming evidence reused — invocation skipped.",
+    ("verify_mobile_number", "number_possession_verification", "SELECTED"): "Number possession selected after path discovery.",
+    ("verify_mobile_number", "number_possession_verification", "ACCESS_TYPE_INCOMPATIBLE"): "NV1 filtered: access type incompatible.",
+    ("verify_mobile_number", "number_possession_verification", "ENTITLEMENT_SERVER_UNAVAILABLE"): "NV2 filtered: entitlement server unavailable.",
+    ("verify_mobile_number", "NV1_NETWORK_BASED", "ACCESS_TYPE_INCOMPATIBLE"): "NV1 needs cellular access. Wi-Fi cannot silently use NV1.",
+    ("verify_mobile_number", "NV1_NETWORK_BASED", "SELECTED"): "NV1 is the simplest feasible path on cellular.",
+    ("verify_mobile_number", "NV2_OPERATOR_TOKEN", "SELECTED"): "NV2 operator-token path selected after NV1 was filtered.",
+    ("verify_mobile_number", "NV2_OPERATOR_TOKEN", "NOT_REQUIRED"): "NV2 may be available, but NV1 is simpler on cellular.",
+    ("verify_mobile_number", "NV2_OPERATOR_TOKEN", "ENTITLEMENT_SERVER_UNAVAILABLE"): "NV2 needs an Entitlement Server that is unavailable.",
+    ("verify_mobile_number", "phoneNumberVerify", "SELECTED"): "Claimed MSISDN present — CAMARA operation is phoneNumberVerify.",
+    ("verify_mobile_number", "phoneNumberShare", "NOT_REQUIRED"): "Share is not NV2. Claimed number uses verify.",
 }
 
 
@@ -175,6 +194,7 @@ def attach_discovery(
                 agent=agent,
                 intent_id=intent_id,
                 moment=moment.get("moment"),
+                path_selection=payload.get("pathSelection") or {},
             )
             events.extend(
                 _events_for_candidate(
@@ -209,6 +229,10 @@ def attach_discovery(
                     "sourceRuntime": "RUNTIME",
                 }
             )
+
+    path_events, path_rows = _path_discovery(payload, fam_lookup=_family_for, registry=registry)
+    events.extend(path_events)
+    matrix_rows.extend(path_rows)
 
     summary = _summary(
         intent_id=intent_id,
@@ -350,9 +374,18 @@ def _moments(intent_id: str, cap_id: str, decisions: list[dict[str, Any]]) -> li
 
 
 def _reason_code(decision: dict[str, Any], pol: dict[str, Any], intent_id: str = "") -> str:
+    stated = str(decision.get("reasonCode") or "")
+    if stated in REASON_CODES:
+        return stated
     state = str(decision.get("state") or "")
     policy_result = str(decision.get("policyResult") or pol.get("result") or "")
     why = str(decision.get("why") or "").lower()
+    if state == "UNAVAILABLE":
+        if "entitlement" in why:
+            return "ENTITLEMENT_SERVER_UNAVAILABLE"
+        if "access" in why:
+            return "ACCESS_TYPE_INCOMPATIBLE"
+        return "OPERATOR_NOT_SUPPORTED"
     if state == "EVIDENCE_REUSED":
         return "EVIDENCE_REUSED"
     if state == "NOT_REQUIRED":
@@ -424,6 +457,7 @@ def _checks(
     agent: dict[str, Any],
     intent_id: str,
     moment: str | None,
+    path_selection: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     relevant = bool(decision.get("relevant", True)) or reason != "NOT_RELEVANT"
     purpose_ok = str(pol.get("purpose") or "") == "permitted"
@@ -436,6 +470,10 @@ def _checks(
     if moment == "AFTER_BREACH" and reason == "SELECTED":
         usefulness = "YES · after objective breach"
     evidence = "REUSED" if reason == "EVIDENCE_REUSED" else ("INVOKED" if reason == "SELECTED" else "NOT_CALLED")
+    ps = path_selection or {}
+    readiness = ps.get("operatorReadiness") or {}
+    prereq = ps.get("technicalPrerequisites") or {}
+    ecs = (readiness.get("entitlementServer") or {}).get("available") if isinstance(readiness.get("entitlementServer"), dict) else readiness.get("entitlementServer")
     return {
         "relevance": "YES" if relevant and reason != "NOT_RELEVANT" else "NO",
         "agentIntent": "AUTHORIZED" if agent else "—",
@@ -450,6 +488,15 @@ def _checks(
         "apiFinder": "AVAILABLE" if available else "NOT_AVAILABLE",
         "provider": provider_label or "—",
         "route": route_display or "—",
+        "accessType": ps.get("accessType") or "—",
+        "operatorNv1": "YES" if readiness.get("nv1Supported") else ("NO" if ps else "—"),
+        "operatorNv2": "YES" if readiness.get("nv2Supported") else ("NO" if ps else "—"),
+        "entitlementServer": ecs or "—",
+        "ts43Client": "YES" if prereq.get("ts43ClientAvailable") else ("NO" if ps else "—"),
+        "simAvailable": "YES" if prereq.get("simAvailable") else ("NO" if ps else "—"),
+        "tokenPath": prereq.get("tokenPathState") or "—",
+        "pathResult": ps.get("selectedPath") or "UNAVAILABLE",
+        "operationResult": ps.get("selectedOperation") or "—",
         "evidence": evidence,
         "autonomy": "ALLOWED",
         "usefulness": usefulness,
@@ -471,14 +518,15 @@ def _event(
     provider: str,
     route: str,
     metadata: dict[str, Any],
+    candidate_type: str = "CAPABILITY",
 ) -> dict[str, Any]:
     return {
         "stage": stage,
-        "candidate": cand["capabilityId"],
-        "candidateType": "CAPABILITY",
-        "capability": cand["capabilityId"],
-        "capabilityLabel": cand["label"],
-        "businessLabel": cand["businessLabel"],
+        "candidate": cand.get("candidate") or cand["capabilityId"],
+        "candidateType": candidate_type,
+        "capability": cand.get("capability") or cand["capabilityId"],
+        "capabilityLabel": cand.get("label") or cand.get("capabilityLabel"),
+        "businessLabel": cand.get("businessLabel") or cand.get("label"),
         "apiFamily": (fam or {}).get("id"),
         "operationId": cand.get("operationId"),
         "result": result,
@@ -717,6 +765,40 @@ def _summary(
     actor = payload.get("actor") or {}
     request = payload.get("request") or {}
     outcome = payload.get("outcome") or {}
+    if intent_id == "verify_mobile_number":
+        ps = payload.get("pathSelection") or {}
+        selected_path = ps.get("selectedPath")
+        pipeline = [
+            {"label": "business need — verify customer's mobile number", "count": 1},
+            {"label": "what network could add — silent number possession", "count": 1},
+            {"label": "eligible — permitted / subscribed / entitled", "count": 1},
+            {"label": "deliverable now — access, operator, NV path, readiness", "count": 1 if selected_path else 0},
+            {"label": f"selected — {selected_path or 'UNAVAILABLE'}", "count": 1 if selected_path else 0},
+        ]
+        layers = [
+            {"id": "need", "title": "Business need", "count": 1, "detail": "Verify customer's mobile number.", "items": ["Verify this mobile number"]},
+            {"id": "couldAdd", "title": "What the network could add", "count": 1, "detail": "Silent number possession verification.", "items": ["Silent number possession verification"]},
+            {"id": "configuration", "title": "Eligible", "count": 1, "detail": "Application permitted / subscribed / entitled."},
+            {
+                "id": "possibleNow",
+                "title": "Deliverable now",
+                "count": 1,
+                "detail": "Access type, operator, Number Verification availability, NV path, operator readiness.",
+                "items": [
+                    f"Access {ps.get('accessType')}",
+                    f"Operator {(ps.get('telcoFinder') or {}).get('provider')}",
+                    f"NV API {'available' if (ps.get('apiFinder') or {}).get('numberVerificationAvailable') else 'unavailable'}",
+                ],
+            },
+            {
+                "id": "selected",
+                "title": "Selected",
+                "count": 1 if selected_path else 0,
+                "detail": selected_path or "UNAVAILABLE",
+                "items": [selected_path or "UNAVAILABLE"],
+            },
+        ]
+
     return {
         "intentId": intent_id,
         "application": (actor.get("application") or {}).get("label"),
@@ -780,7 +862,193 @@ def _summary(
         "eventCount": len(events),
         "candidateCount": len(finals),
         "dynamicUsefulness": _dynamic_usefulness(intent_id, matrix_rows),
+        "nvStory": intent_id == "verify_mobile_number",
+        "pathVsOperation": {
+            "path": "FULFILLMENT PATH — how the subscriber is authenticated / bound",
+            "operation": "CAMARA OPERATION — what the application asks Number Verification to do",
+            "not": "Do not label phoneNumberVerify = NV1 or phoneNumberShare = NV2",
+            "selectedPath": (payload.get("pathSelection") or {}).get("selectedPath"),
+            "selectedOperation": (payload.get("pathSelection") or {}).get("selectedOperation"),
+        }
+        if intent_id == "verify_mobile_number"
+        else None,
+        "networkOpportunity": payload.get("networkOpportunity"),
+        "nvVisual": payload.get("nvVisual"),
     }
+
+
+def _path_discovery(payload: dict[str, Any], fam_lookup, registry: CatalogRegistry) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    ps = payload.get("pathSelection") or {}
+    if not ps:
+        return [], []
+    fam = fam_lookup(registry, "number_possession_verification") if fam_lookup else {}
+    provider = ((ps.get("telcoFinder") or {}).get("provider") or "")
+    route = ""
+    readiness = ps.get("operatorReadiness") or {}
+    prereq = ps.get("technicalPrerequisites") or {}
+    ecs = (readiness.get("entitlementServer") or {}).get("available") if isinstance(readiness.get("entitlementServer"), dict) else None
+    events: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
+
+    def path_checks(row: dict[str, Any], reason: str, op_result: str = "—") -> dict[str, Any]:
+        return {
+            "relevance": "YES",
+            "agentIntent": "AUTHORIZED",
+            "purpose": "PERMITTED",
+            "policy": "PERMITTED",
+            "agreement": "PERMITTED",
+            "consent": "NOT_REQUIRED",
+            "subscription": "YES",
+            "entitlement": "YES",
+            "region": "CA",
+            "telcoFinder": provider,
+            "apiFinder": "AVAILABLE" if (ps.get("apiFinder") or {}).get("numberVerificationAvailable") else "NOT_AVAILABLE",
+            "provider": provider,
+            "route": route or "DIRECT",
+            "accessType": ps.get("accessType") or "—",
+            "operatorNv1": "YES" if readiness.get("nv1Supported") else "NO",
+            "operatorNv2": "YES" if readiness.get("nv2Supported") else "NO",
+            "entitlementServer": ecs or "—",
+            "ts43Client": "YES" if prereq.get("ts43ClientAvailable") else "NO",
+            "simAvailable": "YES" if prereq.get("simAvailable") else "NO",
+            "tokenPath": prereq.get("tokenPathState") or "—",
+            "pathResult": row.get("result") or "—",
+            "operationResult": op_result,
+            "evidence": "INVOKED" if reason == "SELECTED" and row.get("id") == ps.get("selectedPath") else "NOT_CALLED",
+            "autonomy": "ALLOWED",
+            "usefulness": "YES" if reason == "SELECTED" else ("NOT_REQUIRED" if reason == "NOT_REQUIRED" else "—"),
+            "result": reason,
+        }
+
+    for path in ps.get("paths") or []:
+        pid = str(path.get("id"))
+        reason = str(path.get("reasonCode") or ("SELECTED" if path.get("result") == "SELECTED" else "NOT_REQUIRED"))
+        if reason not in REASON_CODES:
+            reason = "NOT_REQUIRED"
+        human = str(path.get("humanReason") or HUMAN_BY_CODE.get(reason) or reason)
+        result = "SELECTED" if path.get("result") == "SELECTED" else ("SKIPPED" if path.get("result") == "NOT_REQUIRED" else "FILTERED")
+        cand = {
+            "capabilityId": pid,
+            "candidate": pid,
+            "capability": "number_possession_verification",
+            "label": path.get("label") or pid,
+            "businessLabel": path.get("productLabel") or pid,
+            "operationId": ps.get("selectedOperation") if path.get("result") == "SELECTED" else None,
+        }
+        stage = "RUNTIME_FEASIBILITY" if result == "FILTERED" else "SELECT"
+        events.append(
+            _event(
+                stage="CANDIDATE_GENERATION",
+                cand=cand,
+                fam=fam or {},
+                result="PASSED",
+                reason=None,
+                human=f"{cand['businessLabel']} is a Number Verification fulfillment path — not a CAMARA operation.",
+                source="CONFIGURATION",
+                provider=provider,
+                route=route,
+                metadata={"candidateType": "PATH"},
+                candidate_type="PATH",
+            )
+        )
+        events.append(
+            _event(
+                stage=stage,
+                cand=cand,
+                fam=fam or {},
+                result=result,
+                reason=reason,
+                human=human,
+                source="RUNTIME",
+                provider=provider,
+                route=route,
+                metadata={"accessType": ps.get("accessType"), "accessTypeSource": "RUNTIME_CLIENT_CONTEXT"},
+                candidate_type="PATH",
+            )
+        )
+        if result == "FILTERED":
+            events.append(
+                _event(
+                    stage="SELECT",
+                    cand=cand,
+                    fam=fam or {},
+                    result="FILTERED",
+                    reason=reason,
+                    human=human,
+                    source="RUNTIME",
+                    provider=provider,
+                    route=route,
+                    metadata={},
+                    candidate_type="PATH",
+                )
+            )
+        checks = path_checks(path, reason, ps.get("selectedOperation") or "—")
+        rows.append(
+            {
+                "id": f"path:{pid}",
+                "capabilityId": pid,
+                "label": cand["businessLabel"],
+                "technicalLabel": cand["label"],
+                "operationId": cand.get("operationId"),
+                "candidateType": "PATH",
+                "apiFamily": "number-verification",
+                "reasonCode": reason,
+                "humanReason": human,
+                "action": "CALL" if result == "SELECTED" else ("SKIP" if result == "SKIPPED" else "FILTER"),
+                "checks": checks,
+                "subscription": "YES",
+                "entitlement": "YES",
+            }
+        )
+
+    for op in ps.get("operations") or []:
+        oid = str(op.get("operationId"))
+        reason = str(op.get("reasonCode") or "NOT_REQUIRED")
+        if reason not in REASON_CODES:
+            reason = "NOT_REQUIRED"
+        human = str(op.get("humanReason") or HUMAN_BY_CODE.get(reason) or reason)
+        result = "SELECTED" if op.get("result") == "SELECTED" else "SKIPPED"
+        cand = {
+            "capabilityId": oid,
+            "candidate": oid,
+            "capability": "number_possession_verification",
+            "label": oid,
+            "businessLabel": oid,
+            "operationId": oid,
+        }
+        events.append(
+            _event(
+                stage="SELECT",
+                cand=cand,
+                fam=fam or {},
+                result=result,
+                reason=reason,
+                human=human,
+                source="RUNTIME",
+                provider=provider,
+                route=route,
+                metadata={"dimension": "OPERATION", "notAPath": True},
+                candidate_type="OPERATION",
+            )
+        )
+        rows.append(
+            {
+                "id": f"op:{oid}",
+                "capabilityId": oid,
+                "label": oid,
+                "technicalLabel": "CAMARA operation",
+                "operationId": oid,
+                "candidateType": "OPERATION",
+                "apiFamily": "number-verification",
+                "reasonCode": reason,
+                "humanReason": human,
+                "action": "CALL" if result == "SELECTED" else "SKIP",
+                "checks": path_checks({"id": oid, "result": op.get("result")}, reason, oid),
+                "subscription": "YES",
+                "entitlement": "YES",
+            }
+        )
+    return events, rows
 
 
 def _dynamic_usefulness(intent_id: str, matrix_rows: list[dict[str, Any]]) -> dict[str, Any] | None:

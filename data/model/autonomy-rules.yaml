@@ -24,6 +24,16 @@ autonomyRules:
     intentId: assess_recovery_continuity
     action: reset_recovery_credentials
     level: NOT_AUTHORIZED
+  - id: rb-iam-verify
+    agentId: iam-sign-in-agent
+    intentId: verify_mobile_number
+    action: verify_mobile_number
+    level: ACT
+  - id: rb-iam-issue-session
+    agentId: iam-sign-in-agent
+    intentId: verify_mobile_number
+    action: issue_application_session
+    level: NOT_AUTHORIZED
   - id: hf-observe
     agentId: baggage-operations-agent
     intentId: ensure_baggage_connection

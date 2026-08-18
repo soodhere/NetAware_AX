@@ -13,6 +13,15 @@ entitlements:
     status: active
     note: Migrated from Cadence 6 implicit entitlement. Not equivalent to subscription as a concept.
 
+  - id: rb-iam-identity-entitlement
+    subscriptionId: rb-identity-sub
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-iam
+    agentId: iam-sign-in-agent
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+    note: Same enterprise subscription. Different application entitlement for Digital Identity / IAM.
+
   - id: rb-device-entitlement
     subscriptionId: rb-device-sub
     enterpriseId: rocket-bank

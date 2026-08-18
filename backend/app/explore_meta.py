@@ -9,9 +9,15 @@ EXECUTABLE_INTENTS: set[str] = {
     "maintain_inspection_experience",
     "verify_pharmacy_age_gate",
     "assess_recovery_continuity",
+    "verify_mobile_number",
 }
 
 LIVE_INTENT_LINKS: dict[str, dict[str, str]] = {
+    "verify_mobile_number": {
+        "enterpriseId": "rocket-bank",
+        "useCaseId": "passwordless-mobile-sign-in",
+        "label": "Passwordless mobile sign-in",
+    },
     "assess_network_trust": {
         "enterpriseId": "rocket-bank",
         "useCaseId": "high-value-payment-protection",
@@ -40,6 +46,10 @@ LIVE_INTENT_LINKS: dict[str, dict[str, str]] = {
 }
 
 CAPABILITY_LIVE_BEHAVIOR: dict[str, list[dict[str, str]]] = {
+    "number_possession_verification": [
+        {"scenario": "Passwordless mobile sign-in", "state": "PATH_SELECTED", "intentId": "verify_mobile_number"},
+        {"scenario": "Rocket Bank", "state": "INVOKED", "intentId": "assess_network_trust"},
+    ],
     "sim_continuity": [
         {"scenario": "Rocket Bank", "state": "INVOKED", "intentId": "assess_network_trust"},
         {"scenario": "Rocket Bank recovery", "state": "EVIDENCE_REUSED", "intentId": "assess_recovery_continuity"},
@@ -73,6 +83,8 @@ CAPABILITY_LIVE_BEHAVIOR: dict[str, list[dict[str, str]]] = {
 }
 
 OPERATION_LIVE_HINTS: dict[str, str] = {
+    "phoneNumberVerify": "Claimed-MSISDN operation in Number Verification path selection — not equal to NV1",
+    "phoneNumberShare": "Share is not NV2. Claimed number uses verify.",
     "checkSimSwap": "Invoked in Rocket Bank; reused in recovery continuity",
     "verifyLocation": "Policy block in Rocket Bank and High Flight",
     "createSession": "Autonomous QoD in Acme after objective breach",
@@ -94,6 +106,11 @@ EVIDENCE_GRADE_LABELS = {
 }
 
 DISCOVERY_LINKS: dict[str, dict[str, str]] = {
+    "verify_mobile_number": {
+        "label": "See Number Verification path Discovery",
+        "note": "Same Intent. Cellular selects NV1. Wi-Fi selects NV2 when the operator is ready.",
+        **LIVE_INTENT_LINKS["verify_mobile_number"],
+    },
     "assess_network_trust": {
         "label": "See Discovery model",
         "note": "Rocket Bank — relevant, allowed, available, useful, selected.",
@@ -122,7 +139,7 @@ DISCOVERY_LINKS: dict[str, dict[str, str]] = {
 }
 
 CAPABILITY_DISCOVERY_NOTES: dict[str, str] = {
-    "number_possession_verification": "Used in live Discovery — selected for Rocket Bank evidence.",
+    "number_possession_verification": "Used in live Discovery — selected for Rocket Bank evidence, and as the NV path-selection capability.",
     "sim_continuity": "Used in live Discovery — invoked for trust, reused for recovery.",
     "device_continuity": "Used in live Discovery — invoked for trust, reused for recovery.",
     "device_identifier": "Used in live Discovery — selected for Rocket Bank evidence.",
@@ -139,7 +156,7 @@ CAPABILITY_DISCOVERY_NOTES: dict[str, str] = {
 FAMILY_DISCOVERY_NOTES: dict[str, str] = {
     "sim-swap": "See selected / reused examples in Rocket Bank Discovery.",
     "device-swap": "See selected / reused examples in Rocket Bank Discovery.",
-    "number-verification": "See selected example in Rocket Bank Discovery.",
+    "number-verification": "See path vs operation in passwordless mobile sign-in. NV1/NV2 are paths, not verify/share.",
     "device-identifier": "See selected example in Rocket Bank Discovery.",
     "roaming": "See selected / reused examples in Rocket Bank Discovery.",
     "number-recycling": "See filtered example (not required) in Rocket Bank Discovery.",
@@ -152,6 +169,7 @@ FAMILY_DISCOVERY_NOTES: dict[str, str] = {
 }
 
 POLICY_DISCOVERY_NOTES: dict[str, str] = {
+    "rocket-bank-iam-policy": "See Number Verification path selection — NV1 vs NV2 vs ECS gap.",
     "rocket-bank-trust-policy": "See where Location was filtered in live Discovery (consent missing).",
     "high-flight-baggage-policy": "See where Location was filtered in live Discovery (consent missing).",
     "citycare-pharmacy-policy": "See where KYC Match was filtered in live Discovery (broader than required).",

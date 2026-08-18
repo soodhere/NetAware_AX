@@ -4,6 +4,11 @@ applications:
     enterpriseId: rocket-bank
     kind: existing_application
     note: Existing Rocket Bank application. NetAware does not replace it.
+  - id: rocket-bank-iam
+    label: Digital Identity / IAM
+    enterpriseId: rocket-bank
+    kind: existing_application
+    note: Adjacent Rocket Bank application. Payments Risk stays on assess_network_trust. This application asks only to verify a mobile number.
   - id: high-flight-baggage-operations
     label: Baggage Operations
     enterpriseId: high-flight-airlines

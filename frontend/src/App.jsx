@@ -64,7 +64,7 @@ export default function App() {
       </header>
       {page}
       <footer className="footer-bar">
-        <p className="footer-note">Cadence 8 · Discovery · Basic / Advanced lens · live outcomes unchanged · fictional enterprises</p>
+        <p className="footer-note">Cadence 9 · Number Verification path selection · fictional enterprises</p>
         <a className="tiny" href={href("/close")}>
           Product close
         </a>

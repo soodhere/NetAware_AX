@@ -134,6 +134,10 @@ class Decision:
 
     stage: str
 
+    reasonCode: str | None = None
+
+    pathId: str | None = None
+
 
 
     def to_public(self) -> dict[str, Any]:
@@ -408,6 +412,14 @@ class ExecutionTrace:
 
     verificationResult: dict[str, Any] | None = None
 
+    pathSelection: dict[str, Any] | None = None
+
+    networkOpportunity: dict[str, Any] | None = None
+
+    nvVisual: dict[str, Any] | None = None
+
+    demandSupply: dict[str, Any] | None = None
+
 
 
     def to_public(self) -> dict[str, Any]:
@@ -499,6 +511,24 @@ class ExecutionTrace:
         if self.verificationResult:
 
             body["verificationResult"] = self.verificationResult
+
+        if self.pathSelection:
+
+            body["pathSelection"] = self.pathSelection
+
+        if self.networkOpportunity:
+
+            body["networkOpportunity"] = self.networkOpportunity
+
+        if self.nvVisual:
+
+            body["nvVisual"] = self.nvVisual
+
+        if self.demandSupply:
+
+            body["demandSupply"] = self.demandSupply
+
+            body.update({k: v for k, v in self.demandSupply.items() if k not in body})
 
         return body
 

@@ -16,6 +16,19 @@ purposes:
       context: Independent network identity-continuity evidence used to assist Rocket Bank fraud decisioning. Does not replace the bank's fraud models.
       tmf931Overlap: true
 
+  - id: mobile_number_authentication
+    label: Mobile number authentication
+    audienceLabel: Sign-in / number verification
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:IdentityAuthentication
+      iri: https://w3id.org/dpv#IdentityAuthentication
+      label: Identity Authentication
+      context: Silent verification of a claimed mobile number at Rocket Bank digital sign-in. Does not replace the bank's IAM. Path (NV1/NV2) is not requested by the application.
+      tmf931Overlap: true
+
   - id: identity_continuity_assist
     label: Identity continuity assist
     audienceLabel: Identity continuity

@@ -18,6 +18,12 @@ useCases:
     domainId: financial
     existingApis: [{ kind: DOMAIN, name: Onboarding KYC }]
     networkComplement: Operator KYC Match can complement bank KYC when purpose, DPA and consent allow.
+  - id: passwordless-mobile-sign-in
+    label: Passwordless mobile sign-in
+    domainId: financial
+    existingSystems: [IAM / Sign-in]
+    existingApis: [{ kind: ENTERPRISE, name: IAM / Sign-in }]
+    networkComplement: Silent number possession verification complements the bank's IAM. It does not replace it. The application does not choose NV1 or NV2.
   - id: baggage-connection
     label: Baggage connection
     domainId: airlines

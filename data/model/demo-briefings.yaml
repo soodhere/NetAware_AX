@@ -36,11 +36,62 @@ honesty:
     - ensure_baggage_connection
     - maintain_inspection_experience
     - verify_pharmacy_age_gate
+    - verify_mobile_number
   potentiallyRelevantOnly: false
   actuallyInvokedUnknown: false
   identityArchitectureUnresolved: true
 
 featuredEnterprises:
+  - enterpriseId: rocket-bank
+    storyId: rocket-bank-iam-nv
+    presentationOrder: 0
+    domainAudienceLabel: Identity / IAM
+    heroUseCaseId: passwordless-mobile-sign-in
+    heroCard:
+      cardTitle: Passwordless mobile sign-in
+      businessProblem: Same Intent. Cellular or Wi-Fi. NetAware selects the available Number Verification path.
+      intentId: verify_mobile_number
+      proves:
+        - Same Intent, different fulfillment
+        - Path selection, not NV1=verify / NV2=share
+        - Operator readiness can block qualified demand
+    useCaseIds:
+      - passwordless-mobile-sign-in
+    relatedUseCaseIds:
+      - high-value-payment-protection
+      - account-recovery-anomaly
+    existingSystems:
+      - IAM / Sign-in
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: One Intent. NetAware selects the Number Verification path that can actually serve this access type.
+        zeroContextAnswer: Silent number possession verification — without the application coding NV1 vs NV2.
+        myWorld:
+          title: What Rocket Bank already knows
+          items:
+            - Customer is signing in (IAM event)
+            - Claimed mobile number
+            - Existing IAM / session systems
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Silent verification that the handset possesses the claimed number
+            - Network-based path (NV1) when the device is on cellular
+            - Operator-token path (NV2) when the device is on Wi-Fi and the operator is ready
+          roles: [VERIFY]
+        netawareAx:
+          title: How NetAware AX uses both
+          items:
+            - Application asks only to verify this mobile number
+            - Access type comes from runtime client context — not Telco Finder
+            - Telco Finder names the operator; API Finder checks Number Verification availability; operator readiness decides NV1 vs NV2
+            - If Entitlement Server is unavailable on Wi-Fi, demand stays unfulfilled — no fake NV1, no SMS OTP
+        openingHeroNote: Strongest same-Intent / different-fulfillment story. Payments Risk remains the adjacent Rocket Bank trust demo.
   - enterpriseId: high-flight-airlines
     presentationOrder: 4
     domainAudienceLabel: Airlines
@@ -256,6 +307,17 @@ featuredEnterprises:
             - Returns ELIGIBLE — pharmacist owns dispensing
 
 intentExamples:
+  verify_mobile_number:
+    plain: Verify this mobile number so the customer can sign in.
+    request:
+      intent: verify_mobile_number
+      subject:
+        phoneNumber: "+1••••••0198"
+      context:
+        nvVariant: cellular-nv1
+        accessType: CELLULAR
+        claimedMsisdn: true
+        businessEvent: CUSTOMER_SIGNING_IN
   assess_network_trust:
     plain: Assess whether high-value payment RB-78421 should proceed based on network identity continuity.
     request:

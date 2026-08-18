@@ -28,10 +28,10 @@ errors: list[str] = []
 oks: list[str] = []
 
 FUTURE_INTENTS = {
-    "verify_mobile_number",
     "rollout_firmware_safely",
     "assure_ramp_scan_capability",
 }
+C9_INTENT = "verify_mobile_number"
 NV_OPS = {"phoneNumberVerify", "phoneNumberShare"}
 CANONICAL_FILTERS = {
     "NOT_RELEVANT",
@@ -132,7 +132,14 @@ def check_health_and_baseline() -> None:
         if set(h.get("executableIntents") or []) != set(EXECUTABLE_INTENTS):
             fail("executable intent set changed")
         elif FUTURE_INTENTS & set(EXECUTABLE_INTENTS):
-            fail("future intents leaked into EXECUTABLE_INTENTS")
+            fail("OTA/ramp leaked into EXECUTABLE_INTENTS")
+        elif UI_CADENCE >= 9:
+            if C9_INTENT not in EXECUTABLE_INTENTS:
+                fail("Cadence 9 must execute verify_mobile_number")
+            else:
+                ok("verify_mobile_number live; OTA/ramp still future")
+        elif C9_INTENT in EXECUTABLE_INTENTS:
+            fail("verify_mobile_number leaked before Cadence 9")
         else:
             ok("executable intents unchanged (5)")
 
@@ -527,12 +534,15 @@ def check_heroes_unchanged() -> None:
             fail(f"recovery outcome {rec_out}")
         else:
             ok("recovery CONTINUITY_ALIGNED (evidence reuse)")
-        for intent in FUTURE_INTENTS:
+        still_future = set(FUTURE_INTENTS)
+        if UI_CADENCE < 9:
+            still_future.add(C9_INTENT)
+        for intent in still_future:
             bad = client.post("/intents", json={"intent": intent, "subject": {}, "context": {}})
             if bad.status_code < 400:
                 fail(f"{intent} must not be executable")
         else:
-            ok("future NV/OTA/ramp intents are not executable")
+            ok("future OTA/ramp intents are not executable")
 
 
 def check_boundaries() -> None:

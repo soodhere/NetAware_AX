@@ -4,6 +4,11 @@ routes:
     source: openapi/camara/NumberVerification__number-verification.yaml
     providerId: simulated-operator-a
     type: DIRECT
+  - id: nv-direct-operator-b
+    operationId: phoneNumberVerify
+    source: openapi/camara/NumberVerification__number-verification.yaml
+    providerId: simulated-operator-b
+    type: DIRECT
   - id: sim-swap-direct-a
     operationId: checkSimSwap
     source: openapi/camara/SimSwap__sim-swap.yaml

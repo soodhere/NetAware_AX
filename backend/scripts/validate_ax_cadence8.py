@@ -27,8 +27,16 @@ from app.runtime import EXECUTABLE_INTENTS  # noqa: E402
 errors: list[str] = []
 oks: list[str] = []
 
-FUTURE_INTENTS = {"verify_mobile_number", "rollout_firmware_safely", "assure_ramp_scan_capability"}
+FUTURE_INTENTS = {"rollout_firmware_safely", "assure_ramp_scan_capability"}
+C9_INTENT = "verify_mobile_number"
 PICKER = ["rocket-bank", "acme-manufacturing", "citycare-health", "high-flight-airlines"]
+C9_PICKER = [
+    "passwordless-mobile-sign-in",
+    "high-value-payment-protection",
+    "critical-inspection-camera",
+    "pharmacy-age-gate",
+    "baggage-connection",
+]
 HEROES = [
     (
         "STEP_UP",
@@ -99,10 +107,10 @@ def check_health() -> None:
             fail(f"modelCadence {h.get('modelCadence')}")
         else:
             ok("modelCadence 7 (discovery enums)")
-        if h.get("uiCadence") != 8 or UI_CADENCE != 8:
+        if h.get("uiCadence") not in {8, 9} or UI_CADENCE < 8:
             fail(f"uiCadence {h.get('uiCadence')}")
         else:
-            ok("uiCadence 8")
+            ok(f"uiCadence {h.get('uiCadence')}")
         if not h.get("productBehaviorFrozen"):
             fail("product behavior must stay frozen")
         else:
@@ -110,7 +118,12 @@ def check_health() -> None:
         if set(h.get("executableIntents") or []) != set(EXECUTABLE_INTENTS):
             fail("executable intent set changed")
         elif FUTURE_INTENTS & set(EXECUTABLE_INTENTS):
-            fail("future intents leaked into EXECUTABLE_INTENTS")
+            fail("OTA/ramp leaked into EXECUTABLE_INTENTS")
+        elif UI_CADENCE >= 9:
+            if C9_INTENT not in EXECUTABLE_INTENTS:
+                fail("Cadence 9 NV intent missing")
+            else:
+                ok("Cadence 9 added verify_mobile_number only")
         else:
             ok("no new live intents")
 
@@ -239,27 +252,39 @@ def check_live_discovery() -> None:
         else:
             ok(f"evidence reuse discovery ({len(reused)} REUSE events, invocation skipped)")
 
-        for intent in FUTURE_INTENTS:
+        still_future = set(FUTURE_INTENTS)
+        if UI_CADENCE < 9:
+            still_future.add(C9_INTENT)
+        for intent in still_future:
             bad = client.post("/intents", json={"intent": intent, "subject": {}, "context": {}})
             if bad.status_code < 400:
                 fail(f"{intent} must not be executable")
         else:
-            ok("no NV / OTA / ramp live scenario")
+            ok("OTA / ramp remain non-executable")
 
 
 def check_picker_and_catalog() -> None:
     with TestClient(app) as client:
         demo = client.get("/demo").json()
-        ids = [(row.get("enterprise") or {}).get("id") for row in (demo.get("featured") or [])]
-        if ids[:4] != PICKER:
+        featured = demo.get("featured") or []
+        ids = [(row.get("enterprise") or {}).get("id") for row in featured]
+        use_cases = [row.get("heroUseCaseId") for row in featured]
+        if UI_CADENCE >= 9:
+            if use_cases[:5] != C9_PICKER:
+                fail(f"C9 picker use cases {use_cases[:5]}")
+            else:
+                ok("picker: NV, Rocket Bank, Acme, CityCare, High Flight")
+        elif ids[:4] != PICKER:
             fail(f"picker order {ids[:4]}")
         else:
             ok("picker: Rocket Bank, Acme, CityCare, High Flight")
         blob = json.dumps(demo)
-        if "verify_mobile_number" in blob or "rollout_firmware_safely" in blob:
-            fail("NV/OTA cards leaked onto Home/picker payload")
+        if "rollout_firmware_safely" in blob:
+            fail("OTA cards leaked onto Home/picker payload")
+        elif UI_CADENCE < 9 and "verify_mobile_number" in blob:
+            fail("NV cards leaked onto Home/picker payload")
         else:
-            ok("no NV or OTA cards")
+            ok("OTA not on Home/picker; NV only from Cadence 9")
         product = demo.get("product") or {}
         if "Agentic Experience" not in (product.get("line") or ""):
             fail("DX to AX home line missing")

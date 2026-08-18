@@ -5,6 +5,7 @@ domainUseCases:
   - { domainId: financial, useCaseId: high-value-payment-protection }
   - { domainId: financial, useCaseId: account-recovery-anomaly }
   - { domainId: financial, useCaseId: kyc-attribute-match }
+  - { domainId: financial, useCaseId: passwordless-mobile-sign-in }
   - { domainId: airlines, useCaseId: baggage-connection }
   - { domainId: airlines, useCaseId: locate-baggage }
   - { domainId: airports, useCaseId: airside-asset-presence }
@@ -28,6 +29,7 @@ useCaseIntents:
   - { useCaseId: high-value-payment-protection, intentId: assess_network_trust }
   - { useCaseId: account-recovery-anomaly, intentId: assess_recovery_continuity }
   - { useCaseId: kyc-attribute-match, intentId: match_customer_kyc }
+  - { useCaseId: passwordless-mobile-sign-in, intentId: verify_mobile_number }
   - { useCaseId: baggage-connection, intentId: ensure_baggage_connection }
   - { useCaseId: locate-baggage, intentId: locate_baggage }
   - { useCaseId: airside-asset-presence, intentId: verify_airside_presence }
@@ -49,6 +51,8 @@ useCaseIntents:
 
 # Identity continuity family — same practical APIs, many businesses.
 intentCapabilities:
+  - { intentId: verify_mobile_number, capabilityId: number_possession_verification, role: required, evidence: SOURCE_BACKED }
+
   - { intentId: assess_network_trust, capabilityId: number_possession_verification, role: required, evidence: SOURCE_BACKED }
   - { intentId: assess_network_trust, capabilityId: number_recycling, role: considered, evidence: SOURCE_BACKED }
   - { intentId: assess_network_trust, capabilityId: sim_continuity, role: required, evidence: SOURCE_BACKED }

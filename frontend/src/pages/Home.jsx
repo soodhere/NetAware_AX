@@ -105,11 +105,11 @@ export default function Home() {
       {error ? <p className="err">{error}</p> : null}
 
       <section className="section">
-        <h3>Four live scenarios</h3>
+        <h3>Live scenarios</h3>
         <p className="tiny">Fictional enterprises. Configured demo policy. No live operator coverage claimed.</p>
         <div className="grid-2 hero-grid">
           {featured.map((row) => (
-            <HeroDemoCard key={row.enterprise?.id || row.id} row={row} hrefFn={href} />
+            <HeroDemoCard key={row.storyId || row.heroUseCaseId || row.enterprise?.id} row={row} hrefFn={href} />
           ))}
         </div>
       </section>

@@ -17,6 +17,15 @@ policies:
     purposeId: identity_continuity_assist
     agreementId: rocket-bank-dpa
     note: Permits reusing normalized trust evidence when purpose/policy/TTL allow. Configured demo policy only.
+  - id: rocket-bank-iam-policy
+    label: Rocket Bank IAM sign-in policy
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-iam
+    agentId: iam-sign-in-agent
+    intentId: verify_mobile_number
+    purposeId: mobile_number_authentication
+    agreementId: rocket-bank-dpa
+    note: Permits Number Verification for claimed-MSISDN sign-in. Application does not select NV1/NV2. Configured demo policy only.
   - id: high-flight-baggage-policy
     label: High Flight baggage policy
     enterpriseId: high-flight-airlines
@@ -62,6 +71,16 @@ policyRules:
     operator: deny
     value: decline_transaction
     note: Agent may not decline the payment. Enterprise owns that decision.
+  - id: rb-iam-identity-permit
+    policyId: rocket-bank-iam-policy
+    dimension: capability_family
+    operator: permit
+    value: IDENTITY_AND_TRUST
+  - id: rb-iam-region-ca
+    policyId: rocket-bank-iam-policy
+    dimension: region
+    operator: permit
+    value: CA
   - id: hf-location-purpose-ok
     policyId: high-flight-baggage-policy
     dimension: purpose
