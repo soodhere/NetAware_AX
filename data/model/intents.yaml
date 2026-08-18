@@ -1,0 +1,88 @@
+intents:
+  - id: assess_network_trust
+    label: Assess network trust
+    defaultPurposeId: payment_fraud_assist
+    explorerOnly: false
+    note: Deep-demo candidate. Configuration only in Cadence 1. Runtime execution is not implemented.
+  - id: assess_recovery_continuity
+    label: Assess recovery continuity
+    defaultPurposeId: identity_continuity_assist
+    explorerOnly: false
+    note: Cadence 5 evidence-reuse companion to assess_network_trust. Not a fifth hero scenario.
+  - id: match_customer_kyc
+    label: Match customer KYC attributes
+    defaultPurposeId: kyc_attribute_match
+    explorerOnly: true
+    note: Privacy-sensitive. Policy/DPA/consent must allow at runtime later.
+  - id: ensure_baggage_connection
+    label: Ensure baggage connection
+    defaultPurposeId: baggage_connection_assurance
+    explorerOnly: false
+  - id: locate_baggage
+    label: Locate baggage
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: verify_airside_presence
+    label: Verify airside presence
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: maintain_turnaround_video
+    label: Maintain turnaround video
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: maintain_inspection_experience
+    label: Maintain inspection experience
+    defaultPurposeId: inspection_video_assurance
+    explorerOnly: false
+  - id: verify_equipment_on_site
+    label: Verify equipment on site
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: maintain_site_uplink
+    label: Maintain site uplink
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: verify_shipment_device_presence
+    label: Verify shipment device presence
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: maintain_scan_session
+    label: Maintain scan session
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: assess_checkout_trust
+    label: Assess checkout trust
+    defaultPurposeId: identity_continuity_assist
+    explorerOnly: true
+  - id: assess_claim_device_trust
+    label: Assess claim device trust
+    defaultPurposeId: identity_continuity_assist
+    explorerOnly: true
+  - id: verify_claim_location
+    label: Verify claim location
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: maintain_telehealth_experience
+    label: Maintain telehealth experience
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: verify_visit_in_geofence
+    label: Verify visit in geofence
+    defaultPurposeId: presence_assurance
+    explorerOnly: true
+  - id: assure_live_broadcast
+    label: Assure live broadcast
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: maintain_venue_experience
+    label: Maintain venue experience
+    defaultPurposeId: experience_assurance
+    explorerOnly: true
+  - id: verify_age_threshold
+    label: Verify age threshold
+    defaultPurposeId: age_assertion
+    explorerOnly: true
+  - id: verify_pharmacy_age_gate
+    label: Verify pharmacy age gate
+    defaultPurposeId: pharmacy_age_eligibility
+    explorerOnly: false

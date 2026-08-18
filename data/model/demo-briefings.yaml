@@ -1,0 +1,201 @@
+# Cadence 6 presentation freeze. Product behavior frozen; clarity and pacing only.
+
+product:
+  line: From Developer Experience to Agentic Experience
+  tagline: A simpler way for applications and agents to consume network capabilities.
+  support: Keep your application. Express the outcome. Let NetAware handle the Network API complexity.
+  intentDefinition: Intent is the outcome the application or agent wants — without specifying which Network APIs should be called.
+  equation:
+    - Your world
+    - Network capabilities
+    - Intent
+  result: Agentic Experience
+  axLoop:
+    - Understand
+    - Govern
+    - Discover
+    - Plan
+    - Execute
+    - Observe
+    - Replan
+    - Verify
+
+honesty:
+  configurationOnly: false
+  executionEngine: true
+  executableIntents:
+    - assess_network_trust
+    - ensure_baggage_connection
+    - maintain_inspection_experience
+    - verify_pharmacy_age_gate
+  potentiallyRelevantOnly: false
+  actuallyInvokedUnknown: false
+  identityArchitectureUnresolved: true
+
+featuredEnterprises:
+  - enterpriseId: high-flight-airlines
+    presentationOrder: 1
+    domainAudienceLabel: Airlines
+    heroUseCaseId: baggage-connection
+    heroCard:
+      businessProblem: Ensure baggage connection
+      intentId: ensure_baggage_connection
+      proves:
+        - Domain + Network APIs
+        - Policy-aware replan
+        - Approval-bounded action
+    useCaseIds:
+      - baggage-connection
+      - locate-baggage
+    relatedUseCaseIds:
+      - turnaround-video
+    existingSystems:
+      - Baggage Operations
+      - Flight Operations
+      - Ground Operations
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+  - enterpriseId: rocket-bank
+    presentationOrder: 2
+    domainAudienceLabel: Financial Services
+    heroUseCaseId: high-value-payment-protection
+    heroCard:
+      businessProblem: Protect high-value payment
+      intentId: assess_network_trust
+      proves:
+        - Selective evidence
+        - Network trust recommendation
+        - Enterprise owns decision
+    secondaryDemo:
+      label: See evidence reuse
+      useCaseId: account-recovery-anomaly
+      intentId: assess_recovery_continuity
+      note: After trust assessment, recovery continuity reuses normalized evidence — no duplicate API calls.
+    useCaseIds:
+      - high-value-payment-protection
+      - account-recovery-anomaly
+      - kyc-attribute-match
+    relatedUseCaseIds:
+      - checkout-trust
+    existingSystems:
+      - Payments
+      - Fraud Decisioning
+      - Core Banking
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+  - enterpriseId: acme-manufacturing
+    presentationOrder: 3
+    domainAudienceLabel: Manufacturing
+    heroUseCaseId: critical-inspection-camera
+    heroCard:
+      businessProblem: Maintain inspection-camera experience
+      intentId: maintain_inspection_experience
+      proves:
+        - Observe
+        - Autonomous QoD action
+        - Verify outcome
+    useCaseIds:
+      - critical-inspection-camera
+    relatedUseCaseIds:
+      - equipment-on-site
+    existingSystems:
+      - Manufacturing Execution (MES)
+      - Quality Management (QMS)
+      - Camera control
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+  - enterpriseId: citycare-health
+    presentationOrder: 4
+    domainAudienceLabel: Healthcare
+    heroUseCaseId: pharmacy-age-gate
+    heroCard:
+      businessProblem: Verify age eligibility
+      intentId: verify_pharmacy_age_gate
+      proves:
+        - Minimum capability
+        - Policy-driven selection
+        - No broader KYC
+    useCaseIds:
+      - pharmacy-age-gate
+    relatedUseCaseIds:
+      - telehealth-session
+    existingSystems:
+      - Pharmacy
+      - EHR
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+
+intentExamples:
+  assess_network_trust:
+    plain: Assess whether high-value payment RB-78421 should proceed based on network identity continuity.
+    request:
+      intent: assess_network_trust
+      subject:
+        transactionId: RB-78421
+        phoneNumber: "+1••••••0198"
+      context:
+        amount: 25000
+        currency: USD
+  ensure_baggage_connection:
+    plain: Ensure bag HF123456 makes connecting flight HF281.
+    request:
+      intent: ensure_baggage_connection
+      subject:
+        bagId: HF123456
+        connectingFlight: HF281
+      context:
+        priority: high
+  locate_baggage:
+    plain: Help handlers locate bag HF123456.
+    request:
+      intent: locate_baggage
+      subject:
+        bagId: HF123456
+      context:
+        priority: high
+  maintain_inspection_experience:
+    plain: Maintain the experience required for inspection camera ACME-CAM-14 on LINE-B.
+    request:
+      intent: maintain_inspection_experience
+      subject:
+        cameraId: ACME-CAM-14
+        lineId: LINE-B
+      context:
+        sloMs: 40
+  verify_pharmacy_age_gate:
+    plain: Verify whether the customer meets the age threshold for pharmacy transaction RX-10442.
+    request:
+      intent: verify_pharmacy_age_gate
+      subject:
+        transactionId: RX-10442
+        phoneNumber: "+1••••••8843"
+      context:
+        ageThreshold: 18
+  assess_recovery_continuity:
+    plain: Check whether this account recovery still looks consistent with the customer's SIM and device.
+    request:
+      intent: assess_recovery_continuity
+      subject:
+        recoveryId: RB-REC-19
+      context:
+        channel: web
+  match_customer_kyc:
+    plain: Match customer attributes against operator KYC when purpose and consent allow.
+    request:
+      intent: match_customer_kyc
+      subject:
+        customerRef: RB-C-4401
+      context:
+        purpose: kyc_attribute_match

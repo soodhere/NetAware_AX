@@ -1,0 +1,53 @@
+# NetAware AX independent catalogue pin
+# Cadence 0.2 — business CURRENT_FOCUS catalog. Maturity is metadata.
+
+pin:
+  product: NetAware AX
+  cadence: 0
+  cadence_patch: "0.2"
+  source_org: camaraproject
+  org_url: https://github.com/camaraproject
+  acquisition_date: "2026-08-15"
+  pin_policy: latest public GitHub release when present; otherwise default-branch API_definitions
+  independent_copy: true
+  runtime_dependency_on_other_prototypes: false
+  local_camara: openapi/camara
+  local_experimental: openapi/experimental
+  manifest: openapi/manifest.yaml
+  active_catalog: data/catalog/ax-active-catalog.yaml
+  active_catalog_exposed: true
+  full_pin_reference_only: true
+  inclusion_rule: current NetAware / operator / application business focus
+  maturity_is_metadata: true
+
+honesty:
+  - Never invent operationIds.
+  - CURRENT_FOCUS APIs may use experimental CAMARA specs; label specMaturity honestly.
+  - Do not portray experimental maturity as production standardization.
+  - Full pin remains on disk for reference and is not Explorer/runtime input except via AX_ACTIVE_CATALOG.
+  - CAMARA has no historical identity-graph API.
+  - PredictiveConnectivityData is not a per-UE session predictor and is not in the active catalog.
+
+preferred_sources_for_seed_mappings:
+  phoneNumberVerify: openapi/camara/NumberVerification__number-verification.yaml
+  phoneNumberShare: openapi/camara/NumberVerification__number-verification.yaml
+  checkSimSwap: openapi/camara/SimSwap__sim-swap.yaml
+  retrieveSimSwapDate: openapi/camara/SimSwap__sim-swap.yaml
+  checkDeviceSwap: openapi/camara/DeviceSwap__device-swap.yaml
+  retrieveDeviceSwapDate: openapi/camara/DeviceSwap__device-swap.yaml
+  retrieveIdentifier: openapi/experimental/DeviceIdentifier__device-identifier.yaml
+  checkNumberRecycling: openapi/experimental/NumberRecycling__number-recycling.yaml
+  KYC_Match: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml
+  verifyAge: openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml
+  getRoamingStatus: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml
+  verifyLocation: openapi/camara/DeviceLocation__location-verification.yaml
+  retrieveLocation: openapi/camara/DeviceLocation__location-retrieval.yaml
+  createGeofencingSubscription: openapi/camara/DeviceLocation__geofencing-subscriptions.yaml
+  getReachabilityStatus: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+  checkNetworkQuality: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml
+  createApplicationProfile: openapi/experimental/ApplicationProfiles__application-profiles.yaml
+  createSession: openapi/camara/QualityOnDemand__quality-on-demand.yaml
+  getSession: openapi/camara/QualityOnDemand__quality-on-demand.yaml
+  retrieveQoSProfiles: openapi/camara/QualityOnDemand__qos-profiles.yaml
+  createQosAssignment: openapi/camara/QualityOnDemand__qos-provisioning.yaml
+  readClosestEdgeCloudZone: openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml

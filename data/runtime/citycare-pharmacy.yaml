@@ -1,0 +1,65 @@
+# Cadence 4 — CityCare verify_pharmacy_age_gate simulation seed.
+# Deterministic governed minimization: Age Verification selected, KYC Match blocked.
+
+scenario:
+  id: citycare-pharmacy
+  executableIntent: verify_pharmacy_age_gate
+  enterpriseId: citycare-health
+  applicationId: citycare-pharmacy-eligibility
+  agentId: pharmacy-eligibility-agent
+  useCaseId: pharmacy-age-gate
+  policyId: citycare-pharmacy-policy
+  correlation:
+    intentId: verify_pharmacy_age_gate
+    executionId: ax-cc-pharmacy-001
+    traceId: ax-cc-pharmacy-trace
+    correlationId: RX-10442-ax
+  request:
+    intent: verify_pharmacy_age_gate
+    subject:
+      transactionId: RX-10442
+      phoneNumber: "+1••••••8843"
+    context:
+      ageThreshold: 18
+  telcoFinder:
+    neededBecause: Subject includes a phone number for network age assertion. NetAware resolves the subscription network before API discovery.
+    input: "+1••••••8843"
+    result:
+      network: Network Provider A
+      providerId: simulated-operator-a
+      homeNetwork: true
+      region: CA
+      simulated: true
+  networkRoutes:
+    verifyAge:
+      routeType: DIRECT
+      providerId: simulated-operator-a
+      providerLabel: Network Provider A
+      routeDisplay: NetAware → Network Provider A
+  networkResponses:
+    verifyAge:
+      httpStatus: 200
+      latencyMs: 47
+      raw:
+        ageVerified: true
+        aboveThreshold: true
+        threshold: 18
+      evidence:
+        type: AGE_ASSERTION
+        status: above_threshold
+        aboveThreshold: true
+        threshold: 18
+        note: Age assertion only. No date of birth or broad KYC attributes returned.
+  outcome:
+    outcome: ELIGIBLE
+    confidence: 0.93
+    recommendedAction: PROCEED_WITH_PHARMACIST_REVIEW
+    decisionOwner: CITYCARE_PHARMACY
+    ageThreshold: 18
+    ageVerified: true
+    dataUsed: AGE_ASSERTION_ONLY
+    broaderKycUsed: false
+    reasonCodes:
+      - AGE_ABOVE_THRESHOLD
+      - MINIMUM_CAPABILITY_SELECTED
+    summary: Customer meets configured age threshold using minimum permitted network capability. Pharmacist owns dispensing decision.

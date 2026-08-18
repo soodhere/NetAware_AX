@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netaware.ax/schemas/mapping-evidence.json",
+  "title": "AX mapping evidence grade",
+  "type": "string",
+  "enum": ["SOURCE_BACKED", "INFERRED", "NEEDS_REVIEW"]
+}

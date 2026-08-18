@@ -1,0 +1,31 @@
+# Agent is distinct from Application.
+# Production identity / delegation (OAuth, workload identity, etc.) is intentionally unresolved.
+agents:
+  - id: payments-protection-agent
+    label: Payments Risk Agent
+    actsOnBehalfOf: rocket-bank-payments
+    enterpriseId: rocket-bank
+    allowedIntents: [assess_network_trust, assess_recovery_continuity]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: baggage-operations-agent
+    label: Baggage Operations Agent
+    actsOnBehalfOf: high-flight-baggage-operations
+    enterpriseId: high-flight-airlines
+    allowedIntents: [ensure_baggage_connection, locate_baggage]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: inspection-experience-agent
+    label: Inspection Experience Agent
+    actsOnBehalfOf: acme-quality-inspection
+    enterpriseId: acme-manufacturing
+    allowedIntents: [maintain_inspection_experience]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: pharmacy-eligibility-agent
+    label: Pharmacy Eligibility Agent
+    actsOnBehalfOf: citycare-pharmacy-eligibility
+    enterpriseId: citycare-health
+    allowedIntents: [verify_pharmacy_age_gate]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Production auth/delegation not locked.

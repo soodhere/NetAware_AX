@@ -1,0 +1,626 @@
+openapi: 3.0.3
+info:
+  title: Q&A Assistant - Manage
+  description: >-
+    This API provides CRUD (Create, Read, Update, Delete) management functions for the Question and Answer (Q&A) Assistant, aiming to equip developers with the capability to configure and manage intelligent question-answering systems based on Large Language Models (LLMs).
+    It supports model parameter tuning, knowledge base association, and prompt engineering configuration, making it suitable for building customizable intelligent customer service or question-answering services.
+    It must follow RFC 3339 and must have time zone. Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ.
+
+    ## Security and Authentication
+
+    This API uses OAuth 2.0 with OpenID Connect for authentication. The following scopes are required:
+    - qa-assistant-manage:assistants:create - Create new assistants
+    - qa-assistant-manage:assistants:read - Read assistant details
+    - qa-assistant-manage:assistants:update - Update existing assistants
+    - qa-assistant-manage:assistants:delete - Delete assistants
+
+    # Authorization and authentication
+
+    The "Camara Security and Interoperability Profile" provides details of how an API consumer requests an access token. Please refer to Identity and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the profile.
+
+    The specific authorization flows to be used will be agreed upon during the onboarding process, happening between the API consumer and the API provider, taking into account the declared purpose for accessing the API, whilst also being subject to the prevailing legal framework dictated by local legislation.
+
+    In cases where personal data is processed by the API and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of three-legged access tokens is mandatory. This ensures that the API remains in compliance with privacy regulations, upholding the principles of transparency and user-centric privacy-by-design.
+
+    # Additional CAMARA error responses
+
+    The list of error codes in this API specification is not exhaustive. Therefore the API specification may not document some non-mandatory error statuses as indicated in `CAMARA API Design Guide`.
+
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated to this API version for a complete list of error responses. The applicable Commonalities Release can be identified in the `API Readiness Checklist` document associated to this API version.
+
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error response if it is explicitly documented in the API.
+
+    # Further info and support
+
+    (FAQs will be added in a later version of the documentation)
+
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+  x-camara-commonalities: 0.6
+
+externalDocs:
+  description: Product documentation at CAMARA
+  url: https://github.com/camaraproject/ModelAsAService
+
+servers:
+  - url: '{apiRoot}/qa-assistant-manage/v0.1'
+    variables:
+      apiRoot:
+        default: http://localhost:9091
+        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+
+paths:
+  /assistants:
+    post:
+      operationId: createAssistant
+      summary: Create a new QA assistant
+      description: |
+        Creates a new QA assistant configuration.
+
+        **Key Features:**
+        - Configures LLM parameters (model, temperature, max_tokens)
+        - Associates with knowledge bases
+        - Sets behavior-defining prompts
+
+        **Key Rules:**
+        - Requires `name`, `configurationPrompt`, and `largeModelParameters`
+        - `largeModelParameters` must include `model`, `temperature` (0.0-1.0), `max_tokens` (≥1)
+        - Needs `qa-assistant-manage:assistants:create` scope
+
+        **Response Characteristics:**
+        - **201 Created**: Returns `AssistantResponse` with generated assistantId
+        - **400 Bad Request**: Missing parameters or invalid values (e.g., temperature out of range)
+        - **403 Forbidden**: Missing required scope
+        - **500 Internal Server Error**: Assistant creation failure
+      tags:
+        - Assistants
+      parameters:
+        - $ref: '#/components/parameters/x-correlator'  # Added correlator
+      security:
+        - openId:
+            - qa-assistant-manage:assistants:create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantCreateRequest'
+      responses:
+        '201':
+          description: Assistant created successfully
+          headers:
+            x-correlator:
+              $ref: '#/components/parameters/x-correlator'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssistantResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '500':
+          $ref: '#/components/responses/Generic500'
+
+    get:
+      operationId: listAssistants
+      summary: List all QA assistants
+      description: |
+        Retrieves all configured QA assistants.
+
+        **Key Features:**
+        - Returns complete assistant configurations
+        - Includes metadata (createdAt, updatedAt)
+        - Shows associated knowledge bases
+
+        **Key Rules:**
+        - Requires `qa-assistant-manage:assistants:read` scope
+        - Returns empty array if no assistants exist
+
+        **Response Characteristics:**
+        - **200 OK**: Array of `Assistant` objects
+        - **401 Unauthenticated**: Invalid credentials
+        - **403 Forbidden**: Insufficient permissions
+        - **500 Internal Server Error**: Data retrieval failure
+      tags:
+        - Assistants
+      parameters:
+        - $ref: '#/components/parameters/x-correlator'  # Added correlator
+      security:
+        - openId:
+            - qa-assistant-manage:assistants:read
+      responses:
+        '200':
+          description: List of assistants
+          headers:
+            x-correlator:
+              $ref: '#/components/parameters/x-correlator'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assistant'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '500':
+          $ref: '#/components/responses/Generic500'
+
+  /assistants/{assistantId}:
+    parameters:
+      - name: assistantId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the assistant
+      - $ref: '#/components/parameters/x-correlator'  # Added correlator
+
+    get:
+      operationId: getAssistant
+      summary: Get a specific QA assistant
+      description: |
+        Retrieves detailed configuration for a specific assistant.
+
+        **Key Features:**
+        - Returns full LLM parameter configuration
+        - Includes knowledge base associations
+        - Shows prompt configurations
+
+        **Key Rules:**
+        - Requires valid UUID `assistantId`
+        - Needs ` knowledge-base:documents:update` scope
+
+        **Response Characteristics:**
+        - **200 OK**: Complete `Assistant` object
+        - **404 Not Found**: Invalid/non-existent assistantId
+        - **403 Forbidden**: Missing required scope
+        - **500 Internal Server Error**: Configuration retrieval failure
+      tags:
+        - Assistants
+      security:
+        - openId:
+            - knowledge-base:documents:update
+      responses:
+        '200':
+          description: Assistant details
+          headers:
+            x-correlator:
+              $ref: '#/components/parameters/x-correlator'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '500':
+          $ref: '#/components/responses/Generic500'
+
+    put:
+      operationId: updateAssistant
+      summary: Update a QA assistant
+      description: |
+        Modifies an existing QA assistant configuration.
+
+        **Key Features:**
+        - Updates LLM parameters dynamically
+        - Changes knowledge base associations
+        - Modifies behavior prompts
+
+        **Key Rules:**
+        - Requires valid UUID `assistantId`
+        - At least one update field must be provided
+        - Parameter values must meet constraints (e.g., temperature 0.0-1.0)
+        - Needs `qa-assistant-manage:assistants:update` scope
+
+        **Response Characteristics:**
+        - **200 OK**: Returns updated `AssistantResponse`
+        - **400 Bad Request**: Invalid parameters or no update fields
+        - **404 Not Found**: Invalid assistantId
+        - **403 Forbidden**: Missing required scope
+        - **500 Internal Server Error**: Update processing failure
+      tags:
+        - Assistants
+      security:
+        - openId:
+            - qa-assistant-manage:assistants:update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantUpdateRequest'
+      responses:
+        '200':
+          description: Assistant updated successfully
+          headers:
+            x-correlator:
+              $ref: '#/components/parameters/x-correlator'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssistantResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '500':
+          $ref: '#/components/responses/Generic500'
+
+    delete:
+      operationId: deleteAssistant
+      summary: Delete a QA assistant
+      description: |
+        Permanently removes a QA assistant configuration.
+
+        **Key Features:**
+        - Irreversible deletion
+        - Cleans up associated resources
+        - Immediate deactivation
+
+        **Key Rules:**
+        - Requires valid UUID `assistantId`
+        - Needs `qa-assistant-manage:assistants:delete` scope
+        - Cannot be undone
+
+        **Response Characteristics:**
+        - **204 No Content**: Successful deletion (no body)
+        - **404 Not Found**: Invalid assistantId
+        - **403 Forbidden**: Missing required scope
+        - **500 Internal Server Error**: Deletion processing failure
+      tags:
+        - Assistants
+      security:
+        - openId:
+            - qa-assistant-manage:assistants:delete
+      responses:
+        '204':
+          description: Assistant deleted successfully
+          headers:
+            x-correlator:
+              $ref: '#/components/parameters/x-correlator'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '500':
+          $ref: '#/components/responses/Generic500'
+
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+      description: OpenID Connect authentication
+
+  parameters:
+    x-correlator:
+      name: x-correlator
+      in: header
+      description: Correlation id for the different services
+      schema:
+        $ref: "#/components/schemas/XCorrelator"
+
+  headers:
+    x-correlator:
+      description: Correlation id for the different services
+      schema:
+        $ref: "#/components/schemas/XCorrelator"
+
+  schemas:
+    XCorrelator:
+      type: string
+      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+      example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
+    AssistantCreateRequest:
+      type: object
+      required:
+        - name
+        - configurationPrompt
+        - largeModelParameters
+      properties:
+        name:
+          type: string
+          description: Name of the assistant
+        description:
+          type: string
+          description: Description of the assistant
+        knowledgeBaseId:
+          type: string
+          description: Optional ID of the associated knowledge base
+        configurationPrompt:
+          type: string
+          description: Configuration prompt for the assistant
+        largeModelParameters:
+          type: object
+          description: Parameters for the large language model
+          required:
+            - model
+            - parameters
+          properties:
+            model:
+              type: string
+              example: "gpt-4"
+            parameters:
+              type: object
+              required:
+                - temperature
+                - max_tokens
+              properties:
+                temperature:
+                  type: number
+                  format: float
+                  minimum: 0.0
+                  maximum: 1.0
+                  example: 0.7
+                max_tokens:
+                  type: integer
+                  minimum: 1
+                  example: 200
+                top_p:
+                  type: number
+                  format: float
+                  minimum: 0.0
+                  maximum: 1.0
+                  example: 0.8
+        openingRemarks:
+          type: string
+          description: Optional opening remarks for the assistant
+
+    AssistantUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: New name of the assistant
+        description:
+          type: string
+          description: New description of the assistant
+        knowledgeBaseId:
+          type: string
+          description: Optional new knowledge base ID
+        configurationPrompt:
+          type: string
+          description: Updated configuration prompt
+        largeModelParameters:
+          type: object
+          description: Updated model parameters
+          properties:
+            model:
+              type: string
+            parameters:
+              type: object
+              properties:
+                temperature:
+                  type: number
+                  format: float
+                max_tokens:
+                  type: integer
+                top_p:
+                  type: number
+                  format: float
+        openingRemarks:
+          type: string
+          description: Updated opening remarks
+
+    Assistant:
+      type: object
+      properties:
+        assistantId:
+          type: string
+          description: Unique identifier of the assistant
+          format: uuid
+          example: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+        name:
+          type: string
+        description:
+          type: string
+        knowledgeBaseId:
+          type: string
+        configurationPrompt:
+          type: string
+        largeModelParameters:
+          type: object
+          properties:
+            model:
+              type: string
+            parameters:
+              type: object
+        openingRemarks:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    AssistantResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the operation succeeded
+        assistantId:
+          type: string
+          description: Unique identifier of the assistant
+          format: uuid
+        message:
+          type: string
+          description: Success/failure message
+
+    ErrorInfo:
+      type: object
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        code:
+          type: string
+          description: Error code identifier
+        message:
+          type: string
+          description: Human-readable error message
+
+  responses:
+    Generic400:
+      description: Bad request due to invalid input
+      headers:
+        x-correlator:
+          $ref: '#/components/parameters/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 400
+                  code:
+                    enum:
+                      - MISSING_REQUIRED_PARAM
+                      - INVALID_PARAMETER_VALUE
+                      - INVALID_ARGUMENT
+          examples:
+            GENERIC_400_MISSING_REQUIRED_PARAM:
+              description: Missing required parameter
+              value:
+                status: 400
+                code: MISSING_REQUIRED_PARAM
+                message: "Required parameter 'configurationPrompt' is missing"
+            GENERIC_400_INVALID_PARAMETER_VALUE:
+              description: Invalid parameter value
+              value:
+                status: 400
+                code: INVALID_PARAMETER_VALUE
+                message: "Temperature must be between 0.0 and 1.0"
+            GENERIC_400_INVALID_ARGUMENT:
+              description: Invalid argument
+              value:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: "Client specified an invalid argument"
+
+    Generic403:
+      description: Forbidden
+      headers:
+        x-correlator:
+          $ref: '#/components/parameters/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 403
+                  code:
+                    enum:
+                      - PERMISSION_DENIED
+                      - INVALID_TOKEN_CONTEXT
+          examples:
+            GENERIC_403_PERMISSION_DENIED:
+              description: User lacks required permissions
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: User lacks required permissions for this operation
+            GENERIC_403_INVALID_TOKEN_CONTEXT:
+              description: Token context inconsistency
+              value:
+                status: 403
+                code: INVALID_TOKEN_CONTEXT
+                message: "Assistant ID is not consistent with access token"
+
+    Generic404:
+      description: Resource not found
+      headers:
+        x-correlator:
+          $ref: '#/components/parameters/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 404
+                  code:
+                    enum:
+                      - NOT_FOUND
+                      - ASSISTANT_NOT_FOUND
+                      - IDENTIFIER_NOT_FOUND
+          examples:
+            GENERIC_404_NOT_FOUND:
+              description: Resource is not found
+              value:
+                status: 404
+                code: NOT_FOUND
+                message: The specified resource is not found.
+            GENERIC_404_ASSISTANT_NOT_FOUND:
+              description: Assistant not found
+              value:
+                status: 404
+                code: ASSISTANT_NOT_FOUND
+                message: "Specified assistant ID does not exist"
+            GENERIC_404_IDENTIFIER_NOT_FOUND:
+              description: Identifier not found
+              value:
+                status: 404
+                code: IDENTIFIER_NOT_FOUND
+                message: Assistant identifier not found.
+
+    Generic500:
+      description: Internal server error
+      headers:
+        x-correlator:
+          $ref: '#/components/parameters/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 500
+                  code:
+                    enum:
+                      - INTERNAL_SERVER_ERROR
+                      - INTERNAL
+          examples:
+            GENERIC_500_INTERNAL_SERVER_ERROR:
+              description: Unexpected server error
+              value:
+                status: 500
+                code: INTERNAL_SERVER_ERROR
+                message: "Unexpected server error occurred"
+            GENERIC_500_INTERNAL:
+              description: Internal server error
+              value:
+                status: 500
+                code: INTERNAL
+                message: Unknown server error

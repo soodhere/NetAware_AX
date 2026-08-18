@@ -1,0 +1,47 @@
+subscriptions:
+  - id: rb-identity-sub
+    enterpriseId: rocket-bank
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+  - id: rb-device-sub
+    enterpriseId: rocket-bank
+    capabilityFamily: DEVICE
+    status: active
+  - id: rb-mobility-sub
+    enterpriseId: rocket-bank
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Subscribed does not imply consent is available.
+  - id: hf-location-sub
+    enterpriseId: high-flight-airlines
+    capabilityId: location_verification
+    status: active
+    note: Subscribed does not imply consent is available.
+  - id: hf-connectivity-sub
+    enterpriseId: high-flight-airlines
+    capabilityFamily: CONNECTIVITY
+    status: active
+  - id: acme-quality-sub
+    enterpriseId: acme-manufacturing
+    capabilityFamily: QUALITY
+    status: active
+  - id: acme-edge-sub
+    enterpriseId: acme-manufacturing
+    capabilityId: edge_discovery
+    status: active
+  - id: acme-connectivity-sub
+    enterpriseId: acme-manufacturing
+    capabilityFamily: CONNECTIVITY
+    status: active
+  - id: acme-application-sub
+    enterpriseId: acme-manufacturing
+    capabilityFamily: APPLICATION
+    status: active
+  - id: cc-identity-sub
+    enterpriseId: citycare-health
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+  - id: cc-age-sub
+    enterpriseId: citycare-health
+    capabilityId: age_verification
+    status: active

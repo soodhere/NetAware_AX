@@ -1,0 +1,21 @@
+applications:
+  - id: rocket-bank-payments
+    label: Payments Risk
+    enterpriseId: rocket-bank
+    kind: existing_application
+    note: Existing Rocket Bank application. NetAware does not replace it.
+  - id: high-flight-baggage-operations
+    label: Baggage Operations
+    enterpriseId: high-flight-airlines
+    kind: existing_application
+    note: Existing airline application. Owns Baggage Journey domain APIs.
+  - id: acme-quality-inspection
+    label: Quality Inspection
+    enterpriseId: acme-manufacturing
+    kind: existing_application
+    note: Existing plant quality application.
+  - id: citycare-pharmacy-eligibility
+    label: Pharmacy Eligibility
+    enterpriseId: citycare-health
+    kind: existing_application
+    note: Existing pharmacy application. Owns dispensing workflow.

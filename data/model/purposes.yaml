@@ -1,0 +1,37 @@
+purposes:
+  - id: payment_fraud_assist
+    label: Payment fraud assist
+    audienceLabel: Fraud Prevention / Transaction Security
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST, DEVICE, LOCATION_AND_MOBILITY]
+  - id: identity_continuity_assist
+    label: Identity continuity assist
+    audienceLabel: Identity continuity
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST, DEVICE, LOCATION_AND_MOBILITY]
+  - id: kyc_attribute_match
+    label: KYC attribute match
+    audienceLabel: KYC match
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+  - id: baggage_connection_assurance
+    label: Baggage connection assurance
+    audienceLabel: Service Delivery
+    permittedCapabilityFamilies: [LOCATION_AND_MOBILITY, CONNECTIVITY, QUALITY]
+  - id: presence_assurance
+    label: Presence assurance
+    audienceLabel: Service Delivery
+    permittedCapabilityFamilies: [LOCATION_AND_MOBILITY, CONNECTIVITY]
+  - id: inspection_video_assurance
+    label: Inspection video assurance
+    audienceLabel: Quality assurance
+    permittedCapabilityFamilies: [APPLICATION, CONNECTIVITY, EDGE, QUALITY]
+  - id: pharmacy_age_eligibility
+    label: Pharmacy age eligibility
+    audienceLabel: Age assertion
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST]
+  - id: experience_assurance
+    label: Experience assurance
+    audienceLabel: Experience assurance
+    permittedCapabilityFamilies: [APPLICATION, CONNECTIVITY, EDGE, QUALITY]
+  - id: age_assertion
+    label: Age assertion
+    audienceLabel: Age assertion
+    permittedCapabilityFamilies: [IDENTITY_AND_TRUST]

@@ -1,0 +1,975 @@
+# Official CAMARA OpenAPI catalogue independently pinned for NetAware AX (Cadence 0).
+# Source of truth: GitHub org camaraproject. Specs are copied locally into this repo;
+# do not invent APIs, operationIds, or schemas beyond these files.
+# This pin is independent of any other prototype. No runtime dependency on other repos.
+#
+# Buckets:
+#   camara       = incubating/stable public releases (or superseded parent packs kept for reference)
+#   experimental = sandbox public releases, or main-branch WIP specs with no public release
+#
+# Acquisition date: 2026-08-15
+# Org: https://github.com/camaraproject (93 public repositories surveyed)
+
+catalog:
+  organization: camaraproject
+  org_url: https://github.com/camaraproject
+  pin_policy: latest public GitHub release when present; otherwise default-branch code/API_definitions
+  local_camara: openapi/camara
+  local_experimental: openapi/experimental
+
+apis:
+  - api_name: "Application Endpoint Discovery"
+    repository: camaraproject/ApplicationEndpointDiscovery
+    repository_url: https://github.com/camaraproject/ApplicationEndpointDiscovery
+    source_url: https://raw.githubusercontent.com/camaraproject/ApplicationEndpointDiscovery/r1.2/code/API_definitions/application-endpoint-discovery.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ApplicationEndpointDiscovery__application-endpoint-discovery.yaml
+    potential_meta_use_case: "Discover optimal application endpoints for the device"
+
+  - api_name: "Application Endpoints Registration"
+    repository: camaraproject/ApplicationEndpointRegistration
+    repository_url: https://github.com/camaraproject/ApplicationEndpointRegistration
+    source_url: https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ApplicationEndpointRegistration__application-endpoint-registration.yaml
+    potential_meta_use_case: "Register app endpoints the operator can route toward"
+
+  - api_name: "Connectivity Insights - Application Profiles"
+    repository: camaraproject/ApplicationProfiles
+    repository_url: https://github.com/camaraproject/ApplicationProfiles
+    source_url: https://raw.githubusercontent.com/camaraproject/ApplicationProfiles/r1.2/code/API_definitions/application-profiles.yaml
+    branch_tag_release: r1.2
+    api_version: "0.5.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ApplicationProfiles__application-profiles.yaml
+    potential_meta_use_case: "Declare Meta AI session intent (latency/loss/uplink/compute) to the network"
+
+  - api_name: "Blockchain Public Address Validation"
+    repository: camaraproject/BlockchainPublicAddress
+    repository_url: https://github.com/camaraproject/BlockchainPublicAddress
+    source_url: https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address-validation.yaml
+    branch_tag_release: r2.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/BlockchainPublicAddress__blockchain-public-address-validation.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Blockchain Public Address"
+    repository: camaraproject/BlockchainPublicAddress
+    repository_url: https://github.com/camaraproject/BlockchainPublicAddress
+    source_url: https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/BlockchainPublicAddress__blockchain-public-address.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Call Forwarding Signal"
+    repository: camaraproject/CallForwardingSignal
+    repository_url: https://github.com/camaraproject/CallForwardingSignal
+    source_url: https://raw.githubusercontent.com/camaraproject/CallForwardingSignal/r3.3/code/API_definitions/call-forwarding-signal.yaml
+    branch_tag_release: r3.3
+    api_version: "0.4.0"
+    maturity_status: camara
+    local_filename: openapi/camara/CallForwardingSignal__call-forwarding-signal.yaml
+    potential_meta_use_case: "Anti-fraud: forwarding enabled shortly before account recovery"
+
+  - api_name: "Carrier Billing Refund"
+    repository: camaraproject/CarrierBillingCheckOut
+    repository_url: https://github.com/camaraproject/CarrierBillingCheckOut
+    source_url: https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing-refund.yaml
+    branch_tag_release: r3.2
+    api_version: "0.3.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/CarrierBillingCheckOut__carrier-billing-refund.yaml
+    potential_meta_use_case: "Carrier billing for Meta digital goods — clutter for this demo"
+
+  - api_name: "Carrier Billing"
+    repository: camaraproject/CarrierBillingCheckOut
+    repository_url: https://github.com/camaraproject/CarrierBillingCheckOut
+    source_url: https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing.yaml
+    branch_tag_release: r3.2
+    api_version: "0.5.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/CarrierBillingCheckOut__carrier-billing.yaml
+    potential_meta_use_case: "Carrier billing for Meta digital goods — clutter for this demo"
+
+  - api_name: "Click to Dial Service"
+    repository: camaraproject/ClickToDial
+    repository_url: https://github.com/camaraproject/ClickToDial
+    source_url: https://raw.githubusercontent.com/camaraproject/ClickToDial/r1.4/code/API_definitions/click-to-dial.yaml
+    branch_tag_release: r1.4
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ClickToDial__click-to-dial.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Connected Network Type Subscriptions"
+    repository: camaraproject/ConnectedNetworkType
+    repository_url: https://github.com/camaraproject/ConnectedNetworkType
+    source_url: https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml
+    branch_tag_release: r1.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConnectedNetworkType__connected-network-type-subscriptions.yaml
+    potential_meta_use_case: "NR vs LTE vs WIFI — useful for Experience path selection"
+
+  - api_name: "Connected Network Type"
+    repository: camaraproject/ConnectedNetworkType
+    repository_url: https://github.com/camaraproject/ConnectedNetworkType
+    source_url: https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml
+    branch_tag_release: r1.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConnectedNetworkType__connected-network-type.yaml
+    potential_meta_use_case: "NR vs LTE vs WIFI — useful for Experience path selection"
+
+  - api_name: "Connectivity Insights Subscriptions"
+    repository: camaraproject/ConnectivityInsights
+    repository_url: https://github.com/camaraproject/ConnectivityInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml
+    branch_tag_release: r3.2
+    api_version: "0.6.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConnectivityInsights__connectivity-insights-subscriptions.yaml
+    potential_meta_use_case: "Ask whether the network can meet that session profile now; subscribe to quality change"
+
+  - api_name: "Connectivity Insights"
+    repository: camaraproject/ConnectivityInsights
+    repository_url: https://github.com/camaraproject/ConnectivityInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml
+    branch_tag_release: r3.2
+    api_version: "0.6.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml
+    potential_meta_use_case: "Ask whether the network can meet that session profile now; subscribe to quality change"
+
+  - api_name: "Consent Info"
+    repository: camaraproject/ConsentInfo
+    repository_url: https://github.com/camaraproject/ConsentInfo
+    source_url: https://raw.githubusercontent.com/camaraproject/ConsentInfo/r2.3/code/API_definitions/consent-info.yaml
+    branch_tag_release: r2.3
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConsentInfo__consent-info.yaml
+    potential_meta_use_case: "Consent plumbing, not a demo moment"
+
+  - api_name: "Consent Management"
+    repository: camaraproject/ConsentManagement
+    repository_url: https://github.com/camaraproject/ConsentManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/ConsentManagement/r1.2/code/API_definitions/consent-management.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ConsentManagement__consent-management.yaml
+    potential_meta_use_case: "Consent plumbing, not a demo moment"
+
+  - api_name: "Customer Insights"
+    repository: camaraproject/CustomerInsights
+    repository_url: https://github.com/camaraproject/CustomerInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/CustomerInsights/r2.2/code/API_definitions/customer-insights.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/CustomerInsights__customer-insights.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Dedicated Network - Accesses"
+    repository: camaraproject/DedicatedNetworks
+    repository_url: https://github.com/camaraproject/DedicatedNetworks
+    source_url: https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network-accesses.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DedicatedNetworks__dedicated-network-accesses.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Dedicated Network - Network Profiles"
+    repository: camaraproject/DedicatedNetworks
+    repository_url: https://github.com/camaraproject/DedicatedNetworks
+    source_url: https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network-profiles.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DedicatedNetworks__dedicated-network-profiles.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Dedicated Network - Networks"
+    repository: camaraproject/DedicatedNetworks
+    repository_url: https://github.com/camaraproject/DedicatedNetworks
+    source_url: https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DedicatedNetworks__dedicated-network.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Device Data Volume Subscriptions"
+    repository: camaraproject/DeviceDataVolume
+    repository_url: https://github.com/camaraproject/DeviceDataVolume
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume-subscriptions.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DeviceDataVolume__device-data-volume-subscriptions.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Device Data Volume"
+    repository: camaraproject/DeviceDataVolume
+    repository_url: https://github.com/camaraproject/DeviceDataVolume
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DeviceDataVolume__device-data-volume.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Device Identifier"
+    repository: camaraproject/DeviceIdentifier
+    repository_url: https://github.com/camaraproject/DeviceIdentifier
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceIdentifier/r2.2/code/API_definitions/device-identifier.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/DeviceIdentifier__device-identifier.yaml
+    potential_meta_use_case: "Bind the account to IMEI/PPID currently on the line; show a different handset"
+
+  - api_name: "Device Geofencing Subscriptions"
+    repository: camaraproject/DeviceLocation
+    repository_url: https://github.com/camaraproject/DeviceLocation
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/geofencing-subscriptions.yaml
+    branch_tag_release: r3.2
+    api_version: "0.5.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceLocation__geofencing-subscriptions.yaml
+    potential_meta_use_case: "Verify claimed geography (Toronto vs unexpected area) without exposing a live map by default"
+
+  - api_name: "Device Location Retrieval"
+    repository: camaraproject/DeviceLocation
+    repository_url: https://github.com/camaraproject/DeviceLocation
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-retrieval.yaml
+    branch_tag_release: r3.2
+    api_version: "0.5.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceLocation__location-retrieval.yaml
+    potential_meta_use_case: "Verify claimed geography (Toronto vs unexpected area) without exposing a live map by default"
+
+  - api_name: "Device Location Verification"
+    repository: camaraproject/DeviceLocation
+    repository_url: https://github.com/camaraproject/DeviceLocation
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-verification.yaml
+    branch_tag_release: r3.2
+    api_version: "3.0.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceLocation__location-verification.yaml
+    potential_meta_use_case: "Verify claimed geography (Toronto vs unexpected area) without exposing a live map by default"
+
+  - api_name: "Device Reachability Status Subscriptions"
+    repository: camaraproject/DeviceReachabilityStatus
+    repository_url: https://github.com/camaraproject/DeviceReachabilityStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status-subscriptions.yaml
+    branch_tag_release: r1.2
+    api_version: "0.8.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceReachabilityStatus__device-reachability-status-subscriptions.yaml
+    potential_meta_use_case: "Is the device currently reachable on the mobile network (session health)"
+
+  - api_name: "Device Reachability Status"
+    repository: camaraproject/DeviceReachabilityStatus
+    repository_url: https://github.com/camaraproject/DeviceReachabilityStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status.yaml
+    branch_tag_release: r1.2
+    api_version: "1.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+    potential_meta_use_case: "Is the device currently reachable on the mobile network (session health)"
+
+  - api_name: "Device Roaming Status Subscriptions"
+    repository: camaraproject/DeviceRoamingStatus
+    repository_url: https://github.com/camaraproject/DeviceRoamingStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status-subscriptions.yaml
+    branch_tag_release: r1.2
+    api_version: "0.8.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceRoamingStatus__device-roaming-status-subscriptions.yaml
+    potential_meta_use_case: "Operator roaming/country evidence for unexpected geography"
+
+  - api_name: "Device Roaming Status"
+    repository: camaraproject/DeviceRoamingStatus
+    repository_url: https://github.com/camaraproject/DeviceRoamingStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status.yaml
+    branch_tag_release: r1.2
+    api_version: "1.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml
+    potential_meta_use_case: "Operator roaming/country evidence for unexpected geography"
+
+  - api_name: "Device Swap"
+    repository: camaraproject/DeviceSwap
+    repository_url: https://github.com/camaraproject/DeviceSwap
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceSwap/r3.2/code/API_definitions/device-swap.yaml
+    branch_tag_release: r3.2
+    api_version: "1.0.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceSwap__device-swap.yaml
+    potential_meta_use_case: "WhatsApp device-link: detect physical device change for the same MSISDN"
+
+  - api_name: "Energy Footprint Notification"
+    repository: camaraproject/EnergyFootprintNotification
+    repository_url: https://github.com/camaraproject/EnergyFootprintNotification
+    source_url: https://raw.githubusercontent.com/camaraproject/EnergyFootprintNotification/r1.3/code/API_definitions/energy-footprint-notification.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/EnergyFootprintNotification__energy-footprint-notification.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "High-Throughput Elastic Network API (China Mobile)"
+    repository: camaraproject/HighThroughputElasticNetworks
+    repository_url: https://github.com/camaraproject/HighThroughputElasticNetworks
+    source_url: https://raw.githubusercontent.com/camaraproject/HighThroughputElasticNetworks/v0.1.0-alpha/code/API_definitions/high_throughput_elastic_networks.yaml
+    branch_tag_release: v0.1.0-alpha
+    api_version: "wip"
+    maturity_status: experimental
+    local_filename: openapi/experimental/HighThroughputElasticNetworks__high_throughput_elastic_networks.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "IoT SIM Fraud Prevention Subscriptions"
+    repository: camaraproject/IoTSIMFraudPrevention
+    repository_url: https://github.com/camaraproject/IoTSIMFraudPrevention
+    source_url: https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention-subscriptions.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/IoTSIMFraudPrevention__iot-sim-fraud-prevention-subscriptions.yaml
+    potential_meta_use_case: "IMEI-SIM bind for IoT — not consumer WhatsApp"
+
+  - api_name: "IoT SIM Fraud Prevention"
+    repository: camaraproject/IoTSIMFraudPrevention
+    repository_url: https://github.com/camaraproject/IoTSIMFraudPrevention
+    source_url: https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/IoTSIMFraudPrevention__iot-sim-fraud-prevention.yaml
+    potential_meta_use_case: "IMEI-SIM bind for IoT — not consumer WhatsApp"
+
+  - api_name: "Know Your Customer Age Verification"
+    repository: camaraproject/KnowYourCustomerAgeVerification
+    repository_url: https://github.com/camaraproject/KnowYourCustomerAgeVerification
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomerAgeVerification/r1.3/code/API_definitions/kyc-age-verification.yaml
+    branch_tag_release: r1.3
+    api_version: "0.2.1"
+    maturity_status: experimental
+    local_filename: openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml
+    potential_meta_use_case: "Privacy-preserving 18+ assertion for Instagram/Meta without DoB/ID/face"
+
+  - api_name: "Know Your Customer Fill-in"
+    repository: camaraproject/KnowYourCustomerFill-in
+    repository_url: https://github.com/camaraproject/KnowYourCustomerFill-in
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomerFill-in/r1.3/code/API_definitions/kyc-fill-in.yaml
+    branch_tag_release: r1.3
+    api_version: "0.4.1"
+    maturity_status: camara
+    local_filename: openapi/camara/KnowYourCustomerFill-in__kyc-fill-in.yaml
+    potential_meta_use_case: "Operator-filled KYC form — not the Meta story"
+
+  - api_name: "Know Your Customer Match"
+    repository: camaraproject/KnowYourCustomerMatch
+    repository_url: https://github.com/camaraproject/KnowYourCustomerMatch
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomerMatch/r1.2/code/API_definitions/kyc-match.yaml
+    branch_tag_release: r1.2
+    api_version: "0.4.0"
+    maturity_status: camara
+    local_filename: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml
+    potential_meta_use_case: "PII attribute match — privacy-hostile for Meta demo, do not show"
+
+  - api_name: "Knowledge Base"
+    repository: camaraproject/ModelAsAService
+    repository_url: https://github.com/camaraproject/ModelAsAService
+    source_url: https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/knowledge-base.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ModelAsAService__knowledge-base.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Q&A Assistant - Manage"
+    repository: camaraproject/ModelAsAService
+    repository_url: https://github.com/camaraproject/ModelAsAService
+    source_url: https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-manage.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ModelAsAService__qa-assistant-manage.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Q&A Assistant - Service"
+    repository: camaraproject/ModelAsAService
+    repository_url: https://github.com/camaraproject/ModelAsAService
+    source_url: https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-service.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/ModelAsAService__qa-assistant-service.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Most Frequent Location"
+    repository: camaraproject/MostFrequentLocation
+    repository_url: https://github.com/camaraproject/MostFrequentLocation
+    source_url: https://raw.githubusercontent.com/camaraproject/MostFrequentLocation/r2.2/code/API_definitions/most-frequent-location.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/MostFrequentLocation__most-frequent-location.yaml
+    potential_meta_use_case: "Home-area check vs claimed Toronto — supporting, skip if time-tight"
+
+  - api_name: "Network Health Assessment"
+    repository: camaraproject/NetworkInsights
+    repository_url: https://github.com/camaraproject/NetworkInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-health-assessment.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/NetworkInsights__network-health-assessment.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Network Traffic Analysis"
+    repository: camaraproject/NetworkInsights
+    repository_url: https://github.com/camaraproject/NetworkInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-traffic-analysis.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/NetworkInsights__network-traffic-analysis.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Network Slice Assignment"
+    repository: camaraproject/NetworkSliceBooking
+    repository_url: https://github.com/camaraproject/NetworkSliceBooking
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-assignment.yaml
+    branch_tag_release: r2.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/NetworkSliceBooking__network-slice-assignment.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Network Slice Booking"
+    repository: camaraproject/NetworkSliceBooking
+    repository_url: https://github.com/camaraproject/NetworkSliceBooking
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-booking.yaml
+    branch_tag_release: r2.3
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/NetworkSliceBooking__network-slice-booking.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Number Recycling"
+    repository: camaraproject/NumberRecycling
+    repository_url: https://github.com/camaraproject/NumberRecycling
+    source_url: https://raw.githubusercontent.com/camaraproject/NumberRecycling/r2.2/code/API_definitions/number-recycling.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/NumberRecycling__number-recycling.yaml
+    potential_meta_use_case: "Confirm the MSISDN was not reassigned; identity break is SIM/device not a recycled number"
+
+  - api_name: "Number Verification"
+    repository: camaraproject/NumberVerification
+    repository_url: https://github.com/camaraproject/NumberVerification
+    source_url: https://raw.githubusercontent.com/camaraproject/NumberVerification/r3.2/code/API_definitions/number-verification.yaml
+    branch_tag_release: r3.2
+    api_version: "2.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/NumberVerification__number-verification.yaml
+    potential_meta_use_case: "Confirm the phone number currently allocated to the connected SIM/device"
+
+  - api_name: "Optimal Edge Discovery"
+    repository: camaraproject/OptimalEdgeDiscovery
+    repository_url: https://github.com/camaraproject/OptimalEdgeDiscovery
+    source_url: https://raw.githubusercontent.com/camaraproject/OptimalEdgeDiscovery/r1.2/code/API_definitions/optimal-edge-discovery.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/OptimalEdgeDiscovery__optimal-edge-discovery.yaml
+    potential_meta_use_case: "Richer edge-zone discovery (sandbox)"
+
+  - api_name: "One Time Password SMS"
+    repository: camaraproject/OTPValidation
+    repository_url: https://github.com/camaraproject/OTPValidation
+    source_url: https://raw.githubusercontent.com/camaraproject/OTPValidation/r3.2/code/API_definitions/one-time-password-sms.yaml
+    branch_tag_release: r3.2
+    api_version: "1.1.1"
+    maturity_status: camara
+    local_filename: openapi/camara/OTPValidation__one-time-password-sms.yaml
+    potential_meta_use_case: "SMS OTP — Meta already owns this surface"
+
+  - api_name: "Population Density Data"
+    repository: camaraproject/PopulationDensityData
+    repository_url: https://github.com/camaraproject/PopulationDensityData
+    source_url: https://raw.githubusercontent.com/camaraproject/PopulationDensityData/r3.2/code/API_definitions/population-density-data.yaml
+    branch_tag_release: r3.2
+    api_version: "0.3.0"
+    maturity_status: camara
+    local_filename: openapi/camara/PopulationDensityData__population-density-data.yaml
+    potential_meta_use_case: "Crowd density — not Meta identity/session"
+
+  - api_name: "Predictive Connectivity Data"
+    repository: camaraproject/PredictiveConnectivityData
+    repository_url: https://github.com/camaraproject/PredictiveConnectivityData
+    source_url: https://raw.githubusercontent.com/camaraproject/PredictiveConnectivityData/r1.2/code/API_definitions/predictive-connectivity-data.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/PredictiveConnectivityData__predictive-connectivity-data.yaml
+    potential_meta_use_case: "Area/time/height coverage forecast (drones/cars) — NOT per-UE session prediction"
+
+  - api_name: "QoS Booking and Assignment"
+    repository: camaraproject/QoSBooking
+    repository_url: https://github.com/camaraproject/QoSBooking
+    source_url: https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking-and-assignment.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/QoSBooking__qos-booking-and-assignment.yaml
+    potential_meta_use_case: "Overlaps QoD; skip in v1"
+
+  - api_name: "QoS Booking"
+    repository: camaraproject/QoSBooking
+    repository_url: https://github.com/camaraproject/QoSBooking
+    source_url: https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/QoSBooking__qos-booking.yaml
+    potential_meta_use_case: "Overlaps QoD; skip in v1"
+
+  - api_name: "QoS Profiles"
+    repository: camaraproject/QualityOnDemand
+    repository_url: https://github.com/camaraproject/QualityOnDemand
+    source_url: https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/qos-profiles.yaml
+    branch_tag_release: r3.2
+    api_version: "1.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/QualityOnDemand__qos-profiles.yaml
+    potential_meta_use_case: "Boost a Meta AI/WhatsApp realtime session before quality breaks"
+
+  - api_name: "QoS Provisioning"
+    repository: camaraproject/QualityOnDemand
+    repository_url: https://github.com/camaraproject/QualityOnDemand
+    source_url: https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/qos-provisioning.yaml
+    branch_tag_release: r3.2
+    api_version: "0.3.0"
+    maturity_status: camara
+    local_filename: openapi/camara/QualityOnDemand__qos-provisioning.yaml
+    potential_meta_use_case: "Boost a Meta AI/WhatsApp realtime session before quality breaks"
+
+  - api_name: "Quality-On-Demand"
+    repository: camaraproject/QualityOnDemand
+    repository_url: https://github.com/camaraproject/QualityOnDemand
+    source_url: https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/quality-on-demand.yaml
+    branch_tag_release: r3.2
+    api_version: "1.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/QualityOnDemand__quality-on-demand.yaml
+    potential_meta_use_case: "Boost a Meta AI/WhatsApp realtime session before quality breaks"
+
+  - api_name: "Region Device Count"
+    repository: camaraproject/RegionDeviceCount
+    repository_url: https://github.com/camaraproject/RegionDeviceCount
+    source_url: https://raw.githubusercontent.com/camaraproject/RegionDeviceCount/r2.2/code/API_definitions/region-device-count.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/RegionDeviceCount__region-device-count.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Simple Edge Discovery"
+    repository: camaraproject/SimpleEdgeDiscovery
+    repository_url: https://github.com/camaraproject/SimpleEdgeDiscovery
+    source_url: https://raw.githubusercontent.com/camaraproject/SimpleEdgeDiscovery/r2.3/code/API_definitions/simple-edge-discovery.yaml
+    branch_tag_release: r2.3
+    api_version: "2.0.1"
+    maturity_status: camara
+    local_filename: openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml
+    potential_meta_use_case: "Find closest edge zone for a multimodal/video session"
+
+  - api_name: "Sim Swap Subscriptions"
+    repository: camaraproject/SimSwap
+    repository_url: https://github.com/camaraproject/SimSwap
+    source_url: https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap-subscriptions.yaml
+    branch_tag_release: r3.3
+    api_version: "0.3.0"
+    maturity_status: camara
+    local_filename: openapi/camara/SimSwap__sim-swap-subscriptions.yaml
+    potential_meta_use_case: "WhatsApp/account takeover: detect recent SIM change under a stable digital login"
+
+  - api_name: "SIM Swap"
+    repository: camaraproject/SimSwap
+    repository_url: https://github.com/camaraproject/SimSwap
+    source_url: https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap.yaml
+    branch_tag_release: r3.3
+    api_version: "2.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/SimSwap__sim-swap.yaml
+    potential_meta_use_case: "WhatsApp/account takeover: detect recent SIM change under a stable digital login"
+
+  - api_name: "SubscriptionStatus"
+    repository: camaraproject/SubscriptionStatus
+    repository_url: https://github.com/camaraproject/SubscriptionStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/SubscriptionStatus/r1.2/code/API_definitions/subscription-status.yaml
+    branch_tag_release: r1.2
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/SubscriptionStatus__subscription-status.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "KYC Tenure"
+    repository: camaraproject/Tenure
+    repository_url: https://github.com/camaraproject/Tenure
+    source_url: https://raw.githubusercontent.com/camaraproject/Tenure/r2.2/code/API_definitions/kyc-tenure.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/Tenure__kyc-tenure.yaml
+    potential_meta_use_case: "Long operator tenure vs sudden SIM/device churn — trust vs disruption contrast"
+
+  - api_name: "Traffic Influence"
+    repository: camaraproject/TrafficInfluence
+    repository_url: https://github.com/camaraproject/TrafficInfluence
+    source_url: https://raw.githubusercontent.com/camaraproject/TrafficInfluence/r1.3/code/API_definitions/traffic-influence.yaml
+    branch_tag_release: r1.3
+    api_version: "0.10.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/TrafficInfluence__traffic-influence.yaml
+    potential_meta_use_case: "Steer UE traffic toward a chosen edge application instance as the user moves"
+
+  - api_name: "Brand Registration"
+    repository: camaraproject/VerifiedCaller
+    repository_url: https://github.com/camaraproject/VerifiedCaller
+    source_url: https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/brand-registration.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/VerifiedCaller__brand-registration.yaml
+    potential_meta_use_case: "Branded/verified calling for Meta Business — optional, not hero"
+
+  - api_name: "Verified Caller"
+    repository: camaraproject/VerifiedCaller
+    repository_url: https://github.com/camaraproject/VerifiedCaller
+    source_url: https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/verified-caller.yaml
+    branch_tag_release: r1.3
+    api_version: "0.1.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/VerifiedCaller__verified-caller.yaml
+    potential_meta_use_case: "Branded/verified calling for Meta Business — optional, not hero"
+
+  - api_name: "WebRTC Call Handling"
+    repository: camaraproject/WebRTC
+    repository_url: https://github.com/camaraproject/WebRTC
+    source_url: https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-call-handling.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/WebRTC__webrtc-call-handling.yaml
+    potential_meta_use_case: "Operator WebRTC stack — WhatsApp has its own media path"
+
+  - api_name: "WebRTC Events"
+    repository: camaraproject/WebRTC
+    repository_url: https://github.com/camaraproject/WebRTC
+    source_url: https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-events.yaml
+    branch_tag_release: r2.2
+    api_version: "0.2.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/WebRTC__webrtc-events.yaml
+    potential_meta_use_case: "Operator WebRTC stack — WhatsApp has its own media path"
+
+  - api_name: "WebRTC Registration Service"
+    repository: camaraproject/WebRTC
+    repository_url: https://github.com/camaraproject/WebRTC
+    source_url: https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-registration.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: experimental
+    local_filename: openapi/experimental/WebRTC__webrtc-registration.yaml
+    potential_meta_use_case: "Operator WebRTC stack — WhatsApp has its own media path"
+
+  - api_name: "Know Your Customer Age Verification"
+    repository: camaraproject/KnowYourCustomer
+    repository_url: https://github.com/camaraproject/KnowYourCustomer
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-age-verification.yaml
+    branch_tag_release: r2.2
+    api_version: "0.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/KnowYourCustomer__kyc-age-verification.yaml
+    potential_meta_use_case: "Superseded parent pack; prefer split KYC repos"
+
+  - api_name: "Know Your Customer Fill-in"
+    repository: camaraproject/KnowYourCustomer
+    repository_url: https://github.com/camaraproject/KnowYourCustomer
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-fill-in.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: camara
+    local_filename: openapi/camara/KnowYourCustomer__kyc-fill-in.yaml
+    potential_meta_use_case: "Superseded parent pack; prefer split KYC repos"
+
+  - api_name: "Know Your Customer Match"
+    repository: camaraproject/KnowYourCustomer
+    repository_url: https://github.com/camaraproject/KnowYourCustomer
+    source_url: https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-match.yaml
+    branch_tag_release: r2.2
+    api_version: "0.3.0"
+    maturity_status: camara
+    local_filename: openapi/camara/KnowYourCustomer__kyc-match.yaml
+    potential_meta_use_case: "Superseded parent pack; prefer split KYC repos"
+
+  - api_name: "Connected Network Type Subscriptions"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/connected-network-type-subscriptions.yaml
+    branch_tag_release: r2.2
+    api_version: "0.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__connected-network-type-subscriptions.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Connected Network Type"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/connected-network-type.yaml
+    branch_tag_release: r2.2
+    api_version: "0.1.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__connected-network-type.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Device Reachability Status Subscriptions"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-reachability-status-subscriptions.yaml
+    branch_tag_release: r2.2
+    api_version: "0.7.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__device-reachability-status-subscriptions.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Device Reachability Status"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-reachability-status.yaml
+    branch_tag_release: r2.2
+    api_version: "1.0.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__device-reachability-status.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Device Roaming Status Subscriptions"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status-subscriptions.yaml
+    branch_tag_release: r2.2
+    api_version: "0.7.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__device-roaming-status-subscriptions.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Device Roaming Status"
+    repository: camaraproject/DeviceStatus
+    repository_url: https://github.com/camaraproject/DeviceStatus
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status.yaml
+    branch_tag_release: r2.2
+    api_version: "1.0.0"
+    maturity_status: camara
+    local_filename: openapi/camara/DeviceStatus__device-roaming-status.yaml
+    potential_meta_use_case: "Superseded Fall25 split: prefer DeviceReachabilityStatus / DeviceRoamingStatus / ConnectedNetworkType"
+
+  - api_name: "Capabilities and Restrictions"
+    repository: camaraproject/CapabilitiesAndRuntimeRestrictions
+    repository_url: https://github.com/camaraproject/CapabilitiesAndRuntimeRestrictions
+    source_url: https://raw.githubusercontent.com/camaraproject/CapabilitiesAndRuntimeRestrictions/main/code/API_definitions/capabilities-and-restrictions.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/CapabilitiesAndRuntimeRestrictions__capabilities-and-restrictions.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "DeviceAuthenticity"
+    repository: camaraproject/DeviceAuthenticity
+    repository_url: https://github.com/camaraproject/DeviceAuthenticity
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceAuthenticity/main/code/API_definitions/device-authenticity.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/DeviceAuthenticity__device-authenticity.yaml
+    potential_meta_use_case: "WIP: IMEI stolen/blocked register — optional Protect spice"
+
+  - api_name: "Media Streaming Rate"
+    repository: camaraproject/DeviceMediaStreamingRate
+    repository_url: https://github.com/camaraproject/DeviceMediaStreamingRate
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceMediaStreamingRate/main/code/API_definitions/media-streaming-rate.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/DeviceMediaStreamingRate__media-streaming-rate.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Device Visit Location"
+    repository: camaraproject/DeviceVisitLocation
+    repository_url: https://github.com/camaraproject/DeviceVisitLocation
+    source_url: https://raw.githubusercontent.com/camaraproject/DeviceVisitLocation/main/code/API_definitions/device-visit-location.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/DeviceVisitLocation__device-visit-location.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Edge Application Management"
+    repository: camaraproject/EdgeApplicationManagement
+    repository_url: https://github.com/camaraproject/EdgeApplicationManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/EdgeApplicationManagement/main/code/API_definitions/edge-application-management.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/EdgeApplicationManagement__edge-application-management.yaml
+    potential_meta_use_case: "WIP: deploy/manage edge app instances"
+
+  - api_name: "eSIM Remote Management"
+    repository: camaraproject/eSimRemoteManagement
+    repository_url: https://github.com/camaraproject/eSimRemoteManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/eSimRemoteManagement/main/code/API_definitions/esim-remote-management.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/eSimRemoteManagement__esim-remote-management.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "In-Home Device Management API"
+    repository: camaraproject/InHomeDeviceManagement
+    repository_url: https://github.com/camaraproject/InHomeDeviceManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/InHomeDeviceManagement/main/code/API_definitions/InHomeDeviceManagement.yaml
+    branch_tag_release: main
+    api_version: "1.0.0"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/InHomeDeviceManagement__InHomeDeviceManagement.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "eSIM Profile Management API"
+    repository: camaraproject/IoTDeviceManagement
+    repository_url: https://github.com/camaraproject/IoTDeviceManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/IoTDeviceManagement/main/code/API_definitions/esim-profile-management.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/IoTDeviceManagement__esim-profile-management.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "IoT Network Optimization API"
+    repository: camaraproject/IoTNetworkOptimization
+    repository_url: https://github.com/camaraproject/IoTNetworkOptimization
+    source_url: https://raw.githubusercontent.com/camaraproject/IoTNetworkOptimization/main/code/API_definitions/iot-network-optimization.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/IoTNetworkOptimization__iot-network-optimization.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "MultiPoint Virtual Private Network"
+    repository: camaraproject/MultiPointVPN
+    repository_url: https://github.com/camaraproject/MultiPointVPN
+    source_url: https://raw.githubusercontent.com/camaraproject/MultiPointVPN/main/code/API_definitions/multi-point-vpn.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/MultiPointVPN__multi-point-vpn.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Home Devices - Network Access Devices"
+    repository: camaraproject/NetworkAccessManagement
+    repository_url: https://github.com/camaraproject/NetworkAccessManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkAccessManagement/main/code/API_definitions/network-access-devices.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/NetworkAccessManagement__network-access-devices.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Home Devices - Network Access Domains"
+    repository: camaraproject/NetworkAccessManagement
+    repository_url: https://github.com/camaraproject/NetworkAccessManagement
+    source_url: https://raw.githubusercontent.com/camaraproject/NetworkAccessManagement/main/code/API_definitions/network-access-domains.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/NetworkAccessManagement__network-access-domains.yaml
+    potential_meta_use_case: "See CAMARA README; not selected for Meta hero flows unless noted in the demo plan"
+
+  - api_name: "Session Insights"
+    repository: camaraproject/SessionInsights
+    repository_url: https://github.com/camaraproject/SessionInsights
+    source_url: https://raw.githubusercontent.com/camaraproject/SessionInsights/main/code/API_definitions/session-insights.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/SessionInsights__session-insights.yaml
+    potential_meta_use_case: "WIP: app-observed metrics in, operator score + proposedResolution out"
+
+  - api_name: "Sponsored Data API"
+    repository: camaraproject/SponsoredData
+    repository_url: https://github.com/camaraproject/SponsoredData
+    source_url: https://raw.githubusercontent.com/camaraproject/SponsoredData/main/code/API_definitions/sponsored_data.yaml
+    branch_tag_release: main
+    api_version: "wip"
+    maturity_status: experimental-wip
+    local_filename: openapi/experimental/SponsoredData__sponsored_data.yaml
+    potential_meta_use_case: "WIP: zero-rate WhatsApp/Instagram in emerging markets — optional commercial"
+
+notes:
+  no_usable_openapi_found:
+    - repo: camaraproject/EdgeCloud
+      reason: Parent EdgeCloud subproject; APIs split into SimpleEdgeDiscovery, TrafficInfluence, ApplicationEndpoint*, OptimalEdgeDiscovery, EdgeApplicationManagement
+    - repo: camaraproject/RainfallIntensity
+      reason: No code/API_definitions YAML on latest release or main
+    - repo: camaraproject/VoiceNotification
+      reason: No public release and no YAML on default branch
+    - repo: camaraproject/VoiceVerificationCode
+      reason: No public release and no YAML on default branch
+  superseded_parent_packs_kept_for_reference:
+    - openapi/camara/DeviceStatus__*.yaml
+      prefer: DeviceReachabilityStatus, DeviceRoamingStatus, ConnectedNetworkType
+    - openapi/camara/KnowYourCustomer__*.yaml
+      prefer: KnowYourCustomerAgeVerification, KnowYourCustomerMatch, KnowYourCustomerFill-in
+  not_api_repositories_surveyed_and_skipped:
+    - Governance, Commonalities, IdentityAndConsentManagement, APIBacklog
+    - ReleaseManagement, Marketing, project-administration, tooling
+    - QualityOnDemand_PI1/PI2/PI3 and other provider-implementation repos
+    - Template_API_Repository, test repos, archived WorkingGroups
+  demo_canonical_protect_contracts:
+    - openapi/camara/NumberVerification__number-verification.yaml
+    - openapi/camara/SimSwap__sim-swap.yaml
+    - openapi/camara/DeviceSwap__device-swap.yaml
+    - openapi/experimental/DeviceIdentifier__device-identifier.yaml
+    - openapi/camara/DeviceLocation__location-verification.yaml
+    - openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml
+    - openapi/experimental/Tenure__kyc-tenure.yaml
+    - openapi/experimental/NumberRecycling__number-recycling.yaml
+    - openapi/camara/CallForwardingSignal__call-forwarding-signal.yaml
+  demo_canonical_experience_contracts:
+    - openapi/experimental/ApplicationProfiles__application-profiles.yaml
+    - openapi/experimental/ConnectivityInsights__connectivity-insights.yaml
+    - openapi/experimental/ConnectivityInsights__connectivity-insights-subscriptions.yaml
+    - openapi/camara/QualityOnDemand__quality-on-demand.yaml
+    - openapi/camara/QualityOnDemand__qos-profiles.yaml
+    - openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml
+    - openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+    - openapi/experimental/ConnectedNetworkType__connected-network-type.yaml
+    - openapi/experimental/TrafficInfluence__traffic-influence.yaml
+    - openapi/experimental/SessionInsights__session-insights.yaml
+  honesty_constraints:
+    - CAMARA has no historical identity-graph API. Scam-cluster expansion must be NetAware-derived.
+    - PredictiveConnectivityData forecasts coverage for a geographic volume/area/height/time. It is not a per-UE session predictor.
+    - SessionInsights and DeviceAuthenticity and SponsoredData are WIP/main or alpha; label them future/proposed if shown.

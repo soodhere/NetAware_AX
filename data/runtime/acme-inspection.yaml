@@ -1,0 +1,167 @@
+# Cadence 4 — Acme maintain_inspection_experience simulation seed.
+# Deterministic closed-loop: observe → satisfied → breach → replan → QoD → verify.
+
+scenario:
+  id: acme-inspection
+  executableIntent: maintain_inspection_experience
+  enterpriseId: acme-manufacturing
+  applicationId: acme-quality-inspection
+  agentId: inspection-experience-agent
+  useCaseId: critical-inspection-camera
+  policyId: acme-inspection-policy
+  sloMs: 40
+  correlation:
+    intentId: maintain_inspection_experience
+    executionId: ax-acme-inspect-001
+    traceId: ax-acme-inspect-trace
+    correlationId: ACME-CAM-14-ax
+  request:
+    intent: maintain_inspection_experience
+    subject:
+      cameraId: ACME-CAM-14
+      lineId: LINE-B
+    context:
+      sloMs: 40
+  networkSubject:
+    cameraId: ACME-CAM-14
+    lineId: LINE-B
+    networkIdentifier: plant-uplink-LINE-B
+    note: Inspection camera uplink on plant network. Network identifier from enterprise context.
+  telcoFinder:
+    neededBecause: Camera ACME-CAM-14 uses a plant network uplink. NetAware resolves the provider before discovering Network APIs.
+    subjectChain:
+      - entity: camera
+        id: ACME-CAM-14
+      - entity: plant uplink
+        id: plant-uplink-LINE-B
+    input: plant-uplink-LINE-B
+    result:
+      network: Network Provider C
+      providerId: simulated-provider-c
+      homeNetwork: true
+      region: EU
+      simulated: true
+  networkRoutes:
+    checkNetworkQuality:
+      routeType: DIRECT
+      providerId: simulated-provider-c
+      providerLabel: Network Provider C
+      routeDisplay: NetAware → Network Provider C
+    createApplicationProfile:
+      routeType: DIRECT
+      providerId: simulated-provider-c
+      providerLabel: Network Provider C
+      routeDisplay: NetAware → Network Provider C
+    retrieveQoSProfiles:
+      routeType: DIRECT
+      providerId: simulated-provider-c
+      providerLabel: Network Provider C
+      routeDisplay: NetAware → Network Provider C
+    createSession:
+      routeType: HYBRID
+      providerId: simulated-provider-c
+      providerLabel: Network Provider C
+      routeDisplay: NetAware → Network Provider C (HYBRID QoD)
+    getSession:
+      routeType: HYBRID
+      providerId: simulated-provider-c
+      providerLabel: Network Provider C
+      routeDisplay: NetAware → Network Provider C (HYBRID QoD)
+  networkResponses:
+    checkNetworkQuality_initial:
+      httpStatus: 200
+      latencyMs: 38
+      raw:
+        quality: ADEQUATE
+        latencyMs: 32
+        packetLoss: 0.2
+      evidence:
+        type: CONNECTIVITY_OBSERVE
+        status: satisfied
+        latencyMs: 32
+        objective: SATISFIED
+    createApplicationProfile:
+      httpStatus: 200
+      latencyMs: 45
+      raw:
+        profileId: acme-inspection-video
+        applicationServer: inspection-inference
+      evidence:
+        type: APPLICATION_PROFILE
+        status: associated
+    checkNetworkQuality_degraded:
+      httpStatus: 200
+      latencyMs: 41
+      raw:
+        quality: DEGRADED
+        latencyMs: 78
+        packetLoss: 2.4
+      evidence:
+        type: CONNECTIVITY_OBSERVE
+        status: breached
+        latencyMs: 78
+        objective: NOT_SATISFIED
+    retrieveQoSProfiles:
+      httpStatus: 200
+      latencyMs: 36
+      raw:
+        profiles:
+          - id: QOS-LOW-LATENCY
+            label: Low latency video
+      evidence:
+        type: QOS_PROFILES
+        status: selected
+        selectedProfile: QOS-LOW-LATENCY
+    createSession:
+      httpStatus: 201
+      latencyMs: 58
+      raw:
+        sessionId: qod-acme-014
+        status: ACTIVE
+        qosProfile: QOS-LOW-LATENCY
+      evidence:
+        type: QOD_SESSION
+        status: created
+        action: QOD_APPLIED
+    checkNetworkQuality_verify:
+      httpStatus: 200
+      latencyMs: 39
+      raw:
+        quality: ADEQUATE
+        latencyMs: 28
+        packetLoss: 0.1
+      evidence:
+        type: CONNECTIVITY_VERIFY
+        status: satisfied
+        latencyMs: 28
+        objective: SATISFIED
+    getSession:
+      httpStatus: 200
+      latencyMs: 33
+      raw:
+        sessionId: qod-acme-014
+        status: ACTIVE
+      evidence:
+        type: QOD_VERIFY
+        status: active
+        verification: PASSED
+  conditionChange:
+    trigger: OBJECTIVE_BREACH
+    detail: Observed latency 78ms exceeds configured SLO 40ms.
+    fromObjective: SATISFIED
+    toObjective: NOT_SATISFIED
+  outcome:
+    outcome: ASSURED
+    objective: SATISFIED
+    sloMs: 40
+    networkAction: QOD_APPLIED
+    autonomousAction: true
+    verification: PASSED
+    confidence: 0.96
+    recommendedAction: NONE
+    decisionOwner: ACME_QUALITY_INSPECTION
+    reasonCodes:
+      - EXPERIENCE_DEGRADED
+      - QOD_APPLIED
+      - OBJECTIVE_RESTORED
+    summary: Inspection camera experience restored. QoD applied autonomously and verified post-action. MES routing unchanged.

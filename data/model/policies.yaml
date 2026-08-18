@@ -1,0 +1,105 @@
+policies:
+  - id: rocket-bank-trust-policy
+    label: Rocket Bank trust policy
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    agentId: payments-protection-agent
+    intentId: assess_network_trust
+    purposeId: payment_fraud_assist
+    agreementId: rocket-bank-dpa
+    note: Cadence 2 evaluates configured policy. Not a universal legal conclusion.
+  - id: rocket-bank-recovery-policy
+    label: Rocket Bank recovery continuity policy
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    agentId: payments-protection-agent
+    intentId: assess_recovery_continuity
+    purposeId: identity_continuity_assist
+    agreementId: rocket-bank-dpa
+    note: Permits reusing normalized trust evidence when purpose/policy/TTL allow. Configured demo policy only.
+  - id: high-flight-baggage-policy
+    label: High Flight baggage policy
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-baggage-operations
+    agentId: baggage-operations-agent
+    intentId: ensure_baggage_connection
+    purposeId: baggage_connection_assurance
+    agreementId: high-flight-dpa
+    note: Location consent required; consent not available in later runtime seed.
+  - id: acme-inspection-policy
+    label: Acme inspection policy
+    enterpriseId: acme-manufacturing
+    applicationId: acme-quality-inspection
+    agentId: inspection-experience-agent
+    intentId: maintain_inspection_experience
+    purposeId: inspection_video_assurance
+    agreementId: acme-dpa
+    note: QoD, Connectivity Insights and Application Profiles permitted under CURRENT_FOCUS. Identity/KYC not authorized. Insights/Profiles have experimental CAMARA maturity.
+  - id: citycare-pharmacy-policy
+    label: CityCare pharmacy age policy
+    enterpriseId: citycare-health
+    applicationId: citycare-pharmacy-eligibility
+    agentId: pharmacy-eligibility-agent
+    intentId: verify_pharmacy_age_gate
+    purposeId: pharmacy_age_eligibility
+    agreementId: citycare-dpa
+    note: Age assertion permitted. Broader KYC Match blocked for this intent by configured agreement.
+
+policyRules:
+  - id: rb-region-ca
+    policyId: rocket-bank-trust-policy
+    dimension: region
+    operator: permit
+    value: CA
+  - id: rb-identity-permit
+    policyId: rocket-bank-trust-policy
+    dimension: capability_family
+    operator: permit
+    value: IDENTITY_AND_TRUST
+  - id: rb-decline-not-authorized
+    policyId: rocket-bank-trust-policy
+    dimension: action
+    operator: deny
+    value: decline_transaction
+    note: Agent may not decline the payment. Enterprise owns that decision.
+  - id: hf-location-purpose-ok
+    policyId: high-flight-baggage-policy
+    dimension: purpose
+    operator: permit
+    value: baggage_connection_assurance
+  - id: hf-qod-not-for-physical-transfer
+    policyId: high-flight-baggage-policy
+    dimension: capability
+    operator: constrain
+    value: quality_on_demand
+    note: QoD may be permitted but is not the limiting factor when transfer is physical.
+  - id: acme-residency-plant
+    policyId: acme-inspection-policy
+    dimension: data_residency
+    operator: permit
+    value: plant_region
+  - id: acme-kyc-deny
+    policyId: acme-inspection-policy
+    dimension: capability_family
+    operator: deny
+    value: IDENTITY_AND_TRUST
+  - id: cc-kyc-match-deny
+    policyId: citycare-pharmacy-policy
+    dimension: capability
+    operator: deny
+    value: kyc_match
+    note: Broader KYC Match is not permitted for pharmacy age gate. Minimum capability only.
+
+consentRules:
+  - id: hf-location-consent
+    policyId: high-flight-baggage-policy
+    capabilityId: location_verification
+    required: true
+    available: false
+    note: Configured demo policy. Consent required; availability is stored as false. Not a universal legal conclusion.
+  - id: rb-location-consent
+    policyId: rocket-bank-trust-policy
+    capabilityId: location_verification
+    required: true
+    available: false
+    note: Configured demo policy. Consent required; availability is stored as false. Not a universal legal conclusion.

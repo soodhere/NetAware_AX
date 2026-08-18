@@ -1,0 +1,148 @@
+# Cadence 0.2 graph — AX_ACTIVE_CATALOG business families only.
+# Evidence: SOURCE_BACKED | INFERRED | NEEDS_REVIEW
+
+domainUseCases:
+  - { domainId: financial, useCaseId: high-value-payment-protection }
+  - { domainId: financial, useCaseId: account-recovery-anomaly }
+  - { domainId: financial, useCaseId: kyc-attribute-match }
+  - { domainId: airlines, useCaseId: baggage-connection }
+  - { domainId: airlines, useCaseId: locate-baggage }
+  - { domainId: airports, useCaseId: airside-asset-presence }
+  - { domainId: airports, useCaseId: turnaround-video }
+  - { domainId: manufacturing, useCaseId: critical-inspection-camera }
+  - { domainId: construction, useCaseId: equipment-on-site }
+  - { domainId: construction, useCaseId: site-uplink }
+  - { domainId: warehouse, useCaseId: shipment-custody }
+  - { domainId: warehouse, useCaseId: dock-scan-session }
+  - { domainId: retail, useCaseId: checkout-trust }
+  - { domainId: insurance, useCaseId: claim-device-trust }
+  - { domainId: insurance, useCaseId: claim-location-consistency }
+  - { domainId: healthcare, useCaseId: telehealth-session }
+  - { domainId: healthcare, useCaseId: home-care-visit }
+  - { domainId: media, useCaseId: live-broadcast }
+  - { domainId: stadium, useCaseId: venue-experience }
+  - { domainId: retail, useCaseId: age-restricted-sale }
+  - { domainId: healthcare, useCaseId: pharmacy-age-gate }
+
+useCaseIntents:
+  - { useCaseId: high-value-payment-protection, intentId: assess_network_trust }
+  - { useCaseId: account-recovery-anomaly, intentId: assess_recovery_continuity }
+  - { useCaseId: kyc-attribute-match, intentId: match_customer_kyc }
+  - { useCaseId: baggage-connection, intentId: ensure_baggage_connection }
+  - { useCaseId: locate-baggage, intentId: locate_baggage }
+  - { useCaseId: airside-asset-presence, intentId: verify_airside_presence }
+  - { useCaseId: turnaround-video, intentId: maintain_turnaround_video }
+  - { useCaseId: critical-inspection-camera, intentId: maintain_inspection_experience }
+  - { useCaseId: equipment-on-site, intentId: verify_equipment_on_site }
+  - { useCaseId: site-uplink, intentId: maintain_site_uplink }
+  - { useCaseId: shipment-custody, intentId: verify_shipment_device_presence }
+  - { useCaseId: dock-scan-session, intentId: maintain_scan_session }
+  - { useCaseId: checkout-trust, intentId: assess_checkout_trust }
+  - { useCaseId: claim-device-trust, intentId: assess_claim_device_trust }
+  - { useCaseId: claim-location-consistency, intentId: verify_claim_location }
+  - { useCaseId: telehealth-session, intentId: maintain_telehealth_experience }
+  - { useCaseId: home-care-visit, intentId: verify_visit_in_geofence }
+  - { useCaseId: live-broadcast, intentId: assure_live_broadcast }
+  - { useCaseId: venue-experience, intentId: maintain_venue_experience }
+  - { useCaseId: age-restricted-sale, intentId: verify_age_threshold }
+  - { useCaseId: pharmacy-age-gate, intentId: verify_pharmacy_age_gate }
+
+# Identity continuity family — same practical APIs, many businesses.
+intentCapabilities:
+  - { intentId: assess_network_trust, capabilityId: number_possession_verification, role: required, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: number_recycling, role: considered, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: sim_continuity, role: required, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: device_continuity, role: required, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: device_identifier, role: required, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: roaming_status, role: required, evidence: SOURCE_BACKED }
+  - { intentId: assess_network_trust, capabilityId: location_verification, role: considered, evidence: SOURCE_BACKED }
+
+  - { intentId: assess_recovery_continuity, capabilityId: sim_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_recovery_continuity, capabilityId: device_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_recovery_continuity, capabilityId: roaming_status, role: considered, evidence: INFERRED }
+
+  - { intentId: assess_checkout_trust, capabilityId: number_possession_verification, role: required, evidence: INFERRED }
+  - { intentId: assess_checkout_trust, capabilityId: sim_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_checkout_trust, capabilityId: device_continuity, role: required, evidence: INFERRED }
+
+  - { intentId: assess_claim_device_trust, capabilityId: sim_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_claim_device_trust, capabilityId: device_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_claim_device_trust, capabilityId: roaming_status, role: considered, evidence: INFERRED }
+
+  - { intentId: match_customer_kyc, capabilityId: kyc_match, role: required, evidence: INFERRED }
+
+  - { intentId: ensure_baggage_connection, capabilityId: location_verification, role: considered, evidence: INFERRED }
+  - { intentId: ensure_baggage_connection, capabilityId: device_reachability, role: required, evidence: INFERRED }
+  - { intentId: ensure_baggage_connection, capabilityId: connectivity_insights, role: considered, evidence: INFERRED }
+  - { intentId: ensure_baggage_connection, capabilityId: quality_on_demand, role: considered, evidence: INFERRED }
+
+  - { intentId: locate_baggage, capabilityId: location_retrieval, role: required, evidence: INFERRED }
+  - { intentId: locate_baggage, capabilityId: location_verification, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_airside_presence, capabilityId: geofencing, role: required, evidence: INFERRED }
+  - { intentId: verify_airside_presence, capabilityId: location_verification, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_equipment_on_site, capabilityId: geofencing, role: required, evidence: INFERRED }
+  - { intentId: verify_equipment_on_site, capabilityId: location_verification, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_shipment_device_presence, capabilityId: location_verification, role: required, evidence: INFERRED }
+  - { intentId: verify_shipment_device_presence, capabilityId: geofencing, role: considered, evidence: INFERRED }
+  - { intentId: verify_shipment_device_presence, capabilityId: device_reachability, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_claim_location, capabilityId: location_verification, role: required, evidence: INFERRED }
+  - { intentId: verify_claim_location, capabilityId: roaming_status, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_visit_in_geofence, capabilityId: geofencing, role: required, evidence: INFERRED }
+  - { intentId: verify_visit_in_geofence, capabilityId: location_verification, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_inspection_experience, capabilityId: application_profiles, role: required, evidence: SOURCE_BACKED }
+  - { intentId: maintain_inspection_experience, capabilityId: connectivity_insights, role: required, evidence: SOURCE_BACKED }
+  - { intentId: maintain_inspection_experience, capabilityId: quality_on_demand, role: considered, evidence: SOURCE_BACKED }
+  - { intentId: maintain_inspection_experience, capabilityId: edge_discovery, role: considered, evidence: SOURCE_BACKED }
+  - { intentId: maintain_inspection_experience, capabilityId: device_reachability, role: considered, evidence: INFERRED }
+
+  - { intentId: verify_age_threshold, capabilityId: age_verification, role: required, evidence: INFERRED }
+  - { intentId: verify_pharmacy_age_gate, capabilityId: age_verification, role: required, evidence: INFERRED }
+  - { intentId: verify_pharmacy_age_gate, capabilityId: kyc_match, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_turnaround_video, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: maintain_turnaround_video, capabilityId: edge_discovery, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_site_uplink, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: maintain_site_uplink, capabilityId: device_reachability, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_scan_session, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: maintain_scan_session, capabilityId: device_reachability, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_telehealth_experience, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: maintain_telehealth_experience, capabilityId: edge_discovery, role: considered, evidence: INFERRED }
+
+  - { intentId: assure_live_broadcast, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: assure_live_broadcast, capabilityId: edge_discovery, role: considered, evidence: INFERRED }
+
+  - { intentId: maintain_venue_experience, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
+  - { intentId: maintain_venue_experience, capabilityId: device_reachability, role: considered, evidence: INFERRED }
+
+capabilityOperations:
+  - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: SOURCE_BACKED }
+  - { operationId: phoneNumberShare, source: openapi/camara/NumberVerification__number-verification.yaml, capabilityId: number_possession_verification, evidence: NEEDS_REVIEW, note: NV2 / Wi-Fi-suitable path is spec-dependent. }
+  - { operationId: checkSimSwap, source: openapi/camara/SimSwap__sim-swap.yaml, capabilityId: sim_continuity, evidence: SOURCE_BACKED }
+  - { operationId: retrieveSimSwapDate, source: openapi/camara/SimSwap__sim-swap.yaml, capabilityId: sim_continuity, evidence: SOURCE_BACKED }
+  - { operationId: checkDeviceSwap, source: openapi/camara/DeviceSwap__device-swap.yaml, capabilityId: device_continuity, evidence: SOURCE_BACKED }
+  - { operationId: retrieveDeviceSwapDate, source: openapi/camara/DeviceSwap__device-swap.yaml, capabilityId: device_continuity, evidence: SOURCE_BACKED }
+  - { operationId: retrieveIdentifier, source: openapi/experimental/DeviceIdentifier__device-identifier.yaml, capabilityId: device_identifier, evidence: SOURCE_BACKED }
+  - { operationId: checkNumberRecycling, source: openapi/experimental/NumberRecycling__number-recycling.yaml, capabilityId: number_recycling, evidence: SOURCE_BACKED }
+  - { operationId: KYC_Match, source: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml, capabilityId: kyc_match, evidence: SOURCE_BACKED }
+  - { operationId: verifyAge, source: openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml, capabilityId: age_verification, evidence: SOURCE_BACKED }
+  - { operationId: checkNetworkQuality, source: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml, capabilityId: connectivity_insights, evidence: SOURCE_BACKED }
+  - { operationId: createApplicationProfile, source: openapi/experimental/ApplicationProfiles__application-profiles.yaml, capabilityId: application_profiles, evidence: SOURCE_BACKED }
+  - { operationId: getRoamingStatus, source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml, capabilityId: roaming_status, evidence: SOURCE_BACKED }
+  - { operationId: verifyLocation, source: openapi/camara/DeviceLocation__location-verification.yaml, capabilityId: location_verification, evidence: SOURCE_BACKED }
+  - { operationId: retrieveLocation, source: openapi/camara/DeviceLocation__location-retrieval.yaml, capabilityId: location_retrieval, evidence: SOURCE_BACKED }
+  - { operationId: createGeofencingSubscription, source: openapi/camara/DeviceLocation__geofencing-subscriptions.yaml, capabilityId: geofencing, evidence: SOURCE_BACKED }
+  - { operationId: getReachabilityStatus, source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml, capabilityId: device_reachability, evidence: SOURCE_BACKED }
+  - { operationId: retrieveQoSProfiles, source: openapi/camara/QualityOnDemand__qos-profiles.yaml, capabilityId: quality_on_demand, evidence: SOURCE_BACKED }
+  - { operationId: createSession, source: openapi/camara/QualityOnDemand__quality-on-demand.yaml, capabilityId: quality_on_demand, evidence: SOURCE_BACKED }
+  - { operationId: getSession, source: openapi/camara/QualityOnDemand__quality-on-demand.yaml, capabilityId: quality_on_demand, evidence: SOURCE_BACKED }
+  - { operationId: createQosAssignment, source: openapi/camara/QualityOnDemand__qos-provisioning.yaml, capabilityId: quality_on_demand, evidence: SOURCE_BACKED }
+  - { operationId: readClosestEdgeCloudZone, source: openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml, capabilityId: edge_discovery, evidence: SOURCE_BACKED }

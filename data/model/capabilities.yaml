@@ -1,0 +1,53 @@
+capabilities:
+  - id: number_possession_verification
+    label: Number possession verification
+    family: IDENTITY_AND_TRUST
+  - id: sim_continuity
+    label: SIM continuity
+    family: IDENTITY_AND_TRUST
+  - id: device_continuity
+    label: Device continuity
+    family: DEVICE
+  - id: device_identifier
+    label: Device identifier
+    family: DEVICE
+  - id: number_recycling
+    label: Number recycling
+    family: IDENTITY_AND_TRUST
+  - id: kyc_match
+    label: KYC attribute match
+    family: IDENTITY_AND_TRUST
+  - id: age_verification
+    label: Age verification
+    family: IDENTITY_AND_TRUST
+  - id: roaming_status
+    label: Roaming status
+    family: LOCATION_AND_MOBILITY
+  - id: location_verification
+    label: Location verification
+    family: LOCATION_AND_MOBILITY
+  - id: location_retrieval
+    label: Location retrieval
+    family: LOCATION_AND_MOBILITY
+  - id: geofencing
+    label: Geofencing
+    family: LOCATION_AND_MOBILITY
+  - id: device_reachability
+    label: Device reachability
+    family: CONNECTIVITY
+  - id: connectivity_insights
+    label: Connectivity insights
+    family: CONNECTIVITY
+  - id: application_profiles
+    label: Application profiles
+    family: APPLICATION
+  - id: quality_on_demand
+    label: Quality on Demand
+    family: QUALITY
+  - id: edge_discovery
+    label: Edge discovery
+    family: EDGE
+
+unsupported_in_active_catalog:
+  - id: tenure
+    reason: KYC Tenure is not in the current 13-family business focus list.

@@ -1,0 +1,1296 @@
+[
+  {
+    "repo": "ApplicationEndpointDiscovery",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ApplicationEndpointDiscovery/releases/tag/r1.2",
+    "published_at": "2025-09-16T19:23:11Z",
+    "name": "1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n\r\n- application-endpoint-discovery v0.1.0\r\n\r\nThe API definition(s) are based on\r\n\r\n- Commonalities v0.6.0 (r3.3)\r\n- Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## application-endpoint-discovery v0.1.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointDiscovery/r1.2/code/API_definitions/application-endpoint-discovery.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointDiscovery/r1.2/code/API_definitions/application-endpoint-discovery.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ApplicationEndpointDiscovery/blob/r1.2/code/API_definitions/application-endpoint-discovery.yaml)\r\n\r\n**NOTE: there is no significant changes compared to r1.1-rc version .**",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "application-endpoint-discovery.yaml",
+        "local": "openapi/experimental/ApplicationEndpointDiscovery__application-endpoint-discovery.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ApplicationEndpointDiscovery/r1.2/code/API_definitions/application-endpoint-discovery.yaml",
+        "bytes": 36039
+      }
+    ]
+  },
+  {
+    "repo": "ApplicationEndpointRegistration",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ApplicationEndpointRegistration/releases/tag/r1.2",
+    "published_at": "2025-09-17T09:17:03Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* application-endpoint-registration v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n- API definition with inline documentation:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml)\r\n  - [OpenAPI YAML spec file](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.2/code/API_definitions/application-endpoint-registration.yaml)\r\n\r\n### Added\r\n* Creation of the application-endpoint-registration API yaml file\r\n### Changed\r\n* n/a  ",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "application-endpoint-registration.yaml",
+        "local": "openapi/experimental/ApplicationEndpointRegistration__application-endpoint-registration.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml",
+        "bytes": 26618
+      }
+    ]
+  },
+  {
+    "repo": "ApplicationProfiles",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ApplicationProfiles/releases/tag/r1.2",
+    "published_at": "2025-09-17T15:37:44Z",
+    "name": "r1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* application-profiles v0.5.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n*  **r1.2 release of ApplicationProfiles has the following API definitions:**\r\n\r\n    *  **application-profiles v0.5.0**\r\n    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationProfiles/r1.2/code/API_definitions/application-profiles.yaml&nocors)\r\n    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationProfiles/r1.2/code/API_definitions/application-profiles.yaml)\r\n    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ApplicationProfiles/r1.2/code/API_definitions/application-profiles.yaml)\r\n\r\n### Added\r\n\r\n* New `DeviceResponse` object in responses limited to one identifier.\r\n* Clarifications on non-documented error responses.\r\n* Support for compute resource requirements related to the application.\r\n\r\n### Changed\r\n\r\n* Updated string pattern for `x-correlator`headers.\r\n\r\n### Removed\r\n\r\n* `verificationResult: UNKNOWN` for 200 responses.\r\n* Error `422 IDENTIFIER_MISMATCH`.\r\n* Error `401 AUTHENTICATION_REQUIRED`.\r\n\r\n**Full Changelog**: https://github.com/camaraproject/ApplicationProfiles/compare/r1.1...r1.2",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "application-profiles.yaml",
+        "local": "openapi/experimental/ApplicationProfiles__application-profiles.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ApplicationProfiles/r1.2/code/API_definitions/application-profiles.yaml",
+        "bytes": 22608
+      }
+    ]
+  },
+  {
+    "repo": "BlockchainPublicAddress",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/BlockchainPublicAddress/releases/tag/r2.2",
+    "published_at": "2025-09-11T10:58:35Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* Blockchain Public Address v0.3.0\r\n* Blockchain Public Address Validation v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## Blockchain Public Address v0.3.0\r\n\r\n**Blockchain Public Address v0.3.0 is the first public release version for v0.3.0 of the Blockchain Public Address API.**\r\n- **This version contains changes compared to v0.2.0.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/BlockchainPublicAddress/blob/r2.2/code/API_definitions/blockchain-public-address.yaml)\r\n\r\n**Main changes since [r1.2](#r12)**\r\n\r\n### Added\r\n* Binding enforcement procedure, including addition of new errors `422 - BLOCKCHAIN_PUBLIC_ADDRESS.UNSUPPORTED_ENHANCED_VALIDATION`, `400 - BLOCKCHAIN_PUBLIC_ADDRESS.INVALID_NONCE`, `400 - BLOCKCHAIN_PUBLIC_ADDRESS.INVALID_SIGNATURE` and `400 - BLOCKCHAIN_PUBLIC_ADDRESS.BOTH_NONCE_SIGNATURE_REQUIRED` in https://github.com/camaraproject/BlockchainPublicAddress/pull/76, https://github.com/camaraproject/BlockchainPublicAddress/pull/95 and https://github.com/camaraproject/BlockchainPublicAddress/pull/97.\r\n* New section `# Additional CAMARA error responses` in `info.description` field in https://github.com/camaraproject/BlockchainPublicAddress/pull/99.\r\n\r\n### Changed\r\n* New pattern for `x-correlator` and model aligment with Commonalities in https://github.com/camaraproject/BlockchainPublicAddress/pull/99.\r\n* Update User Stories adding a ",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "blockchain-public-address-validation.yaml",
+        "local": "openapi/experimental/BlockchainPublicAddress__blockchain-public-address-validation.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address-validation.yaml",
+        "bytes": 10644
+      },
+      {
+        "filename": "blockchain-public-address.yaml",
+        "local": "openapi/experimental/BlockchainPublicAddress__blockchain-public-address.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/BlockchainPublicAddress/r2.2/code/API_definitions/blockchain-public-address.yaml",
+        "bytes": 34555
+      }
+    ]
+  },
+  {
+    "repo": "CallForwardingSignal",
+    "tag": "r3.3",
+    "html_url": "https://github.com/camaraproject/CallForwardingSignal/releases/tag/r3.3",
+    "published_at": "2025-09-16T14:38:30Z",
+    "name": "r3.3",
+    "body_excerpt": "This release contains the definition and documentation of call-forwarding-signal v0.4.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## call-forwarding-signal v0.4.0\r\n\r\nThis is the third public release of the Call Forwarding Signal API, version v0.4.0. It is mainly an alignment with Commonalities v0.6.0.\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/CallForwardingSignal/blob/r3.3/code/API_definitions/call-forwarding-signal.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/CallForwardingSignal/r3.3/code/API_definitions/call-forwarding-signal.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/CallForwardingSignal/r3.3/code/API_definitions/call-forwarding-signal.yaml)\r\n\r\nIn the following there is the list of the modifications with respect to the previous release.\r\n\r\n### Added\r\n\r\n### Changed\r\n * x-correlator new format: https://github.com/camaraproject/CallForwardingSignal/pull/180, https://github.com/camaraproject/CallForwardingSignal/pull/186\r\n * Undocumented Errors note in info.description: https://github.com/camaraproject/CallForwardingSignal/pull/180\r\n\r\n### Fixed\r\n * fixed some typo: https://github.com/camaraproject/CallForwardingSignal/pull/190\r\n * Enum Value Mismatch Between API and Tests: https://github.com/camaraproject/CallForwardingSignal/pull/190\r\n * ErrorInfo scheme updated: https://github.com/camaraproject/CallForwardingSignal/pull/201\r\n * Updated schema context in test definition: https://github.com/camaraproject/CallForwardingSignal/pull/201\r\n\r\n### Removed\r\n * Removed error 401: https://github.com/camaraproject/CallForwardingSignal/pull/180\r\n   \r\n**Full Changelog**: https://github.com/camaraproject/CallForwardingSignal/compare/r2.2...r3.3",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "call-forwarding-signal.yaml",
+        "local": "openapi/camara/CallForwardingSignal__call-forwarding-signal.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/CallForwardingSignal/r3.3/code/API_definitions/call-forwarding-signal.yaml",
+        "bytes": 24788
+      }
+    ]
+  },
+  {
+    "repo": "CapabilitiesAndRuntimeRestrictions",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "CarrierBillingCheckOut",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/CarrierBillingCheckOut/releases/tag/r3.2",
+    "published_at": "2025-09-11T09:51:40Z",
+    "name": "r3.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* Carrier Billing v0.5.0\r\n* Carrier Billing Refund v0.3.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## Carrier Billing v0.5.0\r\n\r\n**Carrier Billing v0.5.0 is the first public release version for v0.5.0 of the Carrier Billing API.**\r\n- **This version contains significant changes compared to v0.4.0:**\r\n  - Removal of `401 - AUTHENTICATION_REQUIRED`\r\n  - New pattern for `x-correlator`\r\n  - Addition of a new section `# Additional CAMARA error responses` in `info.description` field\r\n  - Addition of `404 - INVALID_SINK` in `createPayment` and `preparePayment` endpoints\r\n  - Addition of `404 - IDENTIFIER_NOT_FOUND` in `createPayment`, `preparePayment`, `confirmPayment` and `cancelPayment` endpoints\r\n  - Addition of `404 - NOT_FOUND` in `validatePayment` endpoint\r\n  - Removal of `403 - CARRIER_BILLING.INVALID_PAYMENT_CONTEXT` in `retrievePayment` and `retrievePayments` endpoints \r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/CarrierBillingCheckOut/blob/r3.2/code/API_definitions/carrier-billing.yaml)\r\n\r\n### Added\r\n* New section `# Additional CAMARA error responses` in `info.description` field in https://github.com/camaraproject/CarrierBillingCheckOut/pull/229.\r\n* `404 - INVALID_SINK` error in `createPayment` and `preparePayment` endpoints in https://github.com/camaraproject/CarrierBillingCheckOut/pull/229.\r\n* `404 - IDENTIFIER_NOT_FOUND` error in `createPayment`, `preparePayment`, ",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "carrier-billing-refund.yaml",
+        "local": "openapi/experimental/CarrierBillingCheckOut__carrier-billing-refund.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing-refund.yaml",
+        "bytes": 60476
+      },
+      {
+        "filename": "carrier-billing.yaml",
+        "local": "openapi/experimental/CarrierBillingCheckOut__carrier-billing.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/CarrierBillingCheckOut/r3.2/code/API_definitions/carrier-billing.yaml",
+        "bytes": 99709
+      }
+    ]
+  },
+  {
+    "repo": "ClickToDial",
+    "tag": "r1.4",
+    "html_url": "https://github.com/camaraproject/ClickToDial/releases/tag/r1.4",
+    "published_at": "2026-06-01T17:46:34Z",
+    "name": "r1.4",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* click-to-dial 0.1.0\n\nThe API definition(s) are based on\n* Commonalities 0.8.0\n* Identity and Consent Management 0.5.0\n\n## click-to-dial 0.1.0\n\n**click-to-dial 0.1.0 is the initial public version of the ClickToDial API.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ClickToDial/r1.4/code/API_definitions/click-to-dial.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ClickToDial/r1.4/code/API_definitions/click-to-dial.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ClickToDial/blob/r1.4/code/API_definitions/click-to-dial.yaml)\n\n### Added\n\n* Added the initial public ClickToDial API definition with operations to create a call, retrieve call details, terminate a call, and retrieve call recordings when available.\n* Added callback support for ClickToDial call status change notifications using the CAMARA CloudEvents-based event model.\n* Added support for notification sink credentials aligned with the CAMARA event subscription model.\n* Added Gherkin test definitions for the main ClickToDial operations, including create call, get call, terminate call, and get recording.\n* Added API documentation and external API description content for public visibility.\n\n### Changed\n\n* Aligned the ClickToDial API definition with Commonalities r4.3 / `0.8.0`.\n* Aligned the ClickToDial API definition with Identity and Consent Management r4.2 / `0.5.0`.\n* Updated the API to use a CAMARA-compliant RESTful call resource model under `/calls`.\n* Updated CAMARA error response schemas and common reusable components to follow the applicable Commonalities model.\n* Updated callback notification security and callback response documentation.\n* Updated the ClickToDial event model to use the Commonalities",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "click-to-dial.yaml",
+        "local": "openapi/experimental/ClickToDial__click-to-dial.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ClickToDial/r1.4/code/API_definitions/click-to-dial.yaml",
+        "bytes": 31594
+      }
+    ]
+  },
+  {
+    "repo": "ConnectedNetworkType",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ConnectedNetworkType/releases/tag/r1.2",
+    "published_at": "2025-09-16T16:21:44Z",
+    "name": "r1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* connected-network-type v0.2.0\r\n* connected-network-type-subscriptions v0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## connected-network-type v0.2.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type.yaml)\r\n\r\n### Added\r\n\r\n### Changed\r\n* Make lastStatusTime mandatory in 200 responses of the API by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/17\r\n* Update x-correlator schema by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/26\r\n* Update error response documentation in OAS definitions by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/27\r\n* Commonalities alignement for connected network type subscription & connected network type by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/34\r\n* Fix feature files for compliance with centralised linting rules by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/38\r\n* Further fix for feature files for compliance with centralised linting rules by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/40\r\n* Migrate to centralized linting workflows by @hdamker-bot in https://github.com/camaraproject/ConnectedNetworkType/pull/37\r\n\r\n### Fixed\r\n\r\n### Removed\r\n* Remove AUTHENTICATION_REQUIRED error code by @eric-mur",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "connected-network-type-subscriptions.yaml",
+        "local": "openapi/experimental/ConnectedNetworkType__connected-network-type-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml",
+        "bytes": 70582
+      },
+      {
+        "filename": "connected-network-type.yaml",
+        "local": "openapi/experimental/ConnectedNetworkType__connected-network-type.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml",
+        "bytes": 23746
+      }
+    ]
+  },
+  {
+    "repo": "ConnectivityInsights",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r3.2",
+    "published_at": "2025-09-17T15:44:03Z",
+    "name": "r3.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* connectivity-insights v0.6.0\r\n* connectivity-insights-subscriptions v0.6.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n\r\n## connectivity-insights v0.6.0\r\n\r\n**connectivity-insights v0.6.0 is the public release of the version 0.6.0**\r\n\r\n\r\n- API definition **with inline documentation**:\r\n  - [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml&nocors)\r\n  - [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)\r\n  - [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)\r\n\r\n### Added\r\n\r\n* Added error response documentation in `info.description`\r\n\r\n### Changed\r\n\r\n* Adjusted x-correlator pattern as defined in CAMARA Commonalities\r\n* Updated documentation regarding device identifiers in responses and added DeviceResponse object to limit device identifiers in responses to exactly one\r\n* Align with latest Commonalities in [#166](https://github.com/camaraproject/ConnectivityInsights/issues/166)\r\n\r\n### Removed\r\n\r\n* Removed AUTHENTICATION_REQUIRED error\r\n* Removed the IDENTIFIER_MISMATCH error code option from 422 responses\r\n\r\n## connectivity-insights-subscriptions v0.6.0\r\n\r\n**connectivity-insights-subscriptions v0.6.0 is the public release of the version 0.6.0**\r\n\r\n- API definition **with inline documentation**:\r\n  - [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)\r\n  - [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "connectivity-insights-subscriptions.yaml",
+        "local": "openapi/experimental/ConnectivityInsights__connectivity-insights-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml",
+        "bytes": 51568
+      },
+      {
+        "filename": "connectivity-insights.yaml",
+        "local": "openapi/experimental/ConnectivityInsights__connectivity-insights.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml",
+        "bytes": 27174
+      }
+    ]
+  },
+  {
+    "repo": "ConsentInfo",
+    "tag": "r2.3",
+    "html_url": "https://github.com/camaraproject/ConsentInfo/releases/tag/r2.3",
+    "published_at": "2026-03-23T12:56:54Z",
+    "name": "r2.3",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* consent-info 0.2.0\n\nThe API definition(s) are based on\n* Commonalities 0.6.1\n* Identity and Consent Management 0.4.0\n\n## consent-info 0.2.0\n\n**consent-info 0.2.0 is the public release of the version 0.2.0**\n\nconsent-info API v0.2.0 introduces enhancements to improve user experience and clarity in consent management. Key updates include the addition of an optional `callbackUrl` parameter for redirecting users post-consent, refined status terminology replacing `REVOKED` with `DENIED`, and expanded test scenarios to ensure robust handling of new features.\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConsentInfo/r2.3/code/API_definitions/consent-info.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConsentInfo/r2.3/code/API_definitions/consent-info.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ConsentInfo/blob/r2.3/code/API_definitions/consent-info.yaml)\n\n### Added\n\n- Added support for an optional `callbackUrl` parameter in the consent capture request, allowing API Consumers to specify where the user should be redirected after completing the consent flow by @jpengar in https://github.com/camaraproject/ConsentInfo/pull/41\n- Added error code `CONSENT_INFO.INVALID_CALLBACK_URL` and example for invalid callback URLs, ensuring that API Providers return a clear 403 error when the callback URL fails validation by @jpengar in https://github.com/camaraproject/ConsentInfo/pull/41\n- Included a new request example `ONE_SCOPE_CALLBACK_URL` demonstrating usage of the `callbackUrl field in API requests by @jpengar in https://github.com/camaraproject/ConsentInfo/pull/41\n- Added a new response example `CONSENT_DENIED` to illustrate how the API responds when consent is explicitly de",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "consent-info.yaml",
+        "local": "openapi/experimental/ConsentInfo__consent-info.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConsentInfo/r2.3/code/API_definitions/consent-info.yaml",
+        "bytes": 34994
+      }
+    ]
+  },
+  {
+    "repo": "ConsentManagement",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ConsentManagement/releases/tag/r1.2",
+    "published_at": "2026-07-31T07:19:13Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* consent-management 0.1.0\n\nThe API definition(s) are based on\n* Commonalities 0.8.0\n* Identity and Consent Management 0.5.0\n\n## consent-management 0.1.0\n\n**consent-management 0.1.0 is an initial public version of this API.**\n\nVersion 0.1.0 provides the initial API definition and documentation for the consent-management API, which is part of the Identity and Consent Management (ICM) Working Group.\n\n- This API version provides API Consumers with the ability to:\n\n    - **Create Consent**: Allows API Consumers to create a new Consent for a User, specifying the requested scope(s) and Purpose. The API Consumer must provide the necessary information to capture the User's Consent.\n    - **Update Consent**: Enables API Consumers to update an existing Consent and change its status.\n    - **Retrieve Consent Information**: Allows API Consumers to retrieve information about existing Consents for a User based on specified scope(s) and Purpose. This operation can also return the Consent texts presented to the User during the Consent Capture process if requested.\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConsentManagement/r1.2/code/API_definitions/consent-management.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConsentManagement/r1.2/code/API_definitions/consent-management.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ConsentManagement/blob/r1.2/code/API_definitions/consent-management.yaml)\n\n### Breaking changes\n\n* N/A\n\n### Added\n\n* Initial consent-management API definition and documentation\n\n### Changed\n\n* N/A\n\n### Fixed\n\n* N/A\n\n### Removed\n\n* N/A\n\n**Full Changelog**: https://github.com/camaraproject/ConsentManagement/commits/r1.2",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "consent-management.yaml",
+        "local": "openapi/experimental/ConsentManagement__consent-management.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ConsentManagement/r1.2/code/API_definitions/consent-management.yaml",
+        "bytes": 50185
+      }
+    ]
+  },
+  {
+    "repo": "CustomerInsights",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/CustomerInsights/releases/tag/r2.2",
+    "published_at": "2025-09-11T10:31:53Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* Customer Insights v0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## Customer Insights v0.2.0\r\n\r\n**Customer Insights v0.2.0 is the first public release version for v0.2.0 of the Customer Insights API.**\r\n- **This version contains changes compared to v0.1.0.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/CustomerInsights/r2.2/code/API_definitions/customer-insights.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/CustomerInsights/r2.2/code/API_definitions/customer-insights.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/CustomerInsights/blob/r2.2/code/API_definitions/customer-insights.yaml)\r\n\r\n### Added\r\n* `404 - IDENTIFIER_NOT_FOUND` error in https://github.com/camaraproject/CustomerInsights/pull/43\r\n* New section `# Additional CAMARA error responses` in `info.description` field in https://github.com/camaraproject/CustomerInsights/pull/43\r\n* Addition of Algorithm Model Definiton documentation in https://github.com/camaraproject/CustomerInsights/pull/29 and https://github.com/camaraproject/CustomerInsights/pull/40\r\n* New tests `@retrieve_scoring_400.02_invalid_x-correlator` and `@retrieve_scoring_C02.02_phone_number_not_found` in Gherkin `.feature` file in https://github.com/camaraproject/CustomerInsights/pull/44\r\n* Added missing tests related to `idDocument` in https://github.com/camaraproject/CustomerInsights/pull/50\r\n\r\n### Changed\r\n* `phoneNumber` field referenced to a schema for testing matching in https://github.com/camaraproject/CustomerInsights/pull/43\r\n* New pattern for `x-correlator` and model aligment with Commonalities in https://github.com/camaraproject/CustomerInsights/pull/43\r\n*",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "customer-insights.yaml",
+        "local": "openapi/experimental/CustomerInsights__customer-insights.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/CustomerInsights/r2.2/code/API_definitions/customer-insights.yaml",
+        "bytes": 22589
+      }
+    ]
+  },
+  {
+    "repo": "DedicatedNetworks",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/DedicatedNetworks/releases/tag/r1.2",
+    "published_at": "2025-09-18T07:42:08Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis release contains the definition and documentation of\r\n* dedicated-network v0.1.0\r\n* dedicated-network-accesses v0.1.0\r\n* dedicated-network-profiles v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## Key updates\r\n\r\n* Aligning QoS Profile with QualityOnDemand\r\n  * Introduces a new QosProfileName DataType into the Profiles API aligning the definition with QualityOnDemand\r\n    * by @tlohmar in https://github.com/camaraproject/DedicatedNetworks/pull/59\r\n  * Documentation (info section in Profiles & Accesses API and general documentation) is extended to clarify that the reuse the QualityOnDemand QOS Profiles concept\r\n    * by @tlohmar in https://github.com/camaraproject/DedicatedNetworks/pull/54\r\n\r\n* Aligning Device object with Commonalities\r\n  * Introducing all the common supported identifiers to align with the object definition\r\n  * Extending the general documentation with a motivation for supporting MSISDNs as device identifier.\r\n  * Adding a recommendation for not supporting IP addresses as device identifier.\r\n  * by @tlohmar in https://github.com/camaraproject/DedicatedNetworks/pull/55\r\n\r\n* Clarification that an Access resource can only be created once the referred Network is created. When the referred Network is in TERMINATED state, creation of Access resources is not possible anymore for the given Network by @tlohmar in https://github.com/camaraproject/DedicatedNetworks/pull/53\r\n\r\n* Adding 3GPP Release information to DedicatedNetworks_GeneralDescription.md by @tlohmar in https://github.com/camaraproject/DedicatedNetworks/pull/51\r\n\r\n## dedicated-network v0.1.0\r\n\r\n**dedicated-network v0.1.0 is the initial public release of version 0.1.0 of the Dedicated Network API.**\r\n\r\n- dedicated-network v0.1.0 API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "dedicated-network-accesses.yaml",
+        "local": "openapi/experimental/DedicatedNetworks__dedicated-network-accesses.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network-accesses.yaml",
+        "bytes": 26221
+      },
+      {
+        "filename": "dedicated-network-profiles.yaml",
+        "local": "openapi/experimental/DedicatedNetworks__dedicated-network-profiles.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network-profiles.yaml",
+        "bytes": 14370
+      },
+      {
+        "filename": "dedicated-network.yaml",
+        "local": "openapi/experimental/DedicatedNetworks__dedicated-network.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DedicatedNetworks/r1.2/code/API_definitions/dedicated-network.yaml",
+        "bytes": 25593
+      }
+    ]
+  },
+  {
+    "repo": "DeviceAuthenticity",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "DeviceDataVolume",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/DeviceDataVolume/releases/tag/r1.3",
+    "published_at": "2025-09-12T09:19:47Z",
+    "name": "r1.3",
+    "body_excerpt": "## Release Notes\r\n\r\nThis initial public release contains the definition and documentation of\r\n* device-data-volume v0.1.0\r\n* device-data-volume-subscriptions v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## device-data-volume v0.1.0\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceDataVolume/blob/r1.3/code/API_definitions/device-data-volume.yaml)\r\n\r\n### Added\r\n* Basic test specifications for both Device Data Volume and its Subscription by @sachinvodafone in https://github.com/camaraproject/DeviceDataVolume/pull/13\r\n* Add response-component for `/check` - API incl. `thresholdExceeded` as property by @maxl2287 in https://github.com/camaraproject/DeviceDataVolume/pull/33\r\n* Add gherkin-linting and update links in config by @maxl2287 in https://github.com/camaraproject/DeviceDataVolume/pull/37 \r\n* Documented Error Responses info.description section by @maxl2287 in https://github.com/camaraproject/DeviceDataVolume/pull/47\r\n\r\n### Changed\r\n* Migrate to centralized linting workflows by @hdamker-bot in https://github.com/camaraproject/DeviceDataVolume/pull/67\r\n* Fix links to API description in API readiness checklists by @eric-murray in https://github.com/camaraproject/DeviceDataVolume/pull/65\r\n* Reset version to wip following alpha release by @eric-murray in https://github.com/camaraproject/DeviceDataVolume/pull/17\r\n* Upd",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "device-data-volume-subscriptions.yaml",
+        "local": "openapi/experimental/DeviceDataVolume__device-data-volume-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume-subscriptions.yaml",
+        "bytes": 68319
+      },
+      {
+        "filename": "device-data-volume.yaml",
+        "local": "openapi/experimental/DeviceDataVolume__device-data-volume.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceDataVolume/r1.3/code/API_definitions/device-data-volume.yaml",
+        "bytes": 23682
+      }
+    ]
+  },
+  {
+    "repo": "DeviceIdentifier",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/DeviceIdentifier/releases/tag/r2.2",
+    "published_at": "2025-09-16T16:22:11Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* device-identifier v0.3.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## device-identifier v0.3.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceIdentifier/r2.2/code/API_definitions/device-identifier.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceIdentifier/r2.2/code/API_definitions/device-identifier.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceIdentifier/blob/r2.2/code/API_definitions/device-identifier.yaml)\r\n\r\nThere are no breaking changes compared to v0.2.0\r\n\r\n### Added\r\n* Add additional endpoint to provide PPID as physical device identifier by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/110\r\n* Add additional text on undocumented errors to OAS definition by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/120\r\n\r\n### Changed\r\n* Update x-correlator pattern by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/121\r\n* Update description of lastChecked response parameter by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/135\r\n\r\n### Fixed\r\n* Fix typos in feature files by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/125\r\n\r\n### Removed\r\n* Remove AUTHENTICATION_REQUIRED error code by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/111\r\n* Remove IDENTIFIER_MISMATCH error and include optional device property in 200 response by @eric-murray in https://github.com/camaraproject/DeviceIdentifier/pull/12",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "device-identifier.yaml",
+        "local": "openapi/experimental/DeviceIdentifier__device-identifier.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceIdentifier/r2.2/code/API_definitions/device-identifier.yaml",
+        "bytes": 40415
+      }
+    ]
+  },
+  {
+    "repo": "DeviceLocation",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r3.2",
+    "published_at": "2025-09-16T11:41:00Z",
+    "name": "r3.2",
+    "body_excerpt": "This **public release** contains the definition and documentation of\r\n* location-verification v3.0.0\r\n* location-retrieval v0.5.0\r\n* geofencing-subscriptions v0.5.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities r3.3\r\n* Identity and Consent Management r3.3\r\n\r\n## location-verification v3.0.0\r\n\r\nlocation-verification v3.0.0 is the public release for the next stable version of the API Location Verification.\r\n\r\n**There is breaking change compared to the previous release r2.2**, due to the deprecation of `UNKNOWN` value for `verificationResult` in favor of the new error `422 LOCATION_VERIFICATION.UNABLE_TO_LOCATE`.\r\n\r\n* API definition with **inline documentation**:\r\n\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-verification.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-verification.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceLocation/blob/r3.2/code/API_definitions/location-verification.yaml)\r\n\r\n### Added\r\n\r\n* New error code `422 LOCATION_VERIFICATION.UNABLE_TO_LOCATE`.\r\n* New `DeviceResponse` object in responses limited to one identifier.\r\n* Clarifications on non-documented error responses.\r\n\r\n### Changed\r\n\r\n* Updated string pattern for `x-correlator`headers.\r\n* Type of `radius` for CIRCLE Area changed from `integer` to `number`, and maximum removed.\r\n* Clarified format for properties with format `date-time`.\r\n\r\n### Removed\r\n\r\n* `verificationResult: UNKNOWN` for 200 responses.\r\n* Error `422 IDENTIFIER_MISMATCH`.\r\n* Error `401 AUTHENTICATION_REQUIRED`.\r\n\r\n## location-retrieval v0.5.0\r\n\r\nlocation-retrieval v0.5.0 is the public release for the next initial version of the API Location Retrieval. It introduces breaking changes compared to the previous release r2.2, due to the deprec",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "geofencing-subscriptions.yaml",
+        "local": "openapi/camara/DeviceLocation__geofencing-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/geofencing-subscriptions.yaml",
+        "bytes": 72523
+      },
+      {
+        "filename": "location-retrieval.yaml",
+        "local": "openapi/camara/DeviceLocation__location-retrieval.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-retrieval.yaml",
+        "bytes": 32088
+      },
+      {
+        "filename": "location-verification.yaml",
+        "local": "openapi/camara/DeviceLocation__location-verification.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceLocation/r3.2/code/API_definitions/location-verification.yaml",
+        "bytes": 32632
+      }
+    ]
+  },
+  {
+    "repo": "DeviceMediaStreamingRate",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "DeviceReachabilityStatus",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/DeviceReachabilityStatus/releases/tag/r1.2",
+    "published_at": "2025-09-16T12:14:22Z",
+    "name": "r1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* device-reachability-status v1.1.0\r\n* device-reachability-status-subscriptions v0.8.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## device-reachability-status v1.1.0\r\n\r\ndevice-reachability-status v1.1.0 is a minor update of the API, and is backward compatible with v1.0.0.\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceReachabilityStatus/blob/r1.2/code/API_definitions/device-reachability-status.yaml)\r\n\r\n### Added\r\n\r\n### Changed\r\n* Make lastStatusTime mandatory in 200 responses of the API by @eric-murray in https://github.com/camaraproject/DeviceReachabilityStatus/pull/18\r\n* Update x-correlator schema by @eric-murray in https://github.com/camaraproject/DeviceReachabilityStatus/pull/28\r\n* Update error response documentation in OAS definitions by @eric-murray in https://github.com/camaraproject/DeviceReachabilityStatus/pull/29\r\n* Commonalities alignement for device reachability status by @bigludo7 in https://github.com/camaraproject/DeviceReachabilityStatus/pull/36\r\n* admin: migrate to centralized linting workflows by @hdamker-bot in https://github.com/camaraproject/DeviceReachabilityStatus/pull/39\r\n* Update error schema for compliance with Commonalities r3.3 by @eric-murray in https://github.com/camaraproject/DeviceReachabilityStatus/pull/43\r\n\r\n### Fixed\r\n* Fix feature files for compliance with centralised linting rules by @eric-murray in https://git",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "device-reachability-status-subscriptions.yaml",
+        "local": "openapi/camara/DeviceReachabilityStatus__device-reachability-status-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status-subscriptions.yaml",
+        "bytes": 73936
+      },
+      {
+        "filename": "device-reachability-status.yaml",
+        "local": "openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceReachabilityStatus/r1.2/code/API_definitions/device-reachability-status.yaml",
+        "bytes": 23816
+      }
+    ]
+  },
+  {
+    "repo": "DeviceRoamingStatus",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/DeviceRoamingStatus/releases/tag/r1.2",
+    "published_at": "2025-09-16T11:51:25Z",
+    "name": "r1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* device-roaming-status v1.1.0\r\n* device-roaming-status-subscriptions v0.8.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## device-roaming-status v1.1.0\r\ndevice-roaming-status v1.1.0 is a minor update of the API, and is backward compatible with v1.0.0.\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceRoamingStatus/blob/r1.2/code/API_definitions/device-roaming-status.yaml)\r\n\r\n### Added\r\n\r\n### Changed\r\n* Make lastStatusTime mandatory in 200 responses of the API by @eric-murray in https://github.com/camaraproject/DeviceRoamingStatus/pull/19\r\n* Update error response documentation in OAS definitions by @eric-murray in https://github.com/camaraproject/DeviceRoamingStatus/pull/30\r\n* Update x-correlator schema by @eric-murray in https://github.com/camaraproject/DeviceRoamingStatus/pull/29\r\n* Commonalities alignement for device roaming status by @bigludo7 in https://github.com/camaraproject/DeviceRoamingStatus/pull/37\r\n* Update error schema for compliance with Commonalities r3.3 by @eric-murray in https://github.com/camaraproject/DeviceRoamingStatus/pull/45\r\n* admin: migrate to centralized linting workflows by @hdamker-bot in https://github.com/camaraproject/DeviceRoamingStatus/pull/41\r\n\r\n### Fixed\r\n* Fix feature files for compliance with centralised linting rules by @eric-murray in https://github.com/camaraproject/DeviceRoamingStatus/pull/42\r\n\r\n### Removed\r\n* Remove AUTHENTICATION",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "device-roaming-status-subscriptions.yaml",
+        "local": "openapi/camara/DeviceRoamingStatus__device-roaming-status-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status-subscriptions.yaml",
+        "bytes": 75762
+      },
+      {
+        "filename": "device-roaming-status.yaml",
+        "local": "openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceRoamingStatus/r1.2/code/API_definitions/device-roaming-status.yaml",
+        "bytes": 24948
+      }
+    ]
+  },
+  {
+    "repo": "DeviceSwap",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/DeviceSwap/releases/tag/r3.2",
+    "published_at": "2025-09-18T11:54:24Z",
+    "name": "r3.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n\r\n\r\n- device-swap v1.0.0\r\n\r\nThe API definition(s) are based on\r\n- Commonalities v0.6.0\r\n- Identity and Consent Management v0.4.0\r\n\r\n\r\n## device-swap v1.0.0\r\nThis is the first release of the device-swap API version v1.0.0.\r\n\r\n\r\n- 1.0.0 Device Swap API definition with inline documentation:\r\n   - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceSwap/blob/r3.2/code/API_definitions/device-swap.yaml)\r\n   - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceSwap/r3.2/code/API_definitions/device-swap.yaml&nocors)\r\n   - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceSwap/r3.2/code/API_definitions/device-swap.yaml)\r\n\r\nChanges included in v1.0.0 compared to v0.2.0:\r\n\r\n### Added\r\nN/A\r\n\r\n### Changed\r\n\r\n- Update pattern for x-correlator by @bigludo7 in https://github.com/camaraproject/DeviceSwap/pull/53\r\n- Rename test file to use valid operation: checkDeviceSwap.feature (instead of device-swap-check.feature) and retrieveDeviceSwapDate.feature (instead of device-swap-retrieve-date.feature) by @bigludo7 in https://github.com/camaraproject/DeviceSwap/pull/59\r\n- Update ErrorInfo attribute description by by @bigludo7 in https://github.com/camaraproject/DeviceSwap/pull/69\r\n\r\n\r\n### Fixed\r\nN/A\r\n\r\n### Removed\r\nN/A\r\n\r\n## New Contributors\r\nN/A",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "device-swap.yaml",
+        "local": "openapi/camara/DeviceSwap__device-swap.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceSwap/r3.2/code/API_definitions/device-swap.yaml",
+        "bytes": 22053
+      }
+    ]
+  },
+  {
+    "repo": "DeviceVisitLocation",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "EdgeApplicationManagement",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "EdgeCloud",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "EnergyFootprintNotification",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/EnergyFootprintNotification/releases/tag/r1.3",
+    "published_at": "2025-09-15T06:25:58Z",
+    "name": "r1.3",
+    "body_excerpt": "This release contains the definition and documentation of:\r\n* energy-footprint-notification v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## energy-footprint-notification v0.1.0\r\nThis is the first public release of the CAMARA EnergyFootprintNotification API supporting the retrieval of energy consumption information and carbon footprint for a service running over some application instances typically edge located.\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/EnergyFootprintNotification/blob/r1.3/code/API_definitions/energy-footprint-notification.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/EnergyFootprintNotification/r1.3/code/API_definitions/energy-footprint-notification.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/EnergyFootprintNotification/r1.3/code/API_definitions/energy-footprint-notification.yaml)\r\n\r\nThis is the first public release of the API, the modification reported below (\"Changed\" and \"Fixed\" sections) are with respect to v0.1.0-rc.1 in r1.2.\r\n\r\n### Added\r\n* Support for the following use cases: https://github.com/camaraproject/EnergyFootprintNotification/discussions/11\r\n  \r\n### Changed\r\n* Renamed operations: https://github.com/camaraproject/EnergyFootprintNotification/pull/83 \r\n* Changed OAuth2 with OpenId: https://github.com/camaraproject/EnergyFootprintNotification/pull/83\r\n* Updated the name of the test file to be coherent with the operationId: https://github.com/camaraproject/EnergyFootprintNotification/pull/83\r\n* info.description reordering: https://github.com/camaraproject/EnergyFootprintNotification/pull/92\r\n* ErrorInfo update according to Commonalities 6.0 public release: https://github.com/camaraproject/EnergyFootprintNotification/pull/95\r\n* Rollba",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "energy-footprint-notification.yaml",
+        "local": "openapi/experimental/EnergyFootprintNotification__energy-footprint-notification.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/EnergyFootprintNotification/r1.3/code/API_definitions/energy-footprint-notification.yaml",
+        "bytes": 43489
+      }
+    ]
+  },
+  {
+    "repo": "eSimRemoteManagement",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "HighThroughputElasticNetworks",
+    "tag": "v0.1.0-alpha",
+    "html_url": "https://github.com/camaraproject/HighThroughputElasticNetworks/releases/tag/v0.1.0-alpha",
+    "published_at": "2026-07-29T07:38:12Z",
+    "name": "v0.1.0-alpha",
+    "body_excerpt": "",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "high_throughput_elastic_networks.yaml",
+        "local": "openapi/experimental/HighThroughputElasticNetworks__high_throughput_elastic_networks.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/HighThroughputElasticNetworks/v0.1.0-alpha/code/API_definitions/high_throughput_elastic_networks.yaml",
+        "bytes": 15365
+      }
+    ]
+  },
+  {
+    "repo": "InHomeDeviceManagement",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "IoTDeviceManagement",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "IoTNetworkOptimization",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "IoTSIMFraudPrevention",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/IoTSIMFraudPrevention/releases/tag/r1.2",
+    "published_at": "2026-05-28T01:55:36Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* iot-sim-fraud-prevention 0.1.0\n* iot-sim-fraud-prevention-subscriptions 0.1.0\n\nThe API definition(s) are based on\n* Commonalities 0.6.1\n* Identity and Consent Management 0.4.0\n\n## iot-sim-fraud-prevention 0.1.0\n\n**iot-sim-fraud-prevention 0.1.0 is the first initial public version of the IoT SIM Fraud Prevention API.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/IoTSIMFraudPrevention/blob/r1.2/code/API_definitions/iot-sim-fraud-prevention.yaml)\n\n### Added\n\n* Initial API definition for IoT SIM Fraud Prevention\n* First draft of test definition following CAMARA Testing Guidelines\n* API documentation with inline examples and descriptions\n\n### Changed\n\n* Updated API naming convention to follow CAMARA standards (IoTSIMFraudPrevention \u00e2\u2020\u2019 iot-sim-fraud-prevention)\n* Updated OperationId and URL structure for consistency\n* Enhanced CloudEvents compliance for event notifications\n* Updated bound parameter type from string to boolean\n\n### Fixed\n\n* Fixed boolean type definition for bound parameter (string \u00e2\u2020\u2019 boolean)\n* Aligned .feature Feature line with CAMARA Testing Guidelines\n* Corrected API documentation links and references\n\n### Removed\n\n* Removed placeholder README.MD file from API_definitions directory\n\n## iot-sim-fraud-prevention-subscriptions 0.1.0\n\n**iot-sim-fraud-prevention-subscriptions 0.1.0 is the companion API for subscription-based notifications for IoT SIM fraud prevention events**\n\n- API definition **with inline docume",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "iot-sim-fraud-prevention-subscriptions.yaml",
+        "local": "openapi/experimental/IoTSIMFraudPrevention__iot-sim-fraud-prevention-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention-subscriptions.yaml",
+        "bytes": 54164
+      },
+      {
+        "filename": "iot-sim-fraud-prevention.yaml",
+        "local": "openapi/experimental/IoTSIMFraudPrevention__iot-sim-fraud-prevention.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/IoTSIMFraudPrevention/r1.2/code/API_definitions/iot-sim-fraud-prevention.yaml",
+        "bytes": 42024
+      }
+    ]
+  },
+  {
+    "repo": "KnowYourCustomerAgeVerification",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/KnowYourCustomerAgeVerification/releases/tag/r1.3",
+    "published_at": "2025-09-14T03:25:04Z",
+    "name": "r1.3",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* kyc-age-verification v0.2.1\r\n\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management v0.4.0 [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n\r\n## kyc-age-verification v0.2.1\r\n\r\n- kyc-age-verification v0.2.1 API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/KnowYourCustomerAgeVerification/blob/r1.3/code/API_definitions/kyc-age-verification.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerAgeVerification/r1.3/code/API_definitions/kyc-age-verification.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerAgeVerification/r1.3/code/API_definitions/kyc-age-verification.yaml&nocors)\r\n\r\n### Added\r\n * Create kyc-age-verification User Story by @ToshiWakayama-KDDI in https://github.com/camaraproject/KnowYourCustomerAgeVerification/pull/23\r\n * [kyc-age-verification] Add text on undocumented errors to OAS definition by @GillesInnov35 in https://github.com/camaraproject/KnowYourCustomerAgeVerification/pull/10\r\n * [kyc-age-verification] Add note to verifiedStatus description by @ToshiWakayama-KDDI in https://github.com/camaraproject/KnowYourCustomerAgeVerification/pull/13\r\n * [kyc-age-verification] Add line 13 (API description for marketing) to API readiness checklists by @hdamker-bot (Admin) in https://github.com/camaraproject/KnowYourCustomerAgeVerification/pull/8\r\n\r\n### Changed\r\n * [kyc-age-verification] Update x-correlator format by @GillesInnov35 in https://github.com/camaraproject/KnowYourCustomerAgeVerification/pull/12\r\n\r\n### Fixed\r\n* Fix for missing externalDocs object in the yaml by @ToshiWa",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "kyc-age-verification.yaml",
+        "local": "openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomerAgeVerification/r1.3/code/API_definitions/kyc-age-verification.yaml",
+        "bytes": 25167
+      }
+    ]
+  },
+  {
+    "repo": "KnowYourCustomerFill-in",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/KnowYourCustomerFill-in/releases/tag/r1.3",
+    "published_at": "2025-12-15T09:02:43Z",
+    "name": "r1.3",
+    "body_excerpt": "## Release Notes\r\n\r\nThis maintenance release contains the definition and documentation of\r\n\r\n* kyc-fill-in v0.4.1\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.1 [r3.4](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n\r\n* Identity and Consent Management v0.4.0 [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## kyc-fill-in v0.4.1\r\n- kyc-fill-in v0.4.1 API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/KnowYourCustomerFill-in/blob/r1.3/code/API_definitions/kyc-fill-in.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerFill-in/r1.3/code/API_definitions/kyc-fill-in.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerFill-in/r1.3/code/API_definitions/kyc-fill-in.yaml&nocors)\r\n\r\n### Added\r\n* Include success scenarios with scopes and 403 PERMISSION_DENIED scenarios in test plan by @fernandopradocabrillo in https://github.com/camaraproject/KnowYourCustomerFill-in/pull/37\r\n\r\n### Fixed\r\n* Set body as required by @fernandopradocabrillo in https://github.com/camaraproject/KnowYourCustomerFill-in/pull/32\r\n\r\n## New Contributors\r\n* @fernandopradocabrillo made their first contribution in https://github.com/camaraproject/KnowYourCustomerFill-in/pull/31\r\n\r\n**Full Changelog**: https://github.com/camaraproject/KnowYourCustomerFill-in/compare/r1.2...r1.3\r\n",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "kyc-fill-in.yaml",
+        "local": "openapi/camara/KnowYourCustomerFill-in__kyc-fill-in.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomerFill-in/r1.3/code/API_definitions/kyc-fill-in.yaml",
+        "bytes": 24139
+      }
+    ]
+  },
+  {
+    "repo": "KnowYourCustomerMatch",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/KnowYourCustomerMatch/releases/tag/r1.2",
+    "published_at": "2025-09-14T03:35:29Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of:\r\n* know-your-customer-match v0.4.0 \r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management v0.4.0 [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## know-your-customer-match v0.4.0\r\nThis is the latest public release for the CAMARA KnowYourCustomer Match API, updating the previous release to the CAMARA Guidelines and Identity & Consent Management for the Meta Release Fall25. Some new input paramenters, to be matched, have been introduced.\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/KnowYourCustomerMatch/blob/r1.2/code/API_definitions/kyc-match.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerMatch/r1.2/code/API_definitions/kyc-match.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomerMatch/r1.2/code/API_definitions/kyc-match.yaml)\r\n\r\n### Added\r\n * Support for the following use attributes to be matched: https://github.com/camaraproject/KnowYourCustomerMatch/pull/24\r\n * Undocumented Errors note in info.description: https://github.com/camaraproject/KnowYourCustomerMatch/pull/18\r\n \r\n### Changed\r\n * Update x-correlator format: https://github.com/camaraproject/KnowYourCustomerMatch/pull/16\r\n\r\n### Fixed\r\n * Fixed the missing externalDocs object and the order of two lines (version, commonalities version) by @ToshiWakayama-KDDI in PR#33 (M4 Release PR)  https://github.com/camaraproject/KnowYourCustomerMatch/pull/33\r\n * Fixed the new issues post M3 to meet M4 by @FabrizioMoggio in PR#28 (Wip for M4) https://github.com/camaraproject/KnowYourCustomerMatch/pull/28\r\n\r\n### Removed\r\n * Remo",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "kyc-match.yaml",
+        "local": "openapi/camara/KnowYourCustomerMatch__kyc-match.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomerMatch/r1.2/code/API_definitions/kyc-match.yaml",
+        "bytes": 35064
+      }
+    ]
+  },
+  {
+    "repo": "ModelAsAService",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/ModelAsAService/releases/tag/r1.2",
+    "published_at": "2025-09-18T14:51:41Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis release contains the definition and documentation of\r\n*  knowledge-base v0.1.0\r\n*  qa-assistant-manage v0.1.0\r\n*  qa-assistant-service v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4 (r3.3)\r\n\r\n## knowledge-base v0.1.0\r\n\r\nknowledge-base v0.1.0 is the public release of version 0.1.0 of the API\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/knowledge-base.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/knowledge-base.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/ModelAsAService/blob/r1.2/code/API_definitions/knowledge-base.yaml)\r\n\r\n### Added\r\n- Add API User Story by @lihaojie-CMCC in [#18](https://github.com/camaraproject/ModelAsAService/pull/18)\r\n\r\n### Changed\r\n- Revise formatting issues based on the automated detection tool by @lihaojie-CMCC in [#16](https://github.com/camaraproject/ModelAsAService/pull/16), [#17](https://github.com/camaraproject/ModelAsAService/pull/17)\r\n- Update for the Fall25 public release by @lihaojie-CMCC in [#18](https://github.com/camaraproject/ModelAsAService/pull/18)\r\n\r\n### Fixed\r\n- N/A\r\n\r\n### Removed\r\n- N/A\r\n\r\n## qa-assistant-manage v0.1.0\r\n\r\nqa-assistant-manage v0.1.0 is the public release of version 0.1.0 of the API\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-manage.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-manage.yaml",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "knowledge-base.yaml",
+        "local": "openapi/experimental/ModelAsAService__knowledge-base.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/knowledge-base.yaml",
+        "bytes": 21510
+      },
+      {
+        "filename": "qa-assistant-manage.yaml",
+        "local": "openapi/experimental/ModelAsAService__qa-assistant-manage.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-manage.yaml",
+        "bytes": 21197
+      },
+      {
+        "filename": "qa-assistant-service.yaml",
+        "local": "openapi/experimental/ModelAsAService__qa-assistant-service.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/ModelAsAService/r1.2/code/API_definitions/qa-assistant-service.yaml",
+        "bytes": 12998
+      }
+    ]
+  },
+  {
+    "repo": "MostFrequentLocation",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/MostFrequentLocation/releases/tag/r2.2",
+    "published_at": "2025-09-16T15:16:15Z",
+    "name": "r2.2",
+    "body_excerpt": "# r2.2\r\n\r\nThis **public release** contains the definition and documentation of\r\n* most-frequent-location 0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## most-frequent-location v0.2.0\r\n\r\n**most-frequent-location v0.2.0 is the public release of the Most Frequent Location API**\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/MostFrequentLocation/blob/r2.2/code/API_definitions/most-frequent-location.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/MostFrequentLocation/r2.2/code/API_definitions/most-frequent-location.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/MostFrequentLocation/r2.2/code/API_definitions/most-frequent-location.yaml)\r\n\r\n### Changed\r\n- Update `device` error codes by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n- Error model defined in Spring25 meta-release by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n- Update test plan with latest changes aligning with commonalities by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n- Align `info.description` section with Commonalities by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n- Update `x-correlator` format by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n\r\n### Removed\r\n- AUTHENTICATION_REQUIRED and 5XX errors by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n- `INVALID_TOKEN_CONTEXT` error by @fernandopradocabrillo in https://github.com/camaraproject/MostFrequentLocation/pull/23\r\n\r\n**Full Changelog**: https://github.com/camaraproject/MostFrequentLocation/commits/r1.",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "most-frequent-location.yaml",
+        "local": "openapi/experimental/MostFrequentLocation__most-frequent-location.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/MostFrequentLocation/r2.2/code/API_definitions/most-frequent-location.yaml",
+        "bytes": 27935
+      }
+    ]
+  },
+  {
+    "repo": "MultiPointVPN",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "NetworkAccessManagement",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "NetworkInsights",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/NetworkInsights/releases/tag/r1.3",
+    "published_at": "2026-06-25T00:45:46Z",
+    "name": "r1.3",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* network-health-assessment 0.1.0\n* network-traffic-analysis 0.1.0\n\nThe API definition(s) are based on\n* Commonalities 0.8.0\n* Identity and Consent Management 0.5.0\n\n## network-health-assessment 0.1.0\n\n**network-health-assessment 0.1.0 is an initial public version of this API.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-health-assessment.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-health-assessment.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/NetworkInsights/blob/r1.3/code/API_definitions/network-health-assessment.yaml)\n\n### Breaking changes\n\n* N/A\n\n### Added\n\nCreation of the first API definition. The network-health-assessment API allows users to query network health scores, enabling them to intuitively view the overall network health status and enhancing visualization capabilities.\n\n### Changed\n\n* N/A\n\n### Fixed\n\n* N/A\n\n### Removed\n\n* N/A\n\n## network-traffic-analysis 0.1.0\n\n**network-traffic-analysis 0.1.0 is an initial public version of this API.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-traffic-analysis.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-traffic-analysis.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/NetworkInsights/blob/r1.3/code/API_definitions/network-traffic-analysis.yaml)\n\n### Breaking changes\n\n* N/A\n\n### Added",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "network-health-assessment.yaml",
+        "local": "openapi/experimental/NetworkInsights__network-health-assessment.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-health-assessment.yaml",
+        "bytes": 14778
+      },
+      {
+        "filename": "network-traffic-analysis.yaml",
+        "local": "openapi/experimental/NetworkInsights__network-traffic-analysis.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkInsights/r1.3/code/API_definitions/network-traffic-analysis.yaml",
+        "bytes": 23878
+      }
+    ]
+  },
+  {
+    "repo": "NetworkSliceBooking",
+    "tag": "r2.3",
+    "html_url": "https://github.com/camaraproject/NetworkSliceBooking/releases/tag/r2.3",
+    "published_at": "2026-06-04T06:15:02Z",
+    "name": "r2.3",
+    "body_excerpt": "## Release Notes\n\nThis public release contains the definition and documentation of\n* network-slice-booking 0.2.0\n* network-slice-assignment 0.1.0\n\nThe API definition(s) are based on\n* Commonalities 0.8.0\n* Identity and Consent Management 0.5.0\n\n## network-slice-booking 0.2.0\n\n**network-slice-booking 0.2.0 is the second public version of the Network Slice Booking API.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-booking.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-booking.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/NetworkSliceBooking/blob/r2.3/code/API_definitions/network-slice-booking.yaml)\n\n### Added\n\n* Align with Commonalities r4.3 - Add mandatory templates and fix schemas in [#130](https://github.com/camaraproject/NetworkSliceBooking/pull/130)\n* Add maxLength requirement applies to all string properties in [#108](https://github.com/camaraproject/NetworkSliceBooking/pull/108)\n\n### Changed\n\n* Rename the term \"session\" to \"slice\" for clarity in [#87](https://github.com/camaraproject/NetworkSliceBooking/pull/87)\n* Split 422 SERVICE_NOT_APPLICABLE error into SERVICE_AREA_NOT_SUPPORTED and RESOURCES_INSUFFICIENT for better problem understanding in [#92](https://github.com/camaraproject/NetworkSliceBooking/pull/92)\n* Change the callback request body schema from CloudEvent to ApiNotificationEvent aligning with Commonalities r4.2 in [#108](https://github.com/camaraproject/NetworkSliceBooking/pull/108)\n* Update API definitions with corrected defaults and schema constraints aligning with Commonalities r4.2 in [#116](https://github.com/camaraproject/NetworkSliceBooking/pull/116)\n* Replace inline CloudEvent + sink-credential sc",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "network-slice-assignment.yaml",
+        "local": "openapi/experimental/NetworkSliceBooking__network-slice-assignment.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-assignment.yaml",
+        "bytes": 63048
+      },
+      {
+        "filename": "network-slice-booking.yaml",
+        "local": "openapi/experimental/NetworkSliceBooking__network-slice-booking.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkSliceBooking/r2.3/code/API_definitions/network-slice-booking.yaml",
+        "bytes": 42920
+      }
+    ]
+  },
+  {
+    "repo": "NumberRecycling",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/NumberRecycling/releases/tag/r2.2",
+    "published_at": "2025-09-11T11:13:24Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* number-recycling v0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## number-recycling v0.2.0\r\n\r\n**number-recycling v0.2.0 is the second public release of the Number-Recycling API.**\r\n\r\n- number-recycling v0.2.0 API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/NumberRecycling/r2.2/code/API_definitions/number-recycling.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/NumberRecycling/r2.2/code/API_definitions/number-recycling.yaml&nocors)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/NumberRecycling/blob/r2.2/code/API_definitions/number-recycling.yaml)\r\n\r\n### Added\r\n* Add text on undocumented errors to OAS definition in https://github.com/camaraproject/NumberRecycling/pull/56\r\n* Add a missing summary for operation POST /check to YAML file in https://github.com/camaraproject/NumberRecycling/pull/64\r\n\r\n### Changed\r\n* Update x-correlator pattern in https://github.com/camaraproject/NumberRecycling/pull/59\r\n* Update test plan and align with Commonalities guidelines in https://github.com/camaraproject/NumberRecycling/pull/60\r\n* Update versions in API and test definitions back to wip in https://github.com/camaraproject/NumberRecycling/pull/63\r\n* Update a description in error schema in https://github.com/camaraproject/NumberRecycling/pull/71\r\n\r\n### Fixed\r\n* Fix feature files for compliance with centralised linting rules in https://github.com/camaraproject/NumberRecycling/pull/67\r\n\r\n### Removed\r\n* Remove AUTHENTICATION_REQUIRED error code in https://github.com/camaraproject/NumberRecycling/pull/47\r\n\r\n**Full Changelog**: https://github.com/camaraproject/NumberRecycling/compare/r1.3...r2.2",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "number-recycling.yaml",
+        "local": "openapi/experimental/NumberRecycling__number-recycling.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NumberRecycling/r2.2/code/API_definitions/number-recycling.yaml",
+        "bytes": 15951
+      }
+    ]
+  },
+  {
+    "repo": "NumberVerification",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/NumberVerification/releases/tag/r3.2",
+    "published_at": "2025-09-12T09:55:34Z",
+    "name": "r3.2",
+    "body_excerpt": "This **public release** contains the definition and documentation of\r\n* number-verification 2.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## number-verification 2.1.0\r\n\r\n**number-verification 2.1.0 is the public release for v2.1.0 of the NumberVerification API.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/NumberVerification/r3.2/code/API_definitions/number-verification.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/NumberVerification/r3.2/code/API_definitions/number-verification.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/NumberVerification/blob/r3.2/code/API_definitions/number-verification.yaml)\r\n\r\n### Added\r\n\r\n- Add pattern validation for hashedPhoneNumber by @ravindrapalaskar17 in https://github.com/camaraproject/NumberVerification/pull/188\r\n- Documented Error Responses info.description section by @bigludo7 in https://github.com/camaraproject/NumberVerification/pull/199\r\n- Include documentation to use with JWT-bearer auth flow by @fernandopradocabrillo in https://github.com/camaraproject/NumberVerification/pull/206\r\n\r\n### Changed\r\n\r\n- Update x-correlator format by @bigludo7 in https://github.com/camaraproject/NumberVerification/pull/200\r\n- Update test plan by @fernandopradocabrilo in https://github.com/camaraproject/NumberVerification/pull/204\r\n- Update ErrorInfo attribute description by @bigludo7 in https://github.com/camaraproject/NumberVerification/pull/217\r\n\r\n### Removed\r\n\r\n- Remove AUTHENTICATION_REQUIRED error by @fernandopradocabrillo in https://github.com/camaraproject/NumberVerification/pull/206\r\n- Remove sequence diagram image in the yaml and instead refer to ICM by @bigludo7 in https://github.com/camaraproject/NumberVerification/pull/213\r\n\r\n## New Contri",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "number-verification.yaml",
+        "local": "openapi/camara/NumberVerification__number-verification.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NumberVerification/r3.2/code/API_definitions/number-verification.yaml",
+        "bytes": 16954
+      }
+    ]
+  },
+  {
+    "repo": "OptimalEdgeDiscovery",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/OptimalEdgeDiscovery/releases/tag/r1.2",
+    "published_at": "2025-09-17T15:32:16Z",
+    "name": "r1.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* optimal-edge-discovery v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n- API definition with inline documentation:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/OptimalEdgeDiscovery/r1.2/code/API_definitions/optimal-edge-discovery.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/OptimalEdgeDiscovery/r1.2/code/API_definitions/optimal-edge-discovery.yaml)\r\n  - [OpenAPI YAML spec file](https://github.com/camaraproject/OptimalEdgeDiscovery/blob/r1.2/code/API_definitions/optimal-edge-discovery.yaml)\r\n\r\n### Added\r\n* n/a\r\n### Changed\r\n* n/a  ",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "optimal-edge-discovery.yaml",
+        "local": "openapi/experimental/OptimalEdgeDiscovery__optimal-edge-discovery.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/OptimalEdgeDiscovery/r1.2/code/API_definitions/optimal-edge-discovery.yaml",
+        "bytes": 32779
+      }
+    ]
+  },
+  {
+    "repo": "OTPValidation",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/OTPValidation/releases/tag/r3.2",
+    "published_at": "2025-09-16T09:27:12Z",
+    "name": "r3.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n\r\n* one-time-password-sms 1.1.1\r\n\r\nNote: The release r3.2 is a **patch release from release r2.3**.\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## one-time-password-sms 1.1.1\r\n\r\nThis is the **release** of the one-time-password-sms API version 1.1.1. \r\n\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/OTPValidation/r3.2/code/API_definitions/one-time-password-sms.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/OTPValidation/r3.2/code/API_definitions/one-time-password-sms.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/OTPValidation/blob/r3.2/code/API_definitions/one-time-password-sms.yaml)\r\n\r\nIn the following there is the list of the modifications with respect to the previous release r2.3.\r\n\r\n### Added\r\nN/A\r\n\r\n### Changed\r\n- Align x-correlator definition with Commonalities 0.6.0, changed pattern and example (no change for the consumer): https://github.com/camaraproject/OTPValidation/pull/111\r\n- Align attribute description for code and description in the ErrorInfo schema (no change for the consumer): https://github.com/camaraproject/OTPValidation/pull/115\r\n- Cosmetic change for the feature files (no change for the consumer): https://github.com/camaraproject/OTPValidation/pull/116\r\n\r\n### Fixed\r\nN/A\r\n\r\n\r\n### Removed\r\nN/A",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "one-time-password-sms.yaml",
+        "local": "openapi/camara/OTPValidation__one-time-password-sms.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/OTPValidation/r3.2/code/API_definitions/one-time-password-sms.yaml",
+        "bytes": 18374
+      }
+    ]
+  },
+  {
+    "repo": "PopulationDensityData",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/PopulationDensityData/releases/tag/r3.2",
+    "published_at": "2025-09-10T08:54:28Z",
+    "name": "r3.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis release contains the definition and documentation of\r\n* population-density-data v0.3.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n\r\n## population-density-data v0.3.0\r\n\r\nThis is the public release for the CAMARA Meta Release Fall25 release of the Population Density Data API, version v0.3.0. It contains mainly alignments with the Commonalities v0.6.0.\r\n\r\n- 0.3.0 Population Density Data API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/PopulationDensityData/blob/r3.2/code/API_definitions/population-density-data.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/PopulationDensityData/r3.2/code/API_definitions/population-density-data.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/PopulationDensityData/r3.2/code/API_definitions/population-density-data.yaml)\r\n\r\nIn the following there is the list of the modifications with respect to the previous release.\r\n\r\n### Added\r\n* Alignment with Commonalities r3.3 by @albertoramosmonagas in https://github.com/camaraproject/PopulationDensityData/pull/94\r\n* Align with commonalities 0.6 (XCorrelator pattern update, error text clarification for generic cases) and include Sink Error by @jgarciahospital in https://github.com/camaraproject/PopulationDensityData/pull/91\r\n\r\n### Changed\r\nN/A\r\n\r\n### Fixed\r\nN/A\r\n\r\n### Removed\r\nN/A\r\n\r\n### New Contributors\r\n* @eric-murray made their first contribution in https://github.com/camaraproject/PopulationDensityData/pull/92\r\n\r\n**Full Changelog**: https://github.com/camaraproject/PopulationDensityData/compare/r2.2...r3.2",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "population-density-data.yaml",
+        "local": "openapi/camara/PopulationDensityData__population-density-data.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/PopulationDensityData/r3.2/code/API_definitions/population-density-data.yaml",
+        "bytes": 50238
+      }
+    ]
+  },
+  {
+    "repo": "PredictiveConnectivityData",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/PredictiveConnectivityData/releases/tag/r1.2",
+    "published_at": "2025-09-16T14:08:33Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\nThis public release contains the definition and documentation of \r\n* predictive-connectivity-data v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## predictive-connectivity-data v0.1.0\r\n\r\nThis is the public release for the CAMARA Meta Release Fall25 release of the Predictive Connectivity Data API, version v0.1.0. It contains mainly alignments with the Commonalities v0.6.0.\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/PredictiveConnectivityData/blob/r1.2/code/API_definitions/predictive-connectivity-data.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/PredictiveConnectivityData/r1.2/code/API_definitions/predictive-connectivity-data.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/PredictiveConnectivityData/r1.2/code/API_definitions/predictive-connectivity-data.yaml)\r\n\r\nIn the following there is the list of the modifications with respect to the previous release.\r\n\r\n### Added\r\n* Add precision, height and signal strenght to the wip version by @albertoramosmonagas in https://github.com/camaraproject/PredictiveConnectivityData/pull/25\r\n\r\n### Changed\r\n* Alignment with Commonalities r3.3 by @albertoramosmonagas in https://github.com/camaraproject/PredictiveConnectivityData/pull/33\r\n* Define first WIP version of Predictive Connectivity Data API by @albertoramosmonagas in https://github.com/camaraproject/PredictiveConnectivityData/pull/20\r\n* Align commonalities with v0.6-rc1 by @albertoramosmonagas in https://github.com/camaraproject/PredictiveConnectivityData/pull/21\r\n\r\n### Fixed\r\n* N/A\r\n\r\n### Removed\r\n* N/A\r\n\r\n ### New Contributors\r\n* @eric-murray made their first contribution in https://github.com/camaraproject/PredictiveConnectivityData/pull/30\r\n* @albertoramosmonag",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "predictive-connectivity-data.yaml",
+        "local": "openapi/experimental/PredictiveConnectivityData__predictive-connectivity-data.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/PredictiveConnectivityData/r1.2/code/API_definitions/predictive-connectivity-data.yaml",
+        "bytes": 52947
+      }
+    ]
+  },
+  {
+    "repo": "QoSBooking",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/QoSBooking/releases/tag/r1.2",
+    "published_at": "2025-09-12T10:30:04Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* qos-booking v0.1.0\r\n* qos-booking-and-assignment v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## qos-booking v0.1.0\r\n\r\n**qos-booking v0.1.0 is the first public release of this new API.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking.yaml&nocors)\r\n  - [View it on Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/QoSBooking/blob/r1.2/code/API_definitions/qos-booking.yaml)\r\n\r\n### Added\r\n* Initial contribution of the QoS Booking API <br> which includes all alignments and fixes since the pre-release \r\n\r\n## qos-booking-and-assignment v0.1.0\r\n\r\n**qos-booking-and-assignment v0.1.0 is the first public release of this new API.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking-and-assignment.yaml&nocors)\r\n  - [View it on Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking-and-assignment.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/QoSBooking/blob/r1.2/code/API_definitions/qos-booking-and-assignment.yaml)\r\n\r\n### Added\r\n* Initial contribution of the QoS Booking and Assignment API <br> which includes all alignments and fixes since the pre-release\r\n\r\n**Full Changelog**: https://github.com/camaraproject/QoSBooking/commits/r1.2",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "qos-booking-and-assignment.yaml",
+        "local": "openapi/experimental/QoSBooking__qos-booking-and-assignment.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking-and-assignment.yaml",
+        "bytes": 88422
+      },
+      {
+        "filename": "qos-booking.yaml",
+        "local": "openapi/experimental/QoSBooking__qos-booking.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/QoSBooking/r1.2/code/API_definitions/qos-booking.yaml",
+        "bytes": 64580
+      }
+    ]
+  },
+  {
+    "repo": "QualityOnDemand",
+    "tag": "r3.2",
+    "html_url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r3.2",
+    "published_at": "2025-09-16T12:19:48Z",
+    "name": "r3.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n\r\n* quality-on-demand v1.1.0\r\n* qos-profiles v1.1.0\r\n* qos-provisioning v0.3.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0 (r3.3)\r\n* Identity and Consent Management v0.4.0 (r3.3)\r\n\r\n## quality-on-demand v1.1.0\r\n\r\n**quality-on-demand v1.1.0 is a minor update of the API, and is backward compatible with v1.0.0.**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/quality-on-demand.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/quality-on-demand.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/QualityOnDemand/blob/r3.2/code/API_definitions/quality-on-demand.yaml)\r\n\r\n### Added\r\n\r\n* Added HTTP-422 error response when qos profile is not applicable during session creation by @maxl2287 in https://github.com/camaraproject/QualityOnDemand/pull/433\r\n* Added error response documentation in `info.description` by @hdamker in https://github.com/camaraproject/QualityOnDemand/pull/467\r\n* Added pattern for `sink` URI to enforce HTTPS and added 400 INVALID_SINK error code by @hdamker in https://github.com/camaraproject/QualityOnDemand/pull/491\r\n\r\n### Changed\r\n\r\n* Adjusted x-correlator pattern as defined in CAMARA Commonalities by @jlurien in https://github.com/camaraproject/QualityOnDemand/pull/465\r\n* Updated documentation regarding device identifiers in responses and added DeviceResponse object to limit device identifiers in responses to exactly one by @eric-murray in https://github.com/camaraproject/QualityOnDemand/pull/453\r\n* Added gherkin linting and updated test definition files by @maxl2287 in https://github.com/camaraproject/QualityOnDemand/pull/478\r\n* Aligned some propertie",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "qos-profiles.yaml",
+        "local": "openapi/camara/QualityOnDemand__qos-profiles.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/qos-profiles.yaml",
+        "bytes": 40955
+      },
+      {
+        "filename": "qos-provisioning.yaml",
+        "local": "openapi/camara/QualityOnDemand__qos-provisioning.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/qos-provisioning.yaml",
+        "bytes": 58113
+      },
+      {
+        "filename": "quality-on-demand.yaml",
+        "local": "openapi/camara/QualityOnDemand__quality-on-demand.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/QualityOnDemand/r3.2/code/API_definitions/quality-on-demand.yaml",
+        "bytes": 71341
+      }
+    ]
+  },
+  {
+    "repo": "RainfallIntensity",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "RegionDeviceCount",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/RegionDeviceCount/releases/tag/r2.2",
+    "published_at": "2025-09-15T08:06:27Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* region-device-count 0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## region-device-count v0.2.0\r\n**region-device-count v0.2.0 is the first public version for v0.2.0 of the region-device-count API.**\r\n\r\n\r\n### Changed\r\n* Remove the 401 AUTHENTICATION_REQUIRED code in https://github.com/camaraproject/RegionDeviceCount/pull/58\r\n* Update pattern for x-correlator in https://github.com/camaraproject/RegionDeviceCount/pull/58\r\n\r\n API definition **with inline documentation**:\r\n[[YAML]](https://github.com/camaraproject/RegionDeviceCount/blob/r2.2/code/API_definitions/region-device-count.yaml)\r\n[[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/RegionDeviceCount/r2.2/code/API_definitions/region-device-count.yaml&nocors)\r\n[[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/RegionDeviceCount/r2.2/code/API_definitions/region-device-count.yaml)\r\n\r\n**Full Changelog**: https://github.com/camaraproject/RegionDeviceCount/commits/r2.2\r\n",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "region-device-count.yaml",
+        "local": "openapi/experimental/RegionDeviceCount__region-device-count.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/RegionDeviceCount/r2.2/code/API_definitions/region-device-count.yaml",
+        "bytes": 33474
+      }
+    ]
+  },
+  {
+    "repo": "SessionInsights",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "SimpleEdgeDiscovery",
+    "tag": "r2.3",
+    "html_url": "https://github.com/camaraproject/SimpleEdgeDiscovery/releases/tag/r2.3",
+    "published_at": "2026-04-23T09:19:18Z",
+    "name": "r2.3",
+    "body_excerpt": "## Release Notes\n\nThis maintenance release contains the definition and documentation of\n* simple-edge-discovery 2.0.1\n\nThe API definition(s) are based on\n* Commonalities 0.6.1\n* Identity and Consent Management 0.4.0\n\n## simple-edge-discovery 2.0.1\n\n**simple-edge-discovery 2.0.1 is a patch release. Implementers of simple-edge-discovery 2.0.0 should upgrade accordingly.**\n\n- API definition **with inline documentation**:\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/SimpleEdgeDiscovery/r2.3/code/API_definitions/simple-edge-discovery.yaml&nocors)\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/SimpleEdgeDiscovery/r2.3/code/API_definitions/simple-edge-discovery.yaml)\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/SimpleEdgeDiscovery/blob/r2.3/code/API_definitions/simple-edge-discovery.yaml)\n\n### Added\n\n* None\n\n### Changed\n\n* None\n\n### Fixed\n\n*  fix:  error 400 reference from Generic401 to Generic400 by @Kevsy in https://github.com/camaraproject/SimpleEdgeDiscovery/pull/150\n\n### Removed\n\n* None\n\n**Full Changelog**: https://github.com/camaraproject/SimpleEdgeDiscovery/compare/r2.2...r2.3",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "simple-edge-discovery.yaml",
+        "local": "openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SimpleEdgeDiscovery/r2.3/code/API_definitions/simple-edge-discovery.yaml",
+        "bytes": 28151
+      }
+    ]
+  },
+  {
+    "repo": "SimSwap",
+    "tag": "r3.3",
+    "html_url": "https://github.com/camaraproject/SimSwap/releases/tag/r3.3",
+    "published_at": "2025-12-01T10:30:21Z",
+    "name": "r3.3",
+    "body_excerpt": "\r\nThis maintenance release contains the definition and documentation of\r\n* sim-swap 2.1.0\r\n* sim-swap-subscriptions 0.3.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## sim-swap 2.1.0\r\n\r\n**sim-swap v2.1.0 is the public release of the Sim Swap API**\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/SimSwap/blob/r3.3/code/API_definitions/sim-swap.yaml)\r\n\r\n**Main changes**\r\n* There are no changes in the spec file since the release r3.2, just an update in the test plan\r\n\r\n### Changed\r\n* Align test plan with commonalities artifact by @fernandopradocabrillo in https://github.com/camaraproject/SimSwap/pull/238\r\n\r\n## Sim Swap Subscriptions v0.3.0\r\n\r\n**sim-swap-subscriptions v0.3.0 is the public release of the Sim Swap Subscriptions API**\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/SimSwap/blob/r3.3/code/API_definitions/sim-swap-subscriptions.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap-subscriptions.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap-subscriptions.yaml)\r\n\r\n**Main changes**\r\n* There are no changes since the last release r3.2\r\n\r\n**Full Changelog**: https://github.com/camaraproject/SimSwap/compare/r3.2...r3.3\r\n",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "sim-swap-subscriptions.yaml",
+        "local": "openapi/camara/SimSwap__sim-swap-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap-subscriptions.yaml",
+        "bytes": 58145
+      },
+      {
+        "filename": "sim-swap.yaml",
+        "local": "openapi/camara/SimSwap__sim-swap.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SimSwap/r3.3/code/API_definitions/sim-swap.yaml",
+        "bytes": 21772
+      }
+    ]
+  },
+  {
+    "repo": "SponsoredData",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "SubscriptionStatus",
+    "tag": "r1.2",
+    "html_url": "https://github.com/camaraproject/SubscriptionStatus/releases/tag/r1.2",
+    "published_at": "2025-09-15T07:00:03Z",
+    "name": "r1.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis release contains the definition and documentation of\r\n* subscription-status v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n\r\n## subscription-status v0.1.0\r\n\r\n**subscription-status v0.1.0 is the first public release version for v0.1.0 of the subscription-status API**\r\n\r\n API definition **with inline documentation**:\r\n[[YAML]](https://github.com/camaraproject/SubscriptionStatus/blob/r1.2/code/API_definitions/subscription-status.yaml)\r\n[[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/SubscriptionStatus/r1.2/code/API_definitions/subscription-status.yaml&nocors)\r\n[[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/SubscriptionStatus/r1.2/code/API_definitions/subscription-status.yaml)\r\n\r\n**Initial contribution of API definitions for Subscription Status**, including initial documentation.\r\n\r\n## Added\r\n* Initial yaml file including Subscription Status API by @chinaunicomyangfan in https://github.com/camaraproject/SubscriptionStatus/pull/6\r\n* Add test file by @chinaunicomyangfan in https://github.com/camaraproject/SubscriptionStatus/pull/9\r\n* Add text on undocumented errors to OAS definition by @chinaunicomyangfan in https://github.com/camaraproject/SubscriptionStatus/pull/13\r\n\r\n## Removed\r\n* Remove AUTHENTICATION_REQUIRED error code by @chinaunicomyangfan in https://github.com/camaraproject/SubscriptionStatus/pull/13\r\n\r\n## Changed\r\n* Update x-correlator format by @chinaunicomyangfan in https://github.com/camaraproject/SubscriptionStatus/pull/13\r\n\r\n**Full Changelog**: https://github.com/camaraproject/SubscriptionStatus/commits/r1.2",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "subscription-status.yaml",
+        "local": "openapi/experimental/SubscriptionStatus__subscription-status.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SubscriptionStatus/r1.2/code/API_definitions/subscription-status.yaml",
+        "bytes": 16126
+      }
+    ]
+  },
+  {
+    "repo": "Tenure",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/Tenure/releases/tag/r2.2",
+    "published_at": "2025-09-19T12:07:15Z",
+    "name": "r2.2",
+    "body_excerpt": "This public release contains the definition and documentation of\r\n* kyc-tenure v0.2.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3)\r\n* Identity and Consent Management [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3)\r\n\r\n## kyc-tenure v0.2.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/Tenure/r2.2/code/API_definitions/kyc-tenure.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/Tenure/r2.2/code/API_definitions/kyc-tenure.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/Tenure/blob/r2.2/code/API_definitions/kyc-tenure.yaml)\r\n\r\nThere are no breaking changes compared to v0.1.0\r\n\r\n### Added\r\n* Add text on undocumented errors to OAS definition by @eric-murray in https://github.com/camaraproject/Tenure/pull/42\r\n\r\n### Changed\r\n* Update x-correlator pattern by @eric-murray in https://github.com/camaraproject/Tenure/pull/40\r\n\r\n### Fixed\r\n* Fix/contract-type-line-break by @fernandopradocabrillo in https://github.com/camaraproject/Tenure/pull/37\r\n\r\n### Removed\r\n* Remove AUTHENTICATION_REQUIRED error code by @eric-murray in https://github.com/camaraproject/Tenure/pull/33\r\n",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "kyc-tenure.yaml",
+        "local": "openapi/experimental/Tenure__kyc-tenure.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/Tenure/r2.2/code/API_definitions/kyc-tenure.yaml",
+        "bytes": 15791
+      }
+    ]
+  },
+  {
+    "repo": "TrafficInfluence",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/TrafficInfluence/releases/tag/r1.3",
+    "published_at": "2025-09-16T15:12:23Z",
+    "name": "r1.3",
+    "body_excerpt": "This public release contains the definition and documentation of:\r\n* traffic-influence v0.10.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.6.0\r\n* Identity and Consent Management v0.4.0\r\n\r\n## traffic-influence v0.10.0\r\nThis is a public release for the CAMARA Traffic Influence API. This version provides the ability to influence the traffic flow from the user device toward the Edge instance of the Application providing the optimal routing.\r\nThe traffic can be influenced even when the user device moves to a different geographical location to always get the optimal routing toward the nearer instance of an Application.\r\n\r\n- API definition **with inline documentation**:\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/TrafficInfluence/blob/r1.3/code/API_definitions/traffic-influence.yaml)\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/TrafficInfluence/r1.3/code/API_definitions/traffic-influence.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/TrafficInfluence/r1.3/code/API_definitions/traffic-influence.yaml)\r\n\r\n## Please note:\r\n\r\n- The release is suitable for implementers, but it is not recommended to use the API with customers in productive environments\r\n- The release scope is defined here: https://github.com/camaraproject/TrafficInfluence/issues/14\r\n- This is the first public release of the API, the modification reported below (\"Changed\" and \"Fixed\" sections) are with respect to v0.10.0-rc.1 in r1.2.\r\n\r\n### Added\r\n* Support for the following use cases: https://github.com/camaraproject/TrafficInfluence/discussions/15\r\n    \r\n### Changed\r\n* x-correlator update: https://github.com/camaraproject/TrafficInfluence/pull/49\r\n* Alignment with the CAMARA Error codes: https://github.com/camaraproject/TrafficInfluence/pull/53 and https://github.com/camaraproject/TrafficInfluence/pull/73\r\n* Updated the na",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "traffic-influence.yaml",
+        "local": "openapi/experimental/TrafficInfluence__traffic-influence.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/TrafficInfluence/r1.3/code/API_definitions/traffic-influence.yaml",
+        "bytes": 72537
+      }
+    ]
+  },
+  {
+    "repo": "VerifiedCaller",
+    "tag": "r1.3",
+    "html_url": "https://github.com/camaraproject/VerifiedCaller/releases/tag/r1.3",
+    "published_at": "2025-09-15T15:00:09Z",
+    "name": "r1.3",
+    "body_excerpt": "This public release contains the definition and documentation of:\r\n- Brand Registration v0.1.0\r\n- Verified Caller v0.1.0\r\n\r\nThe API definition(s) are based on:\r\n\r\n- Commonalities r3.3\r\n- Identity and Consent Management r3.3\r\n\r\n### Brand Registration v0.1.0\r\nThis is the first initial version of Brand Registration API.\r\n\r\n**API definition with inline documentation:**\r\n- [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/brand-registration.yaml&nocors)\r\n- [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/brand-registration.yaml)\r\n- OpenAPI [YAML spec file](https://github.com/camaraproject/VerifiedCaller/blob/r1.3/code/API_definitions/brand-registration.yaml)\r\n\r\n**Added**\r\n- Add new endpoint to create, edit, query and delete a brand registration for call enrichment by @alpaycetin74 in https://github.com/camaraproject/VerifiedCaller/pull/47\r\n\r\n**Changed**\r\nN/A\r\n\r\n**Fixed**\r\nN/A\r\n\r\n**Removed**\r\nN/A\r\n\r\n### Verified Caller v0.1.0\r\nThis is the first initial version of Verified Caller API\r\n\r\n**API definition with inline documentation:**\r\n- [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/verified-caller.yaml&nocors)\r\n- [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/verified-caller.yaml)\r\n- OpenAPI [YAML spec file](https://github.com/camaraproject/VerifiedCaller/blob/r1.3/code/API_definitions/verified-caller.yaml)\r\n\r\n**Added**\r\n\r\n- Add new endpoint to pre-announce a call to be branded by @alpaycetin74 in https://github.com/camaraproject/VerifiedCaller/pull/43\r\n\r\n**Changed**\r\nN/A\r\n\r\n**Fixed**\r\n- Remove occurrences of \"Pre-Announce\" from API name throughout the re",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "brand-registration.yaml",
+        "local": "openapi/experimental/VerifiedCaller__brand-registration.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/brand-registration.yaml",
+        "bytes": 28749
+      },
+      {
+        "filename": "verified-caller.yaml",
+        "local": "openapi/experimental/VerifiedCaller__verified-caller.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/VerifiedCaller/r1.3/code/API_definitions/verified-caller.yaml",
+        "bytes": 20499
+      }
+    ]
+  },
+  {
+    "repo": "VoiceNotification",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "VoiceVerificationCode",
+    "status": "no_release",
+    "detail": "gh: Not Found (HTTP 404)\n",
+    "files": []
+  },
+  {
+    "repo": "WebRTC",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/WebRTC/releases/tag/r2.2",
+    "published_at": "2025-09-23T14:44:21Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis **public release** contains the definition and documentation of\r\n\r\n* webrtc-registration v0.3.0\r\n* webrtc-call-handling v0.3.0\r\n* webrtc-events v0.2.0\r\n\r\nThe API definition(s) are based on\r\n\r\n* Commonalities r3.3\r\n* Identity and Consent Management r3.3\r\n\r\nChangelog since latest public v1.2\r\n\r\n* Full Changelog with the list of PRs and contributors: https://github.com/camaraproject/WebRTC/compare/r1.2...r2.2\r\n\r\n## webrtc-registration v0.3.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-registration.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-registration.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/WebRTC/blob/r2.2/code/API_definitions/webrtc-registration.yaml)\r\n\r\n### Added\r\n- Support registration expiry updates and termination event notifications at PR [#83](https://github.com/camaraproject/WebRTC/pull/83)\r\n- Introduced `regSessionUpdate` schema with optional `registrationExpireTime` field to allow clients to request a new expiry time.\r\n- Added 200 OK response definition for `PUT /sessions/{registrationId}` to acknowledge successful updates.\r\n\r\n### Changed\r\n- fix: Updated deviceId format, examples and tests at [#91](https://github.com/camaraproject/WebRTC/pull/91)\r\n- fix: registrationId became mandatory on registration response at [#93](https://github.com/camaraproject/WebRTC/pull/93)\r\n- Commonalities aligment 0.6 at PR [#90](https://github.com/camaraproject/WebRTC/pull/90)\r\n  - fix: Remove AUTHENTICATION_REQUIRED error code\r\n  - doc: Update `types` (multiple) property of `Subscription` schema\r\n  - feat: Error 422 MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED added\r\n  - fix: Remove IDENTIFIER_MISMATCH error\r\n  - fix: x-correlator",
+    "maturity_hint": "experimental",
+    "files": [
+      {
+        "filename": "webrtc-call-handling.yaml",
+        "local": "openapi/experimental/WebRTC__webrtc-call-handling.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-call-handling.yaml",
+        "bytes": 37524
+      },
+      {
+        "filename": "webrtc-events.yaml",
+        "local": "openapi/experimental/WebRTC__webrtc-events.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-events.yaml",
+        "bytes": 68507
+      },
+      {
+        "filename": "webrtc-registration.yaml",
+        "local": "openapi/experimental/WebRTC__webrtc-registration.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/WebRTC/r2.2/code/API_definitions/webrtc-registration.yaml",
+        "bytes": 24562
+      }
+    ]
+  },
+  {
+    "repo": "KnowYourCustomer",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.2",
+    "published_at": "2025-03-10T11:44:37Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis release contains the definition and documentation of\r\n* kyc-match v0.3.0\r\n* kyc-fill-in v0.3.0\r\n* kyc-age-verification v0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.5.0\r\n* Identity and Consent Management v0.3.0\r\n\r\n## kyc-match v0.3.0\r\n\r\n**kyc-match v0.3.0 is the public release of the version for the CAMARA KnowYourCustomer Match API**\r\n\r\n- API definition **with inline documentation**:\r\n    - OpenAPI [YAML spec file](https://github.com/camaraproject/KnowYourCustomer/blob/r2.2/code/API_definitions/kyc-match.yaml)\r\n    - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-match.yaml&nocors)\r\n    - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-match.yaml&nocors)\r\n\r\n### Added\r\n- Define a phoneNumber pattern in kyc-match yaml file by @GillesInnov35 in https://github.com/camaraproject/KnowYourCustomer/pull/170\r\n\r\n### Changed\r\n- Fix example for postalCode and streetNumber by @GillesInnov35 in https://github.com/camaraproject/KnowYourCustomer/pull/169\r\n- KYC-Match: Clarification of \"the specification\" by @Masa8106 in https://github.com/camaraproject/KnowYourCustomer/pull/165\r\n- Align kyc-match with commonalities for meta-release Spring25 by @fernandopradocabrillo in https://github.com/camaraproject/KnowYourCustomer/pull/176 and https://github.com/camaraproject/KnowYourCustomer/pull/181\r\n- Update test plans according to commonalities guidelines by @fernandopradocabrillo https://github.com/camaraproject/KnowYourCustomer/pull/185\r\n- Remove non-mandatory errors by @fernandopradocabrillo https://github.com/camaraproject/KnowYourCustomer/pull/186\r\n\r\n## kyc-fill-in v0.3.0\r\n\r\n**kyc-match v0.3.0 is the public release of the version for the CAMARA KnowYourCustomer Fill-in API**\r\n\r\n- API definition **with inline documentat",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "kyc-age-verification.yaml",
+        "local": "openapi/camara/KnowYourCustomer__kyc-age-verification.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-age-verification.yaml",
+        "bytes": 23837
+      },
+      {
+        "filename": "kyc-fill-in.yaml",
+        "local": "openapi/camara/KnowYourCustomer__kyc-fill-in.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-fill-in.yaml",
+        "bytes": 22117
+      },
+      {
+        "filename": "kyc-match.yaml",
+        "local": "openapi/camara/KnowYourCustomer__kyc-match.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/r2.2/code/API_definitions/kyc-match.yaml",
+        "bytes": 30946
+      }
+    ]
+  },
+  {
+    "repo": "DeviceStatus",
+    "tag": "r2.2",
+    "html_url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2",
+    "published_at": "2025-03-14T11:49:32Z",
+    "name": "r2.2",
+    "body_excerpt": "## Release Notes\r\n\r\nThis public release contains the definition and documentation of\r\n* device-roaming-status v1.0.0\r\n* device-roaming-status-subscriptions v0.7.0\r\n* device-reachability-status v1.0.0\r\n* device-reachability-status-subscriptions v0.7.0\r\n* connected-network-type 0.1.0\r\n* connected-network-type-subscriptions 0.1.0\r\n\r\nThe API definition(s) are based on\r\n* Commonalities v0.5.0\r\n* Identity and Consent Management v0.3.0\r\n\r\n## device-roaming-status v1.0.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceStatus/blob/r2.2/code/API_definitions/device-roaming-status.yaml)\r\n\r\n### Added\r\n\r\n### Changed\r\n* Update documentation with handling of access token and multi-SIM scenarios by @eric-murray in https://github.com/camaraproject/DeviceStatus/pull/228\r\n* Update device error model by @fernandopradocabrillo in https://github.com/camaraproject/DeviceStatus/pull/232\r\n\r\n### Fixed\r\n\r\n### Removed\r\n\r\n## device-roaming-status-subscriptions v0.7.0\r\n\r\n- API definition **with inline documentation**:\r\n  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status-subscriptions.yaml&nocors)\r\n  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status-subscriptions.yaml)\r\n  - OpenAPI [YAML spec file](https://github.com/camaraproject/DeviceStatus/blob/r2.2/code/API_definitions/device-roaming-status-subscripti",
+    "maturity_hint": "camara",
+    "files": [
+      {
+        "filename": "connected-network-type-subscriptions.yaml",
+        "local": "openapi/camara/DeviceStatus__connected-network-type-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/connected-network-type-subscriptions.yaml",
+        "bytes": 62386
+      },
+      {
+        "filename": "connected-network-type.yaml",
+        "local": "openapi/camara/DeviceStatus__connected-network-type.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/connected-network-type.yaml",
+        "bytes": 21260
+      },
+      {
+        "filename": "device-reachability-status-subscriptions.yaml",
+        "local": "openapi/camara/DeviceStatus__device-reachability-status-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-reachability-status-subscriptions.yaml",
+        "bytes": 65898
+      },
+      {
+        "filename": "device-reachability-status.yaml",
+        "local": "openapi/camara/DeviceStatus__device-reachability-status.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-reachability-status.yaml",
+        "bytes": 22437
+      },
+      {
+        "filename": "device-roaming-status-subscriptions.yaml",
+        "local": "openapi/camara/DeviceStatus__device-roaming-status-subscriptions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status-subscriptions.yaml",
+        "bytes": 69203
+      },
+      {
+        "filename": "device-roaming-status.yaml",
+        "local": "openapi/camara/DeviceStatus__device-roaming-status.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceStatus/r2.2/code/API_definitions/device-roaming-status.yaml",
+        "bytes": 23430
+      }
+    ]
+  },
+  {
+    "repo": "CapabilitiesAndRuntimeRestrictions",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "capabilities-and-restrictions.yaml",
+        "local": "openapi/experimental/CapabilitiesAndRuntimeRestrictions__capabilities-and-restrictions.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/CapabilitiesAndRuntimeRestrictions/main/code/API_definitions/capabilities-and-restrictions.yaml",
+        "bytes": 66468,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "DeviceAuthenticity",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "device-authenticity.yaml",
+        "local": "openapi/experimental/DeviceAuthenticity__device-authenticity.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceAuthenticity/main/code/API_definitions/device-authenticity.yaml",
+        "bytes": 20626,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "DeviceMediaStreamingRate",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "media-streaming-rate.yaml",
+        "local": "openapi/experimental/DeviceMediaStreamingRate__media-streaming-rate.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceMediaStreamingRate/main/code/API_definitions/media-streaming-rate.yaml",
+        "bytes": 10628,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "DeviceVisitLocation",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "device-visit-location.yaml",
+        "local": "openapi/experimental/DeviceVisitLocation__device-visit-location.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/DeviceVisitLocation/main/code/API_definitions/device-visit-location.yaml",
+        "bytes": 31944,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "EdgeApplicationManagement",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "edge-application-management.yaml",
+        "local": "openapi/experimental/EdgeApplicationManagement__edge-application-management.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/EdgeApplicationManagement/main/code/API_definitions/edge-application-management.yaml",
+        "bytes": 91514,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "EdgeCloud",
+    "tag": "main",
+    "status": "default_branch",
+    "files": []
+  },
+  {
+    "repo": "eSimRemoteManagement",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "esim-remote-management.yaml",
+        "local": "openapi/experimental/eSimRemoteManagement__esim-remote-management.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/eSimRemoteManagement/main/code/API_definitions/esim-remote-management.yaml",
+        "bytes": 31705,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "InHomeDeviceManagement",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "InHomeDeviceManagement.yaml",
+        "local": "openapi/experimental/InHomeDeviceManagement__InHomeDeviceManagement.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/InHomeDeviceManagement/main/code/API_definitions/InHomeDeviceManagement.yaml",
+        "bytes": 22336,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "IoTDeviceManagement",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "esim-profile-management.yaml",
+        "local": "openapi/experimental/IoTDeviceManagement__esim-profile-management.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/IoTDeviceManagement/main/code/API_definitions/esim-profile-management.yaml",
+        "bytes": 32094,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "IoTNetworkOptimization",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "iot-network-optimization.yaml",
+        "local": "openapi/experimental/IoTNetworkOptimization__iot-network-optimization.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/IoTNetworkOptimization/main/code/API_definitions/iot-network-optimization.yaml",
+        "bytes": 42344,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "MultiPointVPN",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "multi-point-vpn.yaml",
+        "local": "openapi/experimental/MultiPointVPN__multi-point-vpn.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/MultiPointVPN/main/code/API_definitions/multi-point-vpn.yaml",
+        "bytes": 24155,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "NetworkAccessManagement",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "network-access-devices.yaml",
+        "local": "openapi/experimental/NetworkAccessManagement__network-access-devices.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkAccessManagement/main/code/API_definitions/network-access-devices.yaml",
+        "bytes": 24967,
+        "ref": "main"
+      },
+      {
+        "filename": "network-access-domains.yaml",
+        "local": "openapi/experimental/NetworkAccessManagement__network-access-domains.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/NetworkAccessManagement/main/code/API_definitions/network-access-domains.yaml",
+        "bytes": 41113,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "RainfallIntensity",
+    "tag": "main",
+    "status": "default_branch",
+    "files": []
+  },
+  {
+    "repo": "SessionInsights",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "session-insights.yaml",
+        "local": "openapi/experimental/SessionInsights__session-insights.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SessionInsights/main/code/API_definitions/session-insights.yaml",
+        "bytes": 34150,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "SponsoredData",
+    "tag": "main",
+    "status": "default_branch",
+    "files": [
+      {
+        "filename": "sponsored_data.yaml",
+        "local": "openapi/experimental/SponsoredData__sponsored_data.yaml",
+        "source": "https://raw.githubusercontent.com/camaraproject/SponsoredData/main/code/API_definitions/sponsored_data.yaml",
+        "bytes": 59901,
+        "ref": "main"
+      }
+    ]
+  },
+  {
+    "repo": "VoiceNotification",
+    "tag": "main",
+    "status": "default_branch",
+    "files": []
+  },
+  {
+    "repo": "VoiceVerificationCode",
+    "tag": "main",
+    "status": "default_branch",
+    "files": []
+  }
+]

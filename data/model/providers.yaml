@@ -1,0 +1,40 @@
+providers:
+  - { id: simulated-operator-a, label: Simulated Operator A, audienceLabel: Network Provider A, kind: operator, simulated: true }
+  - { id: simulated-aggregator-b, label: Simulated Aggregator B, audienceLabel: Aggregator A, kind: aggregator, simulated: true }
+  - { id: simulated-provider-c, label: Simulated Provider C, audienceLabel: Specialist Provider C, kind: specialist, simulated: true }
+
+providerCapabilities:
+  - providerId: simulated-operator-a
+    operations:
+      - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml }
+      - { operationId: phoneNumberShare, source: openapi/camara/NumberVerification__number-verification.yaml }
+      - { operationId: checkSimSwap, source: openapi/camara/SimSwap__sim-swap.yaml }
+      - { operationId: retrieveSimSwapDate, source: openapi/camara/SimSwap__sim-swap.yaml }
+      - { operationId: getReachabilityStatus, source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml }
+      - { operationId: checkNumberRecycling, source: openapi/experimental/NumberRecycling__number-recycling.yaml }
+      - { operationId: retrieveIdentifier, source: openapi/experimental/DeviceIdentifier__device-identifier.yaml }
+      - { operationId: checkDeviceSwap, source: openapi/camara/DeviceSwap__device-swap.yaml }
+      - { operationId: getRoamingStatus, source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml }
+      - { operationId: verifyLocation, source: openapi/camara/DeviceLocation__location-verification.yaml }
+      - { operationId: KYC_Match, source: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml }
+  - providerId: simulated-aggregator-b
+    operations:
+      - { operationId: phoneNumberVerify, source: openapi/camara/NumberVerification__number-verification.yaml }
+      - { operationId: checkSimSwap, source: openapi/camara/SimSwap__sim-swap.yaml }
+      - { operationId: checkDeviceSwap, source: openapi/camara/DeviceSwap__device-swap.yaml }
+      - { operationId: retrieveDeviceSwapDate, source: openapi/camara/DeviceSwap__device-swap.yaml }
+      - { operationId: retrieveIdentifier, source: openapi/experimental/DeviceIdentifier__device-identifier.yaml }
+      - { operationId: getRoamingStatus, source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml }
+  - providerId: simulated-provider-c
+    operations:
+      - { operationId: verifyLocation, source: openapi/camara/DeviceLocation__location-verification.yaml }
+      - { operationId: checkNetworkQuality, source: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml }
+      - { operationId: createApplicationProfile, source: openapi/experimental/ApplicationProfiles__application-profiles.yaml }
+      - { operationId: verifyAge, source: openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml }
+      - { operationId: retrieveLocation, source: openapi/camara/DeviceLocation__location-retrieval.yaml }
+      - { operationId: createGeofencingSubscription, source: openapi/camara/DeviceLocation__geofencing-subscriptions.yaml }
+      - { operationId: readClosestEdgeCloudZone, source: openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml }
+      - { operationId: retrieveQoSProfiles, source: openapi/camara/QualityOnDemand__qos-profiles.yaml }
+      - { operationId: createSession, source: openapi/camara/QualityOnDemand__quality-on-demand.yaml }
+      - { operationId: getSession, source: openapi/camara/QualityOnDemand__quality-on-demand.yaml }
+      - { operationId: createQosAssignment, source: openapi/camara/QualityOnDemand__qos-provisioning.yaml }

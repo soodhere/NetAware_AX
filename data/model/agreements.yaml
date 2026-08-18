@@ -1,0 +1,33 @@
+agreements:
+  - id: rocket-bank-dpa
+    label: Rocket Bank DPA configuration
+    enterpriseId: rocket-bank
+    kind: DPA
+    permittedPurposes: [payment_fraud_assist]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: Configured agreement, not a universal legal conclusion.
+  - id: high-flight-dpa
+    label: High Flight DPA configuration
+    enterpriseId: high-flight-airlines
+    kind: DPA
+    permittedPurposes: [baggage_connection_assurance]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: Configured agreement, not a universal legal conclusion.
+  - id: acme-dpa
+    label: Acme DPA configuration
+    enterpriseId: acme-manufacturing
+    kind: DPA
+    permittedPurposes: [inspection_video_assurance]
+    permittedRegions: [EU, CA]
+    dataResidency: plant_region
+    note: Configured agreement, not a universal legal conclusion.
+  - id: citycare-dpa
+    label: CityCare DPA configuration
+    enterpriseId: citycare-health
+    kind: DPA
+    permittedPurposes: [pharmacy_age_eligibility]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: Age assertion permitted. Broader KYC Match not permitted for pharmacy age gate. Configured demo governance.

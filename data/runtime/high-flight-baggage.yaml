@@ -1,0 +1,139 @@
+# Cadence 3 — High Flight ensure_baggage_connection simulation seed.
+# Deterministic. Fictional. No live operator. Configured demo policy only.
+
+scenario:
+  id: high-flight-baggage
+  executableIntent: ensure_baggage_connection
+  enterpriseId: high-flight-airlines
+  applicationId: high-flight-baggage-operations
+  agentId: baggage-operations-agent
+  useCaseId: baggage-connection
+  policyId: high-flight-baggage-policy
+  correlation:
+    intentId: ensure_baggage_connection
+    executionId: ax-hf-baggage-001
+    traceId: ax-hf-baggage-trace
+    correlationId: HF123456-ax
+  request:
+    intent: ensure_baggage_connection
+    subject:
+      bagId: HF123456
+      connectingFlight: HF281
+    context:
+      priority: high
+  networkSubject:
+    bagId: HF123456
+    trackedBy: handler device HF-HDL-0192
+    deviceId: HF-HDL-0192
+    networkIdentifier: "+1••••••7712"
+    note: Bag is tracked by a connected handler device. Network identifier comes from enterprise context, not the runtime request.
+  telcoFinder:
+    neededBecause: Bag HF123456 is tracked by a connected handler device. NetAware must resolve which network holds that device's subscription before discovering Network APIs.
+    subjectChain:
+      - entity: bag
+        id: HF123456
+      - entity: handler device
+        id: HF-HDL-0192
+      - entity: network identifier
+        value: "+1••••••7712"
+    input: "+1••••••7712"
+    result:
+      network: Network Provider A
+      providerId: simulated-operator-a
+      homeNetwork: true
+      region: CA
+      simulated: true
+  networkRoutes:
+    getReachabilityStatus:
+      routeType: DIRECT
+      providerId: simulated-operator-a
+      providerLabel: Network Provider A
+      routeDisplay: NetAware → Network Provider A
+    checkNetworkQuality:
+      routeType: AGGREGATED
+      providerId: simulated-aggregator-b
+      aggregatorLabel: Aggregator A
+      providerLabel: Network Provider A
+      routeDisplay: NetAware → Aggregator A → Network Provider A
+    verifyLocation:
+      routeType: AGGREGATED
+      providerId: simulated-provider-c
+      aggregatorLabel: Aggregator A
+      providerLabel: Network Provider A
+      routeDisplay: NetAware → Aggregator A → Network Provider A
+  domainResponses:
+    getBaggageJourney:
+      httpStatus: 200
+      latencyMs: 35
+      raw:
+        bagId: HF123456
+        status: IN_TRANSIT_TO_GATE
+        lastScanLocation: T-B-SORT-12
+        lastScanAt: "2026-08-17T17:52:00-04:00"
+        handlerDeviceId: HF-HDL-0192
+      evidence:
+        type: BAGGAGE_JOURNEY
+        status: in_transit
+        lastKnownLocation: T-B-SORT-12
+        note: Airline scan/event location — not network location verification.
+    getFlightStatus:
+      httpStatus: 200
+      latencyMs: 28
+      raw:
+        flight: HF281
+        departureTime: "2026-08-17T18:45:00-04:00"
+        gate: B22
+        boardingClosesAt: "2026-08-17T18:25:00-04:00"
+        status: ON_TIME
+      evidence:
+        type: FLIGHT_STATUS
+        status: on_time
+        minutesUntilBoardingClose: 28
+    getGroundTransferETA:
+      httpStatus: 200
+      latencyMs: 41
+      raw:
+        bagId: HF123456
+        fromLocation: T-B-SORT-12
+        toGate: B22
+        transferEtaMinutes: 22
+        safeMarginMinutes: 15
+      evidence:
+        type: GROUND_TRANSFER_ETA
+        status: exceeds_safe_margin
+        transferEtaMinutes: 22
+        safeMarginMinutes: 15
+  networkResponses:
+    getReachabilityStatus:
+      httpStatus: 200
+      latencyMs: 44
+      raw:
+        reachable: true
+        lastSeen: "2026-08-17T17:53:00-04:00"
+      evidence:
+        type: DEVICE_REACHABILITY
+        status: reachable
+        note: Confirms handler tracking device is online. Does not provide physical bag location.
+    checkNetworkQuality:
+      httpStatus: 200
+      latencyMs: 52
+      raw:
+        quality: ADEQUATE
+        latencyMs: 38
+        packetLoss: 0.1
+      evidence:
+        type: CONNECTIVITY
+        status: adequate
+        networkLimiting: false
+  outcome:
+    outcome: AT_RISK
+    confidence: 0.88
+    recommendedAction: EXPEDITE_TRANSFER
+    decisionOwner: HIGH_FLIGHT_OPERATIONS
+    approvalRequired: true
+    limitingFactor: PHYSICAL_TRANSFER_TIME
+    networkConstraint: false
+    reasonCodes:
+      - TIGHT_CONNECTION_WINDOW
+      - TRANSFER_ETA_EXCEEDS_SAFE_MARGIN
+    summary: Bag is at risk of missing HF281. Physical transfer time is the limiting factor — network quality is adequate. Recommend expedite transfer; approval required.

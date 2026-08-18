@@ -1,0 +1,121 @@
+useCases:
+  - id: high-value-payment-protection
+    label: High-value transaction protection
+    domainId: financial
+    existingSystems: [Payments, Fraud Decisioning, Core Banking]
+    existingApis:
+      - { kind: DOMAIN, name: Payments API }
+      - { kind: ENTERPRISE, name: Fraud Decisioning }
+    networkComplement: Network identity continuity complements existing fraud models. They do not replace them.
+  - id: account-recovery-anomaly
+    label: Account recovery
+    domainId: financial
+    existingSystems: [IAM / Recovery]
+    existingApis: [{ kind: ENTERPRISE, name: IAM / Recovery }]
+    networkComplement: SIM/device continuity can flag recovery that looks digitally normal.
+  - id: kyc-attribute-match
+    label: KYC attribute match
+    domainId: financial
+    existingApis: [{ kind: DOMAIN, name: Onboarding KYC }]
+    networkComplement: Operator KYC Match can complement bank KYC when purpose, DPA and consent allow.
+  - id: baggage-connection
+    label: Baggage connection
+    domainId: airlines
+    existingSystems: [Baggage Operations, Flight Operations, Ground Operations]
+    existingApis:
+      - { kind: DOMAIN, name: Baggage Journey }
+      - { kind: DOMAIN, name: Flight Status }
+      - { kind: ENTERPRISE, name: Ground Operations }
+    networkComplement: Presence and reachability complement bag/flight/ground systems. They do not replace them.
+  - id: locate-baggage
+    label: Locate baggage
+    domainId: airlines
+    existingSystems: [Baggage Operations]
+    existingApis: [{ kind: DOMAIN, name: Baggage Journey }]
+    networkComplement: Location retrieval/verification can assist handlers when consent exists.
+  - id: airside-asset-presence
+    label: Airside asset presence
+    domainId: airports
+    existingApis: [{ kind: ENTERPRISE, name: Asset registry }]
+    networkComplement: Geofence/location verification complements airport asset systems.
+  - id: turnaround-video
+    label: Turnaround operations
+    domainId: airports
+    existingSystems: [AODB / Video]
+    existingApis: [{ kind: ENTERPRISE, name: AODB / Video }]
+    networkComplement: QoD and edge discovery can complement turnaround video when an SLO exists.
+  - id: critical-inspection-camera
+    label: Critical inspection camera
+    domainId: manufacturing
+    existingSystems: [Manufacturing Execution (MES), Quality Management (QMS), Camera control]
+    existingApis:
+      - { kind: DOMAIN, name: MES }
+      - { kind: DOMAIN, name: QMS }
+      - { kind: ENTERPRISE, name: Camera control }
+    networkComplement: QoD, Connectivity Insights, Application Profiles and edge discovery can complement plant video. They do not replace MES or QMS. Insights/Profiles are CURRENT_FOCUS with experimental CAMARA maturity.
+  - id: equipment-on-site
+    label: Geofenced equipment
+    domainId: construction
+    existingApis: [{ kind: ENTERPRISE, name: Asset registry }]
+    networkComplement: Geofencing and location verification complement site asset control.
+  - id: site-uplink
+    label: Site camera / safety uplink
+    domainId: construction
+    existingApis: [{ kind: ENTERPRISE, name: HSE / VMS }]
+    networkComplement: QoD and reachability complement site video systems.
+  - id: shipment-custody
+    label: High-value shipment custody
+    domainId: warehouse
+    existingApis: [{ kind: DOMAIN, name: TMS / Yard }]
+    networkComplement: Location and geofence complement custody systems.
+  - id: dock-scan-session
+    label: Dock-to-stock scan experience
+    domainId: warehouse
+    existingApis: [{ kind: DOMAIN, name: WMS }]
+    networkComplement: QoD and reachability can complement scan sessions.
+  - id: checkout-trust
+    label: Checkout trust
+    domainId: retail
+    existingSystems: [POS / Payments, Fraud]
+    existingApis: [{ kind: DOMAIN, name: POS / Payments }, { kind: ENTERPRISE, name: Fraud }]
+    networkComplement: Same identity-continuity APIs as banking, different enterprise.
+  - id: claim-device-trust
+    label: FNOL device continuity
+    domainId: insurance
+    existingApis: [{ kind: DOMAIN, name: Claims / FNOL }]
+    networkComplement: SIM/device swap evidence complements claims fraud models.
+  - id: claim-location-consistency
+    label: Claim location consistency
+    domainId: insurance
+    existingApis: [{ kind: DOMAIN, name: Claims }]
+    networkComplement: Location verification and roaming complement claimed incident geography.
+  - id: telehealth-session
+    label: Telehealth session quality
+    domainId: healthcare
+    existingApis: [{ kind: DOMAIN, name: Telehealth }]
+    networkComplement: QoD, Connectivity Insights and edge can complement clinical video. Insights/Profiles are CURRENT_FOCUS with experimental CAMARA maturity.
+  - id: home-care-visit
+    label: Home-care visit verify
+    domainId: healthcare
+    existingApis: [{ kind: ENTERPRISE, name: Scheduling }]
+    networkComplement: Geofence/location verification complements visit confirmation when consent exists.
+  - id: live-broadcast
+    label: Live broadcast / contribution
+    domainId: media
+    existingApis: [{ kind: ENTERPRISE, name: Broadcast control }]
+    networkComplement: QoD, profiles and edge complement contribution links.
+  - id: venue-experience
+    label: Dense-crowd venue experience
+    domainId: stadium
+    existingApis: [{ kind: DOMAIN, name: Fan / staff app }]
+    networkComplement: QoD and reachability complement venue apps.
+  - id: age-restricted-sale
+    label: Age-restricted sale
+    domainId: retail
+    existingApis: [{ kind: DOMAIN, name: POS }]
+    networkComplement: Age Verification can complement store age-gating when purpose and DPA allow. Spec maturity is experimental.
+  - id: pharmacy-age-gate
+    label: Pharmacy age / eligibility
+    domainId: healthcare
+    existingApis: [{ kind: DOMAIN, name: Pharmacy }]
+    networkComplement: Age Verification can complement pharmacist eligibility. Spec maturity is experimental.

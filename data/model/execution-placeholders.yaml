@@ -1,0 +1,40 @@
+# Cadence 0 placeholders for later execution objects.
+# These are schemas/records only. There is NO execution engine in Cadence 0.
+
+placeholders:
+  RuntimeContext:
+    status: PLACEHOLDER
+    fields: [subject, accessType, region, priority, correlationIds]
+  Evidence:
+    status: PLACEHOLDER
+    fields: [operationId, source, fact, ttl, purposeId, reuseEligible]
+  Plan:
+    status: PLACEHOLDER
+    fields: [intentId, executionId, steps]
+  PlanStep:
+    status: PLACEHOLDER
+    fields: [capabilityId, operationRef, expectedState]
+  Decision:
+    status: PLACEHOLDER
+    fields: [stepId, state, reason]
+    states:
+      - REQUIRED
+      - CONSIDERED
+      - SELECTED
+      - INVOKED
+      - NOT_REQUIRED
+      - BLOCKED_BY_POLICY
+      - NOT_AVAILABLE
+      - EVIDENCE_REUSED
+      - FAILED
+      - REPLANNED
+      - VERIFIED
+  Invocation:
+    status: PLACEHOLDER
+    fields: [operationId, source, providerId, routeType, httpStatus, latencyMs, correlationId]
+    note: Never store secrets.
+  Outcome:
+    status: PLACEHOLDER
+    fields: [intentId, outcomeCode, summary, recommendedAction, json]
+
+note: Telco Finder and API Finder execution belong to later cadences. Provider/route data above is configuration only.

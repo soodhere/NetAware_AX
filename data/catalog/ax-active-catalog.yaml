@@ -1,0 +1,245 @@
+# AX_ACTIVE_CATALOG — Cadence 0.2
+# Business-practical catalog. CAMARA maturity is metadata, not the inclusion test.
+# 13 business families. Technical OpenAPI files may be more than 13.
+# NV1 / NV2 are operations of Number Verification, not two catalog families.
+
+catalog:
+  id: AX_ACTIVE_CATALOG
+  cadence: "0.2"
+  principle: A small CURRENT_FOCUS Network API set can support many intents across many domains.
+  inclusionRule: current NetAware / operator / application business focus
+  maturityIsMetadata: true
+  businessFamilyCount: 13
+
+businessFamilies:
+  - id: number-verification
+    label: Number Verification
+    businessStatus: CURRENT_FOCUS
+    familyGroup: IDENTITY_AND_TRUST
+    capabilities: [number_possession_verification]
+    distinction: NV1 is phoneNumberVerify (typically mobile-network possession). NV2 is phoneNumberShare (candidate Wi-Fi / share path). Same CAMARA API; different operations. NV2 access-type mapping is NEEDS_REVIEW.
+    technicalSpecs:
+      - api_name: Number Verification
+        version: "2.1.0"
+        specMaturity: incubating
+        source: openapi/camara/NumberVerification__number-verification.yaml
+        operations:
+          - { operationId: phoneNumberVerify, productLabel: NV1 }
+          - { operationId: phoneNumberShare, productLabel: NV2, evidence: NEEDS_REVIEW }
+
+  - id: sim-swap
+    label: SIM Swap
+    businessStatus: CURRENT_FOCUS
+    familyGroup: IDENTITY_AND_TRUST
+    capabilities: [sim_continuity]
+    technicalSpecs:
+      - api_name: SIM Swap
+        version: "2.1.0"
+        specMaturity: incubating
+        source: openapi/camara/SimSwap__sim-swap.yaml
+        operations:
+          - { operationId: checkSimSwap }
+          - { operationId: retrieveSimSwapDate }
+
+  - id: device-swap
+    label: Device Swap
+    businessStatus: CURRENT_FOCUS
+    familyGroup: DEVICE
+    capabilities: [device_continuity]
+    technicalSpecs:
+      - api_name: Device Swap
+        version: "1.0.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceSwap__device-swap.yaml
+        operations:
+          - { operationId: checkDeviceSwap }
+          - { operationId: retrieveDeviceSwapDate }
+
+  - id: device-identifier
+    label: Device Identifier
+    businessStatus: CURRENT_FOCUS
+    familyGroup: DEVICE
+    capabilities: [device_identifier]
+    honesty: Business status CURRENT FOCUS. CAMARA maturity EXPERIMENTAL. Not portrayed as a standardized production CAMARA release.
+    technicalSpecs:
+      - api_name: Device Identifier
+        version: "0.3.0"
+        specMaturity: experimental
+        source: openapi/experimental/DeviceIdentifier__device-identifier.yaml
+        operations:
+          - { operationId: retrieveIdentifier }
+          - { operationId: retrieveType }
+          - { operationId: retrievePPID }
+
+  - id: number-recycling
+    label: Number Recycling
+    businessStatus: CURRENT_FOCUS
+    familyGroup: IDENTITY_AND_TRUST
+    capabilities: [number_recycling]
+    honesty: Business status CURRENT FOCUS. CAMARA maturity EXPERIMENTAL.
+    technicalSpecs:
+      - api_name: Number Recycling
+        version: "0.2.0"
+        specMaturity: experimental
+        source: openapi/experimental/NumberRecycling__number-recycling.yaml
+        operations:
+          - { operationId: checkNumberRecycling }
+
+  - id: kyc-match
+    label: KYC Match
+    businessStatus: CURRENT_FOCUS
+    familyGroup: IDENTITY_AND_TRUST
+    capabilities: [kyc_match]
+    note: Privacy-sensitive. Not a default trust-hero call.
+    technicalSpecs:
+      - api_name: Know Your Customer Match
+        version: "0.4.0"
+        specMaturity: incubating
+        source: openapi/camara/KnowYourCustomerMatch__kyc-match.yaml
+        operations:
+          - { operationId: KYC_Match }
+
+  - id: age-verification
+    label: Age Verification
+    businessStatus: CURRENT_FOCUS
+    familyGroup: IDENTITY_AND_TRUST
+    capabilities: [age_verification]
+    honesty: Business status CURRENT FOCUS. Preferred CAMARA split repo is EXPERIMENTAL. Superseded parent pack is not used.
+    technicalSpecs:
+      - api_name: Know Your Customer Age Verification
+        version: "0.2.1"
+        specMaturity: experimental
+        source: openapi/experimental/KnowYourCustomerAgeVerification__kyc-age-verification.yaml
+        operations:
+          - { operationId: verifyAge }
+
+  - id: location
+    label: Location Verification / Retrieval
+    businessStatus: CURRENT_FOCUS
+    familyGroup: LOCATION_AND_MOBILITY
+    capabilities: [location_verification, location_retrieval, geofencing]
+    note: One business family. Multiple technical specs (verify, retrieve, geofence).
+    technicalSpecs:
+      - api_name: Device Location Verification
+        version: "3.0.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceLocation__location-verification.yaml
+        operations:
+          - { operationId: verifyLocation }
+      - api_name: Device Location Retrieval
+        version: "0.5.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceLocation__location-retrieval.yaml
+        operations:
+          - { operationId: retrieveLocation }
+      - api_name: Device Geofencing Subscriptions
+        version: "0.5.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceLocation__geofencing-subscriptions.yaml
+        operations:
+          - { operationId: createGeofencingSubscription }
+          - { operationId: retrieveGeofencingSubscriptionList }
+          - { operationId: retrieveGeofencingSubscription }
+          - { operationId: deleteGeofencingSubscription }
+
+  - id: reachability
+    label: Device Reachability / Status
+    businessStatus: CURRENT_FOCUS
+    familyGroup: CONNECTIVITY
+    capabilities: [device_reachability]
+    technicalSpecs:
+      - api_name: Device Reachability Status
+        version: "1.1.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+        operations:
+          - { operationId: getReachabilityStatus }
+
+  - id: roaming
+    label: Roaming Status
+    businessStatus: CURRENT_FOCUS
+    familyGroup: LOCATION_AND_MOBILITY
+    capabilities: [roaming_status]
+    technicalSpecs:
+      - api_name: Device Roaming Status
+        version: "1.1.0"
+        specMaturity: incubating
+        source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml
+        operations:
+          - { operationId: getRoamingStatus }
+
+  - id: quality-on-demand
+    label: Quality on Demand
+    businessStatus: CURRENT_FOCUS
+    familyGroup: QUALITY
+    capabilities: [quality_on_demand]
+    note: One business family. QoD session + QoS Profiles + QoS Provisioning are technical specs underneath.
+    technicalSpecs:
+      - api_name: Quality-On-Demand
+        version: "1.1.0"
+        specMaturity: incubating
+        source: openapi/camara/QualityOnDemand__quality-on-demand.yaml
+        operations:
+          - { operationId: createSession }
+          - { operationId: getSession }
+          - { operationId: deleteSession }
+          - { operationId: extendQosSessionDuration }
+          - { operationId: retrieveSessionsByDevice }
+      - api_name: QoS Profiles
+        version: "1.1.0"
+        specMaturity: incubating
+        source: openapi/camara/QualityOnDemand__qos-profiles.yaml
+        operations:
+          - { operationId: retrieveQoSProfiles }
+          - { operationId: getQosProfile }
+      - api_name: QoS Provisioning
+        version: "0.3.0"
+        specMaturity: incubating
+        source: openapi/camara/QualityOnDemand__qos-provisioning.yaml
+        operations:
+          - { operationId: createQosAssignment }
+          - { operationId: getQosAssignmentById }
+          - { operationId: revokeQosAssignment }
+          - { operationId: getQosAssignmentByDevice }
+
+  - id: connectivity-insights
+    label: Connectivity / QoD Insights
+    businessStatus: CURRENT_FOCUS
+    familyGroup: CONNECTIVITY
+    capabilities: [connectivity_insights, application_profiles]
+    honesty: Business status CURRENT FOCUS. CAMARA maturity EXPERIMENTAL for both Insights and Application Profiles. Not portrayed as standardized production CAMARA.
+    note: Application Profiles is the related CAMARA spec for declaring quality intent; grouped under this business family, not a 14th family.
+    technicalSpecs:
+      - api_name: Connectivity Insights
+        version: "0.6.0"
+        specMaturity: experimental
+        source: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml
+        operations:
+          - { operationId: checkNetworkQuality }
+      - api_name: Connectivity Insights - Application Profiles
+        version: "0.5.0"
+        specMaturity: experimental
+        source: openapi/experimental/ApplicationProfiles__application-profiles.yaml
+        operations:
+          - { operationId: createApplicationProfile }
+          - { operationId: readApplicationProfile }
+          - { operationId: updateApplicationProfile }
+          - { operationId: deleteApplicationProfile }
+
+  - id: edge-discovery
+    label: Edge Discovery
+    businessStatus: CURRENT_FOCUS
+    familyGroup: EDGE
+    capabilities: [edge_discovery]
+    technicalSpecs:
+      - api_name: Simple Edge Discovery
+        version: "2.0.1"
+        specMaturity: incubating
+        source: openapi/camara/SimpleEdgeDiscovery__simple-edge-discovery.yaml
+        operations:
+          - { operationId: readClosestEdgeCloudZone }
+
+not_restored:
+  - KYC Tenure — not in current 13–14 business focus list
+  - Remaining experimental pin (IoT, slices, WebRTC, sponsored data, WIP, …)
+  - Superseded DeviceStatus__ / KnowYourCustomer__ parent packs

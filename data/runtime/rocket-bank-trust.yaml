@@ -1,0 +1,89 @@
+# Cadence 2 — Rocket Bank assess_network_trust simulation seed.
+# Deterministic. Fictional. No live operator. Configured demo policy only.
+
+scenario:
+  id: rocket-bank-trust
+  executableIntent: assess_network_trust
+  enterpriseId: rocket-bank
+  applicationId: rocket-bank-payments
+  agentId: payments-protection-agent
+  useCaseId: high-value-payment-protection
+  policyId: rocket-bank-trust-policy
+  selectedRouteType: DIRECT
+  selectedProviderId: simulated-operator-a
+  providerAudienceLabel: Network Provider A
+  correlation:
+    intentId: assess_network_trust
+    executionId: ax-rb-trust-001
+    traceId: ax-rb-trust-trace
+    correlationId: RB-78421-ax
+  request:
+    intent: assess_network_trust
+    subject:
+      transactionId: RB-78421
+      phoneNumber: "+1••••••0198"
+    context:
+      amount: 25000
+      currency: USD
+  telcoFinder:
+    neededBecause: Subject is a phone number. NetAware must resolve which network holds the subscription before discovering APIs.
+    input: "+1••••••0198"
+    result:
+      network: Network Provider A
+      providerId: simulated-operator-a
+      homeNetwork: true
+      region: CA
+      simulated: true
+  simulatedResponses:
+    phoneNumberVerify:
+      httpStatus: 200
+      latencyMs: 42
+      raw:
+        devicePhoneNumberVerified: true
+      evidence:
+        type: NUMBER_POSSESSION
+        status: verified
+    checkSimSwap:
+      httpStatus: 200
+      latencyMs: 51
+      raw:
+        swapped: true
+        latestSimChange: "2026-08-17T16:58:00-04:00"
+      evidence:
+        type: SIM_CONTINUITY
+        status: disrupted
+        changedWithin: 4 hours
+    checkDeviceSwap:
+      httpStatus: 200
+      latencyMs: 47
+      raw:
+        swapped: true
+        latestDeviceChange: "2026-08-17T17:12:00-04:00"
+      evidence:
+        type: DEVICE_CONTINUITY
+        status: new_device
+    retrieveIdentifier:
+      httpStatus: 200
+      latencyMs: 63
+      raw:
+        lastIdentifierChange: "2026-08-17T17:12:00-04:00"
+        identifierType: IMEI
+      evidence:
+        type: DEVICE_IDENTITY
+        status: changed
+    getRoamingStatus:
+      httpStatus: 200
+      latencyMs: 38
+      raw:
+        roaming: false
+      evidence:
+        type: ROAMING
+        status: false
+  outcome:
+    outcome: STEP_UP
+    networkTrust: DISRUPTED
+    confidence: 0.94
+    recommendedAction: ADDITIONAL_VERIFICATION
+    decisionOwner: ENTERPRISE
+    reasonCodes: [RECENT_SIM_CHANGE, DEVICE_IDENTITY_CHANGE]
+    summary: Network trust disrupted. Require additional verification. Rocket Bank owns the financial decision.

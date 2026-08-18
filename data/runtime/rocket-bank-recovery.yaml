@@ -1,0 +1,71 @@
+# Cadence 5 — Rocket Bank assess_recovery_continuity (evidence reuse companion).
+# Run assess_network_trust first to populate the canonical evidence store.
+
+scenario:
+  id: rocket-bank-recovery
+  executableIntent: assess_recovery_continuity
+  enterpriseId: rocket-bank
+  applicationId: rocket-bank-payments
+  agentId: payments-protection-agent
+  useCaseId: account-recovery-anomaly
+  policyId: rocket-bank-recovery-policy
+  selectedRouteType: DIRECT
+  selectedProviderId: simulated-operator-a
+  providerAudienceLabel: Network Provider A
+  correlation:
+    intentId: assess_recovery_continuity
+    executionId: ax-rb-recovery-002
+    traceId: ax-rb-recovery-trace
+    correlationId: RB-REC-19-ax
+  request:
+    intent: assess_recovery_continuity
+    subject:
+      recoveryId: RB-REC-19
+      phoneNumber: "+1••••••0198"
+    context:
+      channel: web
+  telcoFinder:
+    neededBecause: Recovery is tied to the customer's mobile subscription. Same subject as recent trust assessment.
+    input: "+1••••••0198"
+    result:
+      network: Network Provider A
+      providerId: simulated-operator-a
+      homeNetwork: true
+      region: CA
+      simulated: true
+  simulatedResponses:
+    checkSimSwap:
+      httpStatus: 200
+      latencyMs: 51
+      raw:
+        swapped: true
+        latestSimChange: "2026-08-17T16:58:00-04:00"
+      evidence:
+        type: SIM_CONTINUITY
+        status: disrupted
+        changedWithin: 4 hours
+    checkDeviceSwap:
+      httpStatus: 200
+      latencyMs: 47
+      raw:
+        swapped: true
+        latestDeviceChange: "2026-08-17T17:12:00-04:00"
+      evidence:
+        type: DEVICE_CONTINUITY
+        status: new_device
+    getRoamingStatus:
+      httpStatus: 200
+      latencyMs: 38
+      raw:
+        roaming: false
+      evidence:
+        type: ROAMING
+        status: false
+  outcome:
+    outcome: CONTINUITY_ALIGNED
+    networkTrust: DISRUPTED
+    confidence: 0.91
+    recommendedAction: STEP_UP_RECOVERY
+    decisionOwner: ENTERPRISE
+    reasonCodes: [RECENT_SIM_CHANGE, DEVICE_CONTINUITY_CHANGE]
+    summary: Recovery continuity aligns with recent network trust signals. Evidence reused where permitted. Rocket Bank owns recovery decision.

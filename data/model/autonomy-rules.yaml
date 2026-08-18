@@ -1,0 +1,76 @@
+autonomyRules:
+  - id: rb-gather-evidence
+    agentId: payments-protection-agent
+    intentId: assess_network_trust
+    action: gather_network_evidence
+    level: ACT
+  - id: rb-recommend-step-up
+    agentId: payments-protection-agent
+    intentId: assess_network_trust
+    action: recommend_step_up
+    level: RECOMMEND
+  - id: rb-decline-tx
+    agentId: payments-protection-agent
+    intentId: assess_network_trust
+    action: decline_transaction
+    level: NOT_AUTHORIZED
+  - id: rb-recovery-assess
+    agentId: payments-protection-agent
+    intentId: assess_recovery_continuity
+    action: assess_recovery_continuity
+    level: ACT
+  - id: rb-recovery-reset
+    agentId: payments-protection-agent
+    intentId: assess_recovery_continuity
+    action: reset_recovery_credentials
+    level: NOT_AUTHORIZED
+  - id: hf-observe
+    agentId: baggage-operations-agent
+    intentId: ensure_baggage_connection
+    action: observe_and_assess
+    level: ACT
+  - id: hf-expedite
+    agentId: baggage-operations-agent
+    intentId: ensure_baggage_connection
+    action: recommend_expedite_transfer
+    level: ACT_WITH_APPROVAL
+  - id: hf-change-flight
+    agentId: baggage-operations-agent
+    intentId: ensure_baggage_connection
+    action: change_flight_plan
+    level: NOT_AUTHORIZED
+  - id: acme-observe
+    agentId: inspection-experience-agent
+    intentId: maintain_inspection_experience
+    action: observe_and_profile
+    level: ACT
+  - id: acme-qod
+    agentId: inspection-experience-agent
+    intentId: maintain_inspection_experience
+    action: invoke_qod
+    level: ACT
+  - id: acme-mes-route
+    agentId: inspection-experience-agent
+    intentId: maintain_inspection_experience
+    action: change_mes_routing
+    level: NOT_AUTHORIZED
+  - id: cc-gather-age
+    agentId: pharmacy-eligibility-agent
+    intentId: verify_pharmacy_age_gate
+    action: gather_age_assertion
+    level: ACT
+  - id: cc-return-eligibility
+    agentId: pharmacy-eligibility-agent
+    intentId: verify_pharmacy_age_gate
+    action: return_eligibility_result
+    level: ACT
+  - id: cc-recommend-pharmacist
+    agentId: pharmacy-eligibility-agent
+    intentId: verify_pharmacy_age_gate
+    action: recommend_pharmacist_action
+    level: RECOMMEND
+  - id: cc-dispense
+    agentId: pharmacy-eligibility-agent
+    intentId: verify_pharmacy_age_gate
+    action: dispense_or_refuse_medication
+    level: NOT_AUTHORIZED

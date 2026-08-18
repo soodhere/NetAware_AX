@@ -1,0 +1,21 @@
+enterprises:
+  - id: rocket-bank
+    label: Rocket Bank
+    domainId: financial
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: high-flight-airlines
+    label: High Flight Airlines
+    domainId: airlines
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: acme-manufacturing
+    label: Acme Manufacturing
+    domainId: manufacturing
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: citycare-health
+    label: CityCare Health
+    domainId: healthcare
+    fictional: true
+    note: Fictional enterprise. No real customer name.

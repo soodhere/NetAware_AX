@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: netaware-ax
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: hosted
+      - key: SERVE_FRONTEND
+        value: "1"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: BUILD_ID
+        value: ax6
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:5173,http://127.0.0.1:5173
+      - key: DEMO_USERNAME
+        sync: false
+      - key: DEMO_PASSWORD
+        sync: false
