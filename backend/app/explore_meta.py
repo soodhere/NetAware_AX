@@ -10,6 +10,13 @@ EXECUTABLE_INTENTS: set[str] = {
     "verify_pharmacy_age_gate",
     "assess_recovery_continuity",
     "verify_mobile_number",
+    "prepare_ota_cohort",
+    "assure_delivery_device",
+    "assess_checkout_trust",
+    "assess_claim_device_trust",
+    "assure_ground_device",
+    "assure_technician_device",
+    "assure_live_broadcast",
 }
 
 LIVE_INTENT_LINKS: dict[str, dict[str, str]] = {
@@ -43,6 +50,41 @@ LIVE_INTENT_LINKS: dict[str, dict[str, str]] = {
         "useCaseId": "pharmacy-age-gate",
         "label": "CityCare age gate",
     },
+    "prepare_ota_cohort": {
+        "enterpriseId": "acme-manufacturing",
+        "useCaseId": "fleet-firmware-rollout",
+        "label": "Acme fleet firmware rollout",
+    },
+    "assure_delivery_device": {
+        "enterpriseId": "swiftship-logistics",
+        "useCaseId": "delivery-device-readiness",
+        "label": "SwiftShip delivery device readiness",
+    },
+    "assess_checkout_trust": {
+        "enterpriseId": "megamart-retail",
+        "useCaseId": "checkout-trust",
+        "label": "MegaMart checkout trust",
+    },
+    "assess_claim_device_trust": {
+        "enterpriseId": "northstar-insurance",
+        "useCaseId": "claim-device-trust",
+        "label": "Northstar digital claim trust",
+    },
+    "assure_ground_device": {
+        "enterpriseId": "high-flight-airlines",
+        "useCaseId": "ground-device-readiness",
+        "label": "High Flight ground device readiness",
+    },
+    "assure_technician_device": {
+        "enterpriseId": "acme-manufacturing",
+        "useCaseId": "connected-maintenance",
+        "label": "Acme connected maintenance",
+    },
+    "assure_live_broadcast": {
+        "enterpriseId": "apex-media",
+        "useCaseId": "live-broadcast",
+        "label": "Apex live contribution",
+    },
 }
 
 CAPABILITY_LIVE_BEHAVIOR: dict[str, list[dict[str, str]]] = {
@@ -61,6 +103,7 @@ CAPABILITY_LIVE_BEHAVIOR: dict[str, list[dict[str, str]]] = {
     "roaming_status": [
         {"scenario": "Rocket Bank", "state": "INVOKED", "intentId": "assess_network_trust"},
         {"scenario": "Rocket Bank recovery", "state": "EVIDENCE_REUSED", "intentId": "assess_recovery_continuity"},
+        {"scenario": "Acme OTA cohort", "state": "INVOKED", "intentId": "prepare_ota_cohort"},
     ],
     "location_verification": [
         {"scenario": "Rocket Bank", "state": "BLOCKED_BY_POLICY", "intentId": "assess_network_trust"},
@@ -79,6 +122,12 @@ CAPABILITY_LIVE_BEHAVIOR: dict[str, list[dict[str, str]]] = {
     "connectivity_insights": [
         {"scenario": "High Flight", "state": "INVOKED", "intentId": "ensure_baggage_connection"},
         {"scenario": "Acme", "state": "INVOKED", "intentId": "maintain_inspection_experience"},
+        {"scenario": "Acme OTA cohort", "state": "NOT_REQUIRED", "intentId": "prepare_ota_cohort"},
+    ],
+    "device_reachability": [
+        {"scenario": "High Flight", "state": "INVOKED", "intentId": "ensure_baggage_connection"},
+        {"scenario": "Acme OTA cohort", "state": "INVOKED", "intentId": "prepare_ota_cohort"},
+        {"scenario": "SwiftShip delivery", "state": "INVOKED", "intentId": "assure_delivery_device"},
     ],
 }
 
@@ -90,6 +139,8 @@ OPERATION_LIVE_HINTS: dict[str, str] = {
     "createSession": "Autonomous QoD in Acme after objective breach",
     "verifyAge": "Minimum capability selection in CityCare",
     "KYC_Match": "Blocked in CityCare — broader than required",
+    "getReachabilityStatus": "Primary OTA cohort evidence and High Flight scanner operability",
+    "getRoamingStatus": "OTA policy interpretation; also Rocket Bank continuity",
 }
 
 DOMAIN_LIVE_DEMOS: dict[str, dict[str, str]] = {
@@ -136,6 +187,11 @@ DISCOVERY_LINKS: dict[str, dict[str, str]] = {
         "note": "Age selected; KYC filtered — availability is not permission or need.",
         **LIVE_INTENT_LINKS["verify_pharmacy_age_gate"],
     },
+    "prepare_ota_cohort": {
+        "label": "See fleet firmware Discovery",
+        "note": "Reachability and Roaming qualify a simulated OTA cohort. QoD and Location are not required.",
+        **LIVE_INTENT_LINKS["prepare_ota_cohort"],
+    },
 }
 
 CAPABILITY_DISCOVERY_NOTES: dict[str, str] = {
@@ -143,13 +199,7 @@ CAPABILITY_DISCOVERY_NOTES: dict[str, str] = {
     "sim_continuity": "Used in live Discovery — invoked for trust, reused for recovery.",
     "device_continuity": "Used in live Discovery — invoked for trust, reused for recovery.",
     "device_identifier": "Used in live Discovery — selected for Rocket Bank evidence.",
-    "roaming_status": "Used in live Discovery — selected for Rocket Bank evidence.",
-    "number_recycling": "Used in live Discovery — relevant but not required.",
-    "location_verification": "Used in live Discovery — filtered (consent missing) in Rocket Bank and High Flight.",
-    "quality_on_demand": "Used in live Discovery — NOT_REQUIRED until Acme's objective breach, then SELECTED.",
-    "age_verification": "Used in live Discovery — selected as the minimum sufficient CityCare capability.",
-    "kyc_match": "Used in live Discovery — filtered in CityCare (related, not permitted / not needed).",
-    "device_reachability": "Used in live Discovery — selected in High Flight.",
+    "roaming_status": "Used in live Discovery — selected for Rocket Bank evidence and Acme OTA cohort policy interpretation.",
     "connectivity_insights": "Used in live Discovery — selected in High Flight and Acme.",
 }
 
@@ -164,7 +214,8 @@ FAMILY_DISCOVERY_NOTES: dict[str, str] = {
     "quality-on-demand": "See dynamic usefulness in Acme Discovery; NOT_REQUIRED in High Flight.",
     "age-verification": "See selected example in CityCare Discovery.",
     "kyc-match": "See filtered example in CityCare Discovery.",
-    "reachability": "See selected example in High Flight Discovery.",
+    "reachability": "See selected examples in High Flight and Acme fleet firmware Discovery.",
+    "roaming": "See selected / reused examples in Rocket Bank Discovery, and policy interpretation in Acme OTA.",
     "connectivity-insights": "See selected examples in High Flight and Acme Discovery.",
 }
 
@@ -174,6 +225,7 @@ POLICY_DISCOVERY_NOTES: dict[str, str] = {
     "high-flight-baggage-policy": "See where Location was filtered in live Discovery (consent missing).",
     "citycare-pharmacy-policy": "See where KYC Match was filtered in live Discovery (broader than required).",
     "acme-inspection-policy": "See QoD move from NOT_REQUIRED to SELECTED in live Discovery.",
+    "acme-ota-policy": "See Reachability / Roaming cohort qualification. QoD and Location are not required.",
 }
 
 

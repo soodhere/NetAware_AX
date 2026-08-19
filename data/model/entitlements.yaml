@@ -88,6 +88,24 @@ entitlements:
     capabilityFamily: APPLICATION
     status: active
 
+  - id: acme-fleet-connectivity-entitlement
+    subscriptionId: acme-connectivity-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-device-fleet
+    agentId: device-ops-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+    note: Same enterprise CONNECTIVITY subscription. Different application entitlement for Connected Device Operations.
+
+  - id: acme-fleet-mobility-entitlement
+    subscriptionId: acme-mobility-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-device-fleet
+    agentId: device-ops-agent
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Roaming Status entitled for OTA cohort qualification. Does not entitle Quality Inspection.
+
   - id: cc-identity-entitlement
     subscriptionId: cc-identity-sub
     enterpriseId: citycare-health
@@ -105,3 +123,77 @@ entitlements:
     capabilityId: age_verification
     status: active
     scope: age_assertion_only
+
+  - id: mm-identity-entitlement
+    subscriptionId: mm-identity-sub
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    agentId: checkout-risk-agent
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+
+  - id: mm-device-entitlement
+    subscriptionId: mm-device-sub
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    agentId: checkout-risk-agent
+    capabilityFamily: DEVICE
+    status: active
+
+  - id: mm-mobility-entitlement
+    subscriptionId: mm-mobility-sub
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    agentId: checkout-risk-agent
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Entitled does not imply consent is available.
+
+  - id: ns-identity-entitlement
+    subscriptionId: ns-identity-sub
+    enterpriseId: northstar-insurance
+    applicationId: northstar-claims
+    agentId: claims-trust-agent
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+
+  - id: ns-device-entitlement
+    subscriptionId: ns-device-sub
+    enterpriseId: northstar-insurance
+    applicationId: northstar-claims
+    agentId: claims-trust-agent
+    capabilityFamily: DEVICE
+    status: active
+
+  - id: ss-connectivity-entitlement
+    subscriptionId: ss-connectivity-sub
+    enterpriseId: swiftship-logistics
+    applicationId: swiftship-delivery-ops
+    agentId: delivery-ops-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+
+  - id: hf-ground-connectivity-entitlement
+    subscriptionId: hf-ground-connectivity-sub
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-ground-operations
+    agentId: ground-ops-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+    note: Different application from Baggage Operations.
+
+  - id: acme-maint-connectivity-entitlement
+    subscriptionId: acme-maint-connectivity-sub
+    enterpriseId: acme-manufacturing
+    applicationId: acme-field-maintenance
+    agentId: field-maintenance-agent
+    capabilityFamily: CONNECTIVITY
+    status: active
+
+  - id: apex-quality-entitlement
+    subscriptionId: apex-quality-sub
+    enterpriseId: apex-media
+    applicationId: apex-contribution
+    agentId: contribution-agent
+    capabilityFamily: QUALITY
+    status: active

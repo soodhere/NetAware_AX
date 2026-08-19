@@ -8,13 +8,24 @@ Network Intent is the abstraction that lets an enterprise application or authori
 
 ## Status
 
-**Cadence 9 complete — Number Verification path selection.** Live demo remains `0.6.1-ax6.1`. Same Intent, three access/readiness variants. Hero outcomes unchanged. Do not start Cadence 10.
+**Cadence 17 complete — Visual intelligence.** Live demo remains `0.6.1-ax6.1`. Product model and runtime are unchanged. Do not start another cadence automatically.
 
 | Document | Path |
 |----------|------|
+| Cadence 17 Visual intelligence | [`docs/cadences/ax-cadence-17.md`](docs/cadences/ax-cadence-17.md) |
+| Sales demo script | [`docs/AX-SALES-DEMO-SCRIPT.md`](docs/AX-SALES-DEMO-SCRIPT.md) |
+| Sales runbook | [`docs/AX-SALES-RUNBOOK.md`](docs/AX-SALES-RUNBOOK.md) |
+| Sales FAQ | [`docs/AX-SALES-FAQ.md`](docs/AX-SALES-FAQ.md) |
+| External feedback | [`docs/AX-EXTERNAL-FEEDBACK.md`](docs/AX-EXTERNAL-FEEDBACK.md) |
+| Cadence 16 Sales freeze | [`docs/cadences/ax-cadence-16.md`](docs/cadences/ax-cadence-16.md) |
 | Demo script | [`docs/AX-DEMO-SCRIPT.md`](docs/AX-DEMO-SCRIPT.md) |
 | Demo runbook | [`docs/AX-DEMO-RUNBOOK.md`](docs/AX-DEMO-RUNBOOK.md) |
 | FAQ | [`docs/AX-FAQ.md`](docs/AX-FAQ.md) |
+| Cadence 15 Stakeholder sales | [`docs/cadences/ax-cadence-15.md`](docs/cadences/ax-cadence-15.md) |
+| Cadence 14 Demand Map | [`docs/cadences/ax-cadence-14.md`](docs/cadences/ax-cadence-14.md) |
+| Cadence 13 Fulfillment Coverage | [`docs/cadences/ax-cadence-13.md`](docs/cadences/ax-cadence-13.md) |
+| Cadence 12 Sales portfolio | [`docs/cadences/ax-cadence-12.md`](docs/cadences/ax-cadence-12.md) |
+| Cadence 10 Decision Gap + High Flight | [`docs/cadences/ax-cadence-10.md`](docs/cadences/ax-cadence-10.md) |
 | Cadence 9 Number Verification | [`docs/cadences/ax-cadence-9.md`](docs/cadences/ax-cadence-9.md) |
 | Cadence 8 Discovery | [`docs/cadences/ax-cadence-8.md`](docs/cadences/ax-cadence-8.md) |
 | Cadence 7 model alignment | [`docs/cadences/ax-cadence-7.md`](docs/cadences/ax-cadence-7.md) |
@@ -22,7 +33,7 @@ Network Intent is the abstraction that lets an enterprise application or authori
 | Cadence 6 freeze | [`docs/cadences/ax-cadence-6.md`](docs/cadences/ax-cadence-6.md) |
 | Cadence 5 Explorer | [`docs/cadences/ax-cadence-5.md`](docs/cadences/ax-cadence-5.md) |
 
-Do not start Cadence 10 until explicitly approved.
+Do not start another cadence automatically.
 
 ## Run locally
 
@@ -40,6 +51,8 @@ npm run dev
 
 Open http://127.0.0.1:5173
 
+Optional hosted access gate (server-side HTTP Basic). Set `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`, or the existing `DEMO_USERNAME` / `DEMO_PASSWORD`. `/health` stays unauthenticated. If neither pair is set, local development has no gate. Do not commit credential values.
+
 ```powershell
 cd backend
 python scripts/validate_ax_cadence0.py
@@ -49,7 +62,12 @@ python scripts/validate_ax_cadence3.py
 python scripts/validate_ax_cadence4.py
 python scripts/validate_ax_cadence6.py
 python scripts/validate_ax_cadence6.1.py
-python scripts/validate_ax_cadence7.py
+python scripts/validate_ax_cadence10.py
+python scripts/validate_ax_cadence13.py
+python scripts/validate_ax_cadence14.py
+python scripts/validate_ax_cadence15.py
+python scripts/validate_ax_cadence16.py
+python scripts/validate_ax_cadence17.py
 ```
 
 ## Boundaries

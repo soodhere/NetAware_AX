@@ -44,6 +44,15 @@ policies:
     purposeId: inspection_video_assurance
     agreementId: acme-dpa
     note: QoD, Connectivity Insights and Application Profiles permitted under CURRENT_FOCUS. Identity/KYC not authorized. Insights/Profiles have experimental CAMARA maturity.
+  - id: acme-ota-policy
+    label: Acme OTA cohort policy
+    enterpriseId: acme-manufacturing
+    applicationId: acme-device-fleet
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    purposeId: firmware_rollout
+    agreementId: acme-dpa
+    note: CONFIGURED POLICY. DATA reachable is eligible. Roaming is deferred unless campaign priority is CRITICAL. Network supplies roaming state; enterprise policy interprets it. Firmware install is outside NetAware.
   - id: citycare-pharmacy-policy
     label: CityCare pharmacy age policy
     enterpriseId: citycare-health
@@ -53,6 +62,60 @@ policies:
     purposeId: pharmacy_age_eligibility
     agreementId: citycare-dpa
     note: Age assertion permitted. Broader KYC Match blocked for this intent by configured agreement.
+  - id: megamart-checkout-policy
+    label: MegaMart checkout trust policy
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    agentId: checkout-risk-agent
+    intentId: assess_checkout_trust
+    purposeId: identity_continuity_assist
+    agreementId: megamart-dpa
+    note: SIM/device continuity permitted. Location consent required and unavailable. Does not decline the purchase.
+  - id: northstar-claims-policy
+    label: Northstar claims trust policy
+    enterpriseId: northstar-insurance
+    applicationId: northstar-claims
+    agentId: claims-trust-agent
+    intentId: assess_claim_device_trust
+    purposeId: identity_continuity_assist
+    agreementId: northstar-dpa
+    note: Network evidence returned to claims. Does not accept or deny the claim.
+  - id: swiftship-delivery-policy
+    label: SwiftShip delivery device policy
+    enterpriseId: swiftship-logistics
+    applicationId: swiftship-delivery-ops
+    agentId: delivery-ops-agent
+    intentId: assure_delivery_device
+    purposeId: delivery_device_assurance
+    agreementId: swiftship-dpa
+    note: Reachability permitted. QoD not required for this BASIC workflow. Does not reroute the delivery.
+  - id: high-flight-ground-policy
+    label: High Flight ground device policy
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-ground-operations
+    agentId: ground-ops-agent
+    intentId: assure_ground_device
+    purposeId: delivery_device_assurance
+    agreementId: high-flight-dpa
+    note: Adjacent High Flight application. Does not change the flight plan.
+  - id: acme-maintenance-policy
+    label: Acme field maintenance policy
+    enterpriseId: acme-manufacturing
+    applicationId: acme-field-maintenance
+    agentId: field-maintenance-agent
+    intentId: assure_technician_device
+    purposeId: delivery_device_assurance
+    agreementId: acme-dpa
+    note: Reachability permitted. QoD skipped — no technician workflow SLO is configured.
+  - id: apex-contribution-policy
+    label: Apex contribution policy
+    enterpriseId: apex-media
+    applicationId: apex-contribution
+    agentId: contribution-agent
+    intentId: assure_live_broadcast
+    purposeId: experience_assurance
+    agreementId: apex-dpa
+    note: QoD permitted because a contribution SLO exists. Insights remain experimental and are skipped.
 
 policyRules:
   - id: rb-region-ca
@@ -108,6 +171,98 @@ policyRules:
     operator: deny
     value: kyc_match
     note: Broader KYC Match is not permitted for pharmacy age gate. Minimum capability only.
+  - id: acme-ota-residency
+    policyId: acme-ota-policy
+    dimension: data_residency
+    operator: permit
+    value: plant_region
+  - id: acme-ota-connectivity-permit
+    policyId: acme-ota-policy
+    dimension: capability_family
+    operator: permit
+    value: CONNECTIVITY
+  - id: acme-ota-mobility-permit
+    policyId: acme-ota-policy
+    dimension: capability_family
+    operator: permit
+    value: LOCATION_AND_MOBILITY
+  - id: acme-ota-qod-not-required
+    policyId: acme-ota-policy
+    dimension: capability
+    operator: constrain
+    value: quality_on_demand
+    note: QoD does not change which devices are network-suitable for the OTA cohort now.
+  - id: acme-ota-location-not-required
+    policyId: acme-ota-policy
+    dimension: capability
+    operator: constrain
+    value: location_verification
+    note: Network Location is not required to qualify the OTA cohort.
+  - id: acme-ota-install-deny
+    policyId: acme-ota-policy
+    dimension: action
+    operator: deny
+    value: install_firmware
+    note: NetAware is not authorized to install firmware. Enterprise OTA owns installation.
+  - id: mm-identity-permit
+    policyId: megamart-checkout-policy
+    dimension: capability_family
+    operator: permit
+    value: IDENTITY_AND_TRUST
+  - id: mm-device-permit
+    policyId: megamart-checkout-policy
+    dimension: capability_family
+    operator: permit
+    value: DEVICE
+  - id: mm-decline-deny
+    policyId: megamart-checkout-policy
+    dimension: action
+    operator: deny
+    value: decline_purchase
+    note: Agent may not decline the purchase. Retail fraud engine owns that decision.
+  - id: ns-identity-permit
+    policyId: northstar-claims-policy
+    dimension: capability_family
+    operator: permit
+    value: IDENTITY_AND_TRUST
+  - id: ns-claim-deny
+    policyId: northstar-claims-policy
+    dimension: action
+    operator: deny
+    value: accept_or_deny_claim
+    note: Agent may not accept or deny the claim. Claims owns that decision.
+  - id: ss-connectivity-permit
+    policyId: swiftship-delivery-policy
+    dimension: capability_family
+    operator: permit
+    value: CONNECTIVITY
+  - id: ss-reroute-deny
+    policyId: swiftship-delivery-policy
+    dimension: action
+    operator: deny
+    value: reroute_delivery
+    note: Agent may not reroute the delivery. Dispatch owns that decision.
+  - id: hf-ground-connectivity-permit
+    policyId: high-flight-ground-policy
+    dimension: capability_family
+    operator: permit
+    value: CONNECTIVITY
+  - id: hf-ground-flight-deny
+    policyId: high-flight-ground-policy
+    dimension: action
+    operator: deny
+    value: change_flight_plan
+    note: Adjacent Ground Operations agent may not change the flight plan.
+  - id: acme-maint-connectivity-permit
+    policyId: acme-maintenance-policy
+    dimension: capability_family
+    operator: permit
+    value: CONNECTIVITY
+  - id: apex-quality-permit
+    policyId: apex-contribution-policy
+    dimension: capability_family
+    operator: permit
+    value: QUALITY
 
 consentRules:
   - id: hf-location-consent
@@ -122,3 +277,9 @@ consentRules:
     required: true
     available: false
     note: Configured demo policy. Consent required; availability is stored as false. Not a universal legal conclusion.
+  - id: mm-location-consent
+    policyId: megamart-checkout-policy
+    capabilityId: location_verification
+    required: true
+    available: false
+    note: Configured demo policy. Location consent required and unavailable. FILTER, not CALL.

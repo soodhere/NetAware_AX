@@ -1,5 +1,5 @@
 export async function api(path) {
-  const res = await fetch(path);
+  const res = await fetch(path, { credentials: "same-origin" });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`${res.status} ${path}${text ? `: ${text}` : ""}`);
@@ -10,6 +10,7 @@ export async function api(path) {
 export async function apiPost(path, body) {
   const res = await fetch(path, {
     method: "POST",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body ?? {}),
   });

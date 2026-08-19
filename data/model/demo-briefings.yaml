@@ -37,6 +37,7 @@ honesty:
     - maintain_inspection_experience
     - verify_pharmacy_age_gate
     - verify_mobile_number
+    - prepare_ota_cohort
   potentiallyRelevantOnly: false
   actuallyInvokedUnknown: false
   identityArchitectureUnresolved: true
@@ -97,20 +98,21 @@ featuredEnterprises:
     domainAudienceLabel: Airlines
     heroUseCaseId: baggage-connection
     heroCard:
-      businessProblem: Ensure baggage connection
+      cardTitle: Baggage handling / ramp device operability
+      businessProblem: Can the assigned ramp scanner complete the connected custody scan before load-close?
       intentId: ensure_baggage_connection
       proves:
-        - Domain + Network APIs
-        - Policy-aware replan
-        - Approval-bounded action
+        - BRS / DCS stay in place
+        - Network subject is the handheld, not the bag
+        - Reachability changes CONTINUE vs SWAP
     useCaseIds:
       - baggage-connection
       - locate-baggage
     relatedUseCaseIds:
       - turnaround-video
     existingSystems:
-      - Baggage Operations
-      - Flight Operations
+      - BRS
+      - DCS
       - Ground Operations
     environment: Production
     regionDisplay: Configured
@@ -119,30 +121,31 @@ featuredEnterprises:
     securityDisplay: Configured
     valueClarity:
       hero:
-        headline: Independent network evidence helps determine whether network conditions contribute to the baggage operation — and whether network action would help.
-        zeroContextAnswer: Independent network reachability and connectivity evidence that enterprise baggage/flight/ground APIs do not provide.
+        headline: BRS already knows the bag, the flight, and who should scan. NetAware answers whether that scanner can complete the scan on the operator network before load-close.
+        zeroContextAnswer: DATA reachability of assigned scanner HF-HDL-0192 — not bag tracking, not a replacement for BRS.
         myWorld:
           title: What High Flight already knows
           items:
-            - Baggage journey and scan events (Baggage Journey API)
-            - Flight status and connection window (Flight Status API)
-            - Ground transfer ETA and safe margin (Ground Operations API)
+            - Bag HF123456 and required custody/load event (BRS)
+            - Connecting flight HF281 and load-close (DCS)
+            - Assigned ramp worker and rugged scanner HF-HDL-0192 (Ground Operations)
         networkAdds:
           title: What the Network uniquely adds
           items:
-            - Device reachability on the handler device — not bag position
-            - Connectivity condition on the operational device
-            - Location verification only when consent allows (blocked in this demo)
-            - QoD only if network improvement would materially help
-          roles: [OBSERVE, VERIFY, ACT]
+            - Device DATA reachability of the assigned handheld
+            - Roaming only if it materially changes the action
+            - Connectivity only if it changes CONTINUE vs SWAP
+            - Location and QoD are NOT_REQUIRED — Network Location is not bag tracking
+          roles: [OBSERVE]
         netawareAx:
           title: How NetAware AX uses both
           items:
-            - Intent expresses the baggage outcome — not which APIs to call
-            - Domain APIs establish transfer risk; Network APIs test whether the network dimension is limiting
-            - Policy blocks Location without consent; QoD stays NOT_REQUIRED when physical transfer is the limit
-            - Returns AT_RISK with EXPEDITE_TRANSFER — airline owns the operational decision
-        openingHeroNote: Secondary technical example until Cadence 11. Rocket Bank is the default opener — network contribution is immediately understandable.
+            - Intent asks whether the assigned device can complete the digital operation
+            - Maps bag / worker → scanner → network identity
+            - Selects Reachability; skips Location and QoD
+            - Returns CONTINUE or SWAP_DEVICE — airline still owns physical bag handling
+        openingHeroNote: Keep the baggage-handling business story. Network contribution is scanner operability, not expedite-transfer.
+
   - enterpriseId: rocket-bank
     presentationOrder: 1
     domainAudienceLabel: Financial Services
@@ -229,8 +232,10 @@ featuredEnterprises:
         - Verify outcome
     useCaseIds:
       - critical-inspection-camera
+      - fleet-firmware-rollout
     relatedUseCaseIds:
       - equipment-on-site
+      - fleet-firmware-rollout
     existingSystems:
       - Manufacturing Execution (MES)
       - Quality Management (QMS)
@@ -305,6 +310,56 @@ featuredEnterprises:
             - Age Verification is sufficient for the configured purpose
             - Broader KYC Match blocked by governance
             - Returns ELIGIBLE — pharmacist owns dispensing
+  - enterpriseId: acme-manufacturing
+    storyId: acme-device-ops-ota
+    presentationOrder: 5
+    domainAudienceLabel: Manufacturing / IoT
+    heroUseCaseId: fleet-firmware-rollout
+    heroCard:
+      cardTitle: Fleet firmware rollout
+      businessProblem: Which campaign devices are network-suitable to update now?
+      intentId: prepare_ota_cohort
+      proves:
+        - Network-aware OTA cohort
+        - Multi-provider fleet
+        - Observe and reassess deferred devices
+    useCaseIds:
+      - fleet-firmware-rollout
+    relatedUseCaseIds:
+      - critical-inspection-camera
+    existingSystems:
+      - Device Management / OTA Platform
+      - Inventory
+      - Device Twin
+      - Firmware Campaign
+    environment: Production
+    regionDisplay: Configured
+    subscriptionsDisplay: Configured
+    providersDisplay: Configured
+    securityDisplay: Configured
+    valueClarity:
+      hero:
+        headline: YOUR OTA PLATFORM ALREADY KNOWS WHAT NEEDS UPDATING. NETAWARE MAKES THE ROLLOUT NETWORK-AWARE.
+        zeroContextAnswer: Which cellular devices are network-suitable to update now across operators and regions.
+        myWorld:
+          title: What Acme Connected Device Operations already knows
+          items:
+            - Campaign target firmware and compatible models (OTA platform)
+            - Device inventory, twins, and health
+            - Which devices require the update
+        networkAdds:
+          title: What the Network uniquely adds
+          items:
+            - Device DATA reachability
+            - Roaming state, interpreted by configured enterprise policy
+          roles: [OBSERVE]
+        netawareAx:
+          title: How NetAware AX qualifies the cohort
+          items:
+            - Groups the simulated fleet by provider (Telco Finder)
+            - Discovers Reachability / Roaming availability (API Finder)
+            - Returns ROLL OUT NOW vs DEFER — then reassesses deferred devices
+            - Does not install firmware
 
 intentExamples:
   verify_mobile_number:
@@ -329,7 +384,7 @@ intentExamples:
         amount: 25000
         currency: USD
   ensure_baggage_connection:
-    plain: Ensure bag HF123456 makes connecting flight HF281.
+    plain: Assure assigned scanner HF-HDL-0192 can complete the connected custody scan for bag HF123456 before load-close.
     request:
       intent: ensure_baggage_connection
       subject:
@@ -379,3 +434,73 @@ intentExamples:
         customerRef: RB-C-4401
       context:
         purpose: kyc_attribute_match
+  prepare_ota_cohort:
+    plain: Prepare a network-qualified OTA cohort for Acme's critical firmware campaign without installing firmware.
+    request:
+      intent: prepare_ota_cohort
+      subject:
+        campaignId: ACME-FW-8-4-CRITICAL
+        applicationId: acme-device-fleet
+      context:
+        otaWave: prepare
+        campaignPriority: CRITICAL
+  assure_delivery_device:
+    plain: Can the assigned connected handheld complete the required digital delivery workflow?
+    request:
+      intent: assure_delivery_device
+      subject:
+        jobId: SS-JOB-8814
+        deviceId: SS-HDL-4412
+        driverId: DR-204
+      context:
+        priority: HIGH
+        guidedVariant: device-reachable
+  assess_checkout_trust:
+    plain: Should this high-risk checkout proceed normally or step up?
+    request:
+      intent: assess_checkout_trust
+      subject:
+        orderId: MM-88421
+        phoneNumber: "+1••••••5521"
+      context:
+        amount: 1840
+        currency: CAD
+        guidedVariant: sim-recent-change
+  assess_claim_device_trust:
+    plain: Return network identity-continuity evidence to claims. Do not determine fraud.
+    request:
+      intent: assess_claim_device_trust
+      subject:
+        claimId: NS-CL-1902
+        phoneNumber: "+49••••••4410"
+      context:
+        region: DE
+        guidedVariant: evidence-returned
+  assure_ground_device:
+    plain: Can the assigned ground handheld complete the connected turnaround workflow?
+    request:
+      intent: assure_ground_device
+      subject:
+        taskId: HF-TURN-18
+        deviceId: HF-GSE-2204
+      context:
+        guidedVariant: gse-reachable
+  assure_technician_device:
+    plain: Can the assigned technician device complete the digital work-order steps?
+    request:
+      intent: assure_technician_device
+      subject:
+        workOrderId: WO-5519
+        deviceId: ACME-TECH-77
+      context:
+        guidedVariant: tech-reachable
+  assure_live_broadcast:
+    plain: Can network treatment help maintain the live contribution objective?
+    request:
+      intent: assure_live_broadcast
+      subject:
+        encoderId: APX-ENC-3
+        contributionId: APX-LIVE-12
+      context:
+        sloMs: 40
+        guidedVariant: slo-needs-qod

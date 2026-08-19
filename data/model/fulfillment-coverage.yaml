@@ -1,0 +1,125 @@
+# Cadence 13 — evaluation slices and honesty. Statuses are DERIVED, not stored here.
+# Do not treat this file as a parallel fulfillment engine.
+
+source: CONFIGURATION
+cadence: 13
+
+honesty: >
+  FULFILLMENT COVERAGE indicates whether configured capabilities, governance,
+  provider availability, prerequisites and route can satisfy the Intent in this
+  prototype model. It is not a live operator SLA, API health check, production
+  certification, contractual availability, or commercial launch claim.
+
+states:
+  - FULFILLABLE
+  - FULFILLABLE_WITH_REDUCED_EVIDENCE
+  - PARTIALLY_FULFILLABLE
+  - BLOCKED
+  - NOT_AVAILABLE
+  - NOT_CONFIGURED
+  - NOT_APPLICABLE
+
+gapClasses:
+  - API_NOT_AVAILABLE
+  - NOT_SUBSCRIBED
+  - NOT_ENTITLED
+  - PURPOSE_NOT_PERMITTED
+  - CONSENT_MISSING
+  - AGREEMENT_GAP
+  - OPERATOR_READINESS
+  - ENTITLEMENT_SERVER_UNAVAILABLE
+  - ACCESS_PATH_UNSUPPORTED
+  - ROUTE_UNAVAILABLE
+  - REGION_NOT_SUPPORTED
+  - CAPABILITY_GAP
+
+distinctions:
+  telcoFinder: Which network/operator applies to this subject?
+  apiFinder: Which candidate Network API operations are available through which providers?
+  fulfillmentCoverage: Given the Intent, governance, required capabilities, operator readiness and routes, can the business need actually be fulfilled?
+
+canonicalMatrixRegions: [CA, DE, SG]
+
+regionLabels:
+  CA: Canada
+  DE: Germany
+  SG: Singapore
+  EU: Europe
+
+# NV is evaluated as access-type / operator-readiness slices, not a single portfolio cell.
+skipAutoPortfolioIds: [rb-nv-signin, acme-ota]
+
+nvSlices:
+  - id: nv-cellular-provider-a
+    portfolioId: rb-nv-signin
+    accessType: CELLULAR
+    providerId: simulated-operator-a
+    region: CA
+    routeType: DIRECT
+    showcase: NV1_NETWORK_BASED
+    ts43ClientAvailable: true
+    simAvailable: true
+  - id: nv-wifi-provider-a
+    portfolioId: rb-nv-signin
+    accessType: WIFI
+    providerId: simulated-operator-a
+    region: CA
+    routeType: DIRECT
+    showcase: NV2_OPERATOR_TOKEN
+    ts43ClientAvailable: true
+    simAvailable: true
+  - id: nv-wifi-provider-b
+    portfolioId: rb-nv-signin
+    accessType: WIFI
+    providerId: simulated-operator-b
+    region: CA
+    routeType: DIRECT
+    showcase: ECS_GAP
+    ts43ClientAvailable: true
+    simAvailable: true
+
+otaSlices:
+  - id: ota-provider-a
+    portfolioId: acme-ota
+    providerId: simulated-operator-a
+    routeProviderId: simulated-operator-a
+    region: CA
+    routeType: DIRECT
+  - id: ota-provider-b
+    portfolioId: acme-ota
+    providerId: simulated-operator-b
+    routeProviderId: simulated-aggregator-b
+    servingLabel: Network Provider B
+    region: DE
+    routeType: AGGREGATED
+  - id: ota-provider-c
+    portfolioId: acme-ota
+    providerId: simulated-provider-c
+    routeProviderId: simulated-provider-c
+    servingLabel: Network Provider C
+    region: SG
+    routeType: DIRECT
+    qualifiedDemand:
+      exists: true
+      notRevenue: true
+      meaning: A legitimate enterprise Intent requires a network capability.
+      capabilityId: roaming_status
+      unfulfilledCount: 500
+      unit: devices
+      source: SIMULATED FLEET
+      gapClass: CAPABILITY_GAP
+      note: Roaming Status is required by current campaign policy. Network Provider C does not advertise it. Qualified demand exists. Fulfillment gap exists. Not revenue.
+
+highFlightDistinction:
+  intentId: ensure_baggage_connection
+  fulfillmentAsks: Could NetAware obtain the required network evidence/action?
+  businessOutcomeAsks: What did that evidence mean?
+  apiMayReturn: DEVICE_NOT_DATA_REACHABLE
+  stillFulfillmentSuccess: true
+  note: API success returning unreachable is fulfilled demand, not a supply failure.
+
+ecs:
+  kind: OPERATOR_PREREQUISITE
+  label: CONFIGURED OPERATOR READINESS
+  notACamaraApi: true
+  netAwareDoesNotControl: true

@@ -1,28 +1,29 @@
-# Cadence 7 — High Flight commercial direction. NOT executable.
-# Current baggage-connection hero remains the live run until Cadence 11.
+# Cadence 10 — High Flight live story is ramp-scanner operability.
+# Executable id remains ensure_baggage_connection (compatibility). Working alias is not a second Intent.
 
 model:
-  cadence: 7
-  executable: false
+  cadence: 10
+  executable: true
   currentHero:
     useCaseId: baggage-connection
     intentId: ensure_baggage_connection
-    disposition: DEMOTE
-    remainsLiveUntil: cadence-11
-    contributionTest: FAIL
-    note: Domain ETA already implies expedite. Network reachability does not change the action.
+    disposition: EVOLVED
+    remainsLiveUntil: cadence-freeze
+    contributionTest: PASS
+    note: Bag remains domain context. Network subject is assigned scanner HF-HDL-0192. EXPEDITE_TRANSFER is no longer the featured network-driven outcome.
 
 replacement:
-  disposition: PROPOSED
+  disposition: LIVE
   name: Ramp-scanner / connected ground-handling assurance
-  executableNow: false
+  executableNow: true
+  executedAs: ensure_baggage_connection
   intent:
     workingId: assure_ramp_scan_capability
-    status: NEEDS_REVIEW
+    status: DOCUMENTATION_ALIAS
     label: Assure ramp scan capability
-    note: Finalize Intent ID in Cadence 11. Do not add to EXECUTABLE_INTENTS in Cadence 7.
+    note: Do not add assure_ramp_scan_capability to EXECUTABLE_INTENTS. Alias only.
   purpose:
-    axId: ramp_scan_assurance
+    axId: baggage_connection_assurance
     dpv:
       vocabulary: DPV
       version: "2.3"
@@ -36,7 +37,7 @@ replacement:
         - dpv:RequestedServiceProvision
       note: Do not use dpv:DeliveryOfGoods (parcel delivery to a data subject).
   subjectModel:
-    status: NEEDS_REVIEW
+    status: CONFIGURED
     device:
       type: ruggedized_brs_handheld
       exampleId: HF-HDL-0192
@@ -64,10 +65,11 @@ replacement:
       - physical bag position
       - belt/sortation state
   businessActions:
-    - swap device
-    - reassign handler
-    - hold load-close
-    - proceed with confirmed live scanner
+    - CONTINUE
+    - SWAP_DEVICE
+    - REASSIGN_HANDLER
+    - USE_OFFLINE_FALLBACK
+    - HOLD_LOAD_CLOSE
   defaultNotRequired:
     - quality_on_demand
     - location_verification

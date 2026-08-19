@@ -13,6 +13,7 @@ sys.path.insert(0, str(BACKEND))
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from app.config import UI_CADENCE  # noqa: E402
 from app.main import app, registry  # noqa: E402
 
 RB = {
@@ -221,10 +222,10 @@ def check_hero_regression() -> None:
         else:
             ok("Rocket Bank STEP_UP unchanged")
         hf = client.post("/intents", json=HF).json()
-        if hf.get("outcome", {}).get("outcome") != "AT_RISK":
+        if hf.get("outcome", {}).get("outcome") != ("CONTINUE" if UI_CADENCE >= 10 else "AT_RISK"):
             fail(f"High Flight regression: {hf.get('outcome')}")
         else:
-            ok("High Flight AT_RISK unchanged")
+            ok("High Flight AT_RISK unchanged" if UI_CADENCE < 10 else "High Flight CONTINUE (evolved)")
         acme = client.post("/intents", json=ACME).json()
         o = acme.get("outcome") or {}
         if o.get("outcome") != "ASSURED" or o.get("verification") != "PASSED":

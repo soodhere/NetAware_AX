@@ -30,8 +30,10 @@ providerCapabilities:
       - { operationId: retrieveDeviceSwapDate, source: openapi/camara/DeviceSwap__device-swap.yaml }
       - { operationId: retrieveIdentifier, source: openapi/experimental/DeviceIdentifier__device-identifier.yaml }
       - { operationId: getRoamingStatus, source: openapi/camara/DeviceRoamingStatus__device-roaming-status.yaml }
+      - { operationId: getReachabilityStatus, source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml }
   - providerId: simulated-provider-c
     operations:
+      - { operationId: getReachabilityStatus, source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml }
       - { operationId: verifyLocation, source: openapi/camara/DeviceLocation__location-verification.yaml }
       - { operationId: checkNetworkQuality, source: openapi/experimental/ConnectivityInsights__connectivity-insights.yaml }
       - { operationId: createApplicationProfile, source: openapi/experimental/ApplicationProfiles__application-profiles.yaml }

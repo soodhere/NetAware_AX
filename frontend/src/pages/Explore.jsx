@@ -181,6 +181,35 @@ function ExploreHome({ summary }) {
         </article>
       </div>
       <p className="tiny">{summary?.note}</p>
+      <p className="kicker" style={{ marginTop: 24 }}>
+        Visual entry points
+      </p>
+      <div className="stake-grid">
+        <a className="stake-card" href={href("/map")}>
+          <strong>USE CASE → APIs</strong>
+          <span>Configured demo mappings. Not a spreadsheet.</span>
+        </a>
+        <a className="stake-card" href={href("/map/reverse")}>
+          <strong>API → USE CASES</strong>
+          <span>Where can I enable this capability?</span>
+        </a>
+        <a className="stake-card" href={href("/map/enterprise")}>
+          <strong>INTENT → CAPABILITIES</strong>
+          <span>One enterprise. Reusable network capabilities.</span>
+        </a>
+        <a className="stake-card" href={href("/coverage")}>
+          <strong>REGION → FULFILLMENT</strong>
+          <span>Same C13 coverage truth.</span>
+        </a>
+        <a className="stake-card" href={href("/demand")}>
+          <strong>GAP → AFFECTED INTENTS</strong>
+          <span>Configured qualified demand. Not revenue.</span>
+        </a>
+        <a className="stake-card" href={href("/explore/providers")}>
+          <strong>PROVIDER → CAPABILITIES</strong>
+          <span>Direct and aggregated routes.</span>
+        </a>
+      </div>
     </div>
   );
 }
@@ -862,6 +891,24 @@ function CatalogDetail({ id }) {
         </div>
       ) : null}
       {data?.discoveryNote ? <p className="lede">{data.discoveryNote}</p> : null}
+      {data?.fulfillment ? (
+        <div className="hero-actions section">
+          <a href={href(data.fulfillment.href || "/coverage")}>
+            <button type="button">Where is this available?</button>
+          </a>
+          {(data.fulfillment.capabilityHrefs || []).slice(0, 1).map((cap) => (
+            <a key={cap.id} href={href(cap.href)}>
+              <button type="button">Which intents depend on it?</button>
+            </a>
+          ))}
+          <a href={href(data.fulfillment.demandHref || `/demand/family/${id}`)}>
+            <button type="button">See Demand</button>
+          </a>
+          <a href={href(data.fulfillment.demandHref || `/demand/family/${id}`)}>
+            <button type="button">What does this enable?</button>
+          </a>
+        </div>
+      ) : null}
       <section className="grid-2 section">
         <article className="panel">
           <h3>Capabilities</h3>
@@ -989,6 +1036,17 @@ function ProviderDetail({ id }) {
       <h1>
         <span>{data?.provider?.audienceLabel || data?.provider?.label}</span>
       </h1>
+      {data?.coverageHref ? (
+        <p>
+          <a href={href(data.coverageHref)}>What enterprise use cases can this supply enable?</a>
+          {data?.demandHref ? (
+            <>
+              {" · "}
+              <a href={href(data.demandHref)}>See Demand</a>
+            </>
+          ) : null}
+        </p>
+      ) : null}
       <section className="section">
         <h3>Operations available</h3>
         <ul className="list">

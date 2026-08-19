@@ -13,14 +13,69 @@ applications:
     label: Baggage Operations
     enterpriseId: high-flight-airlines
     kind: existing_application
-    note: Existing airline application. Owns Baggage Journey domain APIs.
+    note: Existing airline application. Owns BRS / DCS integrations and ramp handheld assignment. NetAware does not replace BRS.
   - id: acme-quality-inspection
     label: Quality Inspection
     enterpriseId: acme-manufacturing
     kind: existing_application
-    note: Existing plant quality application.
+    note: Existing plant quality application. Unchanged by Cadence 11.
+  - id: acme-device-fleet
+    label: Connected Device Operations
+    enterpriseId: acme-manufacturing
+    kind: existing_application
+    note: Existing enterprise device-management / OTA application. NetAware does not replace inventory, twins, firmware, or campaign management.
   - id: citycare-pharmacy-eligibility
     label: Pharmacy Eligibility
     enterpriseId: citycare-health
     kind: existing_application
     note: Existing pharmacy application. Owns dispensing workflow.
+  - id: citycare-telehealth
+    label: Telehealth
+    enterpriseId: citycare-health
+    kind: existing_application
+    note: Existing clinical video application. NetAware does not diagnose or treat.
+  - id: megamart-checkout-risk
+    label: Checkout Risk
+    enterpriseId: megamart-retail
+    kind: existing_application
+    note: Existing checkout / fraud application. NetAware does not replace the retail fraud engine.
+  - id: northstar-claims
+    label: Claims
+    enterpriseId: northstar-insurance
+    kind: existing_application
+    note: Existing claims application. Network evidence does not determine whether a claim is fraudulent.
+  - id: swiftship-delivery-ops
+    label: Delivery Operations
+    enterpriseId: swiftship-logistics
+    kind: existing_application
+    note: Existing dispatch / delivery application. Owns route, driver assignment and proof-of-delivery.
+  - id: high-flight-ground-operations
+    label: Ground Operations
+    enterpriseId: high-flight-airlines
+    kind: existing_application
+    note: Adjacent High Flight application. Baggage Operations remains the ramp-scanner live hero.
+  - id: acme-field-maintenance
+    label: Field Maintenance
+    enterpriseId: acme-manufacturing
+    kind: existing_application
+    note: Adjacent Acme application. Quality Inspection and Connected Device Operations remain live heroes.
+  - id: apex-contribution
+    label: Live Contribution
+    enterpriseId: apex-media
+    kind: existing_application
+    note: Existing production / encoder / stream application.
+  - id: harbor-building-ops
+    label: Building Operations
+    enterpriseId: harbor-facilities
+    kind: existing_application
+    note: Existing facilities / BMS application.
+  - id: buildright-field-ops
+    label: Field Operations
+    enterpriseId: buildright-construction
+    kind: existing_application
+    note: Existing site operations application.
+  - id: rocket-bank-onboarding
+    label: Digital Onboarding
+    enterpriseId: rocket-bank
+    kind: existing_application
+    note: Adjacent Rocket Bank application. KYC Match remains EXPLORE — consent and DPA bound.

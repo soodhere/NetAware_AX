@@ -53,6 +53,9 @@ class ConfigStore:
         self.product_alignment = _load_yaml("product-alignment.yaml")
         self.high_flight_replacement = _load_yaml("high-flight-replacement.yaml")
         self.ota_device_fleet = _load_yaml("ota-device-fleet.yaml")
+        from .intent_profile import load_intent_profiles
+
+        self.intent_profiles = load_intent_profiles()
         providers_doc = _load_yaml("providers.yaml")
         self.providers = providers_doc["providers"]
         self.provider_capabilities = providers_doc.get("providerCapabilities") or []
@@ -60,6 +63,11 @@ class ConfigStore:
         self.mappings = _load_yaml("mappings.yaml")
         self.placeholders = _load_yaml("execution-placeholders.yaml")
         self.demo = _load_yaml("demo-briefings.yaml")
+        self.sales_portfolio = _load_yaml("sales-portfolio.yaml")
+        self.fulfillment_coverage = _load_yaml("fulfillment-coverage.yaml")
+        self.demand_map = _load_yaml("demand-map.yaml")
+        self.stakeholder_entry = _load_yaml("stakeholder-entry.yaml")
+        self.meeting_mode = _load_yaml("meeting-mode.yaml")
 
         self.domain_by_id = index_by_id(self.domains)
         self.use_case_by_id = index_by_id(self.use_cases)
@@ -72,6 +80,7 @@ class ConfigStore:
         self.policy_by_id = index_by_id(self.policies)
         self.provider_by_id = index_by_id(self.providers)
         self.entitlement_by_id = index_by_id(self.entitlements)
+        self.intent_profile_by_id = index_by_id(self.intent_profiles, key="intentId")
 
     def is_subscribed(self, enterprise_id: str, capability_id: str, family: str | None) -> bool:
         for sub in self.subscriptions:

@@ -2,11 +2,13 @@ domains:
   - { id: financial, label: Financial, description: Banking, payments and related risk-assist outcomes. }
   - { id: airlines, label: Airlines, description: Airline operations including baggage and connections. }
   - { id: airports, label: Airports, description: Airport turnaround, airside assets and operations video. }
-  - { id: manufacturing, label: Manufacturing, description: Plant quality and equipment presence. }
+  - { id: manufacturing, label: Manufacturing, description: Plant quality, inspection, and connected device operations. }
+  - { id: logistics, label: Logistics / Delivery, description: Dispatch, delivery workflow and field handheld operations. }
   - { id: warehouse, label: Warehouse / Logistics, description: Yard, dock and shipment custody operations. }
   - { id: retail, label: Retail, description: Checkout and store operations. }
-  - { id: insurance, label: Insurance, description: Claims continuity and location consistency. }
+  - { id: insurance, label: Insurance, description: Claims continuity and identity corroboration. }
   - { id: healthcare, label: Healthcare, description: Telehealth experience and visit presence. }
   - { id: media, label: Media, description: Live contribution and broadcast experience. }
   - { id: stadium, label: Stadium / Venue, description: Dense-venue staff and fan experience. }
   - { id: construction, label: Construction, description: Site equipment presence and uplink experience. }
+  - { id: facilities, label: Smart Buildings / Facilities, description: Connected building equipment and facilities operations. }

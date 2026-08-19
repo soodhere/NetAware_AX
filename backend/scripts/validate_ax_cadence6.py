@@ -128,7 +128,7 @@ def check_explore_routes() -> None:
 def check_hero_reset_replay() -> None:
     with TestClient(app) as client:
         for body, label, outcome in [
-            (HF, "High Flight", "AT_RISK"),
+            (HF, "High Flight", "CONTINUE" if UI_CADENCE >= 10 else "AT_RISK"),
             (RB, "Rocket Bank", "STEP_UP"),
             (ACME, "Acme", "ASSURED"),
             (CC, "CityCare", "ELIGIBLE"),

@@ -13,6 +13,7 @@ sys.path.insert(0, str(BACKEND))
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from app.config import UI_CADENCE  # noqa: E402
 from app.main import app, registry  # noqa: E402
 
 HF_CANONICAL = {
@@ -108,6 +109,55 @@ def check_high_flight() -> None:
         invoked = {i.get("operationId") for i in trace.get("invocations") or []}
         domain_ops = {i.get("operationId") for i in trace.get("invocations") or [] if i.get("apiKind") in {"DOMAIN", "ENTERPRISE"}}
         network_ops = {i.get("operationId") for i in trace.get("invocations") or [] if (i.get("apiKind") or "NETWORK") == "NETWORK"}
+
+        if UI_CADENCE >= 10:
+            needed_domain = {"getBaggageJourney", "getFlightStatus", "getRampAssignment"}
+            if not needed_domain <= domain_ops:
+                fail(f"C10 domain ops missing: {domain_ops}")
+            else:
+                ok("BRS / DCS / Ground Operations represented")
+            if network_ops != {"getReachabilityStatus"}:
+                fail(f"C10 network ops unexpected: {network_ops}")
+            else:
+                ok("only Reachability invoked for default READY state")
+            if "verifyLocation" in invoked or "createSession" in invoked:
+                fail("Location or QoD invoked")
+            else:
+                ok("Location and QoD not invoked")
+            loc = next((d for d in trace.get("decisions") or [] if d.get("capabilityId") == "location_verification"), None)
+            if not loc or loc.get("state") != "NOT_REQUIRED":
+                fail(f"location should be NOT_REQUIRED: {loc}")
+            else:
+                ok("Location NOT_REQUIRED — not bag tracking")
+            qod = next((d for d in trace.get("decisions") or [] if d.get("capabilityId") == "quality_on_demand"), None)
+            if not qod or qod.get("state") != "NOT_REQUIRED":
+                fail(f"QoD unexpected: {qod}")
+            else:
+                ok("QoD NOT_REQUIRED")
+            outcome = trace.get("outcome") or {}
+            if outcome.get("outcome") != "CONTINUE" or outcome.get("recommendedAction") != "CONTINUE":
+                fail(f"READY outcome {outcome}")
+            else:
+                ok("default READY → CONTINUE")
+            if "EXPEDITE" in json.dumps(outcome):
+                fail("EXPEDITE_TRANSFER still featured")
+            else:
+                ok("EXPEDITE_TRANSFER is not the featured outcome")
+            if "HF-HDL-0192" not in json.dumps(trace.get("telcoFinder") or {}):
+                fail("scanner not in Telco Finder")
+            else:
+                ok("network subject is assigned scanner")
+            views = trace.get("views") or {}
+            if views.get("derivedFrom") != trace.get("executionId"):
+                fail("views not derived from canonical trace")
+            else:
+                ok("canonical trace backs all views")
+            second = client.post("/intents", json=HF_CANONICAL).json()
+            if second.get("outcome") != outcome or second.get("executionId") != trace.get("executionId"):
+                fail("High Flight replay not deterministic")
+            else:
+                ok("High Flight replay deterministic")
+            return
 
         if not HF_DOMAIN.issubset(domain_ops):
             fail(f"domain/enterprise ops missing: {domain_ops}")

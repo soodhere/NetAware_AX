@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netaware.ax/schemas/demand-record.json",
+  "title": "DemandRecord",
+  "description": "Cadence 14 derived qualified-demand record. Consumes C13 fulfillment. Not revenue, TAM, ARR, or price.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "demandId",
+    "enterpriseId",
+    "applicationId",
+    "intentId",
+    "capability",
+    "demandState",
+    "source",
+    "provenance"
+  ],
+  "properties": {
+    "demandId": { "type": "string" },
+    "enterpriseId": { "type": "string" },
+    "applicationId": { "type": "string" },
+    "useCaseId": { "type": ["string", "null"] },
+    "intentId": { "type": "string" },
+    "businessEvent": { "type": ["string", "null"] },
+    "commercialMotion": { "type": "array", "items": { "type": "string" } },
+    "industry": { "type": ["string", "null"] },
+    "region": { "type": ["string", "null"] },
+    "capability": { "type": "string" },
+    "requirementType": { "type": "string", "enum": ["REQUIRED", "OPTIONAL", "CONDITIONAL", "UNKNOWN"] },
+    "demandState": {
+      "type": "string",
+      "enum": ["POTENTIAL", "QUALIFIED", "FULFILLED", "PARTIALLY_FULFILLED", "UNFULFILLED", "NOT_REQUIRED"]
+    },
+    "fulfillmentStatus": { "type": ["string", "null"] },
+    "provider": { "type": ["string", "null"] },
+    "providerType": { "type": ["string", "null"] },
+    "route": { "type": ["string", "null"] },
+    "blockingGap": { "type": ["string", "null"] },
+    "affectedUnits": { "type": ["number", "null"] },
+    "affectedUnitsLabel": { "type": ["string", "null"] },
+    "source": { "type": "string" },
+    "provenance": { "type": "array" },
+    "coverageRecordId": { "type": ["string", "null"] },
+    "qualified": { "type": "boolean" },
+    "invoked": { "type": "boolean" }
+  }
+}

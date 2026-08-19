@@ -1,0 +1,647 @@
+# Cadence 10 — onboarded Intent Profiles. HTTP request stays small.
+# This is configured knowledge, not a second planner.
+
+intentProfiles:
+  - intentId: verify_mobile_number
+    label: Verify this mobile number
+    businessOutcome: Silent number possession verification for sign-in
+    complexity: ADVANCED_AGENTIC
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-iam
+    authorizedActors: [iam-sign-in-agent]
+    purposeId: mobile_number_authentication
+    regions: [configured]
+    candidateCapabilities:
+      - { id: number_possession_verification, role: required }
+    minimumEvidence: [NUMBER_POSSESSION]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: sign-in only }
+    failurePolicy: CAPABILITY_UNAVAILABLE
+    autonomy: ACT verify; NOT_AUTHORIZED to issue the application session
+    decisionOwner: ROCKET_BANK_IAM
+    verificationRequirement: none
+    networkContributionTier: A
+    note: Complexity is ADVANCED_AGENTIC because path selection is dynamic. A cellular-only telling can be presented as BASIC.
+    decisionGap:
+      alreadyHave:
+        - CIAM / IAM
+        - Claimed mobile number
+        - Login / session systems
+      decide: Can this claimed number be silently verified?
+      gap: IAM does not independently have operator-backed number possession.
+      networkAdds:
+        - Number Verification
+      ax:
+        - Discover runtime access context
+        - Govern purpose, entitlement and operator readiness
+        - Select NV1 or NV2 path — the application does not choose the path
+        - Call or return CAPABILITY_UNAVAILABLE
+      outcome: VERIFIED or CAPABILITY_UNAVAILABLE
+
+  - intentId: assess_network_trust
+    label: Assess network trust
+    businessOutcome: Recommend whether a high-value payment should proceed or step up
+    complexity: COMPOSED
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    authorizedActors: [payments-protection-agent]
+    purposeId: payment_fraud_assist
+    regions: [configured]
+    candidateCapabilities:
+      - { id: number_possession_verification, role: required }
+      - { id: sim_continuity, role: required }
+      - { id: device_continuity, role: required }
+      - { id: device_identifier, role: required }
+      - { id: roaming_status, role: required }
+      - { id: location_verification, role: considered }
+      - { id: number_recycling, role: considered }
+    minimumEvidence: [NUMBER_POSSESSION, SIM_CONTINUITY, DEVICE_CONTINUITY]
+    optionalEvidence: [ROAMING, DEVICE_IDENTIFIER]
+    dataMinimization: true
+    reusePolicy: { allowed: true, ttl: configured, purposeCompatibility: same subject, compatible purpose }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: RECOMMEND step-up; NOT_AUTHORIZED to decline the transaction
+    decisionOwner: ROCKET_BANK_FRAUD
+    verificationRequirement: none
+    networkContributionTier: B
+    decisionGap:
+      alreadyHave:
+        - Payments platform
+        - Authentication
+        - Fraud signals
+      decide: Proceed normally or require additional verification?
+      gap: The application does not independently know recent SIM, device or network identity continuity.
+      networkAdds:
+        - Number possession
+        - SIM / device / roaming continuity evidence
+      ax:
+        - Discover relevant capabilities
+        - Govern purpose, consent and entitlement
+        - Select minimum sufficient evidence
+        - Skip or filter what is not needed or not permitted
+      outcome: STEP_UP
+
+  - intentId: assess_recovery_continuity
+    label: Assess recovery continuity
+    businessOutcome: Continue normal recovery or step up when continuity is inconsistent
+    complexity: COMPOSED
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-payments
+    authorizedActors: [payments-protection-agent]
+    purposeId: identity_continuity_assist
+    regions: [configured]
+    candidateCapabilities:
+      - { id: sim_continuity, role: required }
+      - { id: device_continuity, role: required }
+      - { id: roaming_status, role: considered }
+    minimumEvidence: [SIM_CONTINUITY, DEVICE_CONTINUITY]
+    optionalEvidence: [ROAMING]
+    dataMinimization: true
+    reusePolicy: { allowed: true, ttl: configured, purposeCompatibility: identity continuity }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT assess; NOT_AUTHORIZED to reset credentials
+    decisionOwner: ROCKET_BANK_IAM
+    verificationRequirement: none
+    networkContributionTier: B
+    decisionGap:
+      alreadyHave:
+        - IAM / account recovery workflow
+      decide: Can normal recovery continue?
+      gap: Recovery does not independently know whether telecom/device continuity is consistent.
+      networkAdds:
+        - Continuity evidence, including governed reuse
+      ax:
+        - Reuse prior evidence when purpose, subject, region, agreement and TTL allow
+        - Skip duplicate Network API calls
+      outcome: CONTINUITY_ALIGNED
+
+  - intentId: maintain_inspection_experience
+    label: Maintain inspection experience
+    businessOutcome: Restore the inspection camera SLO when network treatment can help
+    complexity: ADVANCED_AGENTIC
+    enterpriseId: acme-manufacturing
+    applicationId: acme-quality-inspection
+    authorizedActors: [inspection-experience-agent]
+    purposeId: inspection_video_assurance
+    regions: [configured]
+    candidateCapabilities:
+      - { id: application_profiles, role: required }
+      - { id: connectivity_insights, role: required }
+      - { id: quality_on_demand, role: considered }
+      - { id: edge_discovery, role: considered }
+      - { id: device_reachability, role: considered }
+    minimumEvidence: [CONNECTIVITY]
+    optionalEvidence: [QOD]
+    dataMinimization: true
+    reusePolicy: { allowed: false }
+    failurePolicy: ESCALATE
+    autonomy: ACT observe and QoD; NOT_AUTHORIZED to change MES routing
+    decisionOwner: ACME_QUALITY
+    verificationRequirement: after_act
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - MES
+        - QMS
+        - Vision / camera application
+        - Required SLO
+      decide: Can network intervention restore the application objective?
+      gap: The enterprise knows the camera is degraded but cannot itself change mobile network treatment.
+      networkAdds:
+        - Connectivity observation
+        - Quality-on-Demand action when useful
+      ax:
+        - Observe
+        - Skip QoD while the objective holds
+        - Act after breach
+        - Verify
+      outcome: ASSURED
+
+  - intentId: verify_pharmacy_age_gate
+    label: Verify pharmacy age gate
+    businessOutcome: Narrow age-threshold eligibility for a pharmacy transaction
+    complexity: COMPOSED
+    enterpriseId: citycare-health
+    applicationId: citycare-pharmacy-eligibility
+    authorizedActors: [pharmacy-eligibility-agent]
+    purposeId: pharmacy_age_eligibility
+    regions: [configured]
+    candidateCapabilities:
+      - { id: age_verification, role: required }
+      - { id: kyc_match, role: considered }
+    minimumEvidence: [AGE_ASSERTION]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false }
+    failurePolicy: ESCALATE
+    autonomy: ACT return eligibility; NOT_AUTHORIZED to dispense
+    decisionOwner: CITYCARE_PHARMACIST
+    verificationRequirement: none
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - Pharmacy transaction application
+        - Age threshold requirement
+      decide: Is the minimum age requirement satisfied?
+      gap: The application needs a narrow authoritative assertion, not a full identity dossier.
+      networkAdds:
+        - Age assertion
+      ax:
+        - Select the minimum sufficient capability
+        - Filter broader KYC
+      outcome: ELIGIBLE
+
+  - intentId: ensure_baggage_connection
+    label: Assure ramp scan capability
+    workingAlias: assure_ramp_scan_capability
+    businessOutcome: Confirm the assigned ramp scanner can complete the connected baggage custody operation before load-close
+    complexity: COMPOSED
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-baggage-operations
+    authorizedActors: [baggage-operations-agent]
+    purposeId: baggage_connection_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+      - { id: roaming_status, role: considered }
+      - { id: connectivity_insights, role: considered }
+      - { id: location_verification, role: considered }
+      - { id: quality_on_demand, role: considered }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: [ROAMING]
+    dataMinimization: true
+    reusePolicy: { allowed: false }
+    failurePolicy: ESCALATE
+    autonomy: ACT observe; RECOMMEND swap/reassign/offline/hold; NOT_AUTHORIZED to change the flight plan or move bags
+    decisionOwner: HIGH_FLIGHT_OPERATIONS
+    verificationRequirement: none
+    networkContributionTier: B
+    note: Executable id remains ensure_baggage_connection. Working alias is documentation only — not a second live Intent.
+    decisionGap:
+      alreadyHave:
+        - BRS (bag, flight, required custody/load event)
+        - DCS (HF281, load-close)
+        - Ground Operations (assigned handler and scanner HF-HDL-0192)
+        - Operational deadline
+      decide: Can this assigned connected device complete the required baggage digital operation before load-close?
+      gap: BRS / DCS / Ground Operations do not independently know whether this mobile device can currently participate in the operator data-network workflow.
+      networkAdds:
+        - Device DATA reachability
+        - Roaming only if it materially explains or changes the action
+        - Connectivity only if it changes CONTINUE vs SWAP
+      ax:
+        - Map bag / worker to assigned scanner network identity
+        - Discover Reachability
+        - Skip Location and QoD by default — they do not close this gap
+        - Recommend CONTINUE or SWAP_DEVICE from enterprise inventory
+      outcome: CONTINUE or SWAP_DEVICE
+
+  - intentId: prepare_ota_cohort
+    label: Prepare OTA cohort
+    businessOutcome: Network-qualified OTA cohort for an existing enterprise firmware campaign
+    complexity: ADVANCED_AGENTIC
+    enterpriseId: acme-manufacturing
+    applicationId: acme-device-fleet
+    authorizedActors: [device-ops-agent]
+    purposeId: firmware_rollout
+    regions: [configured]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+      - { id: roaming_status, role: required }
+      - { id: connectivity_insights, role: considered }
+      - { id: quality_on_demand, role: considered }
+      - { id: location_verification, role: considered }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: [ROAMING]
+    dataMinimization: true
+    reusePolicy: { allowed: true, ttl: configured, purposeCompatibility: same enterprise, device-ops purpose }
+    failurePolicy: DEFER_AND_RETRY
+    autonomy: ACT discover/segment/recommend; ACT_WITH_APPROVAL submit cohort; NOT_AUTHORIZED to install firmware
+    decisionOwner: ACME_OTA_PLATFORM
+    verificationRequirement: none
+    networkContributionTier: A
+    workingAlias: rollout_firmware_safely
+    note: Complexity is ADVANCED_AGENTIC because fleet multi-provider discovery, policy interpretation, and closed-loop reassessment are required. Working alias is documentation only.
+    decisionGap:
+      alreadyHave:
+        - Device Management / OTA Platform
+        - Inventory
+        - Device Twin
+        - Firmware Campaign
+        - Compatibility
+        - Target firmware
+        - Device health
+      decide: Which eligible devices should enter the rollout cohort now?
+      gap: The OTA platform does not independently have authoritative current operator-network knowledge for every cellular device needed to determine whether it is network-suitable for this rollout window.
+      networkAdds:
+        - Device Reachability
+        - Roaming Status where material, interpreted by configured enterprise policy
+      ax:
+        - Discover
+        - Filter
+        - Segment
+        - Select
+        - Recommend / act within configured authority
+        - Observe
+        - Reassess
+      outcome: NETWORK_QUALIFIED_COHORT or COHORT_EXPANDED
+
+  - intentId: assure_delivery_device
+    label: Assure delivery device
+    businessOutcome: CONTINUE or SWAP_DEVICE for an assigned delivery handheld
+    complexity: BASIC
+    enterpriseId: swiftship-logistics
+    applicationId: swiftship-delivery-ops
+    authorizedActors: [delivery-ops-agent]
+    purposeId: delivery_device_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+      - { id: quality_on_demand, role: considered }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: delivery device only }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT observe/recommend swap; NOT_AUTHORIZED to reroute the delivery
+    decisionOwner: SWIFTSHIP_DISPATCH
+    verificationRequirement: none
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - Dispatch
+        - Route
+        - Delivery workflow
+        - Driver assignment
+        - Proof-of-delivery
+      decide: Can the assigned connected handheld complete the required digital delivery workflow?
+      gap: Dispatch does not independently know whether the assigned mobile device is currently DATA reachable.
+      networkAdds:
+        - Device Reachability
+      ax:
+        - Discover Reachability
+        - Skip QoD — no delivery SLO
+        - Return CONTINUE or SWAP_DEVICE
+      outcome: CONTINUE or SWAP_DEVICE
+
+  - intentId: assess_checkout_trust
+    label: Assess checkout trust
+    businessOutcome: Recommend NORMAL or STEP_UP for high-risk checkout
+    complexity: COMPOSED
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    authorizedActors: [checkout-risk-agent]
+    purposeId: identity_continuity_assist
+    regions: [CA]
+    candidateCapabilities:
+      - { id: number_possession_verification, role: required }
+      - { id: sim_continuity, role: required }
+      - { id: device_continuity, role: required }
+      - { id: location_verification, role: considered }
+    minimumEvidence: [NUMBER_POSSESSION, SIM_CONTINUITY, DEVICE_CONTINUITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: checkout identity continuity }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: RECOMMEND step-up; NOT_AUTHORIZED to decline the purchase
+    decisionOwner: MEGAMART_FRAUD
+    verificationRequirement: none
+    networkContributionTier: B
+    decisionGap:
+      alreadyHave:
+        - Checkout
+        - Order
+        - Payment
+        - Fraud / risk engine
+      decide: Proceed normally or require additional verification?
+      gap: The fraud engine does not independently know recent SIM, device or network identity continuity.
+      networkAdds:
+        - Number possession
+        - SIM / device continuity evidence
+      ax:
+        - Discover relevant capabilities
+        - Filter location when consent is unavailable
+        - Recommend STEP_UP or NORMAL
+      outcome: STEP_UP or NORMAL
+
+  - intentId: assess_claim_device_trust
+    label: Assess claim device trust
+    businessOutcome: Return network identity-continuity evidence to claims
+    complexity: COMPOSED
+    enterpriseId: northstar-insurance
+    applicationId: northstar-claims
+    authorizedActors: [claims-trust-agent]
+    purposeId: identity_continuity_assist
+    regions: [DE]
+    candidateCapabilities:
+      - { id: sim_continuity, role: required }
+      - { id: device_continuity, role: required }
+      - { id: roaming_status, role: considered }
+    minimumEvidence: [SIM_CONTINUITY, DEVICE_CONTINUITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: claims identity continuity }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT return evidence; NOT_AUTHORIZED to accept or deny the claim
+    decisionOwner: NORTHSTAR_CLAIMS
+    verificationRequirement: none
+    networkContributionTier: B
+    decisionGap:
+      alreadyHave:
+        - Policy administration
+        - Claims / FNOL
+        - Customer identity
+      decide: What network identity-continuity evidence should claims review include?
+      gap: Claims does not independently know recent SIM/device continuity of the reporting handset.
+      networkAdds:
+        - SIM continuity
+        - Device continuity
+      ax:
+        - Normalize fulfillment via Aggregator A
+        - Return evidence
+        - Do not determine fraud
+      outcome: NETWORK_EVIDENCE_RETURNED
+
+  - intentId: assure_ground_device
+    label: Assure ground device
+    businessOutcome: CONTINUE or SWAP_DEVICE for an assigned GSE handheld
+    complexity: COMPOSED
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-ground-operations
+    authorizedActors: [ground-ops-agent]
+    purposeId: delivery_device_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+      - { id: roaming_status, role: considered }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: ground device only }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT observe/recommend swap; NOT_AUTHORIZED to change the flight plan
+    decisionOwner: HIGH_FLIGHT_GROUND_OPS
+    verificationRequirement: none
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - Ground Operations
+        - GSE / handheld assignment
+        - DCS
+      decide: Can the assigned ground handheld complete the connected turnaround workflow?
+      gap: Ground Operations does not independently know whether the assigned GSE handheld is DATA reachable.
+      networkAdds:
+        - Device Reachability
+      ax:
+        - Discover Reachability
+        - Skip roaming when it does not change the action
+        - Return CONTINUE or SWAP_DEVICE
+      outcome: CONTINUE or SWAP_DEVICE
+
+  - intentId: assure_technician_device
+    label: Assure technician device
+    businessOutcome: CONTINUE for an assigned technician handheld
+    complexity: BASIC
+    enterpriseId: acme-manufacturing
+    applicationId: acme-field-maintenance
+    authorizedActors: [field-maintenance-agent]
+    purposeId: delivery_device_assurance
+    regions: [EU]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+      - { id: quality_on_demand, role: considered }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: technician device only }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT observe; Quality Inspection and Device Fleet remain the live heroes
+    decisionOwner: ACME_CMMS
+    verificationRequirement: none
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - CMMS
+        - Work order
+        - Technician assignment
+      decide: Can the assigned technician device complete the digital work-order steps?
+      gap: CMMS does not independently know whether the assigned technician handheld is DATA reachable.
+      networkAdds:
+        - Device Reachability
+      ax:
+        - Discover Reachability
+        - Skip QoD — no technician SLO
+        - Return CONTINUE
+      outcome: CONTINUE
+
+  - intentId: assure_live_broadcast
+    label: Assure live contribution
+    businessOutcome: Hold contribution SLO with QoD when warranted
+    complexity: COMPOSED
+    enterpriseId: apex-media
+    applicationId: apex-contribution
+    authorizedActors: [contribution-agent]
+    purposeId: experience_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: quality_on_demand, role: required }
+      - { id: connectivity_insights, role: considered }
+      - { id: edge_discovery, role: considered }
+    minimumEvidence: [QOD_SESSION]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: contribution SLO }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: ACT invoke QoD; NOT_AUTHORIZED to take production to air
+    decisionOwner: APEX_PRODUCTION
+    verificationRequirement: none
+    networkContributionTier: A
+    decisionGap:
+      alreadyHave:
+        - Production control
+        - Encoder
+        - Stream workflow
+      decide: Can network treatment help maintain the required contribution objective?
+      gap: Production control does not independently apply network treatment to hold a contribution SLO.
+      networkAdds:
+        - Quality on Demand
+      ax:
+        - Call QoD because an SLO exists
+        - Skip experimental Insights
+        - Skip Edge if not required
+      outcome: ASSURED
+
+  - intentId: maintain_telehealth_experience
+    label: Maintain telehealth experience
+    businessOutcome: Explore whether a telehealth SLO warrants QoD
+    complexity: COMPOSED
+    enterpriseId: citycare-health
+    applicationId: citycare-telehealth
+    authorizedActors: [telehealth-agent]
+    purposeId: experience_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: quality_on_demand, role: considered }
+    minimumEvidence: []
+    optionalEvidence: [QOD_SESSION]
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: telehealth SLO }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: EXPLORE only — not executed
+    decisionOwner: CITYCARE_TELEHEALTH
+    verificationRequirement: none
+    networkContributionTier: C
+    decisionGap:
+      alreadyHave:
+        - Eligibility
+        - Scheduling
+        - Telehealth platform
+      decide: Could network treatment help a session meet a genuine SLO?
+      gap: Telehealth platform does not independently apply network treatment if a session SLO exists.
+      networkAdds:
+        - QoD only if an SLO is configured
+      ax:
+        - Do not make medical outcome claims
+        - Do not fake execution
+      outcome: EXPLORE
+
+  - intentId: assure_building_equipment
+    label: Assure building equipment
+    businessOutcome: Explore reachability of critical connected equipment
+    complexity: BASIC
+    enterpriseId: harbor-facilities
+    applicationId: harbor-building-ops
+    authorizedActors: [building-ops-agent]
+    purposeId: delivery_device_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: device_reachability, role: required }
+    minimumEvidence: [DEVICE_REACHABILITY]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: building equipment }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: EXPLORE only — not executed
+    decisionOwner: HARBOR_FACILITIES
+    verificationRequirement: none
+    networkContributionTier: B
+    decisionGap:
+      alreadyHave:
+        - Building management
+        - Equipment registry
+      decide: Is critical connected equipment currently reachable?
+      gap: BMS does not independently know whether critical connected equipment is currently reachable.
+      networkAdds:
+        - Device Reachability
+      ax:
+        - Map as EXPLORE
+        - Do not fake execution
+      outcome: EXPLORE
+
+  - intentId: maintain_site_uplink
+    label: Maintain site uplink
+    businessOutcome: Explore remote field connectivity assurance
+    complexity: COMPOSED
+    enterpriseId: buildright-construction
+    applicationId: buildright-field-ops
+    authorizedActors: [field-ops-agent]
+    purposeId: experience_assurance
+    regions: [CA]
+    candidateCapabilities:
+      - { id: quality_on_demand, role: considered }
+      - { id: device_reachability, role: considered }
+    minimumEvidence: []
+    optionalEvidence: [DEVICE_REACHABILITY]
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: field connectivity }
+    failurePolicy: CONTINUE_WITHOUT
+    autonomy: EXPLORE only — not executed
+    decisionOwner: BUILDRIGHT_SITE_OPS
+    verificationRequirement: none
+    networkContributionTier: C
+    decisionGap:
+      alreadyHave:
+        - Site operations
+        - HSE / VMS
+      decide: Can remote field-work connectivity be assured where a Decision Gap is genuine?
+      gap: Site operations does not independently know connectivity of remote field devices against a genuine SLO.
+      networkAdds:
+        - Reachability
+        - QoD only where an SLO exists
+      ax:
+        - Do not fake execution
+      outcome: EXPLORE
+
+  - intentId: match_customer_kyc
+    label: Match customer KYC attributes
+    businessOutcome: Explore operator KYC Match when purpose, DPA and consent allow
+    complexity: COMPOSED
+    enterpriseId: rocket-bank
+    applicationId: rocket-bank-onboarding
+    authorizedActors: [onboarding-agent]
+    purposeId: kyc_attribute_match
+    regions: [CA]
+    candidateCapabilities:
+      - { id: kyc_match, role: required }
+    minimumEvidence: [KYC_MATCH]
+    optionalEvidence: []
+    dataMinimization: true
+    reusePolicy: { allowed: false, purposeCompatibility: KYC match only }
+    failurePolicy: CAPABILITY_UNAVAILABLE
+    autonomy: EXPLORE only — not executed
+    decisionOwner: ROCKET_BANK_ONBOARDING
+    verificationRequirement: none
+    networkContributionTier: C
+    decisionGap:
+      alreadyHave:
+        - Digital onboarding
+        - Bank KYC
+      decide: Can operator KYC Match corroborate new-account attributes when allowed?
+      gap: Bank KYC does not independently match operator-held customer attributes.
+      networkAdds:
+        - KYC Match when purpose, DPA and consent allow
+      ax:
+        - Do not fake fulfillment
+        - Keep EXPLORE until consent/DPA allow
+      outcome: EXPLORE

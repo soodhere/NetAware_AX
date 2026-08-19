@@ -17,6 +17,12 @@ export default defineConfig({
       "/demo": "http://127.0.0.1:8000",
       "/explore": "http://127.0.0.1:8000",
       "/executions": "http://127.0.0.1:8000",
+      "/coverage": "http://127.0.0.1:8000",
+      "/demand": "http://127.0.0.1:8000",
+      "/meet": "http://127.0.0.1:8000",
+      "/map": "http://127.0.0.1:8000",
+      "/preflight": "http://127.0.0.1:8000",
+      "/start": "http://127.0.0.1:8000",
     },
   },
 });

@@ -11,6 +11,7 @@ domainUseCases:
   - { domainId: airports, useCaseId: airside-asset-presence }
   - { domainId: airports, useCaseId: turnaround-video }
   - { domainId: manufacturing, useCaseId: critical-inspection-camera }
+  - { domainId: manufacturing, useCaseId: fleet-firmware-rollout }
   - { domainId: construction, useCaseId: equipment-on-site }
   - { domainId: construction, useCaseId: site-uplink }
   - { domainId: warehouse, useCaseId: shipment-custody }
@@ -24,6 +25,10 @@ domainUseCases:
   - { domainId: stadium, useCaseId: venue-experience }
   - { domainId: retail, useCaseId: age-restricted-sale }
   - { domainId: healthcare, useCaseId: pharmacy-age-gate }
+  - { domainId: logistics, useCaseId: delivery-device-readiness }
+  - { domainId: airlines, useCaseId: ground-device-readiness }
+  - { domainId: manufacturing, useCaseId: connected-maintenance }
+  - { domainId: facilities, useCaseId: critical-equipment-reachability }
 
 useCaseIntents:
   - { useCaseId: high-value-payment-protection, intentId: assess_network_trust }
@@ -35,6 +40,7 @@ useCaseIntents:
   - { useCaseId: airside-asset-presence, intentId: verify_airside_presence }
   - { useCaseId: turnaround-video, intentId: maintain_turnaround_video }
   - { useCaseId: critical-inspection-camera, intentId: maintain_inspection_experience }
+  - { useCaseId: fleet-firmware-rollout, intentId: prepare_ota_cohort }
   - { useCaseId: equipment-on-site, intentId: verify_equipment_on_site }
   - { useCaseId: site-uplink, intentId: maintain_site_uplink }
   - { useCaseId: shipment-custody, intentId: verify_shipment_device_presence }
@@ -48,6 +54,10 @@ useCaseIntents:
   - { useCaseId: venue-experience, intentId: maintain_venue_experience }
   - { useCaseId: age-restricted-sale, intentId: verify_age_threshold }
   - { useCaseId: pharmacy-age-gate, intentId: verify_pharmacy_age_gate }
+  - { useCaseId: delivery-device-readiness, intentId: assure_delivery_device }
+  - { useCaseId: ground-device-readiness, intentId: assure_ground_device }
+  - { useCaseId: connected-maintenance, intentId: assure_technician_device }
+  - { useCaseId: critical-equipment-reachability, intentId: assure_building_equipment }
 
 # Identity continuity family — same practical APIs, many businesses.
 intentCapabilities:
@@ -68,6 +78,7 @@ intentCapabilities:
   - { intentId: assess_checkout_trust, capabilityId: number_possession_verification, role: required, evidence: INFERRED }
   - { intentId: assess_checkout_trust, capabilityId: sim_continuity, role: required, evidence: INFERRED }
   - { intentId: assess_checkout_trust, capabilityId: device_continuity, role: required, evidence: INFERRED }
+  - { intentId: assess_checkout_trust, capabilityId: location_verification, role: considered, evidence: INFERRED }
 
   - { intentId: assess_claim_device_trust, capabilityId: sim_continuity, role: required, evidence: INFERRED }
   - { intentId: assess_claim_device_trust, capabilityId: device_continuity, role: required, evidence: INFERRED }
@@ -109,6 +120,12 @@ intentCapabilities:
   - { intentId: verify_pharmacy_age_gate, capabilityId: age_verification, role: required, evidence: INFERRED }
   - { intentId: verify_pharmacy_age_gate, capabilityId: kyc_match, role: considered, evidence: INFERRED }
 
+  - { intentId: prepare_ota_cohort, capabilityId: device_reachability, role: required, evidence: SOURCE_BACKED }
+  - { intentId: prepare_ota_cohort, capabilityId: roaming_status, role: required, evidence: SOURCE_BACKED }
+  - { intentId: prepare_ota_cohort, capabilityId: connectivity_insights, role: considered, evidence: SOURCE_BACKED }
+  - { intentId: prepare_ota_cohort, capabilityId: quality_on_demand, role: considered, evidence: SOURCE_BACKED }
+  - { intentId: prepare_ota_cohort, capabilityId: location_verification, role: considered, evidence: SOURCE_BACKED }
+
   - { intentId: maintain_turnaround_video, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
   - { intentId: maintain_turnaround_video, capabilityId: edge_discovery, role: considered, evidence: INFERRED }
 
@@ -123,6 +140,19 @@ intentCapabilities:
 
   - { intentId: assure_live_broadcast, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
   - { intentId: assure_live_broadcast, capabilityId: edge_discovery, role: considered, evidence: INFERRED }
+  - { intentId: assure_live_broadcast, capabilityId: connectivity_insights, role: considered, evidence: INFERRED }
+
+  - { intentId: assure_delivery_device, capabilityId: device_reachability, role: required, evidence: INFERRED }
+  - { intentId: assure_delivery_device, capabilityId: quality_on_demand, role: considered, evidence: INFERRED }
+
+  - { intentId: assure_ground_device, capabilityId: device_reachability, role: required, evidence: INFERRED }
+  - { intentId: assure_ground_device, capabilityId: roaming_status, role: considered, evidence: INFERRED }
+
+  - { intentId: assure_technician_device, capabilityId: device_reachability, role: required, evidence: INFERRED }
+  - { intentId: assure_technician_device, capabilityId: quality_on_demand, role: considered, evidence: INFERRED }
+
+  - { intentId: assure_building_equipment, capabilityId: device_reachability, role: required, evidence: INFERRED }
+  - { intentId: assure_building_equipment, capabilityId: roaming_status, role: considered, evidence: INFERRED }
 
   - { intentId: maintain_venue_experience, capabilityId: quality_on_demand, role: required, evidence: INFERRED }
   - { intentId: maintain_venue_experience, capabilityId: device_reachability, role: considered, evidence: INFERRED }

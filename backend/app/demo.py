@@ -173,6 +173,7 @@ def _known_from_config(
             {"label": "Network API subscriptions", "value": featured.get("subscriptionsDisplay") or "Configured"},
             {"label": "Provider relationships", "value": featured.get("providersDisplay") or "Configured"},
             {"label": "Security", "value": featured.get("securityDisplay") or "Configured"},
+            {"label": "Context kind", "value": "CONFIGURED / ONBOARDED CONTEXT"},
         ],
     }
 
@@ -193,13 +194,30 @@ def briefing(
         ),
         featured_rows[0] if featured_rows else None,
     )
-    if not featured:
+    from .portfolio import row_by_use_case
+
+    portfolio_row = row_by_use_case(store, enterprise_id, use_case_id)
+    if not featured and not portfolio_row:
         return None
+    if not featured:
+        featured = {
+            "enterpriseId": enterprise_id,
+            "heroUseCaseId": use_case_id,
+            "useCaseIds": [use_case_id],
+            "domainAudienceLabel": (store.domain_by_id.get(str((store.enterprise_by_id.get(enterprise_id) or {}).get("domainId") or "")) or {}).get("label"),
+            "environment": "Production",
+            "regionDisplay": "Configured",
+            "subscriptionsDisplay": "Configured",
+            "providersDisplay": "Configured",
+            "securityDisplay": "Configured",
+            "existingSystems": (store.use_case_by_id.get(use_case_id) or {}).get("existingSystems") or [],
+            "valueClarity": {},
+        }
     use_case = store.use_case_by_id.get(use_case_id)
     if not use_case:
         return None
     allowed = set(featured.get("useCaseIds") or []) | {featured.get("heroUseCaseId")}
-    if use_case_id not in allowed and use_case_id not in (featured.get("relatedUseCaseIds") or []):
+    if use_case_id not in allowed and use_case_id not in (featured.get("relatedUseCaseIds") or []) and not portfolio_row:
         # Still allow any use case in the enterprise domain for explorer-linked demo.
         ent = store.enterprise_by_id.get(enterprise_id) or {}
         if use_case.get("domainId") != ent.get("domainId"):
@@ -270,6 +288,7 @@ def briefing(
         ("rocket-bank", "passwordless-mobile-sign-in"),
         ("high-flight-airlines", "baggage-connection"),
         ("acme-manufacturing", "critical-inspection-camera"),
+        ("acme-manufacturing", "fleet-firmware-rollout"),
         ("citycare-health", "pharmacy-age-gate"),
     }
     secondary_runnable = {
@@ -277,12 +296,54 @@ def briefing(
     }
     is_runnable = (enterprise_id, use_case_id) in hero_runnable
     is_secondary = (enterprise_id, use_case_id) in secondary_runnable
+    maturity = str((portfolio_row or {}).get("scenarioMaturity") or ("LIVE" if is_runnable or is_secondary else "EXPLORE"))
+    if maturity in {"LIVE", "GUIDED"}:
+        is_runnable = True if maturity == "GUIDED" or is_runnable else is_runnable
+        if maturity == "GUIDED":
+            is_runnable = True
+    if maturity == "EXPLORE":
+        is_runnable = False
+        is_secondary = False
 
-    return {
+    vc = value_clarity_for(featured, use_case_id)
+    if not vc and portfolio_row:
+        vc = {
+            "headline": portfolio_row.get("businessProblem"),
+            "zeroContextAnswer": portfolio_row.get("networkContribution"),
+            "myWorld": {
+                "title": "What the enterprise already has",
+                "items": use_case.get("existingSystems") or featured.get("existingSystems") or [],
+            },
+            "networkAdds": {
+                "title": "What the Network uniquely adds",
+                "items": [portfolio_row.get("networkContribution")],
+            },
+            "netawareAx": {
+                "title": "How NetAware AX uses both",
+                "items": [
+                    "Discover",
+                    "Govern",
+                    "Select",
+                    "Act within configured authority",
+                ],
+            },
+        }
+
+    from .guided_runtime import guided_scenario
+
+    guided_cfg = guided_scenario(intent_id) if maturity == "GUIDED" else None
+    guided_variants = []
+    if guided_cfg:
+        for vid, vrow in (guided_cfg.get("variants") or {}).items():
+            guided_variants.append({"id": vid, "label": vrow.get("label") or vid})
+
+    body = {
         "configurationOnly": not is_runnable and not is_secondary,
         "executionEngine": is_runnable or is_secondary,
         "runtimeNotExecuted": not is_runnable and not is_secondary,
         "runnable": is_runnable,
+        "coverageHref": f"/coverage/enterprise/{enterprise_id}/use-case/{use_case_id}",
+        "demandHref": f"/demand/enterprise/{enterprise_id}",
         "secondaryDemo": is_secondary,
         "secondaryNote": (featured.get("secondaryDemo") or {}).get("note") if is_secondary else None,
         "enterprise": enterprise,
@@ -332,11 +393,23 @@ def briefing(
         },
         "networkValueFraming": (store.demo or {}).get("networkValueFraming") or {},
         "networkRoles": network_roles(),
-        "valueClarity": value_clarity_for(featured, use_case_id),
+        "valueClarity": vc or value_clarity_for(featured, use_case_id),
+        "maturity": maturity,
+        "complexity": (portfolio_row or {}).get("scenarioComplexity"),
+        "commercialMotion": (portfolio_row or {}).get("commercialMotion") or [],
+        "decisionGap": (portfolio_row or {}).get("decisionGap") or (guided_cfg or {}).get("decisionGap"),
+        "networkContribution": (portfolio_row or {}).get("networkContribution"),
+        "industry": (portfolio_row or {}).get("industry"),
+        "guidedVariants": guided_variants,
+        "exploreOnly": maturity == "EXPLORE",
+        "configuredContextLabel": "CONFIGURED / ONBOARDED CONTEXT",
     }
+    return body
 
 
-def demo_index(store: ConfigStore) -> dict[str, Any]:
+def demo_index(store: ConfigStore, registry: CatalogRegistry | None = None) -> dict[str, Any]:
+    from .portfolio import public_portfolio
+
     product = (store.demo or {}).get("product") or {}
     featured_src = list((store.demo or {}).get("featuredEnterprises") or [])
     featured_src.sort(key=lambda row: int(row["presentationOrder"]) if row.get("presentationOrder") is not None else 99)
@@ -347,6 +420,7 @@ def demo_index(store: ConfigStore) -> dict[str, Any]:
         "networkRoles": network_roles(),
         "honesty": (store.demo or {}).get("honesty") or {},
         "featured": featured,
+        "portfolio": public_portfolio(store, registry),
         "executionEngine": False,
     }
 

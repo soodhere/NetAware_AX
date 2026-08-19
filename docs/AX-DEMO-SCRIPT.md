@@ -5,13 +5,11 @@ Presentation paths for NetAware AX Cadence 6. Fictional enterprises only.
 ## 90-second cut — High Flight alone
 
 1. **Home** — “Keep your application. Express the outcome.”
-2. **Start Demo** → **High Flight Airlines** → **Ensure baggage connection**
-3. **Briefing** — My world (airline systems) + complementary Network APIs. Point at *what I send* vs *what NetAware already knows*.
-4. **Run** → **Skip to end** if pacing tight.
-5. **Overview** — AT_RISK, approval required, physical transfer is limiting factor.
-6. **Live Flow** — Location blocked → replan → ground ops evidence.
-7. **APIs** — Reachability DIRECT, Connectivity AGGREGATED; QoD not invoked.
-8. **Stop** — “Same small Network API set, airline-level outcome.”
+2. **Start Demo** → **High Flight Airlines** → **Baggage handling / ramp device operability**
+3. **Briefing** — BRS / DCS / Ground Operations stay. Decision Gap is scanner operability, not bag tracking.
+4. **Run** — presenter may simulate READY vs NOT REACHABLE. Skip to end if pacing tight.
+5. **Overview** — Bag HF123456 is domain context. Scanner HF-HDL-0192 is the network subject. CONTINUE or SWAP_DEVICE.
+6. **Stop** — “Network does not move bags. It tells the airline whether the assigned handheld can complete the connected custody scan.”
 
 ## 5-minute standard flow
 
@@ -29,7 +27,7 @@ CityCare if time: minimum capability, KYC blocked, ELIGIBLE.
 After 5-minute flow:
 
 - **Rocket Bank** — Policy trace (location consent), Decisions (NOT_REQUIRED recycling).
-- **High Flight** — Plan v1/v2, hybrid routes, autonomy ACT_WITH_APPROVAL.
+- **High Flight** — BRS/DCS chain, scanner as network subject, CONTINUE vs SWAP_DEVICE.
 - **Acme** — conditionChange, verification getSession.
 - **CityCare** — minimum capability selection, dataUsed AGE_ASSERTION_ONLY.
 - **Explorer** — reverse from `checkSimSwap`, `createSession`, `verifyLocation`, `verifyAge`. If asked about Incubating: it is CAMARA **project lifecycle**, not API-version maturity. SIM Swap 2.1.0 is a stable public API.

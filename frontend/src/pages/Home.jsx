@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, href } from "../api.js";
 import AxLoop, { HeroDemoCard } from "../components/AxLoop.jsx";
+import { DxAxSplit } from "../visuals/VisualKit.jsx";
 
 export default function Home() {
   const [demo, setDemo] = useState(null);
@@ -26,6 +27,7 @@ export default function Home() {
         {product.tagline ||
           "A simpler way for applications and agents to consume network capabilities."}
       </p>
+      <p className="lede statement">NetAware connects enterprise demand to network supply.</p>
       {product.discoveryLine ? <p className="lede">{product.discoveryLine}</p> : (
         <p className="lede">
           NetAware determines which network capabilities are relevant, allowed, available and useful — then invokes only what is needed.
@@ -89,13 +91,40 @@ export default function Home() {
       </section>
 
       <p className="tiny ax-principle">Simple outside. Sophisticated and fully traceable inside.</p>
+      <DxAxSplit
+        dxAx={{
+          dx: [
+            "Application developer",
+            "discover APIs",
+            "choose API",
+            "understand operator differences",
+            "implement flow",
+            "handle availability",
+            "invoke API",
+          ],
+          ax: [
+            "Application / authorized agent",
+            "express Intent",
+            "NetAware discovers capabilities",
+            "governs",
+            "resolves operator / provider",
+            "selects fulfillment",
+            "CALL / REUSE / SKIP / FILTER",
+            "business outcome",
+          ],
+          footer: "AX BUILDS ON NETWORK API DX. IT DOES NOT REPLACE IT.",
+        }}
+      />
       <AxLoop steps={product.axLoop} compact />
 
       <div className="hero-actions">
-        <a href={href("/demo")}>
+        <a href={href("/")}>
           <button className="primary" type="button">
-            Start Demo
+            Start as Enterprise / Operator / Aggregator
           </button>
+        </a>
+        <a href={href("/demo")}>
+          <button type="button">Start Demo</button>
         </a>
         <a href={href("/explore")}>
           <button type="button">Explore</button>

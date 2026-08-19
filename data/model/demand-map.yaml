@@ -1,0 +1,73 @@
+# Cadence 14 — Demand Map overlay. Demand is DERIVED from C13 coverage + C12 portfolio.
+# Statuses are not hardcoded. No revenue, TAM, ARR, or price.
+
+source: CONFIGURATION
+cadence: 14
+
+honesty: >
+  Demand Map shows configured demo coverage: where enterprise Intents create
+  qualified capability demand, and where fictional provider/aggregator supply
+  can fulfill it. Counts are not market-wide country statistics, customer
+  counts, or financial forecasts.
+
+language:
+  prefer:
+    - QUALIFIED DEMAND
+    - FULFILLMENT GAP
+    - SUPPLY GAP
+    - ENABLEMENT IMPACT
+    - CAPABILITY LEVERAGE
+    - CONFIGURED DEMAND
+    - UNFULFILLED QUALIFIED DEMAND
+    - APPLICATIONS ENABLED
+    - INTENTS ENABLED
+  avoid:
+    - lost revenue
+    - TAM
+    - ROI
+    - money left on the table
+
+whyNetAware:
+  without:
+    - Enterprise sees APIs.
+    - Operator sees network capabilities.
+    - Aggregator sees supply footprint.
+    - These remain disconnected.
+  with:
+    - Business Intent
+    - qualified capability demand
+    - governance
+    - operator / aggregator supply
+    - fulfillment
+    - business outcome
+  close: NetAware connects enterprise demand to network supply.
+
+demoStory:
+  - { step: 1, label: ENTERPRISE, line: "Here are the business applications where network information actually changes a decision." }
+  - { step: 2, label: FULFILLMENT, line: "NetAware determines which capabilities can be delivered in each region through operators or aggregators." }
+  - { step: 3, label: DEMAND MAP, line: "Now we can see where qualified demand exists and where network supply is missing." }
+  - { step: 4, label: OPERATOR, line: "That same information works in reverse: an operator can see which enterprise applications its capabilities enable." }
+  - { step: 5, label: CLOSE, line: "NetAware connects enterprise demand with network supply." }
+
+contextualDemand:
+  - intentId: maintain_inspection_experience
+    capabilityId: quality_on_demand
+    initially: NOT_REQUIRED
+    trigger: SLO BREACH
+    becomes: QUALIFIED
+    then: selected → invoked → verified → ASSURED
+    note: Network API demand can be contextual, not merely subscription-driven. Available, permitted and entitled still does not mean required until the outcome needs it.
+    source: RUNTIME
+  - intentId: verify_pharmacy_age_gate
+    capabilityId: kyc_match
+    initially: NOT_REQUIRED
+    note: Broader KYC Match is relevant/available but filtered. Age Verification is the minimum appropriate capability. Do not market unnecessary API invocation as success.
+    source: CONFIGURED POLICY
+
+notInvocationReasons:
+  - EVIDENCE REUSE
+  - POLICY FILTER
+  - CONSENT
+  - NOT REQUIRED after evaluation
+  - ALREADY SUFFICIENT EVIDENCE
+  - NO AVAILABLE SUPPLY

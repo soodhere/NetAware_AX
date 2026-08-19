@@ -262,6 +262,8 @@ class PolicyEvaluation:
 
     configured: bool = True
 
+    layer: str = ""
+
 
 
     def to_public(self) -> dict[str, Any]:
@@ -420,6 +422,12 @@ class ExecutionTrace:
 
     demandSupply: dict[str, Any] | None = None
 
+    hfVisual: dict[str, Any] | None = None
+
+    otaVisual: dict[str, Any] | None = None
+
+    guidedVisual: dict[str, Any] | None = None
+
 
 
     def to_public(self) -> dict[str, Any]:
@@ -529,6 +537,18 @@ class ExecutionTrace:
             body["demandSupply"] = self.demandSupply
 
             body.update({k: v for k, v in self.demandSupply.items() if k not in body})
+
+        if self.hfVisual:
+
+            body["hfVisual"] = self.hfVisual
+
+        if self.otaVisual:
+
+            body["otaVisual"] = self.otaVisual
+
+        if self.guidedVisual:
+
+            body["guidedVisual"] = self.guidedVisual
 
         return body
 

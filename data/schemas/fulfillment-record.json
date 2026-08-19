@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netaware.ax/schemas/fulfillment-record.json",
+  "title": "FulfillmentRecord",
+  "description": "Cadence 13 derived fulfillment coverage. Not revenue. Not a live operator SLA.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "enterpriseId",
+    "applicationId",
+    "intentId",
+    "region",
+    "fulfillmentStatus",
+    "provenance"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "enterpriseId": { "type": "string" },
+    "applicationId": { "type": "string" },
+    "intentId": { "type": "string" },
+    "useCaseId": { "type": "string" },
+    "region": { "type": "string" },
+    "subjectType": { "type": ["string", "null"] },
+    "accessType": { "type": ["string", "null"] },
+    "requiredCapabilities": { "type": "array", "items": { "type": "string" } },
+    "optionalCapabilities": { "type": "array", "items": { "type": "string" } },
+    "conditionalCapabilities": { "type": "array", "items": { "type": "string" } },
+    "minimumSufficientSet": { "type": "array", "items": { "type": "string" } },
+    "provider": { "type": ["string", "null"] },
+    "providerType": { "type": ["string", "null"], "enum": ["NETWORK_PROVIDER", "AGGREGATOR", "SPECIALIST", null] },
+    "route": { "type": ["string", "null"], "enum": ["DIRECT", "AGGREGATED", "HYBRID", null] },
+    "routeProvider": { "type": ["string", "null"] },
+    "apiAvailability": { "type": "string" },
+    "operatorReadiness": { "type": "string" },
+    "subscription": { "type": ["string", "null"] },
+    "entitlement": { "type": ["string", "null"] },
+    "purpose": { "type": ["string", "null"] },
+    "consent": { "type": ["string", "null"] },
+    "agreement": { "type": ["string", "null"] },
+    "fulfillmentStatus": {
+      "type": "string",
+      "enum": [
+        "FULFILLABLE",
+        "FULFILLABLE_WITH_REDUCED_EVIDENCE",
+        "PARTIALLY_FULFILLABLE",
+        "BLOCKED",
+        "NOT_AVAILABLE",
+        "NOT_CONFIGURED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "blockingGaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string" },
+          "capabilityId": { "type": ["string", "null"] },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fact", "source"],
+        "properties": {
+          "fact": { "type": "string" },
+          "source": {
+            "type": "string",
+            "enum": [
+              "ONBOARDING",
+              "CONFIGURATION",
+              "RUNTIME",
+              "SIMULATED PROVIDER DATA",
+              "INTENT PROFILE",
+              "CONFIGURED POLICY",
+              "CONFIGURED_OPERATOR_READINESS",
+              "DERIVED"
+            ]
+          }
+        }
+      }
+    },
+    "qualifiedDemand": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "exists": { "type": "boolean" },
+        "notRevenue": { "type": "boolean" },
+        "unfulfilledCount": { "type": ["number", "null"] }
+      }
+    }
+  }
+}

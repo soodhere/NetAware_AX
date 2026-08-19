@@ -68,7 +68,7 @@ HEROES = [
         },
     ),
     (
-        "AT_RISK",
+        "CONTINUE" if UI_CADENCE >= 10 else "AT_RISK",
         {
             "intent": "ensure_baggage_connection",
             "subject": {"bagId": "HF123456", "connectingFlight": "HF281"},
@@ -361,13 +361,24 @@ def check_product_alignment() -> None:
 
 def check_high_flight_and_ota() -> None:
     hf = _doc(store.high_flight_replacement)
-    if hf.get("executable") or (hf.get("replacement") or {}).get("executableNow"):
+    if UI_CADENCE >= 10:
+        if not hf.get("executable") and not (hf.get("replacement") or {}).get("executableNow"):
+            fail("High Flight replacement should be live in Cadence 10")
+        elif (hf.get("currentHero") or {}).get("disposition") != "EVOLVED":
+            fail("current High Flight hero should be EVOLVED")
+        else:
+            ok("High Flight ramp-scanner story is live via ensure_baggage_connection")
+        if "assure_ramp_scan_capability" in EXECUTABLE_INTENTS:
+            fail("working alias must not be a second executable Intent")
+        else:
+            ok("assure_ramp_scan_capability remains a documentation alias")
+    elif hf.get("executable") or (hf.get("replacement") or {}).get("executableNow"):
         fail("High Flight replacement must not be executable")
     else:
         ok("High Flight replacement documented, not executable")
-    if (hf.get("currentHero") or {}).get("disposition") != "DEMOTE":
+    if UI_CADENCE < 10 and (hf.get("currentHero") or {}).get("disposition") != "DEMOTE":
         fail("current baggage-connection not marked DEMOTE")
-    else:
+    elif UI_CADENCE < 10:
         ok("current High Flight hero marked DEMOTE")
     if "baggage location" not in json.dumps(hf.get("replacement") or {}).lower():
         fail("replacement must explicitly reject reachability = baggage location")
@@ -375,7 +386,18 @@ def check_high_flight_and_ota() -> None:
         ok("High Flight model forbids reachability = bag location")
 
     ota = _doc(store.ota_device_fleet)
-    if ota.get("executable") or ota.get("applicationExistsNow"):
+    if UI_CADENCE >= 11:
+        if not ota.get("executable") or not ota.get("applicationExistsNow"):
+            fail("OTA should be live in Cadence 11")
+        elif ota.get("liveIntentId") != "prepare_ota_cohort":
+            fail("OTA live Intent should be prepare_ota_cohort")
+        elif "prepare_ota_cohort" not in EXECUTABLE_INTENTS:
+            fail("prepare_ota_cohort not executable")
+        elif "rollout_firmware_safely" in EXECUTABLE_INTENTS:
+            fail("working alias must not be a second executable Intent")
+        else:
+            ok("OTA live via prepare_ota_cohort; alias not executable")
+    elif ota.get("executable") or ota.get("applicationExistsNow"):
         fail("OTA model must not be live")
     else:
         ok("OTA model frozen, not executable")

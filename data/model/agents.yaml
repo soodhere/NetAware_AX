@@ -29,6 +29,13 @@ agents:
     allowedIntents: [maintain_inspection_experience]
     identityModel: simulated_placeholder
     note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: device-ops-agent
+    label: Device Operations Agent
+    actsOnBehalfOf: acme-device-fleet
+    enterpriseId: acme-manufacturing
+    allowedIntents: [prepare_ota_cohort]
+    identityModel: simulated_placeholder
+    note: Same enterprise as Quality Inspection, different application. Not authorized to install firmware.
   - id: pharmacy-eligibility-agent
     label: Pharmacy Eligibility Agent
     actsOnBehalfOf: citycare-pharmacy-eligibility
@@ -36,3 +43,73 @@ agents:
     allowedIntents: [verify_pharmacy_age_gate]
     identityModel: simulated_placeholder
     note: Simulated agent principal only. Production auth/delegation not locked.
+  - id: checkout-risk-agent
+    label: Checkout Risk Agent
+    actsOnBehalfOf: megamart-checkout-risk
+    enterpriseId: megamart-retail
+    allowedIntents: [assess_checkout_trust]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Does not decline the purchase.
+  - id: claims-trust-agent
+    label: Claims Trust Agent
+    actsOnBehalfOf: northstar-claims
+    enterpriseId: northstar-insurance
+    allowedIntents: [assess_claim_device_trust]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Does not accept or deny the claim.
+  - id: delivery-ops-agent
+    label: Delivery Operations Agent
+    actsOnBehalfOf: swiftship-delivery-ops
+    enterpriseId: swiftship-logistics
+    allowedIntents: [assure_delivery_device]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Does not reroute the delivery.
+  - id: ground-ops-agent
+    label: Ground Operations Agent
+    actsOnBehalfOf: high-flight-ground-operations
+    enterpriseId: high-flight-airlines
+    allowedIntents: [assure_ground_device]
+    identityModel: simulated_placeholder
+    note: Adjacent to Baggage Operations. Does not change the flight plan.
+  - id: field-maintenance-agent
+    label: Field Maintenance Agent
+    actsOnBehalfOf: acme-field-maintenance
+    enterpriseId: acme-manufacturing
+    allowedIntents: [assure_technician_device]
+    identityModel: simulated_placeholder
+    note: Adjacent to Quality Inspection and Device Fleet.
+  - id: contribution-agent
+    label: Contribution Agent
+    actsOnBehalfOf: apex-contribution
+    enterpriseId: apex-media
+    allowedIntents: [assure_live_broadcast]
+    identityModel: simulated_placeholder
+    note: Simulated agent principal only. Does not take the production to air.
+  - id: telehealth-agent
+    label: Telehealth Agent
+    actsOnBehalfOf: citycare-telehealth
+    enterpriseId: citycare-health
+    allowedIntents: [maintain_telehealth_experience]
+    identityModel: simulated_placeholder
+    note: EXPLORE only. Not a live or guided runner.
+  - id: onboarding-agent
+    label: Onboarding Agent
+    actsOnBehalfOf: rocket-bank-onboarding
+    enterpriseId: rocket-bank
+    allowedIntents: [match_customer_kyc]
+    identityModel: simulated_placeholder
+    note: EXPLORE only. KYC Match remains consent and DPA bound.
+  - id: building-ops-agent
+    label: Building Operations Agent
+    actsOnBehalfOf: harbor-building-ops
+    enterpriseId: harbor-facilities
+    allowedIntents: [assure_building_equipment]
+    identityModel: simulated_placeholder
+    note: EXPLORE only.
+  - id: field-ops-agent
+    label: Field Operations Agent
+    actsOnBehalfOf: buildright-field-ops
+    enterpriseId: buildright-construction
+    allowedIntents: [maintain_site_uplink]
+    identityModel: simulated_placeholder
+    note: EXPLORE only.

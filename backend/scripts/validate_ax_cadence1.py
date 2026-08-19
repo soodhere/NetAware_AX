@@ -12,6 +12,7 @@ sys.path.insert(0, str(BACKEND))
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from app.config import UI_CADENCE  # noqa: E402
 from app.main import app, registry, store  # noqa: E402
 
 errors: list[str] = []
@@ -92,14 +93,24 @@ def check_http() -> None:
         body = hf.json()
         systems = set(body.get("existingSystems") or [])
         apis = {a.get("name") for a in body.get("existingApis") or []}
-        if not {"Baggage Operations", "Flight Operations", "Ground Operations"} <= systems:
+        if UI_CADENCE >= 10:
+            if not {"BRS", "DCS", "Ground Operations"} <= systems:
+                fail(f"High Flight systems incomplete: {systems}")
+            else:
+                ok("High Flight shows BRS / DCS / Ground Operations")
+            if not {"BRS", "DCS", "Ground Operations"} <= apis:
+                fail(f"High Flight existing APIs incomplete: {apis}")
+            else:
+                ok("High Flight shows existing airline APIs")
+        elif not {"Baggage Operations", "Flight Operations", "Ground Operations"} <= systems:
             fail(f"High Flight systems incomplete: {systems}")
         else:
             ok("High Flight shows existing airline systems")
-        if not {"Baggage Journey", "Flight Status", "Ground Operations"} <= apis:
-            fail(f"High Flight existing APIs incomplete: {apis}")
-        else:
-            ok("High Flight shows existing airline APIs")
+        if UI_CADENCE < 10:
+            if not {"Baggage Journey", "Flight Status", "Ground Operations"} <= apis:
+                fail(f"High Flight existing APIs incomplete: {apis}")
+            else:
+                ok("High Flight shows existing airline APIs")
         cap_labels = [c.get("label", "").lower() for c in body.get("capabilities") or []]
         joined = " ".join(cap_labels)
         if "location" not in joined or "reachability" not in joined:
@@ -116,7 +127,12 @@ def check_http() -> None:
             fail("briefing implies runtime execution")
         else:
             ok("briefing states runtime was not executed")
-        if (body.get("intent") or {}).get("plain") != "Ensure bag HF123456 makes connecting flight HF281.":
+        expected_plain = (
+            "Assure assigned scanner HF-HDL-0192 can complete the connected custody scan for bag HF123456 before load-close."
+            if UI_CADENCE >= 10
+            else "Ensure bag HF123456 makes connecting flight HF281."
+        )
+        if (body.get("intent") or {}).get("plain") != expected_plain:
             fail(f"intent plain language unexpected: {(body.get('intent') or {}).get('plain')}")
         else:
             ok("Intent is a concrete outcome sentence")

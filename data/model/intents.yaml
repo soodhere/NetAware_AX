@@ -18,11 +18,13 @@ intents:
     label: Match customer KYC attributes
     defaultPurposeId: kyc_attribute_match
     explorerOnly: true
-    note: Privacy-sensitive. Policy/DPA/consent must allow at runtime later.
+    note: Cadence 12 EXPLORE. Privacy-sensitive. Policy/DPA/consent must allow. Not fake fulfillment.
   - id: ensure_baggage_connection
-    label: Ensure baggage connection
+    label: Assure ramp scan capability
     defaultPurposeId: baggage_connection_assurance
     explorerOnly: false
+    workingAlias: assure_ramp_scan_capability
+    note: Cadence 10 live job is ramp-scanner operability. Executable id kept for compatibility. Working alias is documentation only.
   - id: locate_baggage
     label: Locate baggage
     defaultPurposeId: presence_assurance
@@ -58,11 +60,13 @@ intents:
   - id: assess_checkout_trust
     label: Assess checkout trust
     defaultPurposeId: identity_continuity_assist
-    explorerOnly: true
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent for MegaMart Checkout Risk.
   - id: assess_claim_device_trust
     label: Assess claim device trust
     defaultPurposeId: identity_continuity_assist
-    explorerOnly: true
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent. Network evidence does not determine claim fraud.
   - id: verify_claim_location
     label: Verify claim location
     defaultPurposeId: presence_assurance
@@ -76,9 +80,10 @@ intents:
     defaultPurposeId: presence_assurance
     explorerOnly: true
   - id: assure_live_broadcast
-    label: Assure live broadcast
+    label: Assure live contribution
     defaultPurposeId: experience_assurance
-    explorerOnly: true
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent. QoD only because a contribution SLO exists.
   - id: maintain_venue_experience
     label: Maintain venue experience
     defaultPurposeId: experience_assurance
@@ -91,3 +96,29 @@ intents:
     label: Verify pharmacy age gate
     defaultPurposeId: pharmacy_age_eligibility
     explorerOnly: false
+  - id: prepare_ota_cohort
+    label: Prepare OTA cohort
+    defaultPurposeId: firmware_rollout
+    explorerOnly: false
+    workingAlias: rollout_firmware_safely
+    note: Cadence 11 live Intent. Working alias rollout_firmware_safely is documentation only and is not executable. NetAware does not install firmware.
+  - id: assure_delivery_device
+    label: Assure delivery device
+    defaultPurposeId: delivery_device_assurance
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent. Executed by the shared interpreter. No custom runner.
+  - id: assure_ground_device
+    label: Assure ground device
+    defaultPurposeId: delivery_device_assurance
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent. Adjacent High Flight application.
+  - id: assure_technician_device
+    label: Assure technician device
+    defaultPurposeId: delivery_device_assurance
+    explorerOnly: false
+    note: Cadence 12 GUIDED Intent. Adjacent Acme application.
+  - id: assure_building_equipment
+    label: Assure building equipment
+    defaultPurposeId: delivery_device_assurance
+    explorerOnly: true
+    note: Cadence 12 EXPLORE. No fake execution.

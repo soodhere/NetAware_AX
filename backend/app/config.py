@@ -11,6 +11,7 @@ MODEL_DIR = DATA_DIR / "model"
 CATALOG_DIR = DATA_DIR / "catalog"
 SCHEMAS_DIR = DATA_DIR / "schemas"
 PROFILES_DIR = DATA_DIR / "profiles"
+GUIDED_DIR = DATA_DIR / "guided"
 MANIFEST_PATH = OPENAPI_DIR / "manifest.yaml"
 PIN_PATH = OPENAPI_DIR / "AX_PIN.yaml"
 ACTIVE_CATALOG_PATH = CATALOG_DIR / "ax-active-catalog.yaml"
@@ -22,7 +23,7 @@ APP_VERSION = "0.6.1-ax6.1"
 BUILD_ID = os.getenv("BUILD_ID", "ax6.1")
 PRODUCT_BEHAVIOR_FROZEN = True
 MODEL_CADENCE = 7
-UI_CADENCE = 9
+UI_CADENCE = 17
 
 
 def _csv(name: str, default: str) -> list[str]:
@@ -39,8 +40,9 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
 
 def demo_basic_credentials() -> tuple[str, str] | None:
-    user = os.getenv("DEMO_USERNAME", "").strip()
-    password = os.getenv("DEMO_PASSWORD", "").strip()
+    """Server-side demo gate only. Never log or return these values."""
+    user = (os.getenv("BASIC_AUTH_USERNAME") or os.getenv("DEMO_USERNAME") or "").strip()
+    password = (os.getenv("BASIC_AUTH_PASSWORD") or os.getenv("DEMO_PASSWORD") or "").strip()
     if user and password:
         return user, password
     return None

@@ -19,3 +19,33 @@ enterprises:
     domainId: healthcare
     fictional: true
     note: Fictional enterprise. No real customer name.
+  - id: megamart-retail
+    label: MegaMart
+    domainId: retail
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: northstar-insurance
+    label: Northstar Insurance
+    domainId: insurance
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: swiftship-logistics
+    label: SwiftShip Logistics
+    domainId: logistics
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: apex-media
+    label: Apex Media
+    domainId: media
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: harbor-facilities
+    label: Harbor Facilities
+    domainId: facilities
+    fictional: true
+    note: Fictional enterprise. No real customer name.
+  - id: buildright-construction
+    label: BuildRight Construction
+    domainId: construction
+    fictional: true
+    note: Fictional enterprise. No real customer name.

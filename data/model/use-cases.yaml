@@ -25,14 +25,14 @@ useCases:
     existingApis: [{ kind: ENTERPRISE, name: IAM / Sign-in }]
     networkComplement: Silent number possession verification complements the bank's IAM. It does not replace it. The application does not choose NV1 or NV2.
   - id: baggage-connection
-    label: Baggage connection
+    label: Baggage handling / ramp device operability
     domainId: airlines
-    existingSystems: [Baggage Operations, Flight Operations, Ground Operations]
+    existingSystems: [BRS, DCS, Ground Operations, Handheld / scanner assignment]
     existingApis:
-      - { kind: DOMAIN, name: Baggage Journey }
-      - { kind: DOMAIN, name: Flight Status }
+      - { kind: DOMAIN, name: BRS }
+      - { kind: DOMAIN, name: DCS }
       - { kind: ENTERPRISE, name: Ground Operations }
-    networkComplement: Presence and reachability complement bag/flight/ground systems. They do not replace them.
+    networkComplement: DATA reachability of the assigned ramp scanner complements BRS/DCS. It does not track bags or replace airline systems.
   - id: locate-baggage
     label: Locate baggage
     domainId: airlines
@@ -59,16 +59,27 @@ useCases:
       - { kind: DOMAIN, name: QMS }
       - { kind: ENTERPRISE, name: Camera control }
     networkComplement: QoD, Connectivity Insights, Application Profiles and edge discovery can complement plant video. They do not replace MES or QMS. Insights/Profiles are CURRENT_FOCUS with experimental CAMARA maturity.
+  - id: fleet-firmware-rollout
+    label: Fleet firmware rollout
+    domainId: manufacturing
+    existingSystems: [Device Management / OTA Platform, Inventory, Device Twin, Firmware Campaign]
+    existingApis:
+      - { kind: ENTERPRISE, name: Device Management / OTA Platform }
+      - { kind: ENTERPRISE, name: Device inventory }
+      - { kind: ENTERPRISE, name: Device twin }
+      - { kind: ENTERPRISE, name: Firmware campaign }
+    networkComplement: Device Reachability and Roaming Status make an existing OTA campaign network-aware. They do not replace the OTA platform and do not install firmware.
   - id: equipment-on-site
     label: Geofenced equipment
     domainId: construction
     existingApis: [{ kind: ENTERPRISE, name: Asset registry }]
     networkComplement: Geofencing and location verification complement site asset control.
   - id: site-uplink
-    label: Site camera / safety uplink
+    label: Remote field-work connectivity assurance
     domainId: construction
-    existingApis: [{ kind: ENTERPRISE, name: HSE / VMS }]
-    networkComplement: QoD and reachability complement site video systems.
+    existingSystems: [Site operations, HSE / VMS, Equipment assignment]
+    existingApis: [{ kind: ENTERPRISE, name: HSE / VMS }, { kind: ENTERPRISE, name: Site operations }]
+    networkComplement: Reachability, and QoD or Edge only where a genuine Decision Gap exists. EXPLORE — not fake execution.
   - id: shipment-custody
     label: High-value shipment custody
     domainId: warehouse
@@ -80,36 +91,52 @@ useCases:
     existingApis: [{ kind: DOMAIN, name: WMS }]
     networkComplement: QoD and reachability can complement scan sessions.
   - id: checkout-trust
-    label: Checkout trust
+    label: High-risk checkout trust
     domainId: retail
-    existingSystems: [POS / Payments, Fraud]
-    existingApis: [{ kind: DOMAIN, name: POS / Payments }, { kind: ENTERPRISE, name: Fraud }]
-    networkComplement: Same identity-continuity APIs as banking, different enterprise.
+    existingSystems: [Checkout, Order, Payment, Fraud / risk engine]
+    existingApis:
+      - { kind: DOMAIN, name: Checkout }
+      - { kind: DOMAIN, name: Order }
+      - { kind: DOMAIN, name: Payment }
+      - { kind: ENTERPRISE, name: Fraud / risk engine }
+    networkComplement: Recent SIM/device continuity complements the retail fraud engine. It does not replace it and does not decline the purchase.
   - id: claim-device-trust
-    label: FNOL device continuity
+    label: Digital claim trust
     domainId: insurance
-    existingApis: [{ kind: DOMAIN, name: Claims / FNOL }]
-    networkComplement: SIM/device swap evidence complements claims fraud models.
+    existingSystems: [Policy administration, Claims / FNOL, Customer identity]
+    existingApis:
+      - { kind: DOMAIN, name: Policy administration }
+      - { kind: DOMAIN, name: Claims / FNOL }
+      - { kind: ENTERPRISE, name: Customer identity }
+    networkComplement: SIM/device continuity evidence is returned to claims. Network APIs do not determine whether a claim is fraudulent.
   - id: claim-location-consistency
     label: Claim location consistency
     domainId: insurance
     existingApis: [{ kind: DOMAIN, name: Claims }]
     networkComplement: Location verification and roaming complement claimed incident geography.
   - id: telehealth-session
-    label: Telehealth session quality
+    label: Connected telehealth readiness
     domainId: healthcare
-    existingApis: [{ kind: DOMAIN, name: Telehealth }]
-    networkComplement: QoD, Connectivity Insights and edge can complement clinical video. Insights/Profiles are CURRENT_FOCUS with experimental CAMARA maturity.
+    existingSystems: [Eligibility, Scheduling, Telehealth platform]
+    existingApis:
+      - { kind: DOMAIN, name: Eligibility }
+      - { kind: ENTERPRISE, name: Scheduling }
+      - { kind: ENTERPRISE, name: Telehealth platform }
+    networkComplement: QoD is only relevant if a session SLO exists. NetAware does not make medical outcome claims. Insights remain experimental.
   - id: home-care-visit
     label: Home-care visit verify
     domainId: healthcare
     existingApis: [{ kind: ENTERPRISE, name: Scheduling }]
     networkComplement: Geofence/location verification complements visit confirmation when consent exists.
   - id: live-broadcast
-    label: Live broadcast / contribution
+    label: Live contribution assurance
     domainId: media
-    existingApis: [{ kind: ENTERPRISE, name: Broadcast control }]
-    networkComplement: QoD, profiles and edge complement contribution links.
+    existingSystems: [Production control, Encoder, Stream workflow]
+    existingApis:
+      - { kind: ENTERPRISE, name: Production control }
+      - { kind: ENTERPRISE, name: Encoder }
+      - { kind: ENTERPRISE, name: Stream workflow }
+    networkComplement: QoD can help maintain a contribution SLO. It does not take the production to air. Insights remain experimental.
   - id: venue-experience
     label: Dense-crowd venue experience
     domainId: stadium
@@ -125,3 +152,39 @@ useCases:
     domainId: healthcare
     existingApis: [{ kind: DOMAIN, name: Pharmacy }]
     networkComplement: Age Verification can complement pharmacist eligibility. Spec maturity is experimental.
+  - id: delivery-device-readiness
+    label: Delivery device readiness
+    domainId: logistics
+    existingSystems: [Dispatch, Route, Delivery workflow, Driver assignment, Proof-of-delivery]
+    existingApis:
+      - { kind: DOMAIN, name: Dispatch }
+      - { kind: DOMAIN, name: Route }
+      - { kind: ENTERPRISE, name: Driver assignment }
+      - { kind: DOMAIN, name: Proof-of-delivery }
+    networkComplement: Device DATA reachability of the assigned handheld complements dispatch. It does not reroute the delivery.
+  - id: ground-device-readiness
+    label: Connected turnaround / ground device readiness
+    domainId: airlines
+    existingSystems: [Ground Operations, GSE / handheld assignment, DCS]
+    existingApis:
+      - { kind: ENTERPRISE, name: Ground Operations }
+      - { kind: ENTERPRISE, name: GSE assignment }
+      - { kind: DOMAIN, name: DCS }
+    networkComplement: Reachability of the assigned ground handheld complements turnaround ops. It is not bag tracking and does not replace Baggage Operations.
+  - id: connected-maintenance
+    label: Connected maintenance / field technician workflow
+    domainId: manufacturing
+    existingSystems: [CMMS, Work order, Technician assignment, Device management]
+    existingApis:
+      - { kind: DOMAIN, name: CMMS }
+      - { kind: ENTERPRISE, name: Work order }
+      - { kind: ENTERPRISE, name: Technician assignment }
+    networkComplement: Reachability of the assigned technician handheld. QoD is not used unless a workflow SLO exists.
+  - id: critical-equipment-reachability
+    label: Critical connected equipment reachability
+    domainId: facilities
+    existingSystems: [Building management, Equipment registry, Facilities work order]
+    existingApis:
+      - { kind: ENTERPRISE, name: Building management }
+      - { kind: ENTERPRISE, name: Equipment registry }
+    networkComplement: Reachability of critical connected equipment. Roaming only if the device model is cellular/mobile.

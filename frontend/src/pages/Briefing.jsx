@@ -16,11 +16,22 @@ function NetworkRolePill({ role, rolesMeta }) {
   );
 }
 
+const PROVES = {
+  "passwordless-mobile-sign-in": "ONE INTENT CAN BE FULFILLED DIFFERENTLY ACROSS NETWORK CONDITIONS.",
+  "high-value-payment-protection": "SELECTIVE EVIDENCE. THE ENTERPRISE STILL OWNS THE FINANCIAL DECISION.",
+  "baggage-connection": "A SIMPLE NETWORK SIGNAL CAN IMPROVE AN EXISTING OPERATIONAL WORKFLOW.",
+  "critical-inspection-camera": "CLOSED-LOOP AGENTIC NETWORK ACTION.",
+  "fleet-firmware-rollout": "ONE INTENT CAN ORCHESTRATE NETWORK READINESS ACROSS A DEVICE FLEET.",
+  "pharmacy-age-gate": "CAPABILITY MINIMIZATION AND GOVERNANCE.",
+  "account-recovery-anomaly": "FRESH EVIDENCE CAN BE REUSED. NOT EVERY INTENT CAUSES ANOTHER NETWORK CALL.",
+};
+
 const RUNNABLE = new Set([
   "rocket-bank/high-value-payment-protection",
   "rocket-bank/passwordless-mobile-sign-in",
   "high-flight-airlines/baggage-connection",
   "acme-manufacturing/critical-inspection-camera",
+  "acme-manufacturing/fleet-firmware-rollout",
   "citycare-health/pharmacy-age-gate",
   "rocket-bank/account-recovery-anomaly",
 ]);
@@ -47,8 +58,10 @@ export default function Briefing({ enterpriseId, useCaseId }) {
   const framing = data.networkValueFraming || {};
   const rolesMeta = data.networkRoles || {};
   const key = `${enterpriseId}/${useCaseId}`;
-  const runnable = RUNNABLE.has(key);
+  const runnable = Boolean(data.runnable || data.secondaryDemo);
   const isSecondary = data.secondaryDemo;
+  const maturity = data.maturity;
+  const exploreOnly = data.exploreOnly || maturity === "EXPLORE";
 
   return (
     <div>
@@ -57,6 +70,17 @@ export default function Briefing({ enterpriseId, useCaseId }) {
         <span>{data.enterprise?.label}</span>
       </h1>
       <p className="tiny">Use case · {data.useCase?.label}</p>
+      {PROVES[useCaseId] ? (
+        <p className="banner">
+          <strong>This proves:</strong> {PROVES[useCaseId]}
+        </p>
+      ) : null}
+      {maturity ? (
+        <div className="chips" style={{ marginBottom: 12 }}>
+          <Pill tone={maturity === "LIVE" ? "ok" : maturity === "GUIDED" ? "warn" : "muted"}>{maturity}</Pill>
+          {data.complexity ? <Pill>{data.complexity}</Pill> : null}
+        </div>
+      ) : null}
 
       <div className="banner intent-def">
         {framing.intentLine ||
@@ -186,7 +210,10 @@ export default function Briefing({ enterpriseId, useCaseId }) {
               {(known.rows || []).map((row) => (
                 <div key={row.label} style={{ display: "contents" }}>
                   <dt>{row.label}</dt>
-                  <dd>{row.value}</dd>
+                  <dd>
+                    {row.value}
+                    {row.tmf931 ? <span className="tiny"> · {row.tmf931}</span> : null}
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -268,6 +295,12 @@ export default function Briefing({ enterpriseId, useCaseId }) {
               <a href={href("/explore/intents/assess_recovery_continuity")}>
                 <button type="button">Explorer</button>
               </a>
+              <a href={href(data.coverageHref || `/coverage/enterprise/${enterpriseId}/use-case/${useCaseId}`)}>
+                <button type="button">See Fulfillment Coverage</button>
+              </a>
+              <a href={href(data.demandHref || `/demand/enterprise/${enterpriseId}`)}>
+                <button type="button">See Demand</button>
+              </a>
             </div>
           </div>
         ) : runnable ? (
@@ -282,6 +315,28 @@ export default function Briefing({ enterpriseId, useCaseId }) {
                 <button type="button">See evidence reuse</button>
               </a>
             ) : null}
+            <a href={href(data.coverageHref || `/coverage/enterprise/${enterpriseId}/use-case/${useCaseId}`)}>
+              <button type="button">See Fulfillment Coverage</button>
+            </a>
+            <a href={href(data.demandHref || `/demand/enterprise/${enterpriseId}`)}>
+              <button type="button">See Demand</button>
+            </a>
+          </div>
+        ) : exploreOnly ? (
+          <div className="panel">
+            <p className="kicker">EXPLORE · mapped opportunity</p>
+            <p className="tiny">
+              This is not a live or guided execution. {data.decisionGap || data.complementNote}
+            </p>
+            <a href={href(`/explore/intents/${intent.id}`)}>
+              <button type="button">Open in Explorer</button>
+            </a>
+            <a href={href(data.coverageHref || `/coverage/enterprise/${enterpriseId}/use-case/${useCaseId}`)}>
+              <button type="button">See Fulfillment Coverage</button>
+            </a>
+            <a href={href(data.demandHref || `/demand/enterprise/${enterpriseId}`)}>
+              <button type="button">See Demand</button>
+            </a>
           </div>
         ) : (
           <p className="tiny">Configuration only — explore mapping in Explorer.</p>

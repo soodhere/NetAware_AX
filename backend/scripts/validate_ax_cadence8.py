@@ -47,7 +47,7 @@ HEROES = [
         },
     ),
     (
-        "AT_RISK",
+        "CONTINUE" if UI_CADENCE >= 10 else "AT_RISK",
         {
             "intent": "ensure_baggage_connection",
             "subject": {"bagId": "HF123456", "connectingFlight": "HF281"},
@@ -107,7 +107,7 @@ def check_health() -> None:
             fail(f"modelCadence {h.get('modelCadence')}")
         else:
             ok("modelCadence 7 (discovery enums)")
-        if h.get("uiCadence") not in {8, 9} or UI_CADENCE < 8:
+        if h.get("uiCadence") not in {8, 9, 10, 11, 12, 13, 14, 15, 16, 17} or UI_CADENCE < 8:
             fail(f"uiCadence {h.get('uiCadence')}")
         else:
             ok(f"uiCadence {h.get('uiCadence')}")
@@ -227,7 +227,18 @@ def check_live_discovery() -> None:
 
         hf = traces.get("ensure_baggage_connection") or {}
         hf_sel = {e.get("capability"): e.get("reasonCode") for e in (hf.get("discovery") or []) if e.get("stage") == "SELECT"}
-        if hf_sel.get("location_verification") != "CONSENT_MISSING":
+        if UI_CADENCE >= 10:
+            if hf_sel.get("location_verification") != "NOT_REQUIRED":
+                fail(f"High Flight location {hf_sel.get('location_verification')}")
+            elif hf_sel.get("quality_on_demand") != "NOT_REQUIRED":
+                fail(f"High Flight QoD {hf_sel.get('quality_on_demand')}")
+            elif hf_sel.get("device_reachability") != "SELECTED":
+                fail(f"High Flight selected {hf_sel}")
+            elif hf_sel.get("connectivity_insights") not in {None, "NOT_REQUIRED"}:
+                fail(f"High Flight connectivity should be NOT_REQUIRED: {hf_sel.get('connectivity_insights')}")
+            else:
+                ok("High Flight: reachability selected; location/QoD/connectivity NOT_REQUIRED")
+        elif hf_sel.get("location_verification") != "CONSENT_MISSING":
             fail(f"High Flight location {hf_sel.get('location_verification')}")
         elif hf_sel.get("quality_on_demand") != "NOT_REQUIRED":
             fail(f"High Flight QoD {hf_sel.get('quality_on_demand')}")

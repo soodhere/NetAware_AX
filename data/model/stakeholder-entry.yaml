@@ -1,0 +1,239 @@
+# Cadence 15 — presentation overlay only.
+# Does not change runtime, coverage, demand, catalog, policy, or Intent execution.
+# Not a tenant model. Not Meeting Mode. Not revenue.
+
+source: CONFIGURATION
+cadence: 15
+presentationOnly: true
+doesNotAlterRuntime: true
+doesNotAlterCoverage: true
+doesNotAlterDemand: true
+notTenant: true
+notMeetingMode: true
+notAuthorization: true
+
+productStatement: NetAware connects enterprise demand to network supply.
+fromLine: From Network APIs to business outcomes
+welcome: Welcome to NetAware AX
+question: What perspective would you like to explore?
+honesty: >
+  Stakeholder choice is presentation context for this sales demo.
+  It is not a login as Rocket Bank, Provider A, or Aggregator A.
+  The product, data, Intents, coverage, demand, and Explorer stay the same.
+
+chain:
+  - Business Intent
+  - Network Decision Gap
+  - Capability Discovery
+  - Governance
+  - Operator / Aggregator Supply
+  - Fulfillment
+  - Business Outcome
+
+productMap:
+  - { id: business, label: BUSINESS }
+  - { id: portfolio, label: PORTFOLIO }
+  - { id: intent, label: INTENT }
+  - { id: discovery, label: DISCOVERY }
+  - { id: fulfillment, label: FULFILLMENT }
+  - { id: outcome, label: OUTCOME }
+
+productMapSides:
+  explorer: Explorer is shared product knowledge.
+  demand: Demand Map is demand/supply intelligence.
+
+storyBeats:
+  - BUSINESS NEED
+  - NETWORK DECISION GAP
+  - NETAWARE DISCOVERS / GOVERNS / FULFILLS
+  - BUSINESS OUTCOME
+  - WHY THIS MATTERS
+
+storyLength:
+  core: CORE STORY
+  optional: OPTIONAL DRILL-DOWNS
+  note: Structure only. No timers. Meeting Mode is not implemented.
+
+dxAx:
+  dx: Developer chooses APIs and implements flows.
+  ax: Application expresses business Intent. NetAware determines what matters, whether it is permitted and available, where to fulfill it, whether evidence can be reused, and whether action is authorized.
+  complement: The AX layer sits above and complements Network API DX. Developers do not disappear.
+  consumers: Intent consumers can include applications or authorized agents.
+
+agentic:
+  - APPLICATION / AGENT
+  - INTENT
+  - CONFIGURED KNOWLEDGE
+  - CAPABILITY DISCOVERY
+  - POLICY / GOVERNANCE
+  - TOOL / API SELECTION
+  - EXECUTION OR REUSE
+  - REPLAN WHEN REQUIRED
+  - BOUNDED ACTION
+  - VERIFICATION
+  - OUTCOME
+
+discovery:
+  - APPLICATION / INTENT
+  - POTENTIALLY RELEVANT CAPABILITIES
+  - CONFIGURED ELIGIBILITY
+  - RUNTIME FEASIBILITY
+  - SELECT / CALL / REUSE / SKIP / FILTER / UNAVAILABLE
+
+threePerspectives:
+  need: Rocket Bank wants silent mobile number verification.
+  enterprise: "I need to verify this number."
+  netaware: Intent → discovery → governance → operator → NV path
+  operator: "I expose Number Verification and NV2 readiness."
+  aggregator: "I can route this capability across supported networks."
+  close: Fulfilled business Intent.
+
+why:
+  close: NetAware connects enterprise demand to network supply.
+  shared:
+    - BUSINESS INTENT
+    - NETWORK CAPABILITY DEMAND
+    - GOVERNED DISCOVERY
+    - OPERATOR / AGGREGATOR SUPPLY
+    - FULFILLMENT
+    - BUSINESS OUTCOME
+  enterprise: I should not need to understand every Network API and operator implementation.
+  operator: I need to know where my network capabilities map to real enterprise applications.
+  aggregator: I need to normalize fragmented operator supply across markets.
+
+audiences:
+  enterprise:
+    id: enterprise
+    label: ENTERPRISE
+    blurb: Find where network capabilities can improve your applications and business decisions.
+    headline: Start with your application, not a Network API.
+    cta: See how an application uses network intelligence
+    recommendedHref: /demo/rocket-bank/passwordless-mobile-sign-in
+    recommendedLabel: Rocket Bank Mobile Sign-In
+    exploreMoreHref: /demo
+    explorer:
+      - { href: /explore/use-cases, label: Explore Applications }
+      - { href: /explore/intents, label: Explore Intents }
+      - { href: /demo, label: Explore Business Motions }
+    cards:
+      - { kicker: DIGITAL IDENTITY, question: "Can I silently verify this customer's mobile number?", href: /demo/rocket-bank/passwordless-mobile-sign-in }
+      - { kicker: CONNECTED DEVICE OPERATIONS, question: "Which devices are suitable for this firmware rollout now?", href: /demo/acme-manufacturing/fleet-firmware-rollout }
+      - { kicker: BAGGAGE OPERATIONS, question: "Can the assigned ramp scanner complete the digital workflow?", href: /demo/high-flight-airlines/baggage-connection }
+      - { kicker: QUALITY INSPECTION, question: "Can the network restore the application's required experience?", href: /demo/acme-manufacturing/critical-inspection-camera }
+  operator:
+    id: operator
+    label: NETWORK OPERATOR
+    blurb: See what enterprise demand your network capabilities can fulfill — and what additional enablement could unlock.
+    headline: Turn network capabilities into enterprise outcomes.
+    cta: See what enterprise demand your network can enable
+    recommendedHref: /demand/capabilities/number_possession_verification
+    recommendedLabel: Number Verification / NV1-NV2 / ECS
+    exploreMoreHref: /demand
+    explorer:
+      - { href: /explore/capabilities, label: Explore Capabilities }
+      - { href: /demand, label: Explore Demand }
+      - { href: /coverage, label: Explore Coverage }
+    questions:
+      - What can my network enable today?
+      - Where is there qualified enterprise demand?
+      - What readiness gap is preventing fulfillment?
+    tiles:
+      - { label: NUMBER VERIFICATION, href: /demand/capabilities/number_possession_verification }
+      - { label: DEVICE REACHABILITY, href: /demand/capabilities/device_reachability }
+      - { label: SIM CONTINUITY, href: /demand/capabilities/sim_continuity }
+      - { label: ROAMING STATUS, href: /demand/capabilities/roaming_status }
+      - { label: QUALITY ON DEMAND, href: /demand/capabilities/quality_on_demand }
+  aggregator:
+    id: aggregator
+    label: AGGREGATOR
+    blurb: See how multi-operator supply can fulfill enterprise Intents across regions.
+    headline: Turn fragmented network supply into consistent enterprise fulfillment.
+    cta: See how multi-operator supply fulfills enterprise Intents
+    recommendedHref: /coverage/providers/simulated-aggregator-b
+    recommendedLabel: Multi-region capability fulfillment
+    exploreMoreHref: /coverage
+    explorer:
+      - { href: /explore/providers, label: Explore Providers }
+      - { href: /demand/regions/DE, label: Explore Regions }
+      - { href: /explore/providers, label: Explore Routes }
+    wording: ROUTED THROUGH / NORMALIZED THROUGH / AVAILABLE VIA
+    doesNotOwnApis: true
+
+stories:
+  enterprise-nv:
+    audience: enterprise
+    title: Rocket Bank Digital Identity
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: Customer wants passwordless mobile sign-in. The application asks to verify this mobile number. }
+      - { beat: NETWORK DECISION GAP, line: The application does not ask for NV1, NV2, TS.43, ECS, or an operationId. }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: NetAware determines access context, operator, API availability, and path readiness. Cellular uses NV1. Wi-Fi uses NV2. Wi-Fi plus an operator readiness gap is capability unavailable. }
+      - { beat: BUSINESS OUTCOME, line: One business Intent. Different network conditions. NetAware selects the feasible path. }
+      - { beat: WHY THIS MATTERS, line: The enterprise stays in its application. NetAware handles network fulfillment. }
+    optional:
+      - { label: Run the live Intent, href: /demo/rocket-bank/passwordless-mobile-sign-in/run }
+      - { label: See fulfillment coverage, href: /coverage/enterprise/rocket-bank }
+  operator-nv:
+    audience: operator
+    title: Number Verification enablement
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: Configured enterprise demand is silent number verification. }
+      - { beat: NETWORK DECISION GAP, line: API exposure is only one part of fulfillment. }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: "Provider A: NV API available, NV1 ready, NV2 ready, ECS ready. Provider B: NV API available, NV2 supported, ECS not ready." }
+      - { beat: BUSINESS OUTCOME, line: Provider A can fulfill configured cellular and Wi-Fi demand. Provider B cannot fulfill configured Wi-Fi demand. }
+      - { beat: WHY THIS MATTERS, line: Enablement impact is Entitlement Server readiness — not a revenue opportunity. }
+    optional:
+      - { label: Supply-gap impact, href: /demand/gaps/ENTITLEMENT_SERVER_UNAVAILABLE }
+      - { label: Provider B coverage, href: /coverage/providers/simulated-operator-b }
+  enterprise-ota:
+    audience: enterprise
+    title: Acme OTA
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: Safely prepare a firmware rollout cohort. Existing systems already know firmware, compatibility, campaign, and inventory. }
+      - { beat: NETWORK DECISION GAP, line: "Which cellular devices are network-suitable now?" }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: Groups by network, discovers provider capability, checks reachability, uses roaming when campaign policy requires it, reuses fresh evidence, and normalizes routes. }
+      - { beat: BUSINESS OUTCOME, line: A network-qualified cohort. NetAware does not install firmware. }
+      - { beat: WHY THIS MATTERS, line: It adds network readiness to the enterprise OTA decision. }
+    optional:
+      - { label: Run OTA, href: /demo/acme-manufacturing/fleet-firmware-rollout/run }
+      - { label: Provider C demand gap, href: /demand/intents/prepare_ota_cohort }
+  supply-ota:
+    audience: operator
+    title: Acme OTA supply gap
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: Configured OTA qualification needs Reachability and Roaming Status. }
+      - { beat: NETWORK DECISION GAP, line: "Provider C: Reachability available. Roaming not available." }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: 500 simulated devices cannot complete configured network qualification. }
+      - { beat: BUSINESS OUTCOME, line: A 500-device simulated qualified-demand gap. }
+      - { beat: WHY THIS MATTERS, line: Not 500 sales, 500 customers, or lost revenue. }
+    optional:
+      - { label: See the gap, href: /demand/gaps/CAPABILITY_GAP }
+  high-flight:
+    audience: enterprise
+    title: High Flight baggage
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: Business already has BRS, DCS, and ramp assignment. }
+      - { beat: NETWORK DECISION GAP, line: "Can the assigned scanner complete the required digital custody workflow?" }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: Network adds DATA reachability. The network does not track or move the bag. }
+      - { beat: BUSINESS OUTCOME, line: CONTINUE or SWAP DEVICE. }
+      - { beat: WHY THIS MATTERS, line: It tells the baggage workflow whether the assigned connected device is currently reachable for the digital operation. }
+    optional:
+      - { label: Run High Flight, href: /demo/high-flight-airlines/baggage-connection/run }
+  aggregator-multi:
+    audience: aggregator
+    title: Multi-region fulfillment
+    core: true
+    beats:
+      - { beat: BUSINESS NEED, line: An enterprise Intent must be fulfilled across regions without the application choosing operators. }
+      - { beat: NETWORK DECISION GAP, line: Supply is fragmented across networks and routes. }
+      - { beat: NETAWARE DISCOVERS / GOVERNS / FULFILLS, line: Telco Finder, API Finder, then direct or aggregated supply. Aggregator A does not own the operator API. Capability is routed through, normalized through, available via. }
+      - { beat: BUSINESS OUTCOME, line: Configured Intents such as OTA and claims can be fulfilled where the aggregated route exists. }
+      - { beat: WHY THIS MATTERS, line: Fragmented operator supply becomes consistent enterprise fulfillment. }
+    optional:
+      - { label: Aggregator coverage, href: /coverage/providers/simulated-aggregator-b }
+      - { label: Aggregator demand, href: /demand/providers/simulated-aggregator-b }
+      - { label: Northstar Claims, href: /demo/northstar-insurance }

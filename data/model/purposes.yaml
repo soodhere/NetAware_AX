@@ -57,16 +57,16 @@ purposes:
       needsReview: true
 
   - id: baggage_connection_assurance
-    label: Baggage connection assurance
+    label: Ramp scan assurance
     audienceLabel: Service Delivery
     permittedCapabilityFamilies: [LOCATION_AND_MOBILITY, CONNECTIVITY, QUALITY]
     dpv:
       vocabulary: DPV
       version: "2.3"
-      id: dpv:RequestedServiceProvision
-      iri: https://w3id.org/dpv#RequestedServiceProvision
-      label: Requested Service Provision
-      context: Current High Flight baggage-connection hero. No clean DPV baggage/ramp term. Replacement ramp-scanner purpose is modelled separately and is NEEDS_REVIEW.
+      id: dpv:FulfilmentOfContractualObligation
+      iri: https://w3id.org/dpv#FulfilmentOfContractualObligation
+      label: Fulfilment of Contractual Obligation
+      context: IATA Reso 753 custody events require a live handler scanner. Broader than baggage; no dedicated DPV ramp-ops term. NEEDS_REVIEW.
       tmf931Overlap: true
       needsReview: true
 
@@ -97,6 +97,19 @@ purposes:
       context: Restore inspection-camera experience when the network is the limiter. No plant-video DPV term.
       tmf931Overlap: true
 
+  - id: firmware_rollout
+    label: Firmware rollout / device operations
+    audienceLabel: Device operations / service maintenance
+    permittedCapabilityFamilies: [CONNECTIVITY, LOCATION_AND_MOBILITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:ImproveExistingProductsAndServices
+      iri: https://w3id.org/dpv#ImproveExistingProductsAndServices
+      label: Improve Existing Products and Services
+      context: Critical firmware campaign. Network state qualifies which already-eligible devices may enter the OTA cohort now. NetAware does not flash firmware.
+      tmf931Overlap: true
+
   - id: pharmacy_age_eligibility
     label: Pharmacy age eligibility
     audienceLabel: Age assertion
@@ -122,6 +135,20 @@ purposes:
       label: Service Optimisation
       context: Explorer experience/QoD cases (telehealth, venue, broadcast, turnaround video).
       tmf931Overlap: true
+
+  - id: delivery_device_assurance
+    label: Delivery / field device assurance
+    audienceLabel: Service Delivery
+    permittedCapabilityFamilies: [CONNECTIVITY, LOCATION_AND_MOBILITY, QUALITY]
+    dpv:
+      vocabulary: DPV
+      version: "2.3"
+      id: dpv:FulfilmentOfContractualObligation
+      iri: https://w3id.org/dpv#FulfilmentOfContractualObligation
+      label: Fulfilment of Contractual Obligation
+      context: Assigned connected handheld must complete a digital workflow. No dedicated DPV device-operability term — FulfilmentOfContractualObligation is the closest defensible parent. NEEDS_REVIEW.
+      tmf931Overlap: true
+      needsReview: true
 
   - id: age_assertion
     label: Age assertion

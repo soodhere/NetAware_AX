@@ -1,0 +1,603 @@
+# Cadence 12 — configuration consumed by the shared GUIDED interpreter.
+# No custom Python runner per scenario. Deterministic. No LLM. No MCP.
+
+scenarios:
+  - intentId: assure_delivery_device
+    id: swiftship-delivery
+    enterpriseId: swiftship-logistics
+    applicationId: swiftship-delivery-ops
+    agentId: delivery-ops-agent
+    useCaseId: delivery-device-readiness
+    policyId: swiftship-delivery-policy
+    purposeId: delivery_device_assurance
+    complexity: BASIC
+    axBehavior: selection
+    defaultVariant: device-reachable
+    region: CA
+    businessEvent: A high-priority delivery is assigned to a driver and handheld.
+    decisionGap: Dispatch does not independently know whether the assigned mobile device is currently DATA reachable.
+    networkContribution: Device Reachability.
+    close: Dispatch still owns routing. NetAware returns CONTINUE or SWAP_DEVICE.
+    existingSystems:
+      - { id: dispatch, label: Dispatch, kind: DOMAIN }
+      - { id: route, label: Route, kind: DOMAIN }
+      - { id: delivery, label: Delivery workflow, kind: DOMAIN }
+      - { id: driver, label: Driver assignment, kind: ENTERPRISE }
+      - { id: pod, label: Proof-of-delivery, kind: DOMAIN }
+    domainOperations:
+      - operationId: getDispatchAssignment
+        label: Dispatch assignment
+        apiKind: DOMAIN
+        simulatedEnterpriseApi: true
+        owner: Dispatch
+      - operationId: getAssignedHandheld
+        label: Device assignment
+        apiKind: ENTERPRISE
+        simulatedEnterpriseApi: true
+        owner: Driver assignment
+    telcoFinder:
+      neededBecause: Assigned handheld has a network identity. Telco Finder names the serving operator.
+      input: device SS-HDL-4412
+      result:
+        network: Network Provider A
+        providerId: simulated-operator-a
+        region: CA
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: device_reachability
+        action: CALL
+        reason: Minimum evidence for whether the assigned handheld can complete the digital delivery workflow.
+      - capabilityId: quality_on_demand
+        action: SKIP
+        reason: No delivery SLO is configured. QoD would not change CONTINUE vs SWAP_DEVICE.
+    networkRoutes:
+      getReachabilityStatus:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+    variants:
+      device-reachable:
+        label: Handheld reachable
+        outcome:
+          outcome: CONTINUE
+          recommendedAction: CONTINUE_ASSIGNED_DEVICE
+          decisionOwner: SWIFTSHIP_DISPATCH
+          reasonCodes: [DEVICE_DATA_REACHABLE]
+          summary: Assigned handheld SS-HDL-4412 is DATA reachable. Dispatch may continue the digital delivery workflow.
+          confidence: 0.92
+        evidence:
+          getReachabilityStatus:
+            latencyMs: 38
+            httpStatus: 200
+            raw: { connectivityStatus: CONNECTED, reachable: true }
+            evidence: { type: DEVICE_REACHABILITY, status: REACHABLE, deviceId: SS-HDL-4412 }
+      device-unreachable:
+        label: Handheld unreachable
+        outcome:
+          outcome: SWAP_DEVICE
+          recommendedAction: SWAP_DEVICE
+          decisionOwner: SWIFTSHIP_DISPATCH
+          reasonCodes: [DEVICE_NOT_DATA_REACHABLE]
+          summary: Assigned handheld SS-HDL-4412 is not DATA reachable. Dispatch should swap to a ready device or use offline fallback.
+          confidence: 0.9
+        evidence:
+          getReachabilityStatus:
+            latencyMs: 41
+            httpStatus: 200
+            raw: { connectivityStatus: UNREACHABLE, reachable: false }
+            evidence: { type: DEVICE_REACHABILITY, status: UNREACHABLE, deviceId: SS-HDL-4412 }
+    request:
+      intent: assure_delivery_device
+      subject: { jobId: SS-JOB-8814, deviceId: SS-HDL-4412, driverId: DR-204 }
+      context: { priority: HIGH, guidedVariant: device-reachable }
+    correlation:
+      executionId: ax-ss-delivery-001
+      traceId: ax-ss-delivery-trace
+      correlationId: SS-JOB-8814-ax
+    autonomy:
+      observe_and_assess: ACT
+      recommend_swap_device: ACT
+      reroute_delivery: NOT_AUTHORIZED
+      selectedAction: observe_and_assess
+      selectedLevel: ACT
+      note: Agent may assess device reachability. Dispatch owns routing and device swap.
+    visual:
+      world: delivery-ops
+      deviceLabel: Handheld SS-HDL-4412
+      jobLabel: Job SS-JOB-8814
+      alreadyHave: [Dispatch, Route, Driver assignment, Proof-of-delivery]
+      gap: Is the assigned handheld DATA reachable?
+      adds: Device Reachability
+      notACloneOf: high-flight-baggage
+
+  - intentId: assess_checkout_trust
+    id: megamart-checkout
+    enterpriseId: megamart-retail
+    applicationId: megamart-checkout-risk
+    agentId: checkout-risk-agent
+    useCaseId: checkout-trust
+    policyId: megamart-checkout-policy
+    purposeId: identity_continuity_assist
+    complexity: COMPOSED
+    axBehavior: filtering
+    defaultVariant: sim-recent-change
+    region: CA
+    businessEvent: A high-risk checkout is submitted.
+    decisionGap: Checkout and the fraud engine do not independently know recent SIM/device continuity.
+    networkContribution: Trust evidence from SIM / device continuity. Location is consent-filtered.
+    close: MegaMart fraud engine still owns accept/decline. NetAware recommends NORMAL or STEP_UP.
+    existingSystems:
+      - { id: checkout, label: Checkout, kind: DOMAIN }
+      - { id: order, label: Order, kind: DOMAIN }
+      - { id: payment, label: Payment, kind: DOMAIN }
+      - { id: fraud, label: Fraud / risk engine, kind: ENTERPRISE }
+    domainOperations:
+      - operationId: getCheckoutContext
+        label: Checkout context
+        apiKind: DOMAIN
+        simulatedEnterpriseApi: true
+        owner: Checkout
+      - operationId: getFraudScore
+        label: Fraud engine score
+        apiKind: ENTERPRISE
+        simulatedEnterpriseApi: true
+        owner: Fraud / risk engine
+    telcoFinder:
+      neededBecause: Checkout includes a claimed mobile number.
+      input: "+1••••••5521"
+      result:
+        network: Network Provider A
+        providerId: simulated-operator-a
+        region: CA
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: number_possession_verification
+        action: CALL
+        reason: Confirm claimed number possession for this checkout session.
+      - capabilityId: sim_continuity
+        action: CALL
+        reason: Recent SIM continuity is the Decision Gap for high-risk checkout.
+      - capabilityId: device_continuity
+        action: CALL
+        reason: Device continuity complements SIM evidence.
+      - capabilityId: location_verification
+        action: FILTER
+        reason: Location consent required and unavailable. FILTER — not CALL.
+    networkRoutes:
+      phoneNumberVerify:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+      checkSimSwap:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+      checkDeviceSwap:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+    variants:
+      sim-recent-change:
+        label: Recent SIM change
+        outcome:
+          outcome: STEP_UP
+          recommendedAction: STEP_UP
+          decisionOwner: MEGAMART_FRAUD
+          reasonCodes: [SIM_CONTINUITY_CHANGED]
+          summary: Network evidence shows recent SIM continuity change. Recommend step-up. MegaMart owns the purchase decision.
+          confidence: 0.88
+        evidence:
+          phoneNumberVerify:
+            latencyMs: 42
+            httpStatus: 200
+            raw: { devicePhoneNumberVerified: true }
+            evidence: { type: NUMBER_POSSESSION, status: MATCH }
+          checkSimSwap:
+            latencyMs: 40
+            httpStatus: 200
+            raw: { swapped: true }
+            evidence: { type: SIM_CONTINUITY, status: RECENT_CHANGE }
+          checkDeviceSwap:
+            latencyMs: 39
+            httpStatus: 200
+            raw: { swapped: false }
+            evidence: { type: DEVICE_CONTINUITY, status: STABLE }
+    request:
+      intent: assess_checkout_trust
+      subject: { orderId: MM-88421, phoneNumber: "+1••••••5521" }
+      context: { amount: 1840, currency: "CAD", guidedVariant: sim-recent-change }
+    correlation:
+      executionId: ax-mm-checkout-001
+      traceId: ax-mm-checkout-trace
+      correlationId: MM-88421-ax
+    autonomy:
+      gather_network_evidence: ACT
+      recommend_step_up: RECOMMEND
+      decline_purchase: NOT_AUTHORIZED
+      selectedAction: recommend_step_up
+      selectedLevel: RECOMMEND
+      note: Agent may recommend step-up. Retail fraud engine owns accept/decline.
+    visual:
+      world: checkout
+      alreadyHave: [Checkout, Payment, Fraud engine]
+      gap: Recent SIM / device continuity
+      adds: Trust evidence
+
+  - intentId: assess_claim_device_trust
+    id: northstar-claims
+    enterpriseId: northstar-insurance
+    applicationId: northstar-claims
+    agentId: claims-trust-agent
+    useCaseId: claim-device-trust
+    policyId: northstar-claims-policy
+    purposeId: identity_continuity_assist
+    complexity: COMPOSED
+    axBehavior: multi-provider-normalization
+    defaultVariant: evidence-returned
+    region: DE
+    businessEvent: A digital claim is submitted from a customer handset.
+    decisionGap: Claims does not independently know recent SIM/device continuity of the reporting handset.
+    networkContribution: SIM / device evidence returned to claims. Does not determine whether the claim is fraudulent.
+    close: Claims still owns accept/deny. NetAware returns network evidence.
+    existingSystems:
+      - { id: policy, label: Policy administration, kind: DOMAIN }
+      - { id: claim, label: Claims / FNOL, kind: DOMAIN }
+      - { id: identity, label: Customer identity, kind: ENTERPRISE }
+    domainOperations:
+      - operationId: getClaimContext
+        label: Claim context
+        apiKind: DOMAIN
+        simulatedEnterpriseApi: true
+        owner: Claims / FNOL
+      - operationId: getPolicyContext
+        label: Policy context
+        apiKind: DOMAIN
+        simulatedEnterpriseApi: true
+        owner: Policy administration
+    telcoFinder:
+      neededBecause: Claim includes a reporting MSISDN.
+      input: "+49••••••4410"
+      result:
+        network: Network Provider B via Aggregator A
+        providerId: simulated-aggregator-b
+        region: DE
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: sim_continuity
+        action: CALL
+        reason: SIM continuity evidence for the reporting handset.
+      - capabilityId: device_continuity
+        action: CALL
+        reason: Device continuity complements SIM evidence.
+      - capabilityId: roaming_status
+        action: SKIP
+        reason: Roaming would not change the evidence returned to claims in this configuration.
+    networkRoutes:
+      checkSimSwap:
+        routeType: AGGREGATED
+        providerId: simulated-aggregator-b
+        providerLabel: Network Provider B
+        aggregatorLabel: Aggregator A
+        routeDisplay: Enterprise → NetAware → Aggregator A → Network Provider B
+      checkDeviceSwap:
+        routeType: AGGREGATED
+        providerId: simulated-aggregator-b
+        providerLabel: Network Provider B
+        aggregatorLabel: Aggregator A
+        routeDisplay: Enterprise → NetAware → Aggregator A → Network Provider B
+    variants:
+      evidence-returned:
+        label: Evidence returned
+        outcome:
+          outcome: NETWORK_EVIDENCE_RETURNED
+          recommendedAction: CLAIMS_REVIEW_WITH_NETWORK_EVIDENCE
+          decisionOwner: NORTHSTAR_CLAIMS
+          reasonCodes: [SIM_DEVICE_EVIDENCE_RETURNED]
+          summary: Network identity-continuity evidence returned to claims. This does not determine whether the claim is fraudulent.
+          confidence: 0.9
+        evidence:
+          checkSimSwap:
+            latencyMs: 55
+            httpStatus: 200
+            raw: { swapped: false }
+            evidence: { type: SIM_CONTINUITY, status: STABLE }
+          checkDeviceSwap:
+            latencyMs: 52
+            httpStatus: 200
+            raw: { swapped: false }
+            evidence: { type: DEVICE_CONTINUITY, status: STABLE }
+    request:
+      intent: assess_claim_device_trust
+      subject: { claimId: NS-CL-1902, phoneNumber: "+49••••••4410" }
+      context: { guidedVariant: evidence-returned, region: DE }
+    correlation:
+      executionId: ax-ns-claim-001
+      traceId: ax-ns-claim-trace
+      correlationId: NS-CL-1902-ax
+    autonomy:
+      gather_network_evidence: ACT
+      return_network_evidence: ACT
+      accept_or_deny_claim: NOT_AUTHORIZED
+      selectedAction: return_network_evidence
+      selectedLevel: ACT
+      note: Agent may return network evidence. Claims owns accept/deny. Network APIs do not determine fraud.
+    visual:
+      world: claims
+      alreadyHave: [Policy, Claim, Customer identity]
+      gap: SIM / device continuity of the reporting handset
+      adds: Trust evidence via Aggregator A
+      route: aggregated
+
+  - intentId: assure_ground_device
+    id: high-flight-ground
+    enterpriseId: high-flight-airlines
+    applicationId: high-flight-ground-operations
+    agentId: ground-ops-agent
+    useCaseId: ground-device-readiness
+    policyId: high-flight-ground-policy
+    purposeId: delivery_device_assurance
+    complexity: COMPOSED
+    axBehavior: bounded-action
+    defaultVariant: gse-reachable
+    region: CA
+    businessEvent: A ground handheld is assigned to a connected turnaround task.
+    decisionGap: Ground Operations does not independently know whether the assigned GSE handheld is DATA reachable.
+    networkContribution: Device Reachability. Not bag tracking.
+    close: Ground Operations still owns the turnaround. NetAware returns CONTINUE or SWAP_DEVICE.
+    existingSystems:
+      - { id: ground, label: Ground Operations, kind: ENTERPRISE }
+      - { id: gse, label: GSE / handheld assignment, kind: ENTERPRISE }
+      - { id: dcs, label: DCS, kind: DOMAIN }
+    domainOperations:
+      - operationId: getGseAssignment
+        label: GSE assignment
+        apiKind: ENTERPRISE
+        simulatedEnterpriseApi: true
+        owner: GSE assignment
+    telcoFinder:
+      neededBecause: Assigned GSE handheld has a network identity.
+      input: device HF-GSE-2204
+      result:
+        network: Network Provider A
+        providerId: simulated-operator-a
+        region: CA
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: device_reachability
+        action: CALL
+        reason: Reachability of the assigned ground handheld closes the Decision Gap.
+      - capabilityId: roaming_status
+        action: SKIP
+        reason: Roaming would not change CONTINUE vs SWAP for this domestic stand.
+    networkRoutes:
+      getReachabilityStatus:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+    variants:
+      gse-reachable:
+        label: GSE handheld reachable
+        outcome:
+          outcome: CONTINUE
+          recommendedAction: CONTINUE_ASSIGNED_DEVICE
+          decisionOwner: HIGH_FLIGHT_GROUND_OPS
+          reasonCodes: [DEVICE_DATA_REACHABLE]
+          summary: Assigned GSE handheld HF-GSE-2204 is DATA reachable. Ground Operations may continue the connected turnaround task.
+          confidence: 0.91
+        evidence:
+          getReachabilityStatus:
+            latencyMs: 36
+            httpStatus: 200
+            raw: { connectivityStatus: CONNECTED, reachable: true }
+            evidence: { type: DEVICE_REACHABILITY, status: REACHABLE, deviceId: HF-GSE-2204 }
+      gse-unreachable:
+        label: GSE handheld unreachable
+        outcome:
+          outcome: SWAP_DEVICE
+          recommendedAction: SWAP_DEVICE
+          decisionOwner: HIGH_FLIGHT_GROUND_OPS
+          reasonCodes: [DEVICE_NOT_DATA_REACHABLE]
+          summary: Assigned GSE handheld HF-GSE-2204 is not DATA reachable. Swap to a ready device from ground inventory.
+          confidence: 0.9
+        evidence:
+          getReachabilityStatus:
+            latencyMs: 37
+            httpStatus: 200
+            raw: { connectivityStatus: UNREACHABLE, reachable: false }
+            evidence: { type: DEVICE_REACHABILITY, status: UNREACHABLE, deviceId: HF-GSE-2204 }
+    request:
+      intent: assure_ground_device
+      subject: { taskId: HF-TURN-18, deviceId: HF-GSE-2204 }
+      context: { guidedVariant: gse-reachable }
+    correlation:
+      executionId: ax-hf-ground-001
+      traceId: ax-hf-ground-trace
+      correlationId: HF-TURN-18-ax
+    autonomy:
+      observe_and_assess: ACT
+      recommend_swap_device: ACT
+      change_flight_plan: NOT_AUTHORIZED
+      selectedAction: observe_and_assess
+      selectedLevel: ACT
+      note: Adjacent Ground Operations application. Does not change the flight plan. Not a Baggage Operations clone.
+    visual:
+      world: ground-ops
+      deviceLabel: GSE handheld HF-GSE-2204
+      alreadyHave: [Ground Operations, GSE assignment, DCS]
+      gap: Is the assigned ground handheld DATA reachable?
+      adds: Device Reachability
+      notACloneOf: high-flight-baggage
+
+  - intentId: assure_technician_device
+    id: acme-maintenance
+    enterpriseId: acme-manufacturing
+    applicationId: acme-field-maintenance
+    agentId: field-maintenance-agent
+    useCaseId: connected-maintenance
+    policyId: acme-maintenance-policy
+    purposeId: delivery_device_assurance
+    complexity: BASIC
+    axBehavior: skip-unneeded
+    defaultVariant: tech-reachable
+    region: EU
+    businessEvent: A field technician is assigned a digital work order.
+    decisionGap: CMMS does not independently know whether the assigned technician handheld is DATA reachable.
+    networkContribution: Device Reachability. QoD skipped — no technician workflow SLO.
+    close: CMMS still owns the work order. NetAware returns CONTINUE or SWAP_DEVICE.
+    existingSystems:
+      - { id: cmms, label: CMMS, kind: DOMAIN }
+      - { id: wo, label: Work order, kind: ENTERPRISE }
+      - { id: tech, label: Technician assignment, kind: ENTERPRISE }
+    domainOperations:
+      - operationId: getWorkOrderAssignment
+        label: Work order assignment
+        apiKind: DOMAIN
+        simulatedEnterpriseApi: true
+        owner: CMMS
+    telcoFinder:
+      neededBecause: Assigned technician handheld has a network identity.
+      input: device ACME-TECH-77
+      result:
+        network: Network Provider A
+        providerId: simulated-operator-a
+        region: EU
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: device_reachability
+        action: CALL
+        reason: Reachability of the assigned technician handheld closes the Decision Gap.
+      - capabilityId: quality_on_demand
+        action: SKIP
+        reason: No technician workflow SLO is configured. QoD is not the Decision Gap.
+    networkRoutes:
+      getReachabilityStatus:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: Enterprise → NetAware → Network Provider A
+    variants:
+      tech-reachable:
+        label: Technician reachable
+        outcome:
+          outcome: CONTINUE
+          recommendedAction: CONTINUE_ASSIGNED_DEVICE
+          decisionOwner: ACME_CMMS
+          reasonCodes: [DEVICE_DATA_REACHABLE]
+          summary: Assigned technician handheld ACME-TECH-77 is DATA reachable. CMMS may continue the digital work order.
+          confidence: 0.9
+        evidence:
+          getReachabilityStatus:
+            latencyMs: 34
+            httpStatus: 200
+            raw: { connectivityStatus: CONNECTED, reachable: true }
+            evidence: { type: DEVICE_REACHABILITY, status: REACHABLE, deviceId: ACME-TECH-77 }
+    request:
+      intent: assure_technician_device
+      subject: { workOrderId: WO-5519, deviceId: ACME-TECH-77 }
+      context: { guidedVariant: tech-reachable }
+    correlation:
+      executionId: ax-acme-maint-001
+      traceId: ax-acme-maint-trace
+      correlationId: WO-5519-ax
+    autonomy:
+      observe_and_assess: ACT
+      selectedAction: observe_and_assess
+      selectedLevel: ACT
+      note: Adjacent Acme application. Quality Inspection and Device Fleet remain the live heroes.
+    visual:
+      world: field-maintenance
+      alreadyHave: [CMMS, Work order, Technician assignment]
+      gap: Is the assigned technician handheld DATA reachable?
+      adds: Device Reachability
+
+  - intentId: assure_live_broadcast
+    id: apex-contribution
+    enterpriseId: apex-media
+    applicationId: apex-contribution
+    agentId: contribution-agent
+    useCaseId: live-broadcast
+    policyId: apex-contribution-policy
+    purposeId: experience_assurance
+    complexity: COMPOSED
+    axBehavior: bounded-action
+    defaultVariant: slo-needs-qod
+    region: CA
+    businessEvent: A live contribution encoder is on-air against a configured SLO.
+    decisionGap: Production control does not independently apply network treatment to hold the contribution objective.
+    networkContribution: QoD because a contribution SLO exists. Insights experimental — skipped.
+    close: Production still owns going to air. NetAware applies QoD when the SLO warrants it.
+    existingSystems:
+      - { id: production, label: Production control, kind: ENTERPRISE }
+      - { id: encoder, label: Encoder, kind: ENTERPRISE }
+      - { id: stream, label: Stream workflow, kind: ENTERPRISE }
+    domainOperations:
+      - operationId: getContributionSlo
+        label: Contribution SLO
+        apiKind: ENTERPRISE
+        simulatedEnterpriseApi: true
+        owner: Production control
+    telcoFinder:
+      neededBecause: Contribution encoder has a network identity for QoD session placement.
+      input: encoder APX-ENC-3
+      result:
+        network: Specialist Provider C
+        providerId: simulated-provider-c
+        region: CA
+        simulated: true
+    candidateCapabilities:
+      - capabilityId: quality_on_demand
+        action: CALL
+        reason: A contribution SLO is configured. QoD is the network treatment that can hold the objective.
+      - capabilityId: connectivity_insights
+        action: SKIP
+        reason: Connectivity Insights is experimental CAMARA maturity and is not silently promoted.
+      - capabilityId: edge_discovery
+        action: SKIP
+        reason: Edge discovery is not required to apply contribution QoD in this configuration.
+    networkRoutes:
+      createSession:
+        routeType: HYBRID
+        providerId: simulated-provider-c
+        providerLabel: Specialist Provider C
+        routeDisplay: Enterprise → NetAware → Specialist Provider C
+    variants:
+      slo-needs-qod:
+        label: SLO requires QoD
+        outcome:
+          outcome: ASSURED
+          recommendedAction: HOLD_CONTRIBUTION_TREATMENT
+          decisionOwner: APEX_PRODUCTION
+          reasonCodes: [QOD_SESSION_CREATED]
+          summary: QoD session created against the contribution SLO. Production still owns going to air.
+          confidence: 0.89
+        evidence:
+          createSession:
+            latencyMs: 60
+            httpStatus: 201
+            raw: { qosStatus: REQUESTED, sessionId: qod-apx-3 }
+            evidence: { type: QOD_SESSION, status: CREATED, encoderId: APX-ENC-3 }
+    request:
+      intent: assure_live_broadcast
+      subject: { encoderId: APX-ENC-3, contributionId: APX-LIVE-12 }
+      context: { sloMs: 40, guidedVariant: slo-needs-qod }
+    correlation:
+      executionId: ax-apx-contrib-001
+      traceId: ax-apx-contrib-trace
+      correlationId: APX-LIVE-12-ax
+    autonomy:
+      observe_and_assess: ACT
+      invoke_qod: ACT
+      take_production_to_air: NOT_AUTHORIZED
+      selectedAction: invoke_qod
+      selectedLevel: ACT
+      note: Agent may invoke QoD. Production owns going to air.
+    visual:
+      world: contribution
+      alreadyHave: [Production control, Encoder, Stream workflow]
+      gap: Can network treatment hold the contribution SLO?
+      adds: Quality on Demand

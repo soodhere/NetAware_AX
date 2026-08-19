@@ -30,7 +30,7 @@ INTENT = "verify_mobile_number"
 SUBJECT = {"phoneNumber": "+1••••••0198"}
 HEROES = [
     ("STEP_UP", {"intent": "assess_network_trust", "subject": {"transactionId": "RB-78421", "phoneNumber": "+1••••••0198"}, "context": {"amount": 25000, "currency": "USD"}}),
-    ("AT_RISK", {"intent": "ensure_baggage_connection", "subject": {"bagId": "HF123456", "connectingFlight": "HF281"}, "context": {"priority": "high"}}),
+    ("CONTINUE" if UI_CADENCE >= 10 else "AT_RISK", {"intent": "ensure_baggage_connection", "subject": {"bagId": "HF123456", "connectingFlight": "HF281"}, "context": {"priority": "high"}}),
     ("ASSURED", {"intent": "maintain_inspection_experience", "subject": {"cameraId": "ACME-CAM-14", "lineId": "LINE-B"}, "context": {"sloMs": 40}}),
     ("ELIGIBLE", {"intent": "verify_pharmacy_age_gate", "subject": {"transactionId": "RX-10442", "phoneNumber": "+1••••••8843"}, "context": {"ageThreshold": 18}}),
 ]
@@ -70,10 +70,10 @@ def _nv(client: TestClient, variant: str) -> dict:
 def check_health() -> None:
     with TestClient(app) as client:
         h = client.get("/health").json()
-        if h.get("uiCadence") != 9 or UI_CADENCE != 9:
+        if h.get("uiCadence") not in {9, 10, 11, 12, 13, 14, 15, 16, 17} or UI_CADENCE < 9:
             fail(f"uiCadence {h.get('uiCadence')}")
         else:
-            ok("uiCadence 9")
+            ok(f"uiCadence {h.get('uiCadence')}")
         if h.get("modelCadence") != 7 or MODEL_CADENCE != 7:
             fail(f"modelCadence {h.get('modelCadence')}")
         else:
@@ -279,7 +279,20 @@ def check_ui() -> None:
         fail("separate NV1/NV2 hero cards")
     else:
         ok("one Number Verification story card")
-    if "CELLULAR" not in nv or "WI-FI — READY" not in nv or "WI-FI — ECS GAP" not in nv:
+    if UI_CADENCE >= 10:
+        if "SIMULATE RUNTIME CONTEXT" not in nv.upper() and "Simulate runtime context" not in nv:
+            fail("NV selector must be labelled as simulation/presenter context")
+        else:
+            ok("NV variant selector is presenter simulation, not application choice")
+        if "Cellular / Provider A" not in nv or "Wi-Fi / Provider A" not in nv or "Wi-Fi / Provider B" not in nv:
+            fail("C10 NV simulation labels missing")
+        else:
+            ok("NV simulation labels Cellular/Wi-Fi / Provider")
+        if "NV1" in nv and "Application chooses" in nv and "NetAware chooses" not in nv:
+            fail("application appears to choose NV1/NV2")
+        else:
+            ok("application chooses Intent; NetAware chooses path")
+    elif "CELLULAR" not in nv or "WI-FI — READY" not in nv or "WI-FI — ECS GAP" not in nv:
         fail("variant selector labels missing")
     else:
         ok("same-page CELLULAR / WI-FI READY / WI-FI ECS GAP selector")

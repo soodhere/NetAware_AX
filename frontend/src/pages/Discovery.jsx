@@ -1,5 +1,6 @@
 import { href } from "../api.js";
 import { NetworkOpportunity, NvFinderStrip, NvHonesty, NvPathVisual, NvPathVsOperation } from "./NvPath.jsx";
+import { DiscoveryFunnel, FinderStages, GovernanceWaterfall } from "../visuals/VisualKit.jsx";
 
 function Pill({ children, tone }) {
   return <span className={`pill ${tone || ""}`.trim()}>{children}</span>;
@@ -48,11 +49,6 @@ export default function DiscoveryView({ trace, lens, onOpenAdvanced }) {
           finders={finders}
         />
       )}
-          summary={summary}
-          matrix={matrix}
-          finders={finders}
-        />
-      )}
     </section>
   );
 }
@@ -67,6 +63,7 @@ function NvBasicDiscovery({ trace, summary, pipeline, onOpenAdvanced }) {
     <div>
       <NvPathVisual trace={trace} />
       <NvHonesty trace={trace} />
+      <DiscoveryFunnel summary={summary} />
       <ol className="discovery-pipeline nv-basic-pipe">
         {(pipeline || []).map((step, idx) => (
           <li key={step.label}>
@@ -142,6 +139,7 @@ function BasicPipeline({ trace, summary, pipeline, onOpenAdvanced }) {
 
   return (
     <div>
+      <DiscoveryFunnel summary={summary} />
       <article className="panel">
         <h3>1 · Your application</h3>
         <dl className="dl">
@@ -264,9 +262,18 @@ function AdvancedDiscovery({ trace, summary, matrix, finders }) {
   const rows = matrix.rows || [];
   const columns = (matrix.columns || []).filter((col) => columnHasSignal(col.id, rows));
   const groups = matrix.columnGroups || [];
+  const filteredRow = (summary.filtered || [])[0] || rows.find((r) => ["PURPOSE_NOT_PERMITTED", "CONSENT_MISSING", "AGREEMENT_GAP", "NOT_SUBSCRIBED", "NOT_ENTITLED"].includes(r.reasonCode));
 
   return (
     <div>
+      <FinderStages
+        distinction={{
+          telcoFinder: "Which network/operator applies?",
+          apiFinder: "Which relevant Network APIs are available through which providers?",
+          fulfillment: "Can the Intent actually be satisfied given governance, readiness, required capabilities and route?",
+        }}
+      />
+      <DiscoveryFunnel summary={summary} />
       <section className="grid-2">
         <article className="panel">
           <h3>
@@ -306,6 +313,7 @@ function AdvancedDiscovery({ trace, summary, matrix, finders }) {
       </section>
 
       <NvPathVsOperation trace={trace} lens="ADVANCED" />
+      {filteredRow ? <GovernanceWaterfall row={filteredRow} /> : null}
       <article className="panel section">
         <h3>Candidate matrix</h3>
         <p className="tiny">Same trace as Basic. Subscription and entitlement are separate checks.</p>

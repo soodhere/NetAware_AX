@@ -1,0 +1,193 @@
+# Cadence 16 — presentation overlay only. Not a second runtime.
+# Guided navigation over existing surfaces. No timers. No revenue.
+
+source: CONFIGURATION
+cadence: 16
+presentationOnly: true
+doesNotAlterRuntime: true
+doesNotAlterCoverage: true
+doesNotAlterDemand: true
+notTenant: true
+notTimer: true
+honesty: NETAWARE AX PRODUCT / SALES PROTOTYPE. Configured demo coverage. Simulated operator response. Not a live operator SLA.
+
+productStatement: NetAware connects enterprise demand to network supply.
+
+depths:
+  exec:
+    id: exec
+    label: 3-MINUTE EXECUTIVE
+    purpose: Explain NetAware AX to an executive quickly.
+    note: Recommended path. Not a countdown.
+  sales:
+    id: sales
+    label: 7-MINUTE SALES
+    purpose: Why Network APIs, why NetAware, how discovery and fulfillment work.
+    note: Recommended path. Not a countdown.
+  tech:
+    id: tech
+    label: TECHNICAL DEEP DIVE
+    purpose: Progressive drill-down into the existing machinery. Same engine.
+    note: Same trace. Lens switch does not rerun.
+
+semantics:
+  - { id: BUSINESS, meaning: business/application context }
+  - { id: CONFIGURED, meaning: onboarding/policy knowledge }
+  - { id: DISCOVERED, meaning: runtime network knowledge }
+  - { id: SELECTED, meaning: chosen capability }
+  - { id: INVOKED, meaning: actual network call }
+  - { id: REUSED, meaning: previous evidence }
+  - { id: SKIPPED, meaning: unnecessary }
+  - { id: FILTERED, meaning: governance prevented selection }
+  - { id: UNAVAILABLE, meaning: supply/prerequisite missing }
+  - { id: OUTCOME, meaning: business result }
+
+closeVisual:
+  left:
+    title: ENTERPRISE DEMAND
+    items: [Industries, Applications, Business events, Intents, Decision gaps]
+  center:
+    title: NETAWARE AX
+    items: [Intent understanding, Capability discovery, Governance, Fulfillment, Orchestration, Verification]
+  right:
+    title: NETWORK SUPPLY
+    items: [Operators, Aggregators, Regions, Network capabilities, CAMARA APIs]
+  outcome: BUSINESS OUTCOMES
+  line: NetAware connects enterprise demand to network supply.
+
+recommender:
+  - { id: ent-exec, audience: Enterprise executive, show: Rocket Bank NV, optional: Acme OTA, href: /meet/enterprise/exec }
+  - { id: op-exec, audience: Operator executive, show: NV enablement, optional: OTA supply gap, href: /meet/operator/exec }
+  - { id: ag-exec, audience: Aggregator executive, show: Multi-region fulfillment, href: /meet/aggregator/exec }
+  - { id: cto, audience: CTO / architect, show: "Rocket Bank discovery, then Coverage, then Demand", href: /meet/enterprise/tech }
+  - { id: ai, audience: AI / Agentic buyer, show: "Acme inspection, then CityCare governance", href: /meet/enterprise/sales }
+  - { id: airline, audience: Airline, show: High Flight baggage, href: /demo/high-flight-airlines/baggage-connection }
+  - { id: mfg, audience: Manufacturing, show: Acme inspection or OTA, href: /demo/acme-manufacturing }
+
+proves:
+  passwordless-mobile-sign-in: ONE INTENT CAN BE FULFILLED DIFFERENTLY ACROSS NETWORK CONDITIONS.
+  high-value-payment-protection: SELECTIVE EVIDENCE. THE ENTERPRISE STILL OWNS THE FINANCIAL DECISION.
+  baggage-connection: A SIMPLE NETWORK SIGNAL CAN IMPROVE AN EXISTING OPERATIONAL WORKFLOW.
+  critical-inspection-camera: CLOSED-LOOP AGENTIC NETWORK ACTION.
+  fleet-firmware-rollout: ONE INTENT CAN ORCHESTRATE NETWORK READINESS ACROSS A DEVICE FLEET.
+  pharmacy-age-gate: CAPABILITY MINIMIZATION AND GOVERNANCE.
+  account-recovery-anomaly: FRESH EVIDENCE CAN BE REUSED. NOT EVERY INTENT CAUSES ANOTHER NETWORK CALL.
+
+paths:
+  enterprise:
+    exec:
+      opening: "Rocket Bank wants to verify a customer's mobile number without making its application understand every operator implementation."
+      close: ONE BUSINESS INTENT. DIFFERENT NETWORK CONDITIONS. NETAWARE SELECTS THE FEASIBLE PATH.
+      beats: [CUSTOMER PROBLEM, NETWORK DECISION GAP, WHAT NETAWARE DOES, OUTCOME, WHY IT MATTERS]
+      steps:
+        - { label: Verify this mobile number, href: /demo/rocket-bank/passwordless-mobile-sign-in, stage: BUSINESS }
+        - { label: Run the Intent, href: /demo/rocket-bank/passwordless-mobile-sign-in/run, stage: OUTCOME }
+        - { label: Demand and supply close, href: /close, stage: OUTCOME }
+    sales:
+      opening: Why Network APIs, why NetAware, and how it knows what to invoke.
+      close: NetAware connects enterprise demand to network supply.
+      steps:
+        - { label: Business need, href: /demo/rocket-bank/passwordless-mobile-sign-in, stage: BUSINESS }
+        - { label: Run NV, href: /demo/rocket-bank/passwordless-mobile-sign-in/run, stage: SELECTED }
+        - { label: High Flight optional, href: /demo/high-flight-airlines/baggage-connection, stage: BUSINESS }
+        - { label: Acme closed loop, href: /demo/acme-manufacturing/critical-inspection-camera, stage: OUTCOME }
+        - { label: Fulfillment, href: /coverage/enterprise/rocket-bank, stage: DISCOVERED }
+        - { label: Demand, href: /demand/enterprise/rocket-bank, stage: DISCOVERED }
+        - { label: Close, href: /close, stage: OUTCOME }
+    tech:
+      opening: Same engine. Progressive drill-down.
+      close: Technical buyers verify logic without a different demo.
+      steps:
+        - { label: Briefing / onboarded context, href: /demo/rocket-bank/passwordless-mobile-sign-in, stage: CONFIGURED }
+        - { label: Runtime Discovery, href: /demo/rocket-bank/passwordless-mobile-sign-in/run, stage: DISCOVERED }
+        - { label: Use Case API Map, href: /map/use-case/passwordless-mobile-sign-in, stage: CONFIGURED }
+        - { label: Fulfillment Coverage, href: /coverage/enterprise/rocket-bank, stage: DISCOVERED }
+        - { label: Demand provenance, href: /demand/enterprise/rocket-bank, stage: DISCOVERED }
+        - { label: Explorer, href: /explore, stage: CONFIGURED }
+        - { label: Close, href: /close, stage: OUTCOME }
+  operator:
+    exec:
+      opening: "Your network exposes Number Verification. What enterprise demand can it actually fulfill?"
+      close: API EXPOSURE IS ONLY ONE PART OF ENTERPRISE FULFILLMENT.
+      beats: [CUSTOMER PROBLEM, NETWORK DECISION GAP, WHAT NETAWARE DOES, OUTCOME, WHY IT MATTERS]
+      steps:
+        - { label: Number Verification demand, href: /demand/capabilities/number_possession_verification, stage: BUSINESS }
+        - { label: Provider A vs B coverage, href: /coverage/providers/simulated-operator-b, stage: UNAVAILABLE }
+        - { label: Close, href: /close, stage: OUTCOME }
+    sales:
+      opening: API available is not the same as Intent fulfillable.
+      close: Enablement impact, not revenue opportunity.
+      steps:
+        - { label: NV demand, href: /demand/capabilities/number_possession_verification, stage: BUSINESS }
+        - { label: ECS gap, href: /demand/gaps/ENTITLEMENT_SERVER_UNAVAILABLE, stage: UNAVAILABLE }
+        - { label: OTA optional gap, href: /demand/intents/prepare_ota_cohort, stage: UNAVAILABLE }
+        - { label: Close, href: /close, stage: OUTCOME }
+    tech:
+      opening: Drill into coverage records, readiness, and provenance.
+      close: Same fulfillment truth as Cadence 13.
+      steps:
+        - { label: Coverage, href: /coverage, stage: DISCOVERED }
+        - { label: API to use cases, href: /map/family/number-verification, stage: DISCOVERED }
+        - { label: Provider B, href: /coverage/providers/simulated-operator-b, stage: UNAVAILABLE }
+        - { label: Demand, href: /demand, stage: DISCOVERED }
+        - { label: Explorer capabilities, href: /explore/capabilities, stage: CONFIGURED }
+        - { label: Close, href: /close, stage: OUTCOME }
+  aggregator:
+    exec:
+      opening: "Enterprise applications want a consistent business outcome. Network supply is fragmented by operator, region and route."
+      close: Fragmented operator supply becomes consistent enterprise fulfillment.
+      beats: [CUSTOMER PROBLEM, NETWORK DECISION GAP, WHAT NETAWARE DOES, OUTCOME, WHY IT MATTERS]
+      steps:
+        - { label: Aggregator coverage, href: /coverage/providers/simulated-aggregator-b, stage: DISCOVERED }
+        - { label: Regions CA / DE / SG, href: /demand/regions/DE, stage: DISCOVERED }
+        - { label: Close, href: /close, stage: OUTCOME }
+    sales:
+      opening: Routed through / normalized through / available via. Aggregator A does not own operator APIs.
+      close: NetAware connects enterprise demand to network supply.
+      steps:
+        - { label: Aggregator coverage, href: /coverage/providers/simulated-aggregator-b, stage: DISCOVERED }
+        - { label: Aggregator demand, href: /demand/providers/simulated-aggregator-b, stage: DISCOVERED }
+        - { label: OTA multi-provider, href: /demo/acme-manufacturing/fleet-firmware-rollout, stage: BUSINESS }
+        - { label: Close, href: /close, stage: OUTCOME }
+    tech:
+      opening: Telco Finder, API Finder, direct and aggregated routes.
+      close: Same Explorer. Same coverage engine.
+      steps:
+        - { label: Providers / routes, href: /explore/providers, stage: CONFIGURED }
+        - { label: Topology, href: /map/ax, stage: DISCOVERED }
+        - { label: Coverage, href: /coverage/providers/simulated-aggregator-b, stage: DISCOVERED }
+        - { label: Demand, href: /demand/providers/simulated-aggregator-b, stage: DISCOVERED }
+        - { label: Close, href: /close, stage: OUTCOME }
+
+cues:
+  - { id: nv-path, say: "Notice the application never requested NV1 or NV2.", ask: "Does your application team know which operators support this today?", point: "The API exists, but fulfillment can be blocked by operator readiness.", close: "This is the bridge between enterprise demand and network supply." }
+  - { id: hf, say: "NetAware does not track or move the bag.", ask: "Can the assigned scanner complete the digital workflow?", point: "Network reachability helps the baggage system know whether the assigned device can complete the scan.", close: "A simple network signal improves an existing operational workflow." }
+
+faq:
+  - { q: "Is this replacing CAMARA?", a: "No. NetAware AX uses Network APIs as the execution layer. AX adds Intent, discovery, governance and fulfillment above them." }
+  - { q: "Is NetAware making the business decision?", a: "Only within configured autonomy. For example Rocket Bank still owns the financial decision." }
+  - { q: "Is this a generic AI agent?", a: "No. The prototype uses deterministic configured behavior. The AX architecture is designed around governed Intent execution." }
+  - { q: "Does NetAware own operator APIs?", a: "No. Operators expose network capabilities. NetAware discovers and fulfills Intents using available direct or aggregated supply." }
+  - { q: "Is this live operator availability?", a: "No. Coverage in this prototype is configured demo coverage." }
+
+dx:
+  dx: [Developer discovers API, Developer selects API, Developer implements operator-specific flow, Developer handles policy / availability differences]
+  ax: [Application or authorized agent expresses Intent, NetAware discovers capabilities, NetAware applies configured governance, NetAware resolves operator and supply, NetAware selects fulfillment, NetAware invokes or reuses evidence, NetAware can replan / act within authorization, NetAware returns business outcome]
+  note: AX builds on Network API DX. AX does not replace DX.
+
+agentic:
+  chain: [APPLICATION / AGENT, INTENT, CONTEXT, PLAN, DISCOVER, GOVERN, SELECT TOOLS, ACT / REUSE / SKIP, REPLAN IF REQUIRED, VERIFY, OUTCOME]
+  proofs:
+    - Rocket Bank: selective evidence
+    - NV: runtime path selection
+    - Acme: closed-loop act + verify
+    - High Flight: network evidence + enterprise action
+    - CityCare: minimum sufficient capability
+    - OTA: fleet orchestration
+  note: Deterministic configured behavior. No LLM theater.
+
+discoveryHero:
+  widen: [APPLICATION, INTENT, POTENTIALLY RELEVANT CAPABILITIES]
+  narrow: [APPLICATION PROFILE, PURPOSE, POLICY, SUBSCRIPTION, ENTITLEMENT, AGREEMENT, CONSENT]
+  runtime: [REGION, ACCESS CONTEXT, TELCO FINDER, OPERATOR, API FINDER, OPERATOR READINESS, PROVIDER, ROUTE]
+  act: [CALL, REUSE, SKIP, FILTER, UNAVAILABLE]

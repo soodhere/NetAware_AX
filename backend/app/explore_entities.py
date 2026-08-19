@@ -241,6 +241,18 @@ def enrich_catalog_api(store: ConfigStore, graph: KnowledgeGraph, registry: Cata
         "camaraApiVersion": (body.get("api") or {}).get("camaraApiVersion"),
         "apiVersionMaturity": (body.get("api") or {}).get("apiVersionMaturity"),
         "camaraProjectLifecycle": (body.get("api") or {}).get("camaraProjectLifecycle"),
+        "fulfillment": {
+            "whereAvailable": "WHERE IS THIS AVAILABLE?",
+            "whichIntents": "WHICH INTENTS DEPEND ON IT?",
+            "href": f"/coverage/family/{api_id}",
+            "demandHref": f"/demand/family/{api_id}",
+            "seeDemand": "SEE DEMAND",
+            "whatDoesThisEnable": "WHAT DOES THIS ENABLE?",
+            "capabilityHrefs": [
+                {"id": (c.get("id") if isinstance(c, dict) else c), "href": f"/coverage/capabilities/{c.get('id') if isinstance(c, dict) else c}"}
+                for c in (body.get("capabilities") or [])
+            ],
+        },
     }
 
 
@@ -411,7 +423,14 @@ def provider_detail(store: ConfigStore, provider_id: str) -> dict[str, Any] | No
             continue
         ops.extend(block.get("operations") or [])
     routes = [r for r in store.routes if r.get("providerId") == provider_id]
-    return {"provider": provider, "operations": ops, "routes": routes}
+    return {
+        "provider": provider,
+        "operations": ops,
+        "routes": routes,
+        "coverageHref": f"/coverage/provider/{provider_id}",
+        "demandHref": f"/demand/provider/{provider_id}",
+        "providerType": "AGGREGATOR" if provider.get("kind") == "aggregator" else "NETWORK_PROVIDER",
+    }
 
 
 def list_routes(store: ConfigStore) -> list[dict[str, Any]]:

@@ -9,11 +9,23 @@ routes:
     source: openapi/camara/NumberVerification__number-verification.yaml
     providerId: simulated-operator-b
     type: DIRECT
-  - id: sim-swap-direct-a
+  - id: sim-swap-aggregated-b
     operationId: checkSimSwap
     source: openapi/camara/SimSwap__sim-swap.yaml
-    providerId: simulated-operator-a
-    type: DIRECT
+    providerId: simulated-aggregator-b
+    type: AGGREGATED
+  - id: device-swap-aggregated-b
+    operationId: checkDeviceSwap
+    source: openapi/camara/DeviceSwap__device-swap.yaml
+    providerId: simulated-aggregator-b
+    type: AGGREGATED
+  - id: dispatch-existing
+    operationId: null
+    source: null
+    providerId: null
+    type: EXISTING_ENTERPRISE_INTEGRATION
+    domainApi: Dispatch
+    enterpriseId: swiftship-logistics
   - id: device-swap-direct-a
     operationId: checkDeviceSwap
     source: openapi/camara/DeviceSwap__device-swap.yaml
@@ -58,6 +70,16 @@ routes:
     operationId: getReachabilityStatus
     source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
     providerId: simulated-operator-a
+    type: DIRECT
+  - id: reachability-aggregated-b
+    operationId: getReachabilityStatus
+    source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+    providerId: simulated-aggregator-b
+    type: AGGREGATED
+  - id: reachability-direct-c
+    operationId: getReachabilityStatus
+    source: openapi/camara/DeviceReachabilityStatus__device-reachability-status.yaml
+    providerId: simulated-provider-c
     type: DIRECT
   - id: flight-status-existing
     operationId: null

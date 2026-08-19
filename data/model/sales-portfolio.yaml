@@ -1,0 +1,561 @@
+# Cadence 12 — sales-visible portfolio. Not a Demand Map. Not loaded as SalesScenarioProfile.
+# Future C13/C14 may consume these fields. Do not present EXPLORE as LIVE.
+
+motions:
+  - { id: IDENTITY_AND_TRUST, label: Identity & Trust }
+  - { id: CONNECTED_OPERATIONS, label: Connected Operations }
+  - { id: DEVICE_AND_FLEET_OPERATIONS, label: Device & Fleet Operations }
+  - { id: CUSTOMER_EXPERIENCE, label: Customer Experience }
+  - { id: LOCATION_AND_PRESENCE, label: Location & Presence }
+  - { id: NETWORK_ASSURANCE, label: Network Assurance }
+
+industries:
+  - { id: financial, label: Financial Services, domainId: financial }
+  - { id: retail, label: Retail / Commerce, domainId: retail }
+  - { id: insurance, label: Insurance, domainId: insurance }
+  - { id: airlines, label: Airlines / Airports, domainId: airlines }
+  - { id: manufacturing, label: Manufacturing, domainId: manufacturing }
+  - { id: logistics, label: Logistics / Delivery, domainId: logistics }
+  - { id: healthcare, label: Healthcare, domainId: healthcare }
+  - { id: media, label: Media / Broadcast, domainId: media }
+  - { id: facilities, label: Smart Buildings / Facilities, domainId: facilities }
+  - { id: construction, label: Field Service / Construction, domainId: construction }
+
+leverage:
+  headline: A small practical Network API catalog can support many business intents.
+  catalogFamilies: 13
+  note: Do not market hundreds of APIs.
+  chain:
+    - 13 API families
+    - business capabilities
+    - multiple intents
+    - multiple applications
+    - multiple industries
+
+visible:
+  - id: rb-transaction-trust
+    visible: true
+    enterpriseId: rocket-bank
+    industry: financial
+    applicationId: rocket-bank-payments
+    useCaseId: high-value-payment-protection
+    intentId: assess_network_trust
+    commercialMotion: [IDENTITY_AND_TRUST]
+    scenarioMaturity: LIVE
+    scenarioComplexity: COMPOSED
+    decisionGap: The bank's own APIs do not independently know recent SIM, device or network identity continuity.
+    networkContribution: Independent SIM / device / roaming continuity evidence.
+    networkContributionTier: B
+    capabilities: [number_possession_verification, sim_continuity, device_continuity, roaming_status]
+    apiFamilies: [IDENTITY_AND_TRUST, DEVICE, LOCATION_AND_MOBILITY]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: payment_fraud_assist
+    policy: rocket-bank-trust-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Protect a high-value payment when application authentication already succeeded.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: HIGH, axValue: HIGH, salesClarity: HIGH }
+
+  - id: rb-nv-signin
+    visible: true
+    enterpriseId: rocket-bank
+    industry: financial
+    applicationId: rocket-bank-iam
+    useCaseId: passwordless-mobile-sign-in
+    intentId: verify_mobile_number
+    commercialMotion: [IDENTITY_AND_TRUST, CUSTOMER_EXPERIENCE]
+    scenarioMaturity: LIVE
+    scenarioComplexity: ADVANCED_AGENTIC
+    decisionGap: IAM does not independently have operator-backed number possession.
+    networkContribution: Silent Number Verification. Application does not choose NV1 vs NV2.
+    networkContributionTier: A
+    capabilities: [number_possession_verification]
+    apiFamilies: [IDENTITY_AND_TRUST]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: mobile_number_authentication
+    policy: rocket-bank-iam-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Verify this claimed mobile number at sign-in — cellular or Wi-Fi.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: HIGH, axValue: HIGH, salesClarity: HIGH }
+
+  - id: rb-recovery
+    visible: true
+    companion: true
+    enterpriseId: rocket-bank
+    industry: financial
+    applicationId: rocket-bank-payments
+    useCaseId: account-recovery-anomaly
+    intentId: assess_recovery_continuity
+    commercialMotion: [IDENTITY_AND_TRUST]
+    scenarioMaturity: LIVE
+    scenarioComplexity: COMPOSED
+    decisionGap: Recovery looks digitally normal; SIM/device continuity may have changed.
+    networkContribution: Reused SIM/device continuity evidence — no duplicate Network API calls.
+    networkContributionTier: B
+    capabilities: [sim_continuity, device_continuity]
+    apiFamilies: [IDENTITY_AND_TRUST, DEVICE]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: identity_continuity_assist
+    policy: rocket-bank-recovery-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Account recovery continuity after a prior trust assessment.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: hf-ramp-scanner
+    visible: true
+    enterpriseId: high-flight-airlines
+    industry: airlines
+    applicationId: high-flight-baggage-operations
+    useCaseId: baggage-connection
+    intentId: ensure_baggage_connection
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS, CONNECTED_OPERATIONS]
+    scenarioMaturity: LIVE
+    scenarioComplexity: COMPOSED
+    decisionGap: BRS/DCS do not independently know whether the assigned scanner is DATA reachable.
+    networkContribution: Device Reachability of the assigned ramp scanner.
+    networkContributionTier: A
+    capabilities: [device_reachability]
+    apiFamilies: [CONNECTIVITY]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: baggage_connection_assurance
+    policy: high-flight-baggage-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Can the assigned ramp scanner complete the connected custody scan before load-close?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: acme-inspection
+    visible: true
+    enterpriseId: acme-manufacturing
+    industry: manufacturing
+    applicationId: acme-quality-inspection
+    useCaseId: critical-inspection-camera
+    intentId: maintain_inspection_experience
+    commercialMotion: [NETWORK_ASSURANCE]
+    scenarioMaturity: LIVE
+    scenarioComplexity: ADVANCED_AGENTIC
+    decisionGap: MES/QMS do not independently control network treatment when camera SLO breaches.
+    networkContribution: QoD when the objective is the limiter. Insights/Profiles remain experimental.
+    networkContributionTier: A
+    capabilities: [quality_on_demand, connectivity_insights, application_profiles]
+    apiFamilies: [QUALITY, APPLICATION, CONNECTIVITY]
+    regions: [{ id: EU, availability: AVAILABLE, route: HYBRID, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-provider-c]
+    routes: [HYBRID]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: inspection_video_assurance
+    policy: acme-inspection-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Keep the inspection camera experience when the network is the limiter.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: acme-ota
+    visible: true
+    enterpriseId: acme-manufacturing
+    industry: manufacturing
+    applicationId: acme-device-fleet
+    useCaseId: fleet-firmware-rollout
+    intentId: prepare_ota_cohort
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS]
+    scenarioMaturity: LIVE
+    scenarioComplexity: ADVANCED_AGENTIC
+    decisionGap: The OTA platform does not independently know current operator-network suitability per device.
+    networkContribution: Reachability and Roaming Status. NetAware does not install firmware.
+    networkContributionTier: A
+    capabilities: [device_reachability, roaming_status]
+    apiFamilies: [CONNECTIVITY, LOCATION_AND_MOBILITY]
+    regions: [{ id: EU, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a, simulated-aggregator-b, simulated-provider-c]
+    routes: [DIRECT, AGGREGATED]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: firmware_rollout
+    policy: acme-ota-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Which already-eligible devices should enter the firmware cohort now?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: HIGH, axValue: HIGH, salesClarity: HIGH }
+
+  - id: citycare-pharmacy
+    visible: true
+    enterpriseId: citycare-health
+    industry: healthcare
+    applicationId: citycare-pharmacy-eligibility
+    useCaseId: pharmacy-age-gate
+    intentId: verify_pharmacy_age_gate
+    commercialMotion: [IDENTITY_AND_TRUST, CUSTOMER_EXPERIENCE]
+    scenarioMaturity: LIVE
+    scenarioComplexity: BASIC
+    decisionGap: Pharmacy eligibility does not independently have operator age assertion.
+    networkContribution: Minimum Age Verification. Broader KYC Match is filtered.
+    networkContributionTier: A
+    capabilities: [age_verification]
+    apiFamilies: [IDENTITY_AND_TRUST]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-provider-c]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: pharmacy_age_eligibility
+    policy: citycare-pharmacy-policy
+    qualifiedDemand: true
+    fulfillmentStatus: LIVE
+    blockingGap: null
+    businessProblem: Is the customer above the configured age threshold for this pharmacy transaction?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: swiftship-delivery
+    visible: true
+    enterpriseId: swiftship-logistics
+    industry: logistics
+    applicationId: swiftship-delivery-ops
+    useCaseId: delivery-device-readiness
+    intentId: assure_delivery_device
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS, CONNECTED_OPERATIONS]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: BASIC
+    decisionGap: Dispatch does not independently know whether the assigned handheld is currently DATA reachable.
+    networkContribution: Device Reachability.
+    networkContributionTier: A
+    capabilities: [device_reachability]
+    apiFamilies: [CONNECTIVITY]
+    regions:
+      - { id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }
+      - { id: DE, availability: AVAILABLE, route: AGGREGATED, fulfillmentStatus: FULFILLED_VIA_AGGREGATOR }
+      - { id: SG, availability: UNAVAILABLE, route: null, fulfillmentStatus: READINESS_GAP, blockingGap: Reachability not offered in this region }
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: delivery_device_assurance
+    policy: swiftship-delivery-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Can the assigned connected handheld complete the required digital delivery workflow?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: HIGH, axValue: HIGH, salesClarity: HIGH }
+
+  - id: megamart-checkout
+    visible: true
+    enterpriseId: megamart-retail
+    industry: retail
+    applicationId: megamart-checkout-risk
+    useCaseId: checkout-trust
+    intentId: assess_checkout_trust
+    commercialMotion: [IDENTITY_AND_TRUST, CUSTOMER_EXPERIENCE]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: COMPOSED
+    decisionGap: Checkout/fraud engines do not independently know recent SIM/device continuity.
+    networkContribution: SIM / device continuity evidence. Location is consent-filtered.
+    networkContributionTier: B
+    capabilities: [number_possession_verification, sim_continuity, device_continuity]
+    apiFamilies: [IDENTITY_AND_TRUST, DEVICE]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: identity_continuity_assist
+    policy: megamart-checkout-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Should this high-risk checkout proceed normally or step up?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: HIGH, axValue: HIGH, salesClarity: HIGH }
+
+  - id: northstar-claims
+    visible: true
+    enterpriseId: northstar-insurance
+    industry: insurance
+    applicationId: northstar-claims
+    useCaseId: claim-device-trust
+    intentId: assess_claim_device_trust
+    commercialMotion: [IDENTITY_AND_TRUST]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: COMPOSED
+    decisionGap: Claims does not independently know recent SIM/device continuity of the reporting handset.
+    networkContribution: SIM / device evidence returned to claims. Does not determine fraud.
+    networkContributionTier: B
+    capabilities: [sim_continuity, device_continuity]
+    apiFamilies: [IDENTITY_AND_TRUST, DEVICE]
+    regions: [{ id: DE, availability: AVAILABLE, route: AGGREGATED, fulfillmentStatus: FULFILLED_VIA_AGGREGATOR }]
+    providers: [simulated-aggregator-b]
+    routes: [AGGREGATED]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: identity_continuity_assist
+    policy: northstar-claims-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Return network identity-continuity evidence to an existing claims review.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: hf-ground-device
+    visible: true
+    enterpriseId: high-flight-airlines
+    industry: airlines
+    applicationId: high-flight-ground-operations
+    useCaseId: ground-device-readiness
+    intentId: assure_ground_device
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS, CONNECTED_OPERATIONS]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: COMPOSED
+    decisionGap: Ground Operations does not independently know whether the assigned GSE handheld is DATA reachable.
+    networkContribution: Device Reachability. Not bag tracking. Not a Baggage Operations clone.
+    networkContributionTier: A
+    capabilities: [device_reachability]
+    apiFamilies: [CONNECTIVITY]
+    regions: [{ id: CA, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: delivery_device_assurance
+    policy: high-flight-ground-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Can the assigned ground handheld complete the connected turnaround workflow?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: acme-maintenance
+    visible: true
+    enterpriseId: acme-manufacturing
+    industry: manufacturing
+    applicationId: acme-field-maintenance
+    useCaseId: connected-maintenance
+    intentId: assure_technician_device
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS, CONNECTED_OPERATIONS]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: BASIC
+    decisionGap: CMMS does not independently know whether the assigned technician handheld is DATA reachable.
+    networkContribution: Device Reachability. QoD skipped — no technician SLO is configured.
+    networkContributionTier: A
+    capabilities: [device_reachability]
+    apiFamilies: [CONNECTIVITY]
+    regions: [{ id: EU, availability: AVAILABLE, route: DIRECT, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-operator-a]
+    routes: [DIRECT]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: delivery_device_assurance
+    policy: acme-maintenance-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Can the assigned technician device complete the digital work-order steps?
+    scores: { businessValue: MEDIUM, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: apex-contribution
+    visible: true
+    enterpriseId: apex-media
+    industry: media
+    applicationId: apex-contribution
+    useCaseId: live-broadcast
+    intentId: assure_live_broadcast
+    commercialMotion: [NETWORK_ASSURANCE, CUSTOMER_EXPERIENCE]
+    scenarioMaturity: GUIDED
+    scenarioComplexity: COMPOSED
+    decisionGap: Production control does not independently apply network treatment to hold a contribution SLO.
+    networkContribution: QoD because a contribution SLO exists. Insights experimental — skipped.
+    networkContributionTier: A
+    capabilities: [quality_on_demand]
+    apiFamilies: [QUALITY]
+    regions: [{ id: CA, availability: AVAILABLE, route: HYBRID, fulfillmentStatus: FULFILLED }]
+    providers: [simulated-provider-c]
+    routes: [HYBRID]
+    availability: AVAILABLE
+    subscription: active
+    entitlement: active
+    purpose: experience_assurance
+    policy: apex-contribution-policy
+    qualifiedDemand: true
+    fulfillmentStatus: GUIDED
+    blockingGap: null
+    businessProblem: Can network treatment help maintain the live contribution objective?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: HIGH, salesClarity: HIGH }
+
+  - id: citycare-telehealth
+    visible: true
+    enterpriseId: citycare-health
+    industry: healthcare
+    applicationId: citycare-telehealth
+    useCaseId: telehealth-session
+    intentId: maintain_telehealth_experience
+    commercialMotion: [NETWORK_ASSURANCE, CUSTOMER_EXPERIENCE]
+    scenarioMaturity: EXPLORE
+    scenarioComplexity: COMPOSED
+    decisionGap: Telehealth platform does not independently apply network treatment if a session SLO exists.
+    networkContribution: QoD only if an SLO is configured. No medical outcome claims. Insights experimental.
+    networkContributionTier: C
+    capabilities: [quality_on_demand]
+    apiFamilies: [QUALITY]
+    regions: [{ id: CA, availability: OPPORTUNITY, route: null, fulfillmentStatus: EXPLORE }]
+    providers: []
+    routes: []
+    availability: OPPORTUNITY
+    subscription: not_configured_for_execution
+    entitlement: not_configured_for_execution
+    purpose: experience_assurance
+    policy: null
+    qualifiedDemand: false
+    fulfillmentStatus: EXPLORE
+    blockingGap: Session SLO and entitlement not onboarded for execution
+    businessProblem: Could network treatment help a telehealth session meet a genuine SLO?
+    scores: { businessValue: MEDIUM, networkUniqueness: MEDIUM, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: HIGH }
+
+  - id: harbor-equipment
+    visible: true
+    enterpriseId: harbor-facilities
+    industry: facilities
+    applicationId: harbor-building-ops
+    useCaseId: critical-equipment-reachability
+    intentId: assure_building_equipment
+    commercialMotion: [DEVICE_AND_FLEET_OPERATIONS, CONNECTED_OPERATIONS]
+    scenarioMaturity: EXPLORE
+    scenarioComplexity: BASIC
+    decisionGap: BMS does not independently know whether critical connected equipment is currently reachable.
+    networkContribution: Device Reachability. Roaming only if the device model is cellular/mobile.
+    networkContributionTier: B
+    capabilities: [device_reachability]
+    apiFamilies: [CONNECTIVITY]
+    regions: [{ id: CA, availability: OPPORTUNITY, route: null, fulfillmentStatus: EXPLORE }]
+    providers: []
+    routes: []
+    availability: OPPORTUNITY
+    subscription: not_configured_for_execution
+    entitlement: not_configured_for_execution
+    purpose: delivery_device_assurance
+    policy: null
+    qualifiedDemand: false
+    fulfillmentStatus: EXPLORE
+    blockingGap: Not onboarded for guided/live execution
+    businessProblem: Is critical connected building equipment currently reachable?
+    scores: { businessValue: MEDIUM, networkUniqueness: HIGH, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: HIGH }
+
+  - id: buildright-field
+    visible: true
+    enterpriseId: buildright-construction
+    industry: construction
+    applicationId: buildright-field-ops
+    useCaseId: site-uplink
+    intentId: maintain_site_uplink
+    commercialMotion: [NETWORK_ASSURANCE, CONNECTED_OPERATIONS, LOCATION_AND_PRESENCE]
+    scenarioMaturity: EXPLORE
+    scenarioComplexity: COMPOSED
+    decisionGap: Site operations does not independently know connectivity of remote field devices against a genuine SLO.
+    networkContribution: Reachability. QoD / Edge only where the Decision Gap is credible.
+    networkContributionTier: C
+    capabilities: [device_reachability, quality_on_demand]
+    apiFamilies: [CONNECTIVITY, QUALITY]
+    regions: [{ id: CA, availability: OPPORTUNITY, route: null, fulfillmentStatus: EXPLORE }]
+    providers: []
+    routes: []
+    availability: OPPORTUNITY
+    subscription: not_configured_for_execution
+    entitlement: not_configured_for_execution
+    purpose: experience_assurance
+    policy: null
+    qualifiedDemand: false
+    fulfillmentStatus: EXPLORE
+    blockingGap: SLO / entitlement not onboarded
+    businessProblem: Can remote field-work connectivity be assured where a Decision Gap is genuine?
+    scores: { businessValue: MEDIUM, networkUniqueness: MEDIUM, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: HIGH }
+
+  - id: rb-kyc-onboarding
+    visible: true
+    enterpriseId: rocket-bank
+    industry: financial
+    applicationId: rocket-bank-onboarding
+    useCaseId: kyc-attribute-match
+    intentId: match_customer_kyc
+    commercialMotion: [IDENTITY_AND_TRUST]
+    scenarioMaturity: EXPLORE
+    scenarioComplexity: COMPOSED
+    decisionGap: Bank KYC does not independently match operator-held customer attributes when purpose, DPA and consent allow.
+    networkContribution: KYC Match. Privacy-sensitive. Not fake fulfillment.
+    networkContributionTier: C
+    capabilities: [kyc_match]
+    apiFamilies: [IDENTITY_AND_TRUST]
+    regions: [{ id: CA, availability: OPPORTUNITY, route: null, fulfillmentStatus: EXPLORE_CAPABILITY_SENSITIVE }]
+    providers: []
+    routes: []
+    availability: OPPORTUNITY
+    subscription: not_configured_for_execution
+    entitlement: not_configured_for_execution
+    purpose: kyc_attribute_match
+    policy: null
+    qualifiedDemand: false
+    fulfillmentStatus: EXPLORE
+    blockingGap: Consent / DPA / purpose must allow. Not executed.
+    businessProblem: Can operator KYC Match corroborate new-account attributes when allowed?
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: HIGH }
+
+rejected:
+  - id: locate-baggage
+    useCaseId: locate-baggage
+    reason: Cadence 10 demoted. Network Location is not bag tracking. LOW sales clarity if sold as baggage GPS.
+    scores: { businessValue: MEDIUM, networkUniqueness: LOW, apiPracticality: HIGH, volumePotential: LOW, axValue: LOW, salesClarity: LOW }
+  - id: venue-experience
+    useCaseId: venue-experience
+    reason: Stadium QoD / reachability is generic dense-venue assurance. LOW network uniqueness versus inspection or contribution SLO stories.
+    scores: { businessValue: MEDIUM, networkUniqueness: LOW, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: LOW }
+  - id: claim-location
+    useCaseId: claim-location-consistency
+    reason: Presence/location of a claimant is surveillance-adjacent. Do not invent Location Verification as fraud proof.
+    scores: { businessValue: MEDIUM, networkUniqueness: MEDIUM, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: LOW, salesClarity: LOW }
+  - id: retail-age-gate
+    useCaseId: age-restricted-sale
+    reason: Duplicates CityCare pharmacy age gate. Same capability, weaker healthcare story.
+    scores: { businessValue: MEDIUM, networkUniqueness: HIGH, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: LOW }
+  - id: dock-scan
+    useCaseId: dock-scan-session
+    reason: Duplicates manufacturing inspection QoD. LOW sales clarity as a distinct portfolio row.
+    scores: { businessValue: MEDIUM, networkUniqueness: LOW, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: LOW, salesClarity: LOW }
+  - id: shipment-custody
+    useCaseId: shipment-custody
+    reason: Location/geofence custody overlaps logistics device readiness without a cleaner Decision Gap.
+    scores: { businessValue: MEDIUM, networkUniqueness: LOW, apiPracticality: HIGH, volumePotential: MEDIUM, axValue: LOW, salesClarity: LOW }
+  - id: kyc-as-live
+    useCaseId: kyc-attribute-match
+    reason: Kept as EXPLORE only. Privacy/consent/DPA bound. Do not fake LIVE fulfillment.
+    scores: { businessValue: HIGH, networkUniqueness: HIGH, apiPracticality: MEDIUM, volumePotential: MEDIUM, axValue: MEDIUM, salesClarity: MEDIUM }

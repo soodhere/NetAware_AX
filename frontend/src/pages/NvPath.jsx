@@ -3,16 +3,36 @@ function Pill({ children, tone }) {
 }
 
 const VARIANTS = [
-  { id: "cellular-nv1", label: "CELLULAR" },
-  { id: "wifi-nv2", label: "WI-FI — READY" },
-  { id: "wifi-ecs-gap", label: "WI-FI — ECS GAP" },
+  { id: "cellular-nv1", label: "Cellular / Provider A" },
+  { id: "wifi-nv2", label: "Wi-Fi / Provider A" },
+  { id: "wifi-ecs-gap", label: "Wi-Fi / Provider B" },
 ];
 
 export function NvVariantBar({ variantId, onChange, disabled }) {
   return (
     <section className="nv-variant-bar">
-      <p className="kicker">Access / provider scenario</p>
-      <p className="tiny">The Intent does not change. Capability discovery and fulfillment path do.</p>
+      <p className="kicker">Simulate runtime context</p>
+      <p className="tiny">
+        Presenter / demo simulation only. The application does not choose Cellular, Wi-Fi, NV1, NV2, or ECS. Those are
+        runtime context and NetAware path selection.
+      </p>
+      <div className="nv-who-chooses">
+        <article className="nv-card ok">
+          <p className="kicker">Application chooses</p>
+          <strong>Intent</strong>
+          <span className="tiny">Verify this mobile number</span>
+        </article>
+        <article className="nv-card">
+          <p className="kicker">NetAware resolves</p>
+          <strong>Context</strong>
+          <span className="tiny">Access type · operator · readiness</span>
+        </article>
+        <article className="nv-card">
+          <p className="kicker">NetAware chooses</p>
+          <strong>NV1 / NV2 path</strong>
+          <span className="tiny">Not requested on the Intent</span>
+        </article>
+      </div>
       <div className="nv-variant-row">
         {VARIANTS.map((row) => (
           <button
@@ -242,14 +262,14 @@ export function NvFinderStrip({ trace }) {
             {api.numberVerificationAvailable ? "AVAILABLE" : "UNAVAILABLE"}
           </Pill>
         </p>
-        <p className="tiny">Distinct from NV1/NV2 support and ECS readiness.</p>
+        <p className="tiny">CAMARA API availability. Distinct from NV path support.</p>
       </article>
       <article className={`inset ${ecs.available === "UNAVAILABLE" ? "break-inset" : ""}`}>
-        <p className="kicker">Operator readiness</p>
+        <p className="kicker">Fulfillment</p>
         <p>
-          ECS · <Pill tone={ecs.available === "AVAILABLE" ? "ok" : "warn"}>{ecs.available || "—"}</Pill>
+          NV path · ECS · <Pill tone={ecs.available === "AVAILABLE" ? "ok" : "warn"}>{ecs.available || "—"}</Pill>
         </p>
-        <p className="tiny">Configured operator readiness. Not a CAMARA ECS API.</p>
+        <p className="tiny">Path support and operator prerequisite / ECS readiness. Not a CAMARA ECS API.</p>
       </article>
     </section>
   );

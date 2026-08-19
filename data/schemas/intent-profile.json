@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netaware.ax/schemas/intent-profile.json",
+  "title": "IntentProfile",
+  "description": "Cadence 10 onboarded Intent knowledge. Not a runtime request body and not a second planner.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "intentId",
+    "label",
+    "businessOutcome",
+    "complexity",
+    "enterpriseId",
+    "applicationId",
+    "purposeId",
+    "decisionGap",
+    "networkContributionTier"
+  ],
+  "properties": {
+    "intentId": { "type": "string", "minLength": 1 },
+    "label": { "type": "string" },
+    "businessOutcome": { "type": "string" },
+    "complexity": {
+      "type": "string",
+      "enum": ["BASIC", "COMPOSED", "ADVANCED_AGENTIC"]
+    },
+    "enterpriseId": { "type": "string" },
+    "applicationId": { "type": "string" },
+    "authorizedActors": { "type": "array", "items": { "type": "string" } },
+    "purposeId": { "type": "string" },
+    "regions": { "type": "array", "items": { "type": "string" } },
+    "candidateCapabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role"],
+        "properties": {
+          "id": { "type": "string" },
+          "role": { "type": "string", "enum": ["required", "considered"] }
+        }
+      }
+    },
+    "minimumEvidence": { "type": "array", "items": { "type": "string" } },
+    "optionalEvidence": { "type": "array", "items": { "type": "string" } },
+    "dataMinimization": { "type": "boolean" },
+    "reusePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allowed": { "type": "boolean" },
+        "ttl": { "type": "string" },
+        "purposeCompatibility": { "type": "string" }
+      }
+    },
+    "failurePolicy": {
+      "type": "string",
+      "enum": ["CAPABILITY_UNAVAILABLE", "CONTINUE_WITHOUT", "ESCALATE"]
+    },
+    "autonomy": { "type": "string" },
+    "decisionOwner": { "type": "string" },
+    "verificationRequirement": {
+      "type": "string",
+      "enum": ["none", "after_act", "always"]
+    },
+    "decisionGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alreadyHave", "decide", "gap", "networkAdds", "ax", "outcome"],
+      "properties": {
+        "alreadyHave": { "type": "array", "items": { "type": "string" } },
+        "decide": { "type": "string" },
+        "gap": { "type": "string" },
+        "networkAdds": { "type": "array", "items": { "type": "string" } },
+        "ax": { "type": "array", "items": { "type": "string" } },
+        "outcome": { "type": "string" }
+      }
+    },
+    "networkContributionTier": { "type": "string", "enum": ["A", "B", "C"] },
+    "workingAlias": { "type": "string" },
+    "note": { "type": "string" }
+  }
+}

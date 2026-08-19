@@ -10,6 +10,7 @@ from .config import ROOT
 from .graph import KnowledgeGraph
 from .model import ConfigStore
 from .nv_runtime import run_verify_mobile_number
+from .ota_runtime import run_prepare_ota_cohort
 from .registry import CatalogRegistry
 from .evidence_store import find_reusable, persist_from_trace, reset_store
 from .presentation import enrich_trace_presentation
@@ -32,7 +33,17 @@ EXECUTABLE_INTENTS = {
     "maintain_inspection_experience",
     "verify_pharmacy_age_gate",
     "verify_mobile_number",
+    "prepare_ota_cohort",
 }
+
+
+def _guided_intents() -> set[str]:
+    from .guided_runtime import GUIDED_INTENTS
+
+    return set(GUIDED_INTENTS)
+
+
+EXECUTABLE_INTENTS = EXECUTABLE_INTENTS | _guided_intents()
 SCENARIO_PATHS: dict[str, Any] = {
     "assess_network_trust": ROOT / "data" / "runtime" / "rocket-bank-trust.yaml",
     "assess_recovery_continuity": ROOT / "data" / "runtime" / "rocket-bank-recovery.yaml",
@@ -40,6 +51,7 @@ SCENARIO_PATHS: dict[str, Any] = {
     "maintain_inspection_experience": ROOT / "data" / "runtime" / "acme-inspection.yaml",
     "verify_pharmacy_age_gate": ROOT / "data" / "runtime" / "citycare-pharmacy.yaml",
     "verify_mobile_number": ROOT / "data" / "runtime" / "rocket-bank-nv.yaml",
+    "prepare_ota_cohort": ROOT / "data" / "runtime" / "acme-ota-fleet.yaml",
 }
 
 
@@ -1119,631 +1131,9 @@ def run_ensure_baggage_connection(
     registry: CatalogRegistry,
     request: dict[str, Any],
 ) -> ExecutionTrace:
-    intent_id = "ensure_baggage_connection"
-    seed = load_scenario(intent_id).get("scenario") or {}
+    from .hf_runtime import run_ensure_baggage_connection as _run_hf
 
-    agent_id = str(request.get("agentId") or seed.get("agentId"))
-    agent = store.agent_by_id.get(agent_id)
-    if not agent:
-        raise HTTPException(status_code=403, detail="Unknown agent")
-    if intent_id not in (agent.get("allowedIntents") or []):
-        raise HTTPException(status_code=403, detail="Agent is not authorized for this intent")
-
-    application = store.application_by_id.get(str(agent.get("actsOnBehalfOf") or ""))
-    enterprise = store.enterprise_by_id.get(str(agent.get("enterpriseId") or ""))
-    if not application or not enterprise:
-        raise HTTPException(status_code=403, detail="Agent application/enterprise not resolved")
-
-    intent = store.intent_by_id.get(intent_id) or {}
-    uc_id = graph.intent_use_case.get(intent_id)
-    use_case = store.use_case_by_id.get(uc_id or "")
-    domain = store.domain_by_id.get(str((use_case or {}).get("domainId") or enterprise.get("domainId") or ""))
-    policy = next((p for p in store.policies if p.get("id") == seed.get("policyId")), None)
-    if not policy:
-        raise HTTPException(status_code=500, detail="Scenario policy missing")
-    purpose = store.purpose_by_id.get(str(policy.get("purposeId") or intent.get("defaultPurposeId") or ""))
-    if not purpose:
-        raise HTTPException(status_code=500, detail="Purpose not resolved from configuration")
-
-    corr = seed.get("correlation") or {}
-    req_body = {
-        "intent": intent_id,
-        "subject": (request.get("subject") or seed.get("request", {}).get("subject")),
-        "context": (request.get("context") or seed.get("request", {}).get("context")),
-    }
-    network_subject = seed.get("networkSubject") or {}
-    domain_responses = seed.get("domainResponses") or {}
-    network_responses = seed.get("networkResponses") or {}
-    network_routes = seed.get("networkRoutes") or {}
-    telco = seed.get("telcoFinder") or {}
-    provider_label = str((telco.get("result") or {}).get("network") or "Network Provider A")
-    provider_id = str((telco.get("result") or {}).get("providerId") or "simulated-operator-a")
-
-    mapped = list(graph.intent_caps.get(intent_id) or [])
-    candidates: list[dict[str, Any]] = []
-    for link in mapped:
-        cap_id = str(link["capabilityId"])
-        cap = store.capability_by_id.get(cap_id) or {"id": cap_id}
-        fam = _family_for(registry, cap_id)
-        op_row = _primary_op(graph, cap_id)
-        meta = _op_meta(registry, str(op_row["operationId"]), str(op_row["source"])) if op_row else {}
-        pol = evaluate_capability_policy(
-            store,
-            enterprise_id=str(enterprise["id"]),
-            policy_id=str(policy["id"]),
-            purpose=purpose,
-            capability_id=cap_id,
-            family=str((fam or {}).get("familyGroup") or cap.get("family")),
-        )
-        route_cfg = network_routes.get(str((op_row or {}).get("operationId"))) or {}
-        advertised = bool(op_row and route_cfg)
-        if cap_id == "device_reachability":
-            advertised = True
-        if cap_id == "connectivity_insights":
-            advertised = True
-        if cap_id == "location_verification":
-            advertised = True
-        if cap_id == "quality_on_demand":
-            advertised = True
-        candidates.append(
-            {
-                "capability": cap,
-                "role": link.get("role"),
-                "family": fam,
-                "operation": op_row,
-                "catalog": meta,
-                "policy": pol,
-                "available": advertised,
-                "route": route_cfg,
-            }
-        )
-
-    exec_id = str(corr.get("executionId"))
-    plan_v1 = Plan(
-        id="plan-hf-baggage-v1",
-        intentId=intent_id,
-        executionId=exec_id,
-        version=1,
-        label="PLAN v1",
-        steps=[
-            PlanStep(1, "Get baggage journey state", None, "getBaggageJourney", "DOMAIN"),
-            PlanStep(2, "Get connecting flight departure/gate/window", None, "getFlightStatus", "DOMAIN"),
-            PlanStep(3, "Verify baggage/handler location if permitted", "location_verification", "verifyLocation", "NETWORK"),
-            PlanStep(4, "Check device reachability", "device_reachability", "getReachabilityStatus", "NETWORK"),
-            PlanStep(5, "Check connectivity if useful", "connectivity_insights", "checkNetworkQuality", "NETWORK"),
-            PlanStep(6, "Consider QoD only if network treatment could change outcome", "quality_on_demand", "createSession", "NETWORK"),
-            PlanStep(7, "Assess connection risk", None, None),
-            PlanStep(8, "Recommend or trigger permitted action", None, None),
-        ],
-    )
-    plan_v2 = Plan(
-        id="plan-hf-baggage-v2",
-        intentId=intent_id,
-        executionId=exec_id,
-        version=2,
-        label="PLAN v2",
-        supersedes=plan_v1.id,
-        note="We cannot verify network location. Use airline operational evidence instead.",
-        steps=[
-            PlanStep(1, "Get baggage journey state (scan/event location)", None, "getBaggageJourney", "DOMAIN", "INVOKED"),
-            PlanStep(2, "Get connecting flight status", None, "getFlightStatus", "DOMAIN", "INVOKED"),
-            PlanStep(
-                3,
-                "Location Verification — blocked by configured consent policy",
-                "location_verification",
-                "verifyLocation",
-                "NETWORK",
-                "BLOCKED_BY_POLICY",
-                "removed",
-            ),
-            PlanStep(
-                4,
-                "Ground Operations transfer ETA",
-                None,
-                "getGroundTransferETA",
-                "ENTERPRISE",
-                "PLANNED",
-                "added",
-            ),
-            PlanStep(5, "Check device reachability", "device_reachability", "getReachabilityStatus", "NETWORK"),
-            PlanStep(6, "Check connectivity state if useful", "connectivity_insights", "checkNetworkQuality", "NETWORK"),
-            PlanStep(7, "Consider QoD — only if network is limiting", "quality_on_demand", "createSession", "NETWORK"),
-            PlanStep(8, "Assess connection risk", None, None),
-            PlanStep(9, "Recommend expedite transfer (approval if required)", None, None),
-        ],
-    )
-
-    invocations: list[Invocation] = []
-    evidence: list[Evidence] = []
-    decisions: list[Decision] = []
-    policies: list[PolicyEvaluation] = [
-        PolicyEvaluation(
-            "pol-actor-auth",
-            "ACTOR_INTENT",
-            "agent",
-            "AUTHORIZED",
-            "CONFIGURED POLICY",
-            f"{agent.get('label')} is an authorized agent for {application.get('label')}.",
-        ),
-        PolicyEvaluation(
-            "pol-actor-intent",
-            "ACTOR_INTENT",
-            "intent",
-            "ALLOWED",
-            "CONFIGURED POLICY",
-            f"Intent {intent_id} is in the agent's allowedIntents.",
-        ),
-        PolicyEvaluation(
-            "pol-actor-purpose",
-            "ACTOR_INTENT",
-            "purpose",
-            "RESOLVED_FROM_CONFIGURATION",
-            "CONFIGURED POLICY",
-            f"Purpose {(purpose.get('audienceLabel') or purpose.get('label'))} resolved from application/intent profile. Not inferred from runtime text.",
-        ),
-    ]
-
-    owner = str(enterprise.get("label") or "High Flight Airlines")
-
-    for op_id, label, api_kind in [
-        ("getBaggageJourney", "Baggage Journey", "DOMAIN"),
-        ("getFlightStatus", "Flight Status", "DOMAIN"),
-    ]:
-        sim = domain_responses.get(op_id) or {}
-        inv = _domain_invocation(
-            op_id=op_id,
-            api_kind=api_kind,
-            owner=owner,
-            label=label,
-            corr_id=str(corr.get("correlationId")),
-            sim=sim,
-        )
-        invocations.append(inv)
-        ev = sim.get("evidence") or {}
-        evidence.append(
-            Evidence(
-                id=f"ev-{op_id}",
-                operationId=op_id,
-                type=str(ev.get("type") or op_id),
-                status=str(ev.get("status") or "observed"),
-                payload={k: v for k, v in ev.items() if k not in {"type"}},
-                purposeId=str(purpose["id"]),
-                apiKind=api_kind,
-            )
-        )
-        decisions.append(
-            Decision(
-                id=f"dec-{op_id}",
-                capabilityId=None,
-                familyId=None,
-                operationId=op_id,
-                label=label,
-                relevant=True,
-                availability="YES",
-                policyResult="PERMITTED",
-                state="INVOKED",
-                why=f"Airline {api_kind} API — existing domain integration. Complements network evidence; does not replace airline systems.",
-                stage="EXECUTION",
-            )
-        )
-        for step in plan_v1.steps:
-            if step.operationId == op_id:
-                step.state = "INVOKED"
-
-    loc = next((c for c in candidates if c["capability"]["id"] == "location_verification"), None)
-    if loc:
-        pol = loc["policy"]
-        fam = loc["family"] or {}
-        policies.append(
-            PolicyEvaluation(
-                "pol-cap-location_verification",
-                "CAPABILITY_API",
-                "location_verification",
-                pol["result"],
-                "CONFIGURED DEMO POLICY",
-                pol["detail"],
-            )
-        )
-        policies.append(
-            PolicyEvaluation(
-                "pol-loc-relevant",
-                "CAPABILITY_API",
-                "location_verification/relevance",
-                "RELEVANT",
-                "CONFIGURED DEMO POLICY",
-                "Location verification is relevant to determining baggage position/proximity for connection assurance.",
-            )
-        )
-        policies.append(
-            PolicyEvaluation(
-                "pol-loc-consent",
-                "CAPABILITY_API",
-                "location_verification/consent",
-                "BLOCKED_BY_POLICY",
-                "CONFIGURED DEMO POLICY",
-                "Consent required; consent state NOT AVAILABLE. Not a universal airline/legal rule.",
-            )
-        )
-        decisions.append(
-            Decision(
-                id="dec-location_verification",
-                capabilityId="location_verification",
-                familyId=fam.get("id"),
-                operationId=(loc["operation"] or {}).get("operationId"),
-                label=loc["capability"].get("label"),
-                relevant=True,
-                availability="YES" if loc["available"] else "NO",
-                policyResult=pol["result"],
-                state="BLOCKED_BY_POLICY",
-                why=pol["detail"] + " NetAware cannot fabricate location evidence. Operational airline evidence will be used instead.",
-                stage="CAPABILITY_API",
-            )
-        )
-        plan_v1.steps[2].state = "BLOCKED_BY_POLICY"
-
-    replan = {
-        "trigger": "LOCATION BLOCKED_BY_POLICY",
-        "constraint": "verifyLocation not invokable — consent not available",
-        "whatChanged": [
-            "Removed network location verification from remaining plan",
-            "Added Ground Operations transfer ETA (enterprise API)",
-            "Will use baggage journey scan/event location instead",
-            "Reachability confirms handler device availability — not physical location",
-        ],
-        "narrative": "We cannot verify network location. Use airline operational evidence instead.",
-        "planV1": plan_v1.id,
-        "planV2": plan_v2.id,
-    }
-
-    sim = domain_responses.get("getGroundTransferETA") or {}
-    inv = _domain_invocation(
-        op_id="getGroundTransferETA",
-        api_kind="ENTERPRISE",
-        owner=owner,
-        label="Ground Operations",
-        corr_id=str(corr.get("correlationId")),
-        sim=sim,
-    )
-    invocations.append(inv)
-    ev = sim.get("evidence") or {}
-    evidence.append(
-        Evidence(
-            id="ev-getGroundTransferETA",
-            operationId="getGroundTransferETA",
-            type=str(ev.get("type") or "GROUND_TRANSFER_ETA"),
-            status=str(ev.get("status") or "observed"),
-            payload={k: v for k, v in ev.items() if k not in {"type"}},
-            purposeId=str(purpose["id"]),
-            apiKind="ENTERPRISE",
-        )
-    )
-    decisions.append(
-        Decision(
-            id="dec-getGroundTransferETA",
-            capabilityId=None,
-            familyId=None,
-            operationId="getGroundTransferETA",
-            label="Ground Operations",
-            relevant=True,
-            availability="YES",
-            policyResult="PERMITTED",
-            state="INVOKED",
-            why="Added after replan. Transfer ETA from airline ground systems replaces blocked network location for proximity/risk assessment.",
-            stage="EXECUTION",
-        )
-    )
-    plan_v2.steps[3].state = "INVOKED"
-
-    network_invoke_order = ["device_reachability", "connectivity_insights"]
-    route_records: list[dict[str, Any]] = []
-    for cap_id in network_invoke_order:
-        cand = next((c for c in candidates if c["capability"]["id"] == cap_id), None)
-        if not cand:
-            continue
-        pol = cand["policy"]
-        op_row = cand["operation"]
-        meta = cand["catalog"]
-        fam = cand["family"] or {}
-        op_id = str(op_row["operationId"])
-        route_cfg = cand["route"] or network_routes.get(op_id) or {}
-        policies.append(
-            PolicyEvaluation(
-                f"pol-cap-{cap_id}",
-                "CAPABILITY_API",
-                cap_id,
-                pol["result"],
-                "CONFIGURED POLICY",
-                pol["detail"],
-            )
-        )
-        sim = network_responses.get(op_id) or {}
-        inv = _network_invocation(
-            op_id=op_id,
-            meta=meta,
-            fam=fam,
-            route=route_cfg,
-            corr_id=str(corr.get("correlationId")),
-            sim=sim,
-            op_row=op_row,
-        )
-        invocations.append(inv)
-        route_records.append(
-            {
-                "operationId": op_id,
-                "type": inv.routeType,
-                "display": inv.routeDisplay,
-                "providerId": inv.providerId,
-                "providerLabel": inv.providerLabel,
-                "aggregatorLabel": inv.aggregatorLabel,
-            }
-        )
-        ev = sim.get("evidence") or {}
-        evidence.append(
-            Evidence(
-                id=f"ev-{op_id}",
-                operationId=op_id,
-                type=str(ev.get("type") or op_id),
-                status=str(ev.get("status") or "observed"),
-                payload={k: v for k, v in ev.items() if k not in {"type"}},
-                purposeId=str(purpose["id"]),
-                apiKind="NETWORK",
-            )
-        )
-        why = (
-            "Confirms connected handler/tracking device availability. Does not provide physical bag location."
-            if cap_id == "device_reachability"
-            else "Helps determine whether network conditions explain operational delay. Network is adequate here."
-        )
-        decisions.append(
-            Decision(
-                id=f"dec-{cap_id}",
-                capabilityId=cap_id,
-                familyId=fam.get("id"),
-                operationId=op_id,
-                label=cand["capability"].get("label"),
-                relevant=True,
-                availability="YES",
-                policyResult="PERMITTED",
-                state="INVOKED",
-                why=why,
-                stage="EXECUTION",
-            )
-        )
-        for step in plan_v2.steps:
-            if step.operationId == op_id:
-                step.state = "INVOKED"
-
-    qod = next((c for c in candidates if c["capability"]["id"] == "quality_on_demand"), None)
-    if qod:
-        fam = qod["family"] or {}
-        policies.append(
-            PolicyEvaluation(
-                "pol-cap-quality_on_demand",
-                "CAPABILITY_API",
-                "quality_on_demand",
-                "PERMITTED",
-                "CONFIGURED POLICY",
-                "QoD is available and permitted, but network quality is not the limiting factor for this outcome.",
-            )
-        )
-        decisions.append(
-            Decision(
-                id="dec-quality_on_demand",
-                capabilityId="quality_on_demand",
-                familyId=fam.get("id"),
-                operationId=(qod["operation"] or {}).get("operationId"),
-                label=qod["capability"].get("label"),
-                relevant=False,
-                availability="YES" if qod["available"] else "NO",
-                policyResult="PERMITTED",
-                state="NOT_REQUIRED",
-                why="AVAILABLE and PERMITTED, potentially relevant to network experience, but NOT USEFUL FOR THIS OUTCOME NOW. "
-                "NETWORK QUALITY IS NOT THE LIMITING FACTOR — physical transfer time is.",
-                stage="PLAN",
-            )
-        )
-        plan_v2.steps[6].state = "NOT_REQUIRED"
-
-    for step in plan_v2.steps:
-        if step.operationId in {i.operationId for i in invocations}:
-            if step.state not in {"BLOCKED_BY_POLICY", "NOT_REQUIRED"}:
-                step.state = "INVOKED"
-        elif step.capabilityId == "location_verification":
-            step.state = "BLOCKED_BY_POLICY"
-        elif step.operationId is None and step.n >= 8:
-            step.state = "COMPLETED"
-
-    out_seed = seed.get("outcome") or {}
-    outcome = Outcome(
-        outcome=str(out_seed.get("outcome") or "AT_RISK"),
-        confidence=float(out_seed.get("confidence") or 0.88),
-        recommendedAction=str(out_seed.get("recommendedAction") or "EXPEDITE_TRANSFER"),
-        decisionOwner=str(out_seed.get("decisionOwner") or "HIGH_FLIGHT_OPERATIONS"),
-        reasonCodes=list(out_seed.get("reasonCodes") or ["TIGHT_CONNECTION_WINDOW", "TRANSFER_ETA_EXCEEDS_SAFE_MARGIN"]),
-        summary=str(
-            out_seed.get("summary")
-            or "Bag at risk. Physical transfer time is limiting. Recommend expedite transfer with approval."
-        ),
-        approvalRequired=bool(out_seed.get("approvalRequired", True)),
-        limitingFactor=str(out_seed.get("limitingFactor") or "PHYSICAL_TRANSFER_TIME"),
-        networkConstraint=bool(out_seed.get("networkConstraint", False)),
-    )
-
-    autonomy = {
-        "observe_and_assess": "ACT",
-        "assess_connection_risk": "ACT",
-        "recommend_expedite_transfer": "ACT_WITH_APPROVAL",
-        "change_flight_plan": "NOT_AUTHORIZED",
-        "selectedAction": "recommend_expedite_transfer",
-        "selectedLevel": "ACT_WITH_APPROVAL",
-        "approvalRequired": True,
-        "note": "NetAware may recommend EXPEDITE_TRANSFER but requires High Flight operations approval. It may not change the flight plan.",
-        "source": "CONFIGURED POLICY",
-    }
-    policies.append(
-        PolicyEvaluation(
-            "pol-auto-observe",
-            "AUTONOMY_ACTION",
-            "observe_and_assess",
-            "ACT",
-            "CONFIGURED POLICY",
-            "Observing baggage/flight/network evidence is allowed.",
-        )
-    )
-    policies.append(
-        PolicyEvaluation(
-            "pol-auto-expedite",
-            "AUTONOMY_ACTION",
-            "recommend_expedite_transfer / EXPEDITE_TRANSFER",
-            "ACT_WITH_APPROVAL",
-            "CONFIGURED POLICY",
-            "Expedite transfer is recommended but requires operations approval before trigger.",
-        )
-    )
-    policies.append(
-        PolicyEvaluation(
-            "pol-auto-flight",
-            "AUTONOMY_ACTION",
-            "change_flight_plan",
-            "NOT_AUTHORIZED",
-            "CONFIGURED POLICY",
-            "Agent is not authorized to change the flight plan.",
-        )
-    )
-
-    finder_ops = []
-    for cand in candidates:
-        op_row = cand["operation"]
-        if not op_row:
-            continue
-        finder_ops.append(
-            {
-                "capabilityId": cand["capability"]["id"],
-                "capability": cand["capability"].get("label"),
-                "operationId": op_row["operationId"],
-                "family": (cand["family"] or {}).get("label"),
-                "available": cand["available"],
-                "provider": provider_label if cand["available"] else None,
-            }
-        )
-
-    api_finder = {
-        "neededBecause": "Network-related subject resolved. API Finder resolves which Network APIs/providers are available for the handler device network.",
-        "network": provider_label,
-        "networkSubject": network_subject,
-        "results": finder_ops,
-        "simulated": True,
-        "note": "Availability is simulated/configured. Policy and planning decide what can actually be invoked.",
-    }
-
-    known = {
-        "source": "FROM ONBOARDING / CONFIGURATION",
-        "rows": [
-            {"label": "Enterprise", "value": enterprise.get("label")},
-            {"label": "Application", "value": application.get("label")},
-            {"label": "Authorized Agent", "value": agent.get("label")},
-            {"label": "Domain", "value": (domain or {}).get("label")},
-            {"label": "Use case", "value": (use_case or {}).get("label")},
-            {"label": "Purpose", "value": purpose.get("audienceLabel") or purpose.get("label")},
-            {"label": "Purpose source", "value": "CONFIGURED APPLICATION / INTENT PROFILE"},
-            {"label": "Hub / airport context", "value": "Configured"},
-            {"label": "Subscriptions", "value": "Configured"},
-            {"label": "Entitlements", "value": "Configured"},
-            {"label": "Policy", "value": policy.get("label")},
-            {"label": "Consent", "value": "Configured (location required, not available)"},
-            {"label": "Agreement / DPA", "value": "Configured"},
-            {"label": "Region", "value": "CA"},
-            {"label": "Provider relationships", "value": "Configured"},
-            {"label": "Autonomy rules", "value": "Configured"},
-            {"label": "Network subject", "value": f"Bag → {network_subject.get('trackedBy')} → {network_subject.get('networkIdentifier')}"},
-        ],
-    }
-
-    beats = [
-        Beat(1, 0, "HIGH FLIGHT AGENT", "AGENT_AUTHENTICATED", "Agent authenticated", f"{agent.get('label')} acts for {application.get('label')}.", "agent"),
-        Beat(2, 400, "NETAWARE AX", "INTENT_RECEIVED", "Intent received", "ensure_baggage_connection — small business request.", "netaware"),
-        Beat(3, 800, "CONTEXT / POLICY", "CONTEXT_RESOLVED", "Context resolved", "Enterprise, application, subscriptions and policy loaded from onboarding.", "policy"),
-        Beat(4, 1100, "CONTEXT / POLICY", "ACTOR_CHECKED", "Agent authorization checked", "Intent is in allowedIntents.", "policy"),
-        Beat(5, 1400, "CONTEXT / POLICY", "PURPOSE_RESOLVED", "Purpose resolved from configuration", str(purpose.get("audienceLabel") or purpose.get("label")), "policy"),
-        Beat(6, 1700, "NETAWARE AX", "PLAN_CREATED", "PLAN v1 created", "Domain + network capabilities combined.", "netaware"),
-        Beat(7, 2000, "DOMAIN APIs", "INVOKED", "getBaggageJourney", "Bag in transit; last scan T-B-SORT-12.", "domain"),
-        Beat(8, 2400, "DOMAIN APIs", "INVOKED", "getFlightStatus", "HF281 gate B22; boarding closes in 28 minutes.", "domain"),
-        Beat(9, 2800, "CONTEXT / POLICY", "BLOCKED_BY_POLICY", "Location verification blocked", "Consent required and not available. CONFIGURED DEMO POLICY.", "policy"),
-        Beat(10, 3200, "NETAWARE AX", "REPLAN", "PLAN v2 — material replan", replan["narrative"], "netaware"),
-        Beat(11, 3600, "ENTERPRISE GROUND OPERATIONS", "INVOKED", "getGroundTransferETA", "Transfer ETA 22 min exceeds safe margin 15 min.", "enterprise"),
-        Beat(12, 4000, "TELCO FINDER", "TELCO_FINDER", "Telco Finder", telco.get("neededBecause", ""), "finder"),
-        Beat(13, 4300, "API FINDER", "API_FINDER", "API Finder", f"Network APIs available on {provider_label}.", "finder"),
-        Beat(14, 4600, "NETWORK PROVIDER", "INVOKED", "getReachabilityStatus", "Handler device reachable (DIRECT).", "provider"),
-        Beat(15, 5100, "AGGREGATOR", "INVOKED", "checkNetworkQuality", "Connectivity adequate (AGGREGATED route).", "aggregator"),
-        Beat(16, 5600, "NETAWARE AX", "NOT_REQUIRED", "QoD not invoked", "Physical transfer time is limiting — not network quality.", "netaware"),
-        Beat(17, 6000, "NETAWARE AX", "EVIDENCE", "Evidence combined", "Operational + network evidence; no synthetic location.", "netaware"),
-        Beat(18, 6400, "CONTEXT / POLICY", "AUTONOMY", "Autonomy check", "EXPEDITE_TRANSFER — ACT_WITH_APPROVAL.", "policy"),
-        Beat(19, 6800, "HIGH FLIGHT AGENT", "OUTCOME", "Business outcome returned", "AT_RISK. Approval required for expedite.", "agent"),
-    ]
-
-    invoked_ops = {i.operationId for i in invocations}
-    if "verifyLocation" in invoked_ops:
-        raise HTTPException(status_code=500, detail="blocked location was invoked")
-    if any(e.type in {"NETWORK_LOCATION", "LOCATION_VERIFICATION"} for e in evidence):
-        raise HTTPException(status_code=500, detail="synthetic location evidence generated")
-
-    return ExecutionTrace(
-        executionId=exec_id,
-        traceId=str(corr.get("traceId")),
-        correlationId=str(corr.get("correlationId")),
-        intentId=intent_id,
-        status="COMPLETED",
-        request=req_body,
-        knownFromConfiguration=known,
-        purpose={
-            "id": purpose.get("id"),
-            "label": purpose.get("audienceLabel") or purpose.get("label"),
-            "source": "CONFIGURED APPLICATION / INTENT PROFILE",
-            "note": "Purpose comes from configuration. Not inferred from arbitrary runtime text.",
-        },
-        actor={
-            "agent": agent,
-            "application": application,
-            "enterprise": enterprise,
-            "kind": "AUTHORIZED_AGENT",
-        },
-        telcoFinder=telco,
-        apiFinder=api_finder,
-        route={
-            "type": "HYBRID",
-            "from": "NetAware",
-            "display": "HYBRID — DIRECT and AGGREGATED routes per operation",
-            "note": "Reachability DIRECT; Connectivity AGGREGATED; Location would have been AGGREGATED but blocked.",
-        },
-        routes=route_records,
-        plan=plan_v2,
-        planHistory=[plan_v1, plan_v2],
-        replan=replan,
-        decisions=decisions,
-        invocations=invocations,
-        evidence=evidence,
-        policyEvaluations=policies,
-        autonomy=autonomy,
-        outcome=outcome,
-        economy={
-            "catalogFamiliesAvailable": len(registry.families),
-            "mappedToIntent": len(mapped),
-            "domainInvoked": 3,
-            "networkInvoked": 2,
-            "invoked": len(invocations),
-            "consideredNotRequired": 1,
-            "blockedByPolicy": 1,
-            "note": "Domain/enterprise APIs complement network APIs. Mapped ≠ invoked. QoD considered but not required.",
-        },
-        beats=beats,
-        honesty={
-            "simulated": True,
-            "liveOperators": False,
-            "policyIsConfiguredDemo": True,
-            "noSyntheticLocation": True,
-            "domainApisAreSimulated": True,
-        },
-    )
+    return _run_hf(store, graph, registry, request)
 
 
 def _append_network_invocation(
@@ -2661,6 +2051,7 @@ _INTENT_RUNNERS: dict[str, Callable[..., ExecutionTrace]] = {
     "maintain_inspection_experience": run_maintain_inspection_experience,
     "verify_pharmacy_age_gate": run_verify_pharmacy_age_gate,
     "verify_mobile_number": run_verify_mobile_number,
+    "prepare_ota_cohort": run_prepare_ota_cohort,
 }
 
 
@@ -2673,11 +2064,19 @@ def execute_intent(store: ConfigStore, graph: KnowledgeGraph, registry: CatalogR
     intent_id = str(body.get("intent"))
     runner = _INTENT_RUNNERS.get(intent_id)
     if not runner:
+        from .guided_runtime import GUIDED_INTENTS, run_guided_intent
+
+        if intent_id in GUIDED_INTENTS:
+            runner = run_guided_intent
+    if not runner:
         raise HTTPException(status_code=409, detail=f"Intent not executable: {intent_id}")
     trace = runner(store, graph, registry, body)
     from .discovery_trace import attach_discovery
 
+    from .intent_profile import attach_intent_profile
+
     payload = attach_discovery(enrich_trace_presentation(trace.to_public(), registry), store, graph, registry)
+    payload = attach_intent_profile(payload, store)
     _LAST[payload["executionId"]] = payload
     _LAST["latest"] = payload
     return payload

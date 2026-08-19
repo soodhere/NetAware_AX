@@ -1,15 +1,16 @@
-# Cadence 7 — Device fleet OTA scenario shape. NOT executable.
-# Cadence 10 implements the live run.
+# Cadence 7 froze the OTA shape. Cadence 11 makes it live under a new Intent id.
+# rollout_firmware_safely remains a documentation alias — not executable.
 
 model:
-  cadence: 7
-  executable: false
+  cadence: 11
+  executable: true
+  applicationExistsNow: true
   intentId: rollout_firmware_safely
-  label: Roll out firmware safely
+  liveIntentId: prepare_ota_cohort
+  label: Prepare network-qualified OTA cohort
   enterpriseId: acme-manufacturing
   applicationId: acme-device-fleet
-  applicationExistsNow: false
-  note: New Application under Acme Manufacturing in Cadence 10. Not created in Cadence 7.
+  note: Cadence 11 live Intent is prepare_ota_cohort. NetAware does not flash firmware. Working alias rollout_firmware_safely is documentation only.
 
 purpose:
   axId: firmware_rollout
@@ -32,12 +33,15 @@ enterpriseAlreadyHas:
 
 networkAdds:
   required: [device_reachability, roaming_status]
-  optional: [connectivity_insights]
+  optional: []
+  notInvoked:
+    connectivity_insights: experimental / not required to change the cohort decision
   defaultNotRequired:
     quality_on_demand: true
     location_verification: true
     location_retrieval: true
     edge_discovery: true
+    connectivity_insights: true
 
 agenticShape:
   - DISCOVER
@@ -63,16 +67,20 @@ domainOperations:
     - startWave
     - getCampaignStats
     - latestCheckIn
+    - addDevicesToCampaign
+    - startCampaign
 
 networkOperations:
   fromActiveCatalog:
     - getReachabilityStatus
     - getRoamingStatus
+  consideredNotRequired:
     - checkNetworkQuality
   notInPlanByDefault:
     - createSession
     - verifyLocation
     - readClosestEdgeCloudZone
+    - checkNetworkQuality
 
 catalogGapsNotAdmittedInCadence7:
   - Device Reachability Status Subscriptions

@@ -109,7 +109,10 @@ STORY_REASONS: dict[tuple[str, str, str], str] = {
     ("verify_pharmacy_age_gate", "kyc_match", "AGREEMENT_GAP"): "KYC Match is related, but broader than required and not permitted.",
     ("verify_pharmacy_age_gate", "age_verification", "SELECTED"): "Age assertion is sufficient, permitted and entitled.",
     ("ensure_baggage_connection", "location_verification", "CONSENT_MISSING"): "Location is relevant and available, but consent is missing.",
-    ("ensure_baggage_connection", "quality_on_demand", "NOT_REQUIRED"): "QoD is available, but network quality is not the limiting factor.",
+    ("ensure_baggage_connection", "location_verification", "NOT_REQUIRED"): "Location is not the Decision Gap. BRS already has bag/flight/custody events. Network Location is not bag tracking.",
+    ("ensure_baggage_connection", "quality_on_demand", "NOT_REQUIRED"): "QoD does not close the ramp-scan Decision Gap by default.",
+    ("ensure_baggage_connection", "connectivity_insights", "NOT_REQUIRED"): "Connectivity would not change CONTINUE vs SWAP once reachability is known.",
+    ("ensure_baggage_connection", "device_reachability", "SELECTED"): "Reachability of the assigned ramp scanner closes the Network Decision Gap.",
     ("maintain_inspection_experience", "quality_on_demand", "NOT_REQUIRED"): "QoD is available and permitted, but the objective is already satisfied.",
     ("maintain_inspection_experience", "quality_on_demand", "SELECTED"): "After the breach, QoD became the useful network action.",
     ("maintain_inspection_experience", "edge_discovery", "NOT_REQUIRED"): "Edge discovery is not required for this camera SLO.",
@@ -126,6 +129,12 @@ STORY_REASONS: dict[tuple[str, str, str], str] = {
     ("verify_mobile_number", "NV2_OPERATOR_TOKEN", "ENTITLEMENT_SERVER_UNAVAILABLE"): "NV2 needs an Entitlement Server that is unavailable.",
     ("verify_mobile_number", "phoneNumberVerify", "SELECTED"): "Claimed MSISDN present — CAMARA operation is phoneNumberVerify.",
     ("verify_mobile_number", "phoneNumberShare", "NOT_REQUIRED"): "Share is not NV2. Claimed number uses verify.",
+    ("prepare_ota_cohort", "device_reachability", "SELECTED"): "Reachability is the primary network evidence for OTA cohort qualification.",
+    ("prepare_ota_cohort", "device_reachability", "EVIDENCE_REUSED"): "Fresh reachability evidence reused for some devices under the same purpose and TTL.",
+    ("prepare_ota_cohort", "roaming_status", "SELECTED"): "Roaming state is supplied by the network; configured enterprise policy interprets it.",
+    ("prepare_ota_cohort", "quality_on_demand", "NOT_REQUIRED"): "QoD would not change which devices enter the OTA cohort now.",
+    ("prepare_ota_cohort", "location_verification", "NOT_REQUIRED"): "Network Location is not required to qualify the OTA cohort.",
+    ("prepare_ota_cohort", "connectivity_insights", "NOT_REQUIRED"): "Connectivity Insights is experimental and would not change the cohort decision.",
 }
 
 

@@ -1,0 +1,225 @@
+# Cadence 11 — Acme Connected Device Operations / fleet firmware rollout.
+# Deterministic SIMULATED FLEET. No live operator. Configured demo policy only.
+# NetAware does not install firmware.
+
+scenario:
+  id: acme-ota-fleet
+  executableIntent: prepare_ota_cohort
+  defaultVariant: prepare
+  enterpriseId: acme-manufacturing
+  applicationId: acme-device-fleet
+  agentId: device-ops-agent
+  useCaseId: fleet-firmware-rollout
+  policyId: acme-ota-policy
+  campaign:
+    id: ACME-FW-8-4-CRITICAL
+    label: Critical firmware 8.4 / security update
+    priority: CRITICAL
+    targetFirmware: "8.4.2"
+    owner: ENTERPRISE_OTA_PLATFORM
+  correlation:
+    intentId: prepare_ota_cohort
+    executionId: ax-ota-cohort-001
+    traceId: ax-ota-cohort-trace
+    correlationId: ACME-FW-8-4-CRITICAL-ax
+  request:
+    intent: prepare_ota_cohort
+    subject:
+      campaignId: ACME-FW-8-4-CRITICAL
+      applicationId: acme-device-fleet
+    context:
+      otaWave: prepare
+      campaignPriority: CRITICAL
+  honesty:
+    simulatedFleet: true
+    simulatedEnterpriseApi: true
+    configuredPolicy: true
+    simulatedOperatorResponse: true
+    networkDoesNotInstallFirmware: true
+  policy:
+    purpose: Device Operations / Service Maintenance
+    campaign: Critical firmware update
+    reachability:
+      DATA: eligible
+      not_DATA: DEFER / RETRY
+    roaming:
+      note: Network supplies roaming state. Enterprise policy decides what that means. Roaming is not automatically bad.
+      HOME: eligible
+      ROAMING: MAY_INCLUDE_IF_CRITICAL
+      thisCampaign: CRITICAL
+      thisCampaignRoaming: DEFER
+      reason: Configured OTA policy defers roaming devices on this campaign even though priority is CRITICAL, unless a later wave explicitly includes them.
+  fleet:
+    simulated: true
+    label: SIMULATED FLEET
+    campaignTarget: 10000
+    enterpriseEligible: 8400
+    enterpriseNotEligible: 1600
+    evidenceReused: 1300
+    networkEvaluationRequired: 7100
+    dataReachableLive: 5900
+    rollOutNow: 5900
+    defer: 2500
+    deferUnreachable: 1200
+    deferRoamingPolicy: 800
+    unfulfilledRoamingApi: 500
+    reassess:
+      newlyReachable: 400
+      noLongerRoaming: 200
+      rollOutNow: 6500
+      defer: 1900
+      deferUnreachable: 800
+      deferRoamingPolicy: 600
+      unfulfilledRoamingApi: 500
+  providers:
+    - id: provider-a
+      label: Network Provider A
+      region: Canada
+      route: DIRECT
+      via: null
+      providerId: simulated-operator-a
+      campaign: 5000
+      eligible: 4200
+      reused: 700
+      eval: 3500
+      unreachable: 550
+      roamingDefer: 450
+      rollOut: 3200
+      reachabilityAvailable: true
+      roamingAvailable: true
+    - id: provider-b
+      label: Network Provider B
+      region: Germany
+      route: AGGREGATED
+      via: Aggregator A
+      providerId: simulated-operator-b
+      aggregatorId: simulated-aggregator-b
+      campaign: 3300
+      eligible: 2800
+      reused: 400
+      eval: 2400
+      unreachable: 450
+      roamingDefer: 350
+      rollOut: 2000
+      reachabilityAvailable: true
+      roamingAvailable: true
+    - id: provider-c
+      label: Network Provider C
+      region: Singapore
+      route: DIRECT
+      via: null
+      providerId: simulated-provider-c
+      campaign: 1700
+      eligible: 1400
+      reused: 200
+      eval: 1200
+      unreachable: 200
+      roamingDefer: 0
+      roamingApiGap: 500
+      rollOut: 700
+      reachabilityAvailable: true
+      roamingAvailable: false
+  volume:
+    simulated: true
+    label: SIMULATED DEMO VOLUME
+    prepare:
+      reachabilityLive: 7100
+      roamingLive: 4900
+      reachabilityReused: 1300
+    reassess:
+      reachabilityLive: 400
+      roamingLive: 600
+  samples:
+    - id: ACME-PLANT-A-00421
+      provider: provider-a
+      reachable: true
+      roaming: false
+      cohort: ROLL_OUT_NOW
+      evidence: live
+    - id: ACME-PLANT-A-01002
+      provider: provider-a
+      reachable: true
+      roaming: false
+      cohort: ROLL_OUT_NOW
+      evidence: reused
+    - id: ACME-PLANT-B-07108
+      provider: provider-b
+      reachable: true
+      roaming: true
+      cohort: DEFER_ROAMING_POLICY
+      evidence: live
+    - id: ACME-PLANT-C-09112
+      provider: provider-c
+      reachable: true
+      roaming: unknown
+      cohort: UNFULFILLED_ROAMING_API
+      evidence: live
+    - id: ACME-PLANT-A-05501
+      provider: provider-a
+      prepareCohort: DEFER_UNREACHABLE
+      reassessCohort: ROLL_OUT_NOW
+      reachablePrepare: false
+      reachableReassess: true
+      roamingReassess: false
+    - id: ACME-PLANT-B-06103
+      provider: provider-b
+      prepareCohort: DEFER_ROAMING_POLICY
+      reassessCohort: ROLL_OUT_NOW
+      reachablePrepare: true
+      roamingPrepare: true
+      reachableReassess: true
+      roamingReassess: false
+  domainResponses:
+    listDevices:
+      latencyMs: 48
+      httpStatus: 200
+      raw: { campaignId: ACME-FW-8-4-CRITICAL, devices: 10000, simulatedFleet: true }
+      evidence: { type: OTA_CAMPAIGN, status: loaded, devices: 10000, label: SIMULATED FLEET }
+    getTwin:
+      latencyMs: 36
+      httpStatus: 200
+      raw: { compatible: 8400, targetFirmware: "8.4.2", owner: ENTERPRISE_OTA }
+      evidence: { type: DEVICE_TWIN, status: observed, eligible: 8400 }
+    getPackage:
+      latencyMs: 28
+      httpStatus: 200
+      raw: { packageId: FW-8-4-2, compatibleModels: true }
+      evidence: { type: FIRMWARE_PACKAGE, status: ready, owner: ENTERPRISE_OTA }
+    addDevicesToCampaign:
+      latencyMs: 52
+      httpStatus: 202
+      raw: { accepted: true, simulatedEnterpriseApi: true, firmwareNotInstalled: true }
+      evidence: { type: OTA_COHORT_SUBMITTED, status: accepted_pending_enterprise_rollout }
+  networkRoutes:
+    getReachabilityStatus:
+      provider-a:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: NetAware → Network Provider A (DIRECT)
+      provider-b:
+        routeType: AGGREGATED
+        providerId: simulated-aggregator-b
+        providerLabel: Network Provider B
+        aggregatorLabel: Aggregator A
+        routeDisplay: NetAware → Aggregator A → Network Provider B
+      provider-c:
+        routeType: DIRECT
+        providerId: simulated-provider-c
+        providerLabel: Network Provider C
+        routeDisplay: NetAware → Network Provider C (DIRECT)
+    getRoamingStatus:
+      provider-a:
+        routeType: DIRECT
+        providerId: simulated-operator-a
+        providerLabel: Network Provider A
+        routeDisplay: NetAware → Network Provider A (DIRECT)
+      provider-b:
+        routeType: AGGREGATED
+        providerId: simulated-aggregator-b
+        providerLabel: Network Provider B
+        aggregatorLabel: Aggregator A
+        routeDisplay: NetAware → Aggregator A → Network Provider B
+      provider-c:
+        available: false
+        gap: Roaming Status is not advertised by Network Provider C

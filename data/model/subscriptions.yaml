@@ -39,6 +39,11 @@ subscriptions:
     enterpriseId: acme-manufacturing
     capabilityFamily: APPLICATION
     status: active
+  - id: acme-mobility-sub
+    enterpriseId: acme-manufacturing
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Roaming Status for Connected Device Operations. Subscribed does not imply entitled.
   - id: cc-identity-sub
     enterpriseId: citycare-health
     capabilityFamily: IDENTITY_AND_TRUST
@@ -46,4 +51,50 @@ subscriptions:
   - id: cc-age-sub
     enterpriseId: citycare-health
     capabilityId: age_verification
+    status: active
+  - id: mm-identity-sub
+    enterpriseId: megamart-retail
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+  - id: mm-device-sub
+    enterpriseId: megamart-retail
+    capabilityFamily: DEVICE
+    status: active
+  - id: mm-mobility-sub
+    enterpriseId: megamart-retail
+    capabilityFamily: LOCATION_AND_MOBILITY
+    status: active
+    note: Subscribed does not imply consent is available.
+  - id: ns-identity-sub
+    enterpriseId: northstar-insurance
+    capabilityFamily: IDENTITY_AND_TRUST
+    status: active
+  - id: ns-device-sub
+    enterpriseId: northstar-insurance
+    capabilityFamily: DEVICE
+    status: active
+  - id: ss-connectivity-sub
+    enterpriseId: swiftship-logistics
+    capabilityFamily: CONNECTIVITY
+    status: active
+  - id: hf-ground-connectivity-sub
+    enterpriseId: high-flight-airlines
+    capabilityFamily: CONNECTIVITY
+    status: active
+    note: Same enterprise CONNECTIVITY subscription as Baggage Operations. Ground Operations is a different application entitlement.
+  - id: acme-maint-connectivity-sub
+    enterpriseId: acme-manufacturing
+    capabilityFamily: CONNECTIVITY
+    status: active
+  - id: apex-quality-sub
+    enterpriseId: apex-media
+    capabilityFamily: QUALITY
+    status: active
+  - id: harbor-connectivity-sub
+    enterpriseId: harbor-facilities
+    capabilityFamily: CONNECTIVITY
+    status: active
+  - id: buildright-connectivity-sub
+    enterpriseId: buildright-construction
+    capabilityFamily: CONNECTIVITY
     status: active

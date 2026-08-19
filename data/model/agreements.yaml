@@ -3,7 +3,7 @@ agreements:
     label: Rocket Bank DPA configuration
     enterpriseId: rocket-bank
     kind: DPA
-    permittedPurposes: [payment_fraud_assist, identity_continuity_assist, mobile_number_authentication]
+    permittedPurposes: [payment_fraud_assist, identity_continuity_assist, mobile_number_authentication, kyc_attribute_match]
     permittedRegions: [CA]
     dataResidency: CA
     note: Configured agreement, not a universal legal conclusion.
@@ -11,7 +11,7 @@ agreements:
     label: High Flight DPA configuration
     enterpriseId: high-flight-airlines
     kind: DPA
-    permittedPurposes: [baggage_connection_assurance]
+    permittedPurposes: [baggage_connection_assurance, delivery_device_assurance]
     permittedRegions: [CA]
     dataResidency: CA
     note: Configured agreement, not a universal legal conclusion.
@@ -19,7 +19,7 @@ agreements:
     label: Acme DPA configuration
     enterpriseId: acme-manufacturing
     kind: DPA
-    permittedPurposes: [inspection_video_assurance]
+    permittedPurposes: [inspection_video_assurance, firmware_rollout, delivery_device_assurance]
     permittedRegions: [EU, CA]
     dataResidency: plant_region
     note: Configured agreement, not a universal legal conclusion.
@@ -27,7 +27,55 @@ agreements:
     label: CityCare DPA configuration
     enterpriseId: citycare-health
     kind: DPA
-    permittedPurposes: [pharmacy_age_eligibility]
+    permittedPurposes: [pharmacy_age_eligibility, experience_assurance]
     permittedRegions: [CA]
     dataResidency: CA
-    note: Age assertion permitted. Broader KYC Match not permitted for pharmacy age gate. Configured demo governance.
+    note: Age assertion permitted. Broader KYC Match not permitted for pharmacy age gate. Telehealth remains EXPLORE. Configured demo governance.
+  - id: megamart-dpa
+    label: MegaMart DPA configuration
+    enterpriseId: megamart-retail
+    kind: DPA
+    permittedPurposes: [identity_continuity_assist]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: Identity continuity for checkout. Does not authorize declining a purchase. Configured demo governance.
+  - id: northstar-dpa
+    label: Northstar DPA configuration
+    enterpriseId: northstar-insurance
+    kind: DPA
+    permittedPurposes: [identity_continuity_assist]
+    permittedRegions: [DE, CA]
+    dataResidency: DE
+    note: Network evidence for claims review. Does not determine claim fraud. Configured demo governance.
+  - id: swiftship-dpa
+    label: SwiftShip DPA configuration
+    enterpriseId: swiftship-logistics
+    kind: DPA
+    permittedPurposes: [delivery_device_assurance]
+    permittedRegions: [CA, DE]
+    dataResidency: CA
+    note: Device reachability for assigned delivery handhelds. Configured demo governance.
+  - id: apex-dpa
+    label: Apex Media DPA configuration
+    enterpriseId: apex-media
+    kind: DPA
+    permittedPurposes: [experience_assurance]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: Contribution SLO treatment. Does not take production to air. Configured demo governance.
+  - id: harbor-dpa
+    label: Harbor Facilities DPA configuration
+    enterpriseId: harbor-facilities
+    kind: DPA
+    permittedPurposes: [delivery_device_assurance]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: EXPLORE only. Configured demo governance.
+  - id: buildright-dpa
+    label: BuildRight DPA configuration
+    enterpriseId: buildright-construction
+    kind: DPA
+    permittedPurposes: [experience_assurance]
+    permittedRegions: [CA]
+    dataResidency: CA
+    note: EXPLORE only. Configured demo governance.

@@ -1,14 +1,49 @@
 import { href } from "../api.js";
+import { api } from "../api.js";
 import AxLoop from "../components/AxLoop.jsx";
+import { useEffect, useState } from "react";
 
 export default function Close() {
+  const [meet, setMeet] = useState(null);
+  useEffect(() => {
+    api("/meet")
+      .then(setMeet)
+      .catch(() => setMeet(null));
+  }, []);
+  const close = meet?.closeVisual || {};
+
   return (
     <div>
-      <p className="kicker">Product reveal</p>
+      <p className="kicker">Product close</p>
       <h1>
-        <span>Your application stays</span>
-        <span>in its domain</span>
+        <span>NetAware connects</span>
+        <span>enterprise demand to network supply</span>
       </h1>
+      <p className="tiny honesty">NETAWARE AX PRODUCT / SALES PROTOTYPE. Configured demo coverage. Not a live operator SLA.</p>
+
+      <section className="eq section close-market" aria-label="Demand and supply">
+        <article className="domain-lane">
+          <span>{close.left?.title || "ENTERPRISE DEMAND"}</span>
+          <strong>{(close.left?.items || ["Applications", "Business decisions", "Intents"]).join(" · ")}</strong>
+        </article>
+        <i>→</i>
+        <article className="ax-lane">
+          <span>{close.center?.title || "NETAWARE AX"}</span>
+          <strong>{(close.center?.items || ["Discover", "Govern", "Fulfill", "Orchestrate", "Verify"]).join(" · ")}</strong>
+        </article>
+        <i>→</i>
+        <article className="network-lane">
+          <span>{close.right?.title || "NETWORK SUPPLY"}</span>
+          <strong>{(close.right?.items || ["Operators", "Aggregators", "Capabilities", "Regions"]).join(" · ")}</strong>
+        </article>
+        <i>=</i>
+        <article className="result">
+          <span>{close.outcome || "BUSINESS OUTCOMES"}</span>
+          <strong>{close.line || "NetAware connects enterprise demand to network supply."}</strong>
+        </article>
+      </section>
+
+      <p className="kicker">Your application stays in its domain</p>
       <p className="lede">
         Network APIs add information, verification and actions your application does not have itself. NetAware AX
         decides when they can help achieve the Intent.

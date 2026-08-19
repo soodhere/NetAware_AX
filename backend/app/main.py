@@ -28,6 +28,15 @@ from .config import (
 )
 from .demo import briefing, demo_index, enterprise_card, featured_row
 from .evidence_store import list_store
+from .demand import demand_for, public_demand
+from .fulfillment import (
+    coverage_for_capability,
+    coverage_for_enterprise,
+    coverage_for_intent,
+    coverage_for_provider,
+    public_coverage,
+    record_by_id,
+)
 from .explore_entities import (
     agent_detail,
     autonomy_index,
@@ -52,6 +61,9 @@ from .graph import KnowledgeGraph
 from .model import ConfigStore
 from .registry import load_pin, load_registry
 from .runtime import EXECUTABLE_INTENTS, execute_intent, get_execution, reset_executions
+from .stakeholder import public_start
+from .meeting import preflight, public_meet
+from .visuals import public_map
 
 store = ConfigStore()
 registry = load_registry()
@@ -138,6 +150,10 @@ def health() -> dict[str, Any]:
         "executionEngine": True,
         "demoUi": True,
         "explorerProductSurface": True,
+        "stakeholderEntry": True,
+        "presentationLensOnly": True,
+        "meetingPresentation": True,
+        "visualIntelligence": True,
         "evidenceReuse": True,
         "executableIntents": sorted(EXECUTABLE_INTENTS),
         "pin": {
@@ -247,7 +263,7 @@ def use_case_detail(use_case_id: str) -> dict[str, Any]:
 
 @app.get("/demo")
 def demo() -> dict[str, Any]:
-    return demo_index(store)
+    return demo_index(store, registry)
 
 
 @app.get("/demo/{enterprise_id}")
@@ -256,9 +272,21 @@ def demo_enterprise(enterprise_id: str) -> dict[str, Any]:
         (row for row in (store.demo or {}).get("featuredEnterprises") or [] if row.get("enterpriseId") == enterprise_id),
         None,
     )
-    if not featured:
+    if featured:
+        return featured_row(store, featured)
+    from .portfolio import visible_rows, _enrich_row
+
+    rows = [_enrich_row(store, row) for row in visible_rows(store) if row.get("enterpriseId") == enterprise_id]
+    if not rows:
         raise HTTPException(status_code=404, detail=f"Unknown demo enterprise: {enterprise_id}")
-    return featured_row(store, featured)
+    card = enterprise_card(store, enterprise_id) or {}
+    return {
+        **card,
+        "heroUseCaseId": rows[0].get("useCaseId"),
+        "useCases": [store.use_case_by_id[r["useCaseId"]] for r in rows if r.get("useCaseId") in store.use_case_by_id],
+        "portfolio": rows,
+        "domainAudienceLabel": (card.get("domain") or {}).get("label"),
+    }
 
 
 @app.get("/demo/{enterprise_id}/{use_case_id}")
@@ -311,6 +339,150 @@ def explore_policy(policy_id: str) -> dict[str, Any]:
     if not body:
         raise HTTPException(status_code=404, detail=f"Unknown policy: {policy_id}")
     return body
+
+
+@app.get("/coverage")
+def coverage_index() -> dict[str, Any]:
+    return public_coverage(store, graph, registry)
+
+
+@app.get("/coverage/enterprises/{enterprise_id}")
+def coverage_enterprise(enterprise_id: str) -> dict[str, Any]:
+    payload = public_coverage(store, graph, registry)
+    body = coverage_for_enterprise(payload, enterprise_id)
+    if not body.get("records") and enterprise_id not in store.enterprise_by_id:
+        raise HTTPException(status_code=404, detail=f"Unknown enterprise: {enterprise_id}")
+    return body
+
+
+@app.get("/coverage/intents/{intent_id}")
+def coverage_intent(intent_id: str) -> dict[str, Any]:
+    payload = public_coverage(store, graph, registry)
+    body = coverage_for_intent(payload, intent_id)
+    if not body.get("records"):
+        raise HTTPException(status_code=404, detail=f"Unknown coverage intent: {intent_id}")
+    return body
+
+
+@app.get("/coverage/providers/{provider_id}")
+def coverage_provider(provider_id: str) -> dict[str, Any]:
+    payload = public_coverage(store, graph, registry)
+    body = coverage_for_provider(payload, provider_id)
+    if not body.get("providers"):
+        raise HTTPException(status_code=404, detail=f"Unknown provider: {provider_id}")
+    return body
+
+
+@app.get("/coverage/capabilities/{capability_id}")
+def coverage_capability(capability_id: str) -> dict[str, Any]:
+    payload = public_coverage(store, graph, registry)
+    body = coverage_for_capability(payload, capability_id)
+    if not body.get("capabilities"):
+        raise HTTPException(status_code=404, detail=f"Unknown capability coverage: {capability_id}")
+    return body
+
+
+@app.get("/coverage/family/{family_id}")
+def coverage_family(family_id: str) -> dict[str, Any]:
+    payload = public_coverage(store, graph, registry)
+    caps = [c for c in payload.get("capabilities") or [] if c.get("familyId") == family_id]
+    if not caps:
+        raise HTTPException(status_code=404, detail=f"Unknown catalog family coverage: {family_id}")
+    cap_ids = {c.get("id") for c in caps}
+    records = [
+        r
+        for r in payload.get("records") or []
+        if cap_ids & set((r.get("requiredCapabilities") or []) + (r.get("optionalCapabilities") or []) + (r.get("conditionalCapabilities") or []))
+    ]
+    return {**payload, "familyId": family_id, "capabilities": caps, "records": records}
+
+
+@app.get("/coverage/record/{record_id}")
+def coverage_record(record_id: str) -> dict[str, Any]:
+    body = record_by_id(store, graph, registry, record_id)
+    if not body:
+        raise HTTPException(status_code=404, detail=f"Unknown fulfillment record: {record_id}")
+    return body
+
+
+@app.get("/start")
+def start_index() -> dict[str, Any]:
+    return public_start(store)
+
+
+@app.get("/meet")
+def meet_index() -> dict[str, Any]:
+    return public_meet(store)
+
+
+@app.get("/map")
+def usecase_api_map() -> dict[str, Any]:
+    return public_map(store, graph, registry)
+
+
+@app.get("/preflight")
+def demo_preflight() -> dict[str, Any]:
+    return preflight(store, registry)
+
+
+@app.get("/demand")
+def demand_index() -> dict[str, Any]:
+    return public_demand(store, graph, registry)
+
+
+@app.get("/demand/enterprises/{enterprise_id}")
+def demand_enterprise(enterprise_id: str) -> dict[str, Any]:
+    return demand_for(public_demand(store, graph, registry), enterpriseId=enterprise_id)
+
+
+@app.get("/demand/providers/{provider_id}")
+def demand_provider(provider_id: str) -> dict[str, Any]:
+    payload = public_demand(store, graph, registry)
+    records = [
+        r
+        for r in payload.get("records") or []
+        if r.get("provider") == provider_id or r.get("routeProvider") == provider_id
+    ]
+    operators = [o for o in payload.get("operators") or [] if o.get("id") == provider_id]
+    return {**payload, "records": records, "operators": operators}
+
+
+@app.get("/demand/capabilities/{capability_id}")
+def demand_capability(capability_id: str) -> dict[str, Any]:
+    payload = public_demand(store, graph, registry)
+    body = demand_for(payload, capability=capability_id)
+    leverage = [c for c in payload.get("capabilityLeverage") or [] if c.get("id") == capability_id]
+    return {**body, "capabilityLeverage": leverage}
+
+
+@app.get("/demand/intents/{intent_id}")
+def demand_intent(intent_id: str) -> dict[str, Any]:
+    return demand_for(public_demand(store, graph, registry), intentId=intent_id)
+
+
+@app.get("/demand/industries/{industry_id}")
+def demand_industry(industry_id: str) -> dict[str, Any]:
+    return demand_for(public_demand(store, graph, registry), industry=industry_id)
+
+
+@app.get("/demand/regions/{region_id}")
+def demand_region(region_id: str) -> dict[str, Any]:
+    return demand_for(public_demand(store, graph, registry), region=region_id)
+
+
+@app.get("/demand/motions/{motion_id}")
+def demand_motion(motion_id: str) -> dict[str, Any]:
+    payload = public_demand(store, graph, registry)
+    records = [r for r in payload.get("records") or [] if motion_id in (r.get("commercialMotion") or [])]
+    return {**payload, "records": records}
+
+
+@app.get("/demand/gaps/{gap_code}")
+def demand_gap(gap_code: str) -> dict[str, Any]:
+    payload = public_demand(store, graph, registry)
+    records = [r for r in payload.get("records") or [] if r.get("blockingGap") == gap_code]
+    enablement = [e for e in payload.get("enablement") or [] if e.get("gap") == gap_code]
+    return {**payload, "records": records, "enablement": enablement}
 
 
 @app.get("/explore/autonomy")

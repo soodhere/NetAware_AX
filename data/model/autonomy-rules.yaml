@@ -39,11 +39,11 @@ autonomyRules:
     intentId: ensure_baggage_connection
     action: observe_and_assess
     level: ACT
-  - id: hf-expedite
+  - id: hf-swap
     agentId: baggage-operations-agent
     intentId: ensure_baggage_connection
-    action: recommend_expedite_transfer
-    level: ACT_WITH_APPROVAL
+    action: recommend_swap_device
+    level: ACT
   - id: hf-change-flight
     agentId: baggage-operations-agent
     intentId: ensure_baggage_connection
@@ -83,4 +83,114 @@ autonomyRules:
     agentId: pharmacy-eligibility-agent
     intentId: verify_pharmacy_age_gate
     action: dispense_or_refuse_medication
+    level: NOT_AUTHORIZED
+  - id: acme-ota-read-campaign
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: read_campaign_context
+    level: ACT
+  - id: acme-ota-gather-readiness
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: gather_network_readiness
+    level: ACT
+  - id: acme-ota-segment
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: segment_cohort
+    level: ACT
+  - id: acme-ota-recommend
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: recommend_rollout_cohort
+    level: ACT
+  - id: acme-ota-submit
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: submit_cohort_to_ota
+    level: ACT_WITH_APPROVAL
+  - id: acme-ota-install
+    agentId: device-ops-agent
+    intentId: prepare_ota_cohort
+    action: install_firmware
+    level: NOT_AUTHORIZED
+  - id: mm-gather
+    agentId: checkout-risk-agent
+    intentId: assess_checkout_trust
+    action: gather_network_evidence
+    level: ACT
+  - id: mm-recommend
+    agentId: checkout-risk-agent
+    intentId: assess_checkout_trust
+    action: recommend_step_up
+    level: RECOMMEND
+  - id: mm-decline
+    agentId: checkout-risk-agent
+    intentId: assess_checkout_trust
+    action: decline_purchase
+    level: NOT_AUTHORIZED
+  - id: ns-gather
+    agentId: claims-trust-agent
+    intentId: assess_claim_device_trust
+    action: gather_network_evidence
+    level: ACT
+  - id: ns-return
+    agentId: claims-trust-agent
+    intentId: assess_claim_device_trust
+    action: return_network_evidence
+    level: ACT
+  - id: ns-decide-claim
+    agentId: claims-trust-agent
+    intentId: assess_claim_device_trust
+    action: accept_or_deny_claim
+    level: NOT_AUTHORIZED
+  - id: ss-observe
+    agentId: delivery-ops-agent
+    intentId: assure_delivery_device
+    action: observe_and_assess
+    level: ACT
+  - id: ss-recommend-swap
+    agentId: delivery-ops-agent
+    intentId: assure_delivery_device
+    action: recommend_swap_device
+    level: ACT
+  - id: ss-reroute
+    agentId: delivery-ops-agent
+    intentId: assure_delivery_device
+    action: reroute_delivery
+    level: NOT_AUTHORIZED
+  - id: hf-ground-observe
+    agentId: ground-ops-agent
+    intentId: assure_ground_device
+    action: observe_and_assess
+    level: ACT
+  - id: hf-ground-swap
+    agentId: ground-ops-agent
+    intentId: assure_ground_device
+    action: recommend_swap_device
+    level: ACT
+  - id: hf-ground-flight
+    agentId: ground-ops-agent
+    intentId: assure_ground_device
+    action: change_flight_plan
+    level: NOT_AUTHORIZED
+  - id: acme-maint-observe
+    agentId: field-maintenance-agent
+    intentId: assure_technician_device
+    action: observe_and_assess
+    level: ACT
+  - id: apex-observe
+    agentId: contribution-agent
+    intentId: assure_live_broadcast
+    action: observe_and_assess
+    level: ACT
+  - id: apex-qod
+    agentId: contribution-agent
+    intentId: assure_live_broadcast
+    action: invoke_qod
+    level: ACT
+  - id: apex-air
+    agentId: contribution-agent
+    intentId: assure_live_broadcast
+    action: take_production_to_air
     level: NOT_AUTHORIZED

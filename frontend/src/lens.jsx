@@ -27,14 +27,14 @@ export function LensToggle({ lens, onChange }) {
         className={lens === "BASIC" ? "on" : ""}
         onClick={() => onChange("BASIC")}
       >
-        Basic
+        BASIC — Business View
       </button>
       <button
         type="button"
         className={lens === "ADVANCED" ? "on" : ""}
         onClick={() => onChange("ADVANCED")}
       >
-        Advanced
+        ADVANCED — Technical View
       </button>
     </div>
   );
