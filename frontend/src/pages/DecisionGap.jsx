@@ -131,7 +131,8 @@ export function HfBaggageWorld({ trace }) {
                 ↓
               </div>
             ) : null}
-            <div className={`nv-card ${step.state || ""}`}>
+            <div className={`nv-card ${step.state || ""} lane-ent`}>
+              <p className="kicker">ENTERPRISE SYSTEM</p>
               <strong>{step.label}</strong>
               {step.detail ? <span className="tiny">{step.detail}</span> : null}
               {step.state === "ok" ? <span className="nv-check">✓</span> : null}
@@ -140,19 +141,19 @@ export function HfBaggageWorld({ trace }) {
           </li>
         ))}
       </ol>
-      <article className="nv-card gap-highlight">
-        <p className="kicker">Network Decision Gap</p>
+      <article className="nv-card gap-highlight lane-ax">
+        <p className="kicker">NETAWARE DECISION · NETWORK DECISION GAP</p>
         <strong>{visual.gap || "Can this assigned connected scanner complete the digital workflow?"}</strong>
         <span className="tiny">DEVICE REACHABILITY · DATA reachable?</span>
       </article>
       <div className="vis-split">
-        <article className={`nv-card ${outcome === "CONTINUE" ? "ok" : ""}`}>
-          <p className="kicker">YES</p>
-          <strong>CONTINUE</strong>
+        <article className={`nv-card ${outcome === "CONTINUE" ? "ok" : ""} lane-net`}>
+          <p className="kicker">NETWORK API · REACHABLE?</p>
+          <strong>YES → CONTINUE</strong>
         </article>
-        <article className={`nv-card ${outcome === "SWAP_DEVICE" ? "break" : ""}`}>
-          <p className="kicker">NO</p>
-          <strong>SWAP DEVICE</strong>
+        <article className={`nv-card ${outcome === "SWAP_DEVICE" ? "break" : ""} lane-ent`}>
+          <p className="kicker">ENTERPRISE ACTION</p>
+          <strong>NO → SWAP DEVICE</strong>
           {outcome === "SWAP_DEVICE" ? (
             <span className="tiny">Enterprise handheld inventory performs device reassignment.</span>
           ) : null}

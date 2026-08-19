@@ -76,6 +76,7 @@ export function NvPathVisual({ trace }) {
   return (
     <section className="nv-path-visual">
       <p className="lede nv-headline">{visual.headline}</p>
+      <p className="plus-line">SAME INTENT. The application did not choose NV1 or NV2. NetAware did.</p>
       <ol className="nv-flow">
         {steps.map((step, idx) => (
           <li key={step.id} className={`nv-node ${step.state || ""}`}>

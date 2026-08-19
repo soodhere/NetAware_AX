@@ -8,10 +8,11 @@ Network Intent is the abstraction that lets an enterprise application or authori
 
 ## Status
 
-**Cadence 17 complete — Visual intelligence.** Live demo remains `0.6.1-ax6.1`. Product model and runtime are unchanged. Do not start another cadence automatically.
+**Cadence 17.1 complete — Visual storytelling polish.** Live demo remains `0.6.1-ax6.1`. Product model and runtime are unchanged. Do not start Cadence 18 automatically.
 
 | Document | Path |
 |----------|------|
+| Cadence 17.1 Visual storytelling | [`docs/cadences/ax-cadence-17.1.md`](docs/cadences/ax-cadence-17.1.md) |
 | Cadence 17 Visual intelligence | [`docs/cadences/ax-cadence-17.md`](docs/cadences/ax-cadence-17.md) |
 | Sales demo script | [`docs/AX-SALES-DEMO-SCRIPT.md`](docs/AX-SALES-DEMO-SCRIPT.md) |
 | Sales runbook | [`docs/AX-SALES-RUNBOOK.md`](docs/AX-SALES-RUNBOOK.md) |
@@ -68,6 +69,7 @@ python scripts/validate_ax_cadence14.py
 python scripts/validate_ax_cadence15.py
 python scripts/validate_ax_cadence16.py
 python scripts/validate_ax_cadence17.py
+python scripts/validate_ax_cadence17_1.py
 ```
 
 ## Boundaries

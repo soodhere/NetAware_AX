@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, href } from "../api.js";
 import { startHref, writeStakeholder } from "../stakeholder.js";
+import { CompactDemandSupply } from "../visuals/VisualKit.jsx";
 
 function Chain({ items, className }) {
   return (
@@ -63,6 +64,7 @@ export function Welcome() {
         <span>Welcome to NetAware AX</span>
       </h1>
       <p className="lede statement">{data.productStatement}</p>
+      <CompactDemandSupply />
       <p className="tiny honesty">{data.honesty}</p>
 
       <p className="kicker" style={{ marginTop: 28 }}>

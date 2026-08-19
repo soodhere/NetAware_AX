@@ -3,11 +3,13 @@ import { api, href } from "../api.js";
 import { readLens } from "../lens.jsx";
 import {
   AgenticLoopVisual,
+  AxBrain,
   CloseBridge,
   ConfigVsRuntime,
   DxAxSplit,
   FinderStages,
   FlowChain,
+  ReverseGraph,
   StateBadge,
   StaticToAx,
   SupplyGapGraph,
@@ -122,6 +124,7 @@ export default function Map({ parts }) {
         <EnterpriseView enterprises={data.enterprises} selected={selected} />
       ) : view === "ax" ? (
         <>
+          <AxBrain compact />
           <StaticToAx data={data.staticToAx} />
           <FinderStages distinction={data.finderDistinction} />
           <TopologyVisual topology={data.topology} />
@@ -196,6 +199,8 @@ function ReverseView({ data, selected }) {
   const cap = caps.find((c) => c.id === selected);
   const target = cap || fam;
   const hits = target?.useCases || [];
+  const [pivot, setPivot] = useState(null);
+  const useRow = (data.useCases || []).find((u) => u.useCaseId === (pivot?.useCaseId || selected));
   return (
     <div className="grid-2 section">
       <div>
@@ -221,20 +226,26 @@ function ReverseView({ data, selected }) {
         <p className="kicker">WHERE CAN I ENABLE THIS CAPABILITY?</p>
         <h3>{target?.label}</h3>
         <p className="tiny">{target?.note || fam?.note}</p>
-        <FlowChain items={["CAPABILITY / API FAMILY", "INTENTS", "APPLICATIONS", "USE CASES", "ENTERPRISES", "INDUSTRIES"]} />
-        <ul className="list compact">
-          {hits.map((hit) => (
-            <li key={`${hit.useCaseId}-${hit.intentId}`}>
-              <a href={href(`/map/use-case/${hit.useCaseId}`)}>{hit.useCaseLabel || hit.useCaseId}</a>
-              <span className="tiny">
-                {" "}
-                · {hit.enterpriseLabel} · {hit.intentId} · {hit.maturity}
-                {hit.state ? ` · ${hit.state}` : ""}
-              </span>
-              <div className="tiny">{hit.note}</div>
-            </li>
-          ))}
-        </ul>
+        <ReverseGraph target={target} hits={hits} onPick={setPivot} />
+        {useRow ? (
+          <div className="panel" style={{ marginTop: 12 }}>
+            <p className="kicker">Selected use case</p>
+            <h3>{useRow.useCaseLabel}</h3>
+            <FlowChain
+              items={[
+                useRow.enterpriseLabel,
+                useRow.applicationLabel,
+                useRow.useCaseLabel,
+                useRow.intentLabel || useRow.intentId,
+                ...(useRow.capabilities || []).map((c) => c.label),
+                ...(useRow.families || []).map((f) => f.label),
+              ]}
+            />
+            <p>
+              <a href={href(useRow.demoHref)}>Open the business story</a>
+            </p>
+          </div>
+        ) : null}
       </article>
     </div>
   );
@@ -246,35 +257,45 @@ function MatrixView({ matrix, useCases, picked, setPicked }) {
   const [hover, setHover] = useState({ row: "", col: "" });
   const [stage, setStage] = useState(false);
   const allowed = new Set((useCases || []).map((u) => u.useCaseId));
-  const rows = (matrix.rows || []).filter((r) => allowed.has(r.useCaseId) && (!focusUse || r.useCaseId === focusUse));
-  const cols = (matrix.columns || []).filter((c) => !focusFam || c.id === focusFam);
+  const rows = (matrix.rows || []).filter((r) => allowed.has(r.useCaseId));
+  const cols = matrix.columns || [];
   const cellMap = {};
   for (const cell of matrix.cells || []) {
     cellMap[`${cell.useCaseId}::${cell.familyId}`] = cell;
   }
+  const famHits = new Set(
+    focusUse ? (matrix.cells || []).filter((c) => c.useCaseId === focusUse).map((c) => c.familyId) : []
+  );
+  const useHits = new Set(
+    focusFam ? (matrix.cells || []).filter((c) => c.familyId === focusFam).map((c) => c.useCaseId) : []
+  );
   return (
     <section className={`section vis-matrix-stage${stage ? " on" : ""}`}>
       <p className="tiny">{matrix.note}</p>
       <p className="tiny">{matrix.emptyMeans}</p>
+      <p className="matrix-legend tiny">
+        <span className="cov-cell ok">REQ</span> required
+        <span className="cov-cell warn">COND</span> conditional
+        <span className="cov-cell bad">FILT</span> filtered
+        <span>·</span> not relevant
+      </p>
       <div className="filter-row">
         <label>
           Selected use case
           <select value={focusUse} onChange={(e) => setFocusUse(e.target.value)}>
             <option value="">All 17</option>
-            {(matrix.rows || [])
-              .filter((r) => allowed.has(r.useCaseId))
-              .map((row) => (
-                <option key={row.useCaseId} value={row.useCaseId}>
-                  {row.label}
-                </option>
-              ))}
+            {rows.map((row) => (
+              <option key={row.useCaseId} value={row.useCaseId}>
+                {row.label}
+              </option>
+            ))}
           </select>
         </label>
         <label>
           Selected API family
           <select value={focusFam} onChange={(e) => setFocusFam(e.target.value)}>
             <option value="">All 13</option>
-            {(matrix.columns || []).map((col) => (
+            {cols.map((col) => (
               <option key={col.id} value={col.id}>
                 {col.label}
               </option>
@@ -291,15 +312,21 @@ function MatrixView({ matrix, useCases, picked, setPicked }) {
             <tr>
               <th>Use case</th>
               {cols.map((col) => (
-                <th key={col.id} title={col.label} className={hover.col === col.id || picked?.familyId === col.id ? "hl" : ""}>
+                <th
+                  key={col.id}
+                  title={col.label}
+                  className={hover.col === col.id || picked?.familyId === col.id || (focusUse && famHits.has(col.id)) || col.id === focusFam ? "hl" : focusUse && !famHits.has(col.id) ? "dim" : ""}
+                >
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.useCaseId} className={hover.row === row.useCaseId || picked?.useCaseId === row.useCaseId ? "hl" : ""}>
+            {rows.map((row) => {
+              const rowDim = (focusUse && row.useCaseId !== focusUse) || (focusFam && !useHits.has(row.useCaseId));
+              return (
+              <tr key={row.useCaseId} className={hover.row === row.useCaseId || picked?.useCaseId === row.useCaseId || row.useCaseId === focusUse ? "hl" : rowDim ? "dim" : ""}>
                 <td>
                   <strong>{row.label}</strong>
                   <div className="tiny">
@@ -309,7 +336,7 @@ function MatrixView({ matrix, useCases, picked, setPicked }) {
                 {cols.map((col) => {
                   const cell = cellMap[`${row.useCaseId}::${col.id}`];
                   const on = picked && picked.useCaseId === row.useCaseId && picked.familyId === col.id;
-                  const dim = picked && !on;
+                  const dim = rowDim || (picked && !on) || (focusUse && !famHits.has(col.id) && row.useCaseId === focusUse && !cell);
                   return (
                     <td
                       key={col.id}
@@ -332,7 +359,8 @@ function MatrixView({ matrix, useCases, picked, setPicked }) {
                   );
                 })}
               </tr>
-            ))}
+            );
+            })}
           </tbody>
         </table>
       </div>

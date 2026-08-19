@@ -113,7 +113,7 @@ export default function App() {
       </header>
       {page}
       <footer className="footer-bar">
-        <p className="footer-note">Cadence 17 · Visual intelligence · fictional enterprises</p>
+        <p className="footer-note">Cadence 17.1 · Visual storytelling · fictional enterprises</p>
         {preflight ? (
           <span className={`pill ${preflight.ready ? "ok" : "warn"}`}>{preflight.label}</span>
         ) : null}

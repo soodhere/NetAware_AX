@@ -63,7 +63,7 @@ function NvBasicDiscovery({ trace, summary, pipeline, onOpenAdvanced }) {
     <div>
       <NvPathVisual trace={trace} />
       <NvHonesty trace={trace} />
-      <DiscoveryFunnel summary={summary} />
+      <DiscoveryFunnel summary={summary} catalogFamilies={trace?.economy?.catalogFamiliesAvailable} />
       <ol className="discovery-pipeline nv-basic-pipe">
         {(pipeline || []).map((step, idx) => (
           <li key={step.label}>
@@ -139,7 +139,7 @@ function BasicPipeline({ trace, summary, pipeline, onOpenAdvanced }) {
 
   return (
     <div>
-      <DiscoveryFunnel summary={summary} />
+      <DiscoveryFunnel summary={summary} catalogFamilies={trace?.economy?.catalogFamiliesAvailable} />
       <article className="panel">
         <h3>1 · Your application</h3>
         <dl className="dl">
@@ -273,7 +273,7 @@ function AdvancedDiscovery({ trace, summary, matrix, finders }) {
           fulfillment: "Can the Intent actually be satisfied given governance, readiness, required capabilities and route?",
         }}
       />
-      <DiscoveryFunnel summary={summary} />
+      <DiscoveryFunnel summary={summary} catalogFamilies={trace?.economy?.catalogFamiliesAvailable} />
       <section className="grid-2">
         <article className="panel">
           <h3>

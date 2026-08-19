@@ -363,6 +363,7 @@ def run_prepare_ota_cohort(
         "adjacentApplication": "Quality Inspection remains a separate Acme application (QoD closed-loop).",
         "simulatedFleet": True,
         "wave": variant_id,
+        "evidenceReused": reused,
         "headline": "Deferred devices moved into ROLL OUT NOW after reassessment." if reassess else "NetAware does not replace the OTA platform. It makes the rollout network-aware.",
         "funnel": [
             {"id": "campaign", "label": "OTA PLATFORM · campaign devices", "count": campaign_n, "owner": "ENTERPRISE"},

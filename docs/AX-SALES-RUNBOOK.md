@@ -1,6 +1,6 @@
 # AX Sales Runbook
 
-Cadence 17. One URL. Environment-driven Basic Auth. No tenant login.
+Cadence 17.1. One URL. Environment-driven Basic Auth. No tenant login.
 
 ## Sales handoff
 
@@ -17,7 +17,7 @@ Optional: 7-minute or Technical. Then `#/map` with Projector focus if the room c
 
 Footer should show **DEMO READY**. If not, check `/health` and `/preflight`. `/health` stays unauthenticated for hosting checks.
 
-Confirm UI cadence 17, version `0.6.1-ax6.1`, 13 families, 17 use cases.
+Confirm UI cadence 17, visual patch 17.1, version `0.6.1-ax6.1`, 13 families, 17 use cases. Footer: Cadence 17.1 · DEMO READY.
 
 ## Login
 

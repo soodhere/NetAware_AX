@@ -1,6 +1,7 @@
 import { href } from "../api.js";
 import { api } from "../api.js";
 import AxLoop from "../components/AxLoop.jsx";
+import { FlywheelClose } from "../visuals/VisualKit.jsx";
 import { useEffect, useState } from "react";
 
 export default function Close() {
@@ -20,28 +21,9 @@ export default function Close() {
         <span>enterprise demand to network supply</span>
       </h1>
       <p className="tiny honesty">NETAWARE AX PRODUCT / SALES PROTOTYPE. Configured demo coverage. Not a live operator SLA.</p>
+      <p className="kicker">ENTERPRISE DEMAND</p>
 
-      <section className="eq section close-market" aria-label="Demand and supply">
-        <article className="domain-lane">
-          <span>{close.left?.title || "ENTERPRISE DEMAND"}</span>
-          <strong>{(close.left?.items || ["Applications", "Business decisions", "Intents"]).join(" · ")}</strong>
-        </article>
-        <i>→</i>
-        <article className="ax-lane">
-          <span>{close.center?.title || "NETAWARE AX"}</span>
-          <strong>{(close.center?.items || ["Discover", "Govern", "Fulfill", "Orchestrate", "Verify"]).join(" · ")}</strong>
-        </article>
-        <i>→</i>
-        <article className="network-lane">
-          <span>{close.right?.title || "NETWORK SUPPLY"}</span>
-          <strong>{(close.right?.items || ["Operators", "Aggregators", "Capabilities", "Regions"]).join(" · ")}</strong>
-        </article>
-        <i>=</i>
-        <article className="result">
-          <span>{close.outcome || "BUSINESS OUTCOMES"}</span>
-          <strong>{close.line || "NetAware connects enterprise demand to network supply."}</strong>
-        </article>
-      </section>
+      <FlywheelClose close={close} />
 
       <p className="kicker">Your application stays in its domain</p>
       <p className="lede">

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .config import APP_VERSION, MODEL_CADENCE, UI_CADENCE, serve_frontend
+from .config import APP_VERSION, MODEL_CADENCE, UI_CADENCE, UI_CADENCE_PATCH, serve_frontend
 from .model import ConfigStore
 from .portfolio import visible_rows
 from .registry import CatalogRegistry
@@ -53,6 +53,7 @@ def preflight(store: ConfigStore, registry: CatalogRegistry) -> dict[str, Any]:
         "label": "DEMO READY" if ready else "DEMO NOT READY",
         "version": APP_VERSION,
         "uiCadence": UI_CADENCE,
+        "uiCadencePatch": UI_CADENCE_PATCH,
         "modelCadence": MODEL_CADENCE,
         "frontendLoaded": serve_frontend(),
         "catalogFamilies": families,

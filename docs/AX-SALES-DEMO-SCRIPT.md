@@ -1,6 +1,8 @@
 # AX Sales Demo Script
 
-Cadence 17 visual intelligence. Fictional enterprises. Configured demo coverage. Not a live operator SLA.
+Cadence 17.1 visual storytelling. Fictional enterprises. Configured demo coverage. Not a live operator SLA.
+
+Signature visuals: AX Brain, capability narrowing, Use Case ↔ API map, configured + runtime, operator ladder (API exposed ≠ Intent fulfillable).
 
 ## 30-second opening
 

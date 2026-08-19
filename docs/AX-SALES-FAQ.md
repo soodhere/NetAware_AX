@@ -1,6 +1,6 @@
 # AX Sales FAQ
 
-Cadence 17. Concise answers for live meetings.
+Cadence 17.1. Concise answers for live meetings.
 
 ## Is this replacing CAMARA?
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api, href } from "../api.js";
+import { OperatorLadder } from "../visuals/VisualKit.jsx";
 
 function Pill({ children, tone }) {
   return <span className={`pill ${tone || ""}`.trim()}>{children}</span>;
@@ -334,6 +335,7 @@ export default function Coverage({ parts }) {
         ))}
       </ol>
       <FinderStrip />
+      <OperatorLadder records={records} />
 
       <div className="tabs">
         {[

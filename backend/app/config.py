@@ -24,6 +24,7 @@ BUILD_ID = os.getenv("BUILD_ID", "ax6.1")
 PRODUCT_BEHAVIOR_FROZEN = True
 MODEL_CADENCE = 7
 UI_CADENCE = 17
+UI_CADENCE_PATCH = "17.1"
 
 
 def _csv(name: str, default: str) -> list[str]:

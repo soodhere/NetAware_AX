@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, href } from "../api.js";
 import AxLoop, { HeroDemoCard } from "../components/AxLoop.jsx";
-import { DxAxSplit } from "../visuals/VisualKit.jsx";
+import { AxBrain, DxAxSplit } from "../visuals/VisualKit.jsx";
 
 export default function Home() {
   const [demo, setDemo] = useState(null);
@@ -28,6 +28,7 @@ export default function Home() {
           "A simpler way for applications and agents to consume network capabilities."}
       </p>
       <p className="lede statement">NetAware connects enterprise demand to network supply.</p>
+      <AxBrain compact />
       {product.discoveryLine ? <p className="lede">{product.discoveryLine}</p> : (
         <p className="lede">
           NetAware determines which network capabilities are relevant, allowed, available and useful — then invokes only what is needed.

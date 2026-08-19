@@ -56,6 +56,11 @@ export function OtaFleetVisual({ trace, lens }) {
           </li>
         ))}
       </ol>
+      {visual.evidenceReused ? (
+        <p className="plus-line">
+          {Number(visual.evidenceReused).toLocaleString()} FRESH EVIDENCE REUSED · SIMULATED FLEET · SIMULATED DEMO VOLUME
+        </p>
+      ) : null}
 
       <div className="ota-lanes">
         <article className="panel outcome ready">

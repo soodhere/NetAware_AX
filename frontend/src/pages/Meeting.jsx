@@ -2,6 +2,16 @@ import { useEffect, useState } from "react";
 import { api, href } from "../api.js";
 import { readCuesHidden, writeCuesHidden, writeMeetDepth } from "../meeting.js";
 import { writeStakeholder } from "../stakeholder.js";
+import {
+  AgenticLoopVisual,
+  AxBrain,
+  ConfigVsRuntime,
+  DiscoveryFunnel,
+  DxAxSplit,
+  FlywheelClose,
+  OperatorLadder,
+  TopologyVisual,
+} from "../visuals/VisualKit.jsx";
 
 function Flow({ items }) {
   return (
@@ -19,6 +29,7 @@ export default function Meeting({ parts }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [cuesHidden, setCuesHidden] = useState(readCuesHidden);
+  const [coverage, setCoverage] = useState(null);
 
   useEffect(() => {
     writeStakeholder(audience);
@@ -29,6 +40,9 @@ export default function Meeting({ parts }) {
     api("/meet")
       .then(setData)
       .catch((e) => setError(String(e.message || e)));
+    api("/coverage")
+      .then(setCoverage)
+      .catch(() => setCoverage(null));
   }, []);
 
   if (error) return <p className="err">{error}</p>;
@@ -71,6 +85,52 @@ export default function Meeting({ parts }) {
 
       <p className="lede">{path.opening}</p>
       {path.beats ? <Flow items={path.beats} /> : null}
+
+      {audience === "enterprise" && depth === "exec" ? (
+        <DxAxSplit dxAx={dx} />
+      ) : null}
+      {audience === "enterprise" && depth === "sales" ? (
+        <>
+          <AxBrain />
+          <DiscoveryFunnel summary={discovery} catalogFamilies={13} />
+        </>
+      ) : null}
+      {audience === "operator" ? <OperatorLadder records={coverage?.records} /> : null}
+      {audience === "aggregator" ? (
+        <TopologyVisual
+          topology={{
+            question: "How does this Intent reach network supply?",
+            regions: ["Canada", "Germany", "Singapore"],
+            hybrid: "One Intent can use different routes by region/provider.",
+            note: "Aggregator A does not own operator APIs. Routed through / normalized through / available via.",
+            examples: (coverage?.records || [])
+              .filter((r) => ["CA", "DE", "SG"].includes(r.region) && ["DIRECT", "AGGREGATED"].includes(r.route))
+              .map((r) => ({
+                region: r.region,
+                regionLabel: r.regionLabel,
+                provider: r.providerLabel,
+                via: r.route === "AGGREGATED" ? r.routeProviderLabel : null,
+                route: r.route,
+                language: r.route === "AGGREGATED" ? "ROUTED THROUGH" : "DIRECT",
+                status: r.fulfillmentStatus,
+              })),
+          }}
+        />
+      ) : null}
+      {depth === "tech" ? (
+        <>
+          <ConfigVsRuntime
+            data={
+              data.configuredVsRuntime || {
+                configured: ["ENTERPRISE", "APPLICATION", "AGENT", "ALLOWED INTENTS", "PURPOSE", "POLICY", "AGREEMENT / DPA", "CONSENT", "SUBSCRIPTION", "ENTITLEMENT", "REGION", "AUTONOMY"],
+                runtime: ["SUBJECT", "BUSINESS CONTEXT", "ACCESS CONTEXT", "SERVING NETWORK", "AVAILABLE NETWORK APIs", "OPERATOR READINESS", "PROVIDER / ROUTE", "EXISTING EVIDENCE", "CURRENT OBJECTIVE STATE"],
+              }
+            }
+            technical
+          />
+          <AgenticLoopVisual agentic={agentic} />
+        </>
+      ) : null}
 
       <ol className="meet-steps">
         {(path.steps || []).map((step, idx) => (
@@ -120,27 +180,7 @@ export default function Meeting({ parts }) {
         <a href={href("/map/ax")}>Static mapping → AX</a>
       </p>
 
-      <section className="eq section close-market" aria-label="Demand and supply">
-        <article className="domain-lane">
-          <span>{close.left?.title}</span>
-          <strong>{(close.left?.items || []).join(" · ")}</strong>
-        </article>
-        <i>→</i>
-        <article className="ax-lane">
-          <span>{close.center?.title}</span>
-          <strong>{(close.center?.items || []).join(" · ")}</strong>
-        </article>
-        <i>→</i>
-        <article className="network-lane">
-          <span>{close.right?.title}</span>
-          <strong>{(close.right?.items || []).join(" · ")}</strong>
-        </article>
-        <i>=</i>
-        <article className="result">
-          <span>{close.outcome}</span>
-          <strong>{close.line}</strong>
-        </article>
-      </section>
+      <FlywheelClose close={close} />
 
       {depth !== "exec" ? (
         <section className="grid-2 section">

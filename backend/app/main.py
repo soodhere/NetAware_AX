@@ -23,6 +23,7 @@ from .config import (
     MODEL_CADENCE,
     PRODUCT_BEHAVIOR_FROZEN,
     UI_CADENCE,
+    UI_CADENCE_PATCH,
     demo_basic_credentials,
     serve_frontend,
 )
@@ -131,6 +132,7 @@ def health() -> dict[str, Any]:
         "cadencePatch": CADENCE_PATCH,
         "modelCadence": MODEL_CADENCE,
         "uiCadence": UI_CADENCE,
+        "uiCadencePatch": UI_CADENCE_PATCH,
         "version": APP_VERSION,
         "build": BUILD_ID,
         "productBehaviorFrozen": PRODUCT_BEHAVIOR_FROZEN,
@@ -154,6 +156,7 @@ def health() -> dict[str, Any]:
         "presentationLensOnly": True,
         "meetingPresentation": True,
         "visualIntelligence": True,
+        "visualStorytelling": True,
         "evidenceReuse": True,
         "executableIntents": sorted(EXECUTABLE_INTENTS),
         "pin": {

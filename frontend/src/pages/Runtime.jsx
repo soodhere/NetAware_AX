@@ -21,7 +21,7 @@ import {
   HfVariantBar,
 } from "./DecisionGap.jsx";
 import { OtaFleetVisual, OtaVariantBar } from "./OtaFleet.jsx";
-import { CityCareMin, InspectionLoop, ReuseGraph } from "../visuals/VisualKit.jsx";
+import { AxBrain, CityCareMin, InspectionLoop, IntentTrace, ReuseGraph } from "../visuals/VisualKit.jsx";
 
 const SCENARIOS = {
   "high-flight-airlines/baggage-connection": {
@@ -776,6 +776,7 @@ function Overview({ trace, done, scenario, decisions, lens }) {
     <div>
       {scenario.nv ? (
         <div className="section">
+          <AxBrain outcome={trace.outcome?.outcome} highlight="Discover" />
           <NvPathVisual trace={trace} />
           <NvFinderStrip trace={trace} />
           <NvPathVsOperation trace={trace} lens={lens} />
@@ -784,19 +785,32 @@ function Overview({ trace, done, scenario, decisions, lens }) {
       ) : null}
       {scenario.hf ? (
         <div className="section">
+          <AxBrain outcome={trace.outcome?.outcome} highlight="Observe" />
           <HfBaggageWorld trace={trace} />
         </div>
       ) : null}
       {scenario.ota ? (
         <div className="section">
+          <AxBrain outcome={trace.outcome?.outcome} highlight="Discover" />
           <OtaFleetVisual trace={trace} lens={lens} />
         </div>
       ) : null}
-      {scenario.request?.intent === "maintain_inspection_experience" ? <InspectionLoop trace={trace} /> : null}
-      {scenario.request?.intent === "verify_pharmacy_age_gate" ? <CityCareMin decisions={decisions} /> : null}
+      {scenario.request?.intent === "maintain_inspection_experience" ? (
+        <>
+          <AxBrain outcome={trace.outcome?.outcome} highlight="Observe" />
+          <InspectionLoop trace={trace} />
+        </>
+      ) : null}
+      {scenario.request?.intent === "verify_pharmacy_age_gate" ? (
+        <>
+          <AxBrain outcome={trace.outcome?.outcome} highlight="Govern" />
+          <CityCareMin decisions={decisions} />
+        </>
+      ) : null}
       {scenario.secondary ? <ReuseGraph evidence={trace.evidence} invocations={trace.invocations} /> : null}
       {scenario.guided ? <GuidedVisual trace={trace} /> : null}
       <DecisionGapVisual trace={trace} lens={lens} />
+      {done ? <IntentTrace trace={trace} /> : null}
       {done ? (
         <section className="contribution-strip section">
           <article className="inset domain-lane">
